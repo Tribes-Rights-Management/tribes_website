@@ -8,54 +8,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Music2, FileText, LayoutDashboard, LogOut, User, ChevronDown, Eye } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Music2, LogOut, User, ChevronDown } from "lucide-react";
 import { ROLE_LABELS } from "@/types";
 
 export function AppHeader() {
-  const { profile, role, isAnyAdmin, isAdminView, signOut } = useAuth();
-  const location = useLocation();
-
-  const navItems = [
-    { href: "/", label: "My Requests", icon: FileText },
-    ...(isAnyAdmin ? [{ 
-      href: "/admin", 
-      label: isAdminView ? "Admin (View)" : "Admin", 
-      icon: isAdminView ? Eye : LayoutDashboard 
-    }] : []),
-  ];
+  const { profile, role, signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         {/* Logo */}
-        <Link to="/" className="flex items-center space-x-2 mr-8">
+        <Link to="/portal" className="flex items-center space-x-2 mr-8">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <Music2 className="w-4 h-4 text-primary-foreground" />
           </div>
           <span className="font-semibold text-sm hidden sm:inline-block">
-            Tribes Rights
+            Tribes Rights Licensing
           </span>
         </Link>
-
-        {/* Navigation */}
-        <nav className="flex items-center space-x-1">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={cn(
-                "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                location.pathname === item.href
-                  ? "bg-secondary text-foreground"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-              )}
-            >
-              <item.icon className="w-4 h-4 mr-2" />
-              {item.label}
-            </Link>
-          ))}
-        </nav>
 
         {/* Spacer */}
         <div className="flex-1" />

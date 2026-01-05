@@ -148,7 +148,7 @@ export default function RequestFormPage() {
       if (error) throw error;
       
       setRequestId(data.id);
-      window.history.replaceState(null, "", `/request/${data.id}/edit`);
+      window.history.replaceState(null, "", `/portal/request/${data.id}/edit`);
       setCurrentStep(1);
     } catch (error) {
       console.error("Error creating draft:", error);
@@ -277,7 +277,7 @@ export default function RequestFormPage() {
             <span className="text-sm text-muted-foreground">Rights Licensing</span>
           </div>
           {currentStep > 0 && currentStep < 6 && (
-            <Button variant="ghost" size="sm" onClick={() => navigate("/")}>
+            <Button variant="ghost" size="sm" onClick={() => navigate("/portal")}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Exit
             </Button>

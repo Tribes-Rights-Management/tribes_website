@@ -10,9 +10,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LicenseRequest, MEDIA_TYPE_LABELS } from "@/types";
 import { Plus, FileText, Music2, Calendar, Building2, ChevronRight } from "lucide-react";
-import { formatDistanceToNow, format } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 
-export default function DashboardPage() {
+export default function PortalDashboard() {
   const { user } = useAuth();
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +52,7 @@ export default function DashboardPage() {
             </p>
           </div>
           <Button asChild>
-            <Link to="/request/new">
+            <Link to="/portal/request/new">
               <Plus className="w-4 h-4 mr-2" />
               New Request
             </Link>
@@ -84,7 +84,7 @@ export default function DashboardPage() {
             description="Create your first license request to get started with music licensing."
             action={
               <Button asChild>
-                <Link to="/request/new">
+                <Link to="/portal/request/new">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Request
                 </Link>
@@ -94,7 +94,7 @@ export default function DashboardPage() {
         ) : (
           <div className="space-y-3">
             {requests.map((request) => (
-              <Link key={request.id} to={`/request/${request.id}`}>
+              <Link key={request.id} to={`/portal/request/${request.id}`}>
                 <Card className="card-interactive">
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
@@ -107,7 +107,7 @@ export default function DashboardPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-medium truncate">
-                            {request.song_title || request.project_title || "Untitled Request"}
+                            {request.song_title || request.track_title || request.project_title || "Untitled Request"}
                           </h3>
                           <StatusBadge status={request.status} />
                         </div>

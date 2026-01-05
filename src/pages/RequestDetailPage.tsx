@@ -55,7 +55,7 @@ export default function RequestDetailPage() {
     } catch (error) {
       console.error("Error fetching request:", error);
       toast({ title: "Error", description: "Failed to load request", variant: "destructive" });
-      navigate("/");
+      navigate("/portal");
     } finally {
       setIsLoading(false);
     }
@@ -107,7 +107,7 @@ export default function RequestDetailPage() {
             )}
             {canEdit && (
               <Button variant="outline" asChild>
-                <Link to={`/request/${request.id}/edit`}>
+                <Link to={`/portal/request/${request.id}/edit`}>
                   <Edit className="w-4 h-4 mr-2" />
                   Edit
                 </Link>
