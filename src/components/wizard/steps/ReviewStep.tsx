@@ -12,6 +12,7 @@ interface ReviewStepProps {
     address_city: string;
     address_state: string;
     address_zip: string;
+    address_country: string;
     label_master_owner: string;
     distributor: string;
     release_date: string | null;
@@ -69,7 +70,8 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
   const fullName = [data.first_name, data.last_name].filter(Boolean).join(" ");
   const fullAddress = [
     data.address_street,
-    [data.address_city, data.address_state, data.address_zip].filter(Boolean).join(", ")
+    [data.address_city, data.address_state, data.address_zip].filter(Boolean).join(", "),
+    data.address_country
   ].filter(Boolean).join(", ");
 
   return (

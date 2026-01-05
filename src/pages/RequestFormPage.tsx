@@ -63,6 +63,7 @@ export default function RequestFormPage() {
         address_city: data.address_city || "",
         address_state: data.address_state || "",
         address_zip: data.address_zip || "",
+        address_country: data.address_country || "United States",
         label_master_owner: data.label_master_owner || "",
         distributor: data.distributor || "",
         release_date: data.release_date || null,
@@ -178,6 +179,11 @@ export default function RequestFormPage() {
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.licensee_email)) {
           newErrors.licensee_email = "Please enter a valid email";
         }
+        if (!formData.address_country.trim()) newErrors.address_country = "Country is required";
+        if (!formData.address_street.trim()) newErrors.address_street = "Street address is required";
+        if (!formData.address_city.trim()) newErrors.address_city = "City is required";
+        if (!formData.address_state.trim()) newErrors.address_state = "State/Province is required";
+        if (!formData.address_zip.trim()) newErrors.address_zip = "ZIP/Postal code is required";
         break;
       
       case 3: // Product Details
@@ -310,6 +316,7 @@ export default function RequestFormPage() {
                     address_city: formData.address_city,
                     address_state: formData.address_state,
                     address_zip: formData.address_zip,
+                    address_country: formData.address_country,
                   }}
                   onUpdate={update}
                   errors={errors}
