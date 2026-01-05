@@ -9,7 +9,9 @@ interface AuthContextType {
   profile: Profile | null;
   role: AppRole | null;
   isLoading: boolean;
-  isAdmin: boolean;
+  isSuperAdmin: boolean;
+  isAdminView: boolean;
+  isAnyAdmin: boolean;
   signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 }
@@ -30,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(newSession);
         setUser(newSession?.user ?? null);
         
-        // Fetch profile and role after auth change using setTimeout
+        // Fetch profile after auth change using setTimeout
         if (newSession?.user) {
           setTimeout(() => {
             fetchUserData(newSession.user.id);
@@ -60,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function fetchUserData(userId: string) {
     try {
-      // Fetch profile
+      // Fetch profile (which now includes role)
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("*")
@@ -69,24 +71,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (profileError) {
         console.error("Error fetching profile:", profileError);
+        setRole("user"); // Default to user if error
       } else {
         setProfile(profileData);
-      }
-
-      // Fetch role
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .single();
-
-      if (roleError) {
-        console.error("Error fetching role:", roleError);
-      } else {
-        setRole(roleData?.role ?? "user");
+        setRole((profileData?.role as AppRole) ?? "user");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
+      setRole("user");
     } finally {
       setIsLoading(false);
     }
@@ -113,13 +105,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRole(null);
   }
 
+  const isSuperAdmin = role === "super_admin";
+  const isAdminView = role === "admin_view";
+  const isAnyAdmin = isSuperAdmin || isAdminView;
+
   const value = {
     user,
     session,
     profile,
     role,
     isLoading,
-    isAdmin: role === "admin",
+    isSuperAdmin,
+    isAdminView,
+    isAnyAdmin,
     signInWithMagicLink,
     signOut,
   };

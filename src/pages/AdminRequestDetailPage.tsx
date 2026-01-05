@@ -10,10 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, StatusHistory, GeneratedDocument, RequestStatus, MEDIA_TYPE_LABELS, STATUS_LABELS, REQUIRED_PLACEHOLDERS } from "@/types";
-import { ArrowLeft, Download, ExternalLink, Building2, Music2, DollarSign, FileText, Clock, MapPin, AlertCircle, CheckCircle2, Send, FileCheck } from "lucide-react";
+import { ArrowLeft, Download, ExternalLink, Building2, Music2, DollarSign, FileText, Clock, MapPin, AlertCircle, CheckCircle2, Send, FileCheck, Eye, CreditCard } from "lucide-react";
 import { format } from "date-fns";
 
 const WORKFLOW_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
@@ -29,7 +29,7 @@ const WORKFLOW_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
 
 export default function AdminRequestDetailPage() {
   const { id } = useParams();
-  const { user } = useAuth();
+  const { user, isSuperAdmin, isAdminView } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   
@@ -104,11 +104,10 @@ export default function AdminRequestDetailPage() {
   const canGenerate = missingPlaceholders.length === 0;
 
   async function updateStatus(newStatus: RequestStatus) {
-    if (!request || !user) return;
+    if (!request || !user || !isSuperAdmin) return;
     
     setIsUpdating(true);
     try {
-      // Update the request status
       const { error: updateError } = await supabase
         .from("license_requests")
         .update({ status: newStatus })
@@ -116,7 +115,6 @@ export default function AdminRequestDetailPage() {
 
       if (updateError) throw updateError;
 
-      // Add to status history
       const { error: historyError } = await supabase
         .from("status_history")
         .insert({
@@ -141,7 +139,7 @@ export default function AdminRequestDetailPage() {
   }
 
   async function generateContract() {
-    if (!request || !canGenerate) return;
+    if (!request || !canGenerate || !isSuperAdmin) return;
     
     setIsGenerating(true);
     try {
@@ -162,7 +160,7 @@ export default function AdminRequestDetailPage() {
   }
 
   async function sendForSignature() {
-    if (!request) return;
+    if (!request || !isSuperAdmin) return;
     
     setIsUpdating(true);
     try {
@@ -180,6 +178,15 @@ export default function AdminRequestDetailPage() {
     } finally {
       setIsUpdating(false);
     }
+  }
+
+  async function createPaymentLink() {
+    if (!request || !isSuperAdmin) return;
+    
+    toast({ 
+      title: "Payment Link", 
+      description: "Stripe checkout integration will be implemented with your Stripe API keys." 
+    });
   }
 
   if (isLoading) {
@@ -213,6 +220,12 @@ export default function AdminRequestDetailPage() {
                 {request.song_title || request.project_title || "Untitled Request"}
               </h1>
               <StatusBadge status={request.status} />
+              {isAdminView && (
+                <Badge variant="secondary" className="flex items-center gap-1">
+                  <Eye className="w-3 h-3" />
+                  View Only
+                </Badge>
+              )}
             </div>
             <p className="text-muted-foreground text-sm">
               Request ID: {request.id.slice(0, 8)}
@@ -223,7 +236,6 @@ export default function AdminRequestDetailPage() {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Request Details */}
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base flex items-center gap-2">
@@ -328,7 +340,8 @@ export default function AdminRequestDetailPage() {
                   </>
                 )}
 
-                {request.status === "approved" && !hasDraftContract && (
+                {/* Super Admin Actions Only */}
+                {isSuperAdmin && request.status === "approved" && !hasDraftContract && (
                   <Button 
                     className="w-full mt-2" 
                     onClick={generateContract} 
@@ -339,15 +352,31 @@ export default function AdminRequestDetailPage() {
                   </Button>
                 )}
 
-                {request.status === "approved" && hasDraftContract && (
-                  <Button 
-                    className="w-full mt-2" 
-                    onClick={sendForSignature}
-                    disabled={isUpdating}
-                  >
-                    <Send className="w-4 h-4 mr-2" />
-                    Send for Signature
-                  </Button>
+                {isSuperAdmin && request.status === "approved" && hasDraftContract && (
+                  <div className="space-y-2 mt-2">
+                    <Button 
+                      className="w-full" 
+                      onClick={sendForSignature}
+                      disabled={isUpdating}
+                    >
+                      <Send className="w-4 h-4 mr-2" />
+                      Send for Signature
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      className="w-full" 
+                      onClick={createPaymentLink}
+                    >
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Create Payment Link
+                    </Button>
+                  </div>
+                )}
+
+                {isAdminView && (
+                  <p className="text-xs text-muted-foreground text-center py-2">
+                    View-only access. Contact a super admin to take actions.
+                  </p>
                 )}
               </CardContent>
             </Card>
@@ -373,8 +402,8 @@ export default function AdminRequestDetailPage() {
               </Card>
             )}
 
-            {/* Status Update */}
-            {allowedTransitions.length > 0 && (
+            {/* Status Update - Super Admin Only */}
+            {isSuperAdmin && allowedTransitions.length > 0 && (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base">Update Status</CardTitle>
