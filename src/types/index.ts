@@ -2,14 +2,13 @@ import { Database } from "@/integrations/supabase/types";
 
 // Database types
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-export type UserRole = Database["public"]["Tables"]["user_roles"]["Row"];
 export type LicenseRequest = Database["public"]["Tables"]["license_requests"]["Row"];
 export type Clause = Database["public"]["Tables"]["clauses"]["Row"];
 export type GeneratedDocument = Database["public"]["Tables"]["generated_documents"]["Row"];
 export type StatusHistory = Database["public"]["Tables"]["status_history"]["Row"];
 
 // Enum types
-export type AppRole = Database["public"]["Enums"]["app_role"];
+export type AppRole = "super_admin" | "admin_view" | "user";
 export type RequestStatus = Database["public"]["Enums"]["request_status"];
 export type MediaType = Database["public"]["Enums"]["media_type"];
 
@@ -96,3 +95,10 @@ export const REQUIRED_PLACEHOLDERS = [
   "fee_amount",
   "currency",
 ];
+
+// Role labels
+export const ROLE_LABELS: Record<AppRole, string> = {
+  super_admin: "Super Admin",
+  admin_view: "Admin (View Only)",
+  user: "User",
+};

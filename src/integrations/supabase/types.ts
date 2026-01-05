@@ -73,6 +73,38 @@ export type Database = {
           },
         ]
       }
+      internal_notes: {
+        Row: {
+          created_at: string
+          id: string
+          note: string
+          request_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          note: string
+          request_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          note?: string
+          request_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "internal_notes_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "license_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       license_requests: {
         Row: {
           created_at: string
@@ -154,6 +186,7 @@ export type Database = {
           email: string
           id: string
           name: string | null
+          role: Database["public"]["Enums"]["app_role"]
           updated_at: string
         }
         Insert: {
@@ -161,6 +194,7 @@ export type Database = {
           email: string
           id: string
           name?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
         Update: {
@@ -168,6 +202,7 @@ export type Database = {
           email?: string
           id?: string
           name?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
         Relationships: []
@@ -210,27 +245,6 @@ export type Database = {
           },
         ]
       }
-      user_roles: {
-        Row: {
-          created_at: string
-          id: string
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
@@ -247,9 +261,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      app_role: "user" | "admin"
+      app_role: "super_admin" | "admin_view" | "user"
       doc_type: "draft" | "executed"
       entity_type:
         | "individual"
@@ -404,7 +420,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["user", "admin"],
+      app_role: ["super_admin", "admin_view", "user"],
       doc_type: ["draft", "executed"],
       entity_type: ["individual", "corporation", "llc", "partnership", "other"],
       file_type: ["brief", "cue_sheet", "reference", "other"],

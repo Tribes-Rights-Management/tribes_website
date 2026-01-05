@@ -8,16 +8,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Music2, FileText, LayoutDashboard, LogOut, User, ChevronDown } from "lucide-react";
+import { Music2, FileText, LayoutDashboard, LogOut, User, ChevronDown, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ROLE_LABELS } from "@/types";
 
 export function AppHeader() {
-  const { profile, isAdmin, signOut } = useAuth();
+  const { profile, role, isAnyAdmin, isAdminView, signOut } = useAuth();
   const location = useLocation();
 
   const navItems = [
     { href: "/", label: "My Requests", icon: FileText },
-    ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: LayoutDashboard }] : []),
+    ...(isAnyAdmin ? [{ 
+      href: "/admin", 
+      label: isAdminView ? "Admin (View)" : "Admin", 
+      icon: isAdminView ? Eye : LayoutDashboard 
+    }] : []),
   ];
 
   return (
@@ -62,9 +67,16 @@ export function AppHeader() {
               <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
                 <User className="w-4 h-4 text-muted-foreground" />
               </div>
-              <span className="text-sm font-medium hidden sm:inline-block max-w-[150px] truncate">
-                {profile?.name || profile?.email || "User"}
-              </span>
+              <div className="hidden sm:flex flex-col items-start">
+                <span className="text-sm font-medium max-w-[120px] truncate">
+                  {profile?.name || profile?.email || "User"}
+                </span>
+                {role && (
+                  <span className="text-xs text-muted-foreground">
+                    {ROLE_LABELS[role]}
+                  </span>
+                )}
+              </div>
               <ChevronDown className="w-4 h-4 text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
@@ -72,6 +84,9 @@ export function AppHeader() {
             <div className="px-2 py-1.5">
               <p className="text-sm font-medium">{profile?.name || "User"}</p>
               <p className="text-xs text-muted-foreground truncate">{profile?.email}</p>
+              {role && (
+                <p className="text-xs text-muted-foreground mt-1">{ROLE_LABELS[role]}</p>
+              )}
             </div>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={signOut} className="text-destructive focus:text-destructive">
