@@ -164,7 +164,7 @@ serve(async (req) => {
 
     contractHtml += `
   <div class="footer">
-    <p>This agreement is administered by Tribes Rights Licensing</p>
+    <p>© ${new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.</p>
     <p>Document generated on ${new Date().toLocaleDateString()}</p>
   </div>
 </body>

@@ -132,6 +132,9 @@ export default function AuthPage() {
         <p className="text-center text-xs text-muted-foreground">
           By continuing, you agree to our Terms of Service and Privacy Policy.
         </p>
+        <p className="text-center text-xs text-muted-foreground mt-4">
+          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
+        </p>
       </div>
     </div>
   );
