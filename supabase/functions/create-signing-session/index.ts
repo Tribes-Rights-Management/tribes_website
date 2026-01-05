@@ -97,8 +97,8 @@ serve(async (req) => {
 
     console.log(`Signing session created: ${mockSigningSessionId}`);
 
-    // TODO: Send email to licensee with signing link
-    // You would call your email service here (Resend, SendGrid, etc.)
+    // TODO: Send email to licensee with signing link via Resend
+    // Email should be from "Tribes Rights Licensing" <licensing@tribesrights.com>
 
     return new Response(
       JSON.stringify({

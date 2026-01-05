@@ -34,7 +34,7 @@ export function AppHeader() {
             <Music2 className="w-4 h-4 text-primary-foreground" />
           </div>
           <span className="font-semibold text-sm hidden sm:inline-block">
-            Music Licensing
+            Tribes Rights
           </span>
         </Link>
 
