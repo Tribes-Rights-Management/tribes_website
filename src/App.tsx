@@ -7,7 +7,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import AuthPage from "./pages/AuthPage";
-import DashboardPage from "./pages/DashboardPage";
+import PortalDashboard from "./pages/PortalDashboard";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
@@ -17,7 +17,7 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 function AppRoutes() {
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, isAnyAdmin } = useAuth();
 
   if (isLoading) {
     return (
@@ -29,15 +29,32 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/auth" element={user ? <Navigate to="/" replace /> : <AuthPage />} />
+      <Route path="/auth" element={user ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace /> : <AuthPage />} />
       
-      <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-      <Route path="/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
-      <Route path="/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
-      <Route path="/request/:id/edit" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
+      {/* Root redirect based on role */}
+      <Route path="/" element={
+        user 
+          ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
+          : <Navigate to="/auth" replace />
+      } />
       
+      {/* User Portal Routes */}
+      <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
+      <Route path="/portal/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
+      <Route path="/portal/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/portal/request/:id/edit" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
+      
+      {/* Legacy routes - redirect to portal */}
+      <Route path="/request/new" element={<Navigate to="/portal/request/new" replace />} />
+      <Route path="/request/:id" element={<Navigate to="/portal/request/:id" replace />} />
+      <Route path="/request/:id/edit" element={<Navigate to="/portal/request/:id/edit" replace />} />
+      
+      {/* Admin Console Routes */}
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
-      <Route path="/admin/request/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
+      <Route path="/admin/licenses/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
+      
+      {/* Legacy admin route redirect */}
+      <Route path="/admin/request/:id" element={<Navigate to="/admin/licenses/:id" replace />} />
       
       <Route path="*" element={<NotFound />} />
     </Routes>

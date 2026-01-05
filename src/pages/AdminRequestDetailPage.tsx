@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { AppLayout } from "@/components/AppLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { ActivityTimeline } from "@/components/ActivityTimeline";
 import { Button } from "@/components/ui/button";
@@ -191,12 +190,23 @@ export default function AdminRequestDetailPage() {
 
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="max-w-5xl mx-auto space-y-6">
-          <Skeleton className="h-8 w-48" />
-          <Skeleton className="h-48 w-full" />
-        </div>
-      </AppLayout>
+      <div className="min-h-screen bg-background">
+        <header className="border-b bg-card">
+          <div className="container flex items-center justify-between h-14">
+            <div className="flex items-center gap-3">
+              <span className="text-lg font-bold tracking-tight">TRIBES</span>
+              <span className="text-muted-foreground">|</span>
+              <span className="text-sm font-medium">Admin Console</span>
+            </div>
+          </div>
+        </header>
+        <main className="container py-6">
+          <div className="max-w-5xl mx-auto space-y-6">
+            <Skeleton className="h-8 w-48" />
+            <Skeleton className="h-48 w-full" />
+          </div>
+        </main>
+      </div>
     );
   }
 
@@ -206,12 +216,33 @@ export default function AdminRequestDetailPage() {
   const hasDraftContract = documents.some(d => d.doc_type === "draft");
 
   return (
-    <AppLayout>
-      <div className="max-w-5xl mx-auto">
-        <Button variant="ghost" size="sm" onClick={() => navigate("/admin")} className="mb-4">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Queue
-        </Button>
+    <div className="min-h-screen bg-background">
+      {/* Admin Header */}
+      <header className="border-b bg-card">
+        <div className="container flex items-center justify-between h-14">
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-bold tracking-tight">TRIBES</span>
+            <span className="text-muted-foreground">|</span>
+            <span className="text-sm font-medium">Admin Console</span>
+            {isAdminView && (
+              <Badge variant="secondary" className="flex items-center gap-1 ml-2">
+                <Eye className="w-3 h-3" />
+                View Only
+              </Badge>
+            )}
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => navigate("/portal")}>
+            Exit Admin
+          </Button>
+        </div>
+      </header>
+
+      <main className="container py-6">
+        <div className="max-w-5xl mx-auto">
+          <Button variant="ghost" size="sm" onClick={() => navigate("/admin")} className="mb-4">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Queue
+          </Button>
         
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
@@ -464,8 +495,16 @@ export default function AdminRequestDetailPage() {
             </Card>
           </div>
         </div>
-      </div>
-    </AppLayout>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t py-4 mt-auto">
+        <div className="container text-center text-xs text-muted-foreground">
+          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
+        </div>
+      </footer>
+    </div>
   );
 }
 
