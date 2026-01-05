@@ -27,6 +27,7 @@ export interface WizardFormData {
   address_city: string;
   address_state: string;
   address_zip: string;
+  address_country: string;
   
   // Product Details step
   label_master_owner: string;
@@ -61,6 +62,7 @@ export const DEFAULT_WIZARD_FORM: WizardFormData = {
   address_city: "",
   address_state: "",
   address_zip: "",
+  address_country: "United States",
   
   // Product Details step
   label_master_owner: "",

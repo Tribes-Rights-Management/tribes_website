@@ -110,6 +110,7 @@ export type Database = {
           additional_product_info: string | null
           additional_track_info: string | null
           address_city: string | null
+          address_country: string | null
           address_state: string | null
           address_street: string | null
           address_zip: string | null
@@ -157,6 +158,7 @@ export type Database = {
           additional_product_info?: string | null
           additional_track_info?: string | null
           address_city?: string | null
+          address_country?: string | null
           address_state?: string | null
           address_street?: string | null
           address_zip?: string | null
@@ -204,6 +206,7 @@ export type Database = {
           additional_product_info?: string | null
           additional_track_info?: string | null
           address_city?: string | null
+          address_country?: string | null
           address_state?: string | null
           address_street?: string | null
           address_zip?: string | null
