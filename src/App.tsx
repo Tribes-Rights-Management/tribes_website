@@ -11,6 +11,7 @@ import DashboardPage from "./pages/DashboardPage";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminRequestDetailPage from "./pages/AdminRequestDetailPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,7 +37,7 @@ function AppRoutes() {
       <Route path="/request/:id/edit" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
       
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
-      <Route path="/admin/request/:id" element={<ProtectedRoute requireAdmin><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/admin/request/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
       
       <Route path="*" element={<NotFound />} />
     </Routes>

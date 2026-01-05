@@ -3,19 +3,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { AppLayout } from "@/components/AppLayout";
-import { FormStepper } from "@/components/form/FormStepper";
-import { StepLicensee } from "@/components/form/StepLicensee";
-import { StepProject } from "@/components/form/StepProject";
-import { StepUsage } from "@/components/form/StepUsage";
-import { StepMusic } from "@/components/form/StepMusic";
-import { StepBudget } from "@/components/form/StepBudget";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { LicenseRequestFormData, DEFAULT_LICENSE_REQUEST, LicenseRequest } from "@/types";
-import { ArrowLeft, ArrowRight, Save, Send, Loader2 } from "lucide-react";
+import { LicenseRequestFormData, DEFAULT_LICENSE_REQUEST, MediaType, MEDIA_TYPE_LABELS } from "@/types";
+import { ArrowLeft, Save, Send, Loader2 } from "lucide-react";
 
-const STEPS = ["Licensee", "Project", "Usage", "Music", "Budget"];
+const mediaTypes: MediaType[] = ["film", "tv", "ad", "trailer", "social", "ugc", "podcast", "game", "other"];
+const currencies = ["USD", "EUR", "GBP", "CAD"];
 
 export default function RequestFormPage() {
   const { user } = useAuth();
@@ -23,18 +22,14 @@ export default function RequestFormPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<LicenseRequestFormData>(DEFAULT_LICENSE_REQUEST);
   const [requestId, setRequestId] = useState<string | null>(id || null);
   const [isSaving, setIsSaving] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(!!id);
 
-  // Load existing request if editing
   useEffect(() => {
-    if (id) {
-      loadRequest(id);
-    }
+    if (id) loadRequest(id);
   }, [id]);
 
   async function loadRequest(requestId: string) {
@@ -47,97 +42,54 @@ export default function RequestFormPage() {
 
       if (error) throw error;
       
-      // Map database fields to form data
       setFormData({
         licensee_legal_name: data.licensee_legal_name || "",
-        licensee_entity_type: data.licensee_entity_type,
-        licensee_address: data.licensee_address || "",
         licensee_email: data.licensee_email || "",
-        licensee_phone: data.licensee_phone || "",
         project_title: data.project_title || "",
-        production_company: data.production_company || "",
-        distributor_network_platform: data.distributor_network_platform || "",
-        release_date: data.release_date,
         media_type: data.media_type,
-        placement: data.placement || "",
-        usage_duration: data.usage_duration || "",
-        usage_start_date: data.usage_start_date,
-        usage_end_date: data.usage_end_date,
-        term: data.term || "",
         territory: data.territory || "",
-        is_exclusive: data.is_exclusive || false,
-        has_paid_media: data.has_paid_media || false,
+        term: data.term || "",
+        usage_start_date: data.usage_start_date,
         song_title: data.song_title || "",
         writers_publishers: data.writers_publishers || "",
-        isrc: data.isrc || "",
-        iswc: data.iswc || "",
-        reference_link: data.reference_link || "",
         proposed_fee: data.proposed_fee ? parseFloat(data.proposed_fee.toString()) : null,
         currency: data.currency || "USD",
-        is_mfn: data.is_mfn || false,
-        is_most_favored_terms: data.is_most_favored_terms || false,
-        additional_notes: data.additional_notes || "",
+        usage_description: data.usage_description || "",
+        reference_link: data.reference_link || "",
       });
       setRequestId(requestId);
     } catch (error) {
       console.error("Error loading request:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load request",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to load request", variant: "destructive" });
       navigate("/");
     } finally {
       setIsLoading(false);
     }
   }
 
-  function updateFormData(updates: Partial<LicenseRequestFormData>) {
-    setFormData((prev) => ({ ...prev, ...updates }));
+  function update(field: keyof LicenseRequestFormData, value: any) {
+    setFormData(prev => ({ ...prev, [field]: value }));
   }
 
   async function saveDraft() {
     if (!user) return;
-    
     setIsSaving(true);
     try {
-      const data = {
-        user_id: user.id,
-        status: "draft" as const,
-        ...formData,
-      };
+      const payload = { user_id: user.id, status: "draft" as const, ...formData };
 
       if (requestId) {
-        const { error } = await supabase
-          .from("license_requests")
-          .update(data)
-          .eq("id", requestId);
-        
+        const { error } = await supabase.from("license_requests").update(payload).eq("id", requestId);
         if (error) throw error;
       } else {
-        const { data: newRequest, error } = await supabase
-          .from("license_requests")
-          .insert(data)
-          .select()
-          .single();
-        
+        const { data, error } = await supabase.from("license_requests").insert(payload).select().single();
         if (error) throw error;
-        setRequestId(newRequest.id);
-        // Update URL without navigation
-        window.history.replaceState(null, "", `/request/${newRequest.id}/edit`);
+        setRequestId(data.id);
+        window.history.replaceState(null, "", `/request/${data.id}/edit`);
       }
-
-      toast({
-        title: "Draft saved",
-        description: "Your progress has been saved.",
-      });
+      toast({ title: "Draft saved" });
     } catch (error) {
       console.error("Error saving draft:", error);
-      toast({
-        title: "Error",
-        description: "Failed to save draft",
-        variant: "destructive",
-      });
+      toast({ title: "Error", description: "Failed to save draft", variant: "destructive" });
     } finally {
       setIsSaving(false);
     }
@@ -145,87 +97,48 @@ export default function RequestFormPage() {
 
   async function submitRequest() {
     // Validate required fields
-    if (!formData.licensee_legal_name || !formData.licensee_email) {
-      toast({
-        title: "Missing information",
-        description: "Please fill in the required licensee information.",
-        variant: "destructive",
-      });
-      setCurrentStep(0);
-      return;
-    }
+    const missing = [];
+    if (!formData.licensee_legal_name) missing.push("Licensee Name");
+    if (!formData.licensee_email) missing.push("Licensee Email");
+    if (!formData.project_title) missing.push("Project Title");
+    if (!formData.song_title) missing.push("Song Title");
+    if (!formData.media_type) missing.push("Media Type");
+    if (!formData.territory) missing.push("Territory");
+    if (!formData.term) missing.push("Term");
 
-    if (!formData.project_title) {
-      toast({
-        title: "Missing information",
-        description: "Please provide a project title.",
-        variant: "destructive",
+    if (missing.length > 0) {
+      toast({ 
+        title: "Missing required fields", 
+        description: missing.join(", "), 
+        variant: "destructive" 
       });
-      setCurrentStep(1);
-      return;
-    }
-
-    if (!formData.song_title) {
-      toast({
-        title: "Missing information",
-        description: "Please provide a song title.",
-        variant: "destructive",
-      });
-      setCurrentStep(3);
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const data = {
-        user_id: user!.id,
-        status: "submitted" as const,
+      const payload = { 
+        user_id: user!.id, 
+        status: "submitted" as const, 
         submitted_at: new Date().toISOString(),
-        ...formData,
+        ...formData 
       };
 
       if (requestId) {
-        const { error } = await supabase
-          .from("license_requests")
-          .update(data)
-          .eq("id", requestId);
-        
+        const { error } = await supabase.from("license_requests").update(payload).eq("id", requestId);
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("license_requests")
-          .insert(data);
-        
+        const { error } = await supabase.from("license_requests").insert(payload);
         if (error) throw error;
       }
 
-      toast({
-        title: "Request submitted",
-        description: "Your license request has been submitted for review.",
-      });
-      
+      toast({ title: "Request submitted", description: "We'll review your request shortly." });
       navigate("/");
     } catch (error) {
-      console.error("Error submitting request:", error);
-      toast({
-        title: "Error",
-        description: "Failed to submit request",
-        variant: "destructive",
-      });
+      console.error("Error submitting:", error);
+      toast({ title: "Error", description: "Failed to submit request", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  function nextStep() {
-    if (currentStep < STEPS.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
-  }
-
-  function prevStep() {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
     }
   }
 
@@ -242,85 +155,130 @@ export default function RequestFormPage() {
   return (
     <AppLayout>
       <div className="max-w-2xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="mb-4">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Requests
-          </Button>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            {requestId ? "Edit Request" : "New License Request"}
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            Complete all steps to submit your request for review.
-          </p>
-        </div>
+        <Button variant="ghost" size="sm" onClick={() => navigate("/")} className="mb-4">
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back
+        </Button>
+        
+        <h1 className="text-2xl font-semibold tracking-tight mb-1">
+          {requestId ? "Edit Request" : "New License Request"}
+        </h1>
+        <p className="text-muted-foreground text-sm mb-6">
+          Complete all required fields to submit your request.
+        </p>
 
-        {/* Stepper */}
-        <FormStepper
-          steps={STEPS}
-          currentStep={currentStep}
-          onStepClick={setCurrentStep}
-        />
-
-        {/* Form Content */}
         <Card>
-          <CardContent className="p-6">
-            {currentStep === 0 && (
-              <StepLicensee data={formData} onChange={updateFormData} />
-            )}
-            {currentStep === 1 && (
-              <StepProject data={formData} onChange={updateFormData} />
-            )}
-            {currentStep === 2 && (
-              <StepUsage data={formData} onChange={updateFormData} />
-            )}
-            {currentStep === 3 && (
-              <StepMusic data={formData} onChange={updateFormData} />
-            )}
-            {currentStep === 4 && (
-              <StepBudget data={formData} onChange={updateFormData} />
-            )}
+          <CardContent className="p-6 space-y-6">
+            {/* Licensee Info */}
+            <section className="space-y-4">
+              <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Licensee</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Name / Company *</Label>
+                  <Input id="name" placeholder="Acme Productions" value={formData.licensee_legal_name} onChange={e => update("licensee_legal_name", e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email *</Label>
+                  <Input id="email" type="email" placeholder="contact@acme.com" value={formData.licensee_email} onChange={e => update("licensee_email", e.target.value)} />
+                </div>
+              </div>
+            </section>
+
+            <div className="subtle-divider" />
+
+            {/* Project Info */}
+            <section className="space-y-4">
+              <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Project</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="project">Project Title *</Label>
+                  <Input id="project" placeholder="The Documentary" value={formData.project_title} onChange={e => update("project_title", e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="media">Media Type *</Label>
+                  <Select value={formData.media_type || ""} onValueChange={v => update("media_type", v as MediaType)}>
+                    <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                    <SelectContent>
+                      {mediaTypes.map(t => <SelectItem key={t} value={t}>{MEDIA_TYPE_LABELS[t]}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="usage">Usage Description</Label>
+                <Textarea id="usage" placeholder="Describe how the music will be used..." value={formData.usage_description} onChange={e => update("usage_description", e.target.value)} rows={3} />
+              </div>
+            </section>
+
+            <div className="subtle-divider" />
+
+            {/* Music Info */}
+            <section className="space-y-4">
+              <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Music</h2>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="song">Song Title *</Label>
+                  <Input id="song" placeholder="Song name" value={formData.song_title} onChange={e => update("song_title", e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="writers">Writers / Publishers</Label>
+                  <Input id="writers" placeholder="John Doe (ASCAP)" value={formData.writers_publishers} onChange={e => update("writers_publishers", e.target.value)} />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="ref">Reference Link</Label>
+                <Input id="ref" type="url" placeholder="https://..." value={formData.reference_link} onChange={e => update("reference_link", e.target.value)} />
+              </div>
+            </section>
+
+            <div className="subtle-divider" />
+
+            {/* Terms & Budget */}
+            <section className="space-y-4">
+              <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Terms</h2>
+              <div className="grid sm:grid-cols-3 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="territory">Territory *</Label>
+                  <Input id="territory" placeholder="Worldwide" value={formData.territory} onChange={e => update("territory", e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="term">Term *</Label>
+                  <Input id="term" placeholder="In perpetuity" value={formData.term} onChange={e => update("term", e.target.value)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="start">Start Date</Label>
+                  <Input id="start" type="date" value={formData.usage_start_date || ""} onChange={e => update("usage_start_date", e.target.value || null)} />
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fee">Proposed Fee</Label>
+                  <Input id="fee" type="number" min="0" placeholder="5000" value={formData.proposed_fee || ""} onChange={e => update("proposed_fee", e.target.value ? parseFloat(e.target.value) : null)} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="currency">Currency</Label>
+                  <Select value={formData.currency} onValueChange={v => update("currency", v)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {currencies.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </section>
           </CardContent>
         </Card>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between mt-6">
-          <div className="flex items-center gap-2">
-            {currentStep > 0 && (
-              <Button variant="outline" onClick={prevStep}>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Previous
-              </Button>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={saveDraft} disabled={isSaving}>
-              {isSaving ? (
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <Save className="w-4 h-4 mr-2" />
-              )}
-              Save Draft
-            </Button>
-
-            {currentStep < STEPS.length - 1 ? (
-              <Button onClick={nextStep}>
-                Next
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            ) : (
-              <Button onClick={submitRequest} disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Send className="w-4 h-4 mr-2" />
-                )}
-                Submit Request
-              </Button>
-            )}
-          </div>
+        {/* Actions */}
+        <div className="flex justify-end gap-3 mt-6">
+          <Button variant="outline" onClick={saveDraft} disabled={isSaving}>
+            {isSaving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+            Save Draft
+          </Button>
+          <Button onClick={submitRequest} disabled={isSubmitting}>
+            {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+            Submit
+          </Button>
         </div>
       </div>
     </AppLayout>
