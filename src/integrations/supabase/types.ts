@@ -17,83 +17,29 @@ export type Database = {
       clauses: {
         Row: {
           body_text: string
-          category: string | null
           created_at: string
           id: string
-          is_active: boolean
-          key: string
+          placeholders: string[] | null
+          sort_order: number
           title: string
-          updated_at: string
         }
         Insert: {
           body_text: string
-          category?: string | null
           created_at?: string
           id?: string
-          is_active?: boolean
-          key: string
+          placeholders?: string[] | null
+          sort_order?: number
           title: string
-          updated_at?: string
         }
         Update: {
           body_text?: string
-          category?: string | null
           created_at?: string
           id?: string
-          is_active?: boolean
-          key?: string
+          placeholders?: string[] | null
+          sort_order?: number
           title?: string
-          updated_at?: string
         }
         Relationships: []
-      }
-      deal_terms: {
-        Row: {
-          created_at: string
-          currency: string | null
-          fee_amount: number | null
-          id: string
-          request_id: string
-          template_id: string | null
-          terms_json: Json | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          currency?: string | null
-          fee_amount?: number | null
-          id?: string
-          request_id: string
-          template_id?: string | null
-          terms_json?: Json | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          currency?: string | null
-          fee_amount?: number | null
-          id?: string
-          request_id?: string
-          template_id?: string | null
-          terms_json?: Json | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "deal_terms_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "license_requests"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "deal_terms_template_id_fkey"
-            columns: ["template_id"]
-            isOneToOne: false
-            referencedRelation: "license_templates"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       generated_documents: {
         Row: {
@@ -127,66 +73,19 @@ export type Database = {
           },
         ]
       }
-      internal_notes: {
-        Row: {
-          created_at: string
-          id: string
-          note: string
-          request_id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          note: string
-          request_id: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          note?: string
-          request_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "internal_notes_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "license_requests"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       license_requests: {
         Row: {
-          additional_notes: string | null
           created_at: string
           currency: string | null
-          distributor_network_platform: string | null
-          has_paid_media: boolean | null
           id: string
-          is_exclusive: boolean | null
-          is_mfn: boolean | null
-          is_most_favored_terms: boolean | null
-          isrc: string | null
-          iswc: string | null
-          licensee_address: string | null
           licensee_email: string | null
-          licensee_entity_type:
-            | Database["public"]["Enums"]["entity_type"]
-            | null
           licensee_legal_name: string | null
-          licensee_phone: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
-          placement: string | null
-          production_company: string | null
           project_title: string | null
           proposed_fee: number | null
           reference_link: string | null
-          release_date: string | null
-          signing_session_id: string | null
+          signed_at: string | null
+          signing_envelope_id: string | null
           signing_url: string | null
           song_title: string | null
           status: Database["public"]["Enums"]["request_status"]
@@ -194,39 +93,23 @@ export type Database = {
           term: string | null
           territory: string | null
           updated_at: string
-          usage_duration: string | null
-          usage_end_date: string | null
+          usage_description: string | null
           usage_start_date: string | null
           user_id: string
           writers_publishers: string | null
         }
         Insert: {
-          additional_notes?: string | null
           created_at?: string
           currency?: string | null
-          distributor_network_platform?: string | null
-          has_paid_media?: boolean | null
           id?: string
-          is_exclusive?: boolean | null
-          is_mfn?: boolean | null
-          is_most_favored_terms?: boolean | null
-          isrc?: string | null
-          iswc?: string | null
-          licensee_address?: string | null
           licensee_email?: string | null
-          licensee_entity_type?:
-            | Database["public"]["Enums"]["entity_type"]
-            | null
           licensee_legal_name?: string | null
-          licensee_phone?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
-          placement?: string | null
-          production_company?: string | null
           project_title?: string | null
           proposed_fee?: number | null
           reference_link?: string | null
-          release_date?: string | null
-          signing_session_id?: string | null
+          signed_at?: string | null
+          signing_envelope_id?: string | null
           signing_url?: string | null
           song_title?: string | null
           status?: Database["public"]["Enums"]["request_status"]
@@ -234,39 +117,23 @@ export type Database = {
           term?: string | null
           territory?: string | null
           updated_at?: string
-          usage_duration?: string | null
-          usage_end_date?: string | null
+          usage_description?: string | null
           usage_start_date?: string | null
           user_id: string
           writers_publishers?: string | null
         }
         Update: {
-          additional_notes?: string | null
           created_at?: string
           currency?: string | null
-          distributor_network_platform?: string | null
-          has_paid_media?: boolean | null
           id?: string
-          is_exclusive?: boolean | null
-          is_mfn?: boolean | null
-          is_most_favored_terms?: boolean | null
-          isrc?: string | null
-          iswc?: string | null
-          licensee_address?: string | null
           licensee_email?: string | null
-          licensee_entity_type?:
-            | Database["public"]["Enums"]["entity_type"]
-            | null
           licensee_legal_name?: string | null
-          licensee_phone?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
-          placement?: string | null
-          production_company?: string | null
           project_title?: string | null
           proposed_fee?: number | null
           reference_link?: string | null
-          release_date?: string | null
-          signing_session_id?: string | null
+          signed_at?: string | null
+          signing_envelope_id?: string | null
           signing_url?: string | null
           song_title?: string | null
           status?: Database["public"]["Enums"]["request_status"]
@@ -274,41 +141,10 @@ export type Database = {
           term?: string | null
           territory?: string | null
           updated_at?: string
-          usage_duration?: string | null
-          usage_end_date?: string | null
+          usage_description?: string | null
           usage_start_date?: string | null
           user_id?: string
           writers_publishers?: string | null
-        }
-        Relationships: []
-      }
-      license_templates: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: string
-          is_active: boolean
-          name: string
-          updated_at: string
-          version: string
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          is_active?: boolean
-          name: string
-          updated_at?: string
-          version?: string
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: string
-          is_active?: boolean
-          name?: string
-          updated_at?: string
-          version?: string
         }
         Relationships: []
       }
@@ -335,44 +171,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
-      }
-      request_files: {
-        Row: {
-          created_at: string
-          file_name: string
-          file_type: Database["public"]["Enums"]["file_type"]
-          id: string
-          request_id: string
-          storage_path: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          file_name: string
-          file_type?: Database["public"]["Enums"]["file_type"]
-          id?: string
-          request_id: string
-          storage_path: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          file_name?: string
-          file_type?: Database["public"]["Enums"]["file_type"]
-          id?: string
-          request_id?: string
-          storage_path?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "request_files_request_id_fkey"
-            columns: ["request_id"]
-            isOneToOne: false
-            referencedRelation: "license_requests"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       status_history: {
         Row: {
@@ -408,45 +206,6 @@ export type Database = {
             columns: ["request_id"]
             isOneToOne: false
             referencedRelation: "license_requests"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      template_clauses: {
-        Row: {
-          clause_id: string
-          id: string
-          is_required: boolean
-          sort_order: number
-          template_id: string
-        }
-        Insert: {
-          clause_id: string
-          id?: string
-          is_required?: boolean
-          sort_order?: number
-          template_id: string
-        }
-        Update: {
-          clause_id?: string
-          id?: string
-          is_required?: boolean
-          sort_order?: number
-          template_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "template_clauses_clause_id_fkey"
-            columns: ["clause_id"]
-            isOneToOne: false
-            referencedRelation: "clauses"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "template_clauses_template_id_fkey"
-            columns: ["template_id"]
-            isOneToOne: false
-            referencedRelation: "license_templates"
             referencedColumns: ["id"]
           },
         ]
