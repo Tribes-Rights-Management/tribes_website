@@ -15,7 +15,6 @@ interface Clause {
 }
 
 serve(async (req) => {
-  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -36,7 +35,6 @@ serve(async (req) => {
 
     console.log(`Generating contract for request: ${request_id}`);
 
-    // Fetch the license request
     const { data: request, error: requestError } = await supabase
       .from('license_requests')
       .select('*')
@@ -51,7 +49,6 @@ serve(async (req) => {
       );
     }
 
-    // Fetch all clauses ordered
     const { data: clauses, error: clausesError } = await supabase
       .from('clauses')
       .select('*')
@@ -65,7 +62,6 @@ serve(async (req) => {
       );
     }
 
-    // Build placeholder values from request data
     const today = new Date().toISOString().split('T')[0];
     const placeholderValues: Record<string, string> = {
       effective_date: today,
@@ -82,30 +78,45 @@ serve(async (req) => {
       currency: request.currency || 'USD',
     };
 
-    // Generate contract HTML by merging placeholders
-    let contractHtml = `
-<!DOCTYPE html>
+    let contractHtml = `<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Music Synchronization License Agreement</title>
+  <title>Tribes Rights Licensing - Music Synchronization License Agreement</title>
   <style>
     body {
       font-family: 'Times New Roman', Times, serif;
       font-size: 12pt;
       line-height: 1.6;
       max-width: 8.5in;
-      margin: 1in auto;
-      padding: 0 0.5in;
+      margin: 0 auto;
+      padding: 0.75in;
     }
-    h1 {
+    .header {
+      text-align: center;
+      margin-bottom: 24pt;
+      padding-bottom: 12pt;
+      border-bottom: 1px solid #ccc;
+    }
+    .header h1 {
+      font-size: 14pt;
+      font-weight: bold;
+      margin: 0 0 6pt 0;
+      letter-spacing: 1px;
+    }
+    .header p {
+      font-size: 10pt;
+      color: #666;
+      margin: 0;
+    }
+    h2.doc-title {
       text-align: center;
       font-size: 16pt;
-      margin-bottom: 24pt;
+      margin: 24pt 0;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    h2 {
+    h3 {
       font-size: 12pt;
       margin-top: 18pt;
       margin-bottom: 6pt;
@@ -119,33 +130,46 @@ serve(async (req) => {
       margin-top: 48pt;
       page-break-inside: avoid;
     }
+    .footer {
+      text-align: center;
+      font-size: 9pt;
+      color: #666;
+      margin-top: 48pt;
+      padding-top: 12pt;
+      border-top: 1px solid #ccc;
+    }
   </style>
 </head>
 <body>
-  <h1>Music Synchronization License Agreement</h1>
+  <div class="header">
+    <h1>TRIBES RIGHTS LICENSING</h1>
+    <p>Music Synchronization Rights Management</p>
+  </div>
+  <h2 class="doc-title">Music Synchronization License Agreement</h2>
 `;
 
-    // Process each clause
     for (const clause of clauses as Clause[]) {
       let bodyText = clause.body_text;
       
-      // Replace all placeholders
       for (const [key, value] of Object.entries(placeholderValues)) {
         const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
         bodyText = bodyText.replace(regex, value);
       }
 
       contractHtml += `
-  <h2>${clause.sort_order}. ${clause.title}</h2>
+  <h3>${clause.sort_order}. ${clause.title}</h3>
   <p>${bodyText.replace(/\n/g, '</p><p>')}</p>
 `;
     }
 
     contractHtml += `
+  <div class="footer">
+    <p>This agreement is administered by Tribes Rights Licensing</p>
+    <p>Document generated on ${new Date().toLocaleDateString()}</p>
+  </div>
 </body>
 </html>`;
 
-    // Store the contract in Supabase Storage
     const fileName = `${request.user_id}/${request_id}/contract-draft-${Date.now()}.html`;
     
     const { error: uploadError } = await supabase.storage
@@ -163,12 +187,10 @@ serve(async (req) => {
       );
     }
 
-    // Get public URL for the document
     const { data: urlData } = supabase.storage
       .from('generated-documents')
       .getPublicUrl(fileName);
 
-    // Insert record into generated_documents
     const { data: doc, error: docError } = await supabase
       .from('generated_documents')
       .insert({

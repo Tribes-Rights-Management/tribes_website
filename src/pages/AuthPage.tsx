@@ -89,7 +89,7 @@ export default function AuthPage() {
           <div className="mx-auto w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-6">
             <Music2 className="w-6 h-6 text-primary-foreground" />
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight">Music Licensing Portal</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Tribes Rights Licensing</h1>
           <p className="text-muted-foreground">Sign in with your email to continue</p>
         </div>
 
