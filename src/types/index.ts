@@ -108,8 +108,11 @@ export const STATUS_LABELS: Record<RequestStatus, string> = {
   needs_info: "Needs Info",
   approved: "Approved",
   sent_for_signature: "Awaiting Signature",
+  awaiting_signature: "Awaiting Signature",
+  awaiting_payment: "Awaiting Payment",
   executed: "Executed",
   closed: "Closed",
+  done: "Done",
 };
 
 export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
@@ -117,10 +120,13 @@ export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
   submitted: "Submitted for review",
   in_review: "Under review by our team",
   needs_info: "Additional information required",
-  approved: "Approved — contract pending",
-  sent_for_signature: "Contract sent for signature",
+  approved: "Approved — agreement pending",
+  sent_for_signature: "Agreement sent for signature",
+  awaiting_signature: "Agreement sent for signature",
+  awaiting_payment: "Awaiting payment",
   executed: "Signed and complete",
   closed: "Request closed",
+  done: "Complete",
 };
 
 // Media type labels

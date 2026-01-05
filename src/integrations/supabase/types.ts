@@ -365,6 +365,9 @@ export type Database = {
         | "sent_for_signature"
         | "executed"
         | "closed"
+        | "awaiting_signature"
+        | "awaiting_payment"
+        | "done"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -516,6 +519,9 @@ export const Constants = {
         "sent_for_signature",
         "executed",
         "closed",
+        "awaiting_signature",
+        "awaiting_payment",
+        "done",
       ],
     },
   },

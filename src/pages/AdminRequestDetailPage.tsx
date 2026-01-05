@@ -17,13 +17,16 @@ import { format } from "date-fns";
 
 const WORKFLOW_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
   draft: [],
-  submitted: ["in_review", "needs_info", "closed"],
-  in_review: ["approved", "needs_info", "closed"],
-  needs_info: ["in_review", "closed"],
-  approved: ["sent_for_signature", "closed"],
-  sent_for_signature: ["executed", "closed"],
-  executed: ["closed"],
+  submitted: ["in_review", "needs_info"],
+  in_review: ["approved", "needs_info"],
+  needs_info: ["in_review"],
+  approved: ["awaiting_signature"],
+  sent_for_signature: ["awaiting_payment", "done"],
+  awaiting_signature: ["awaiting_payment", "done"],
+  awaiting_payment: ["done"],
+  executed: ["done"],
   closed: [],
+  done: [],
 };
 
 export default function AdminRequestDetailPage() {

@@ -13,8 +13,11 @@ const statusClasses: Record<RequestStatus, string> = {
   needs_info: "status-needs-info",
   approved: "status-approved",
   sent_for_signature: "status-signature",
+  awaiting_signature: "status-signature",
+  awaiting_payment: "status-payment",
   executed: "status-executed",
   closed: "status-closed",
+  done: "status-done",
 };
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {

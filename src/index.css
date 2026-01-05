@@ -65,8 +65,10 @@
     --status-needs-info: 25 95% 53%;
     --status-approved: 142 71% 45%;
     --status-signature: 199 89% 48%;
+    --status-payment: 38 92% 50%;
     --status-executed: 142 76% 36%;
     --status-closed: 220 9% 46%;
+    --status-done: 142 76% 36%;
     
     /* Custom accents */
     --success: 142 71% 45%;
@@ -174,6 +176,16 @@
   
   .status-closed {
     @apply bg-muted text-muted-foreground;
+  }
+  
+  .status-payment {
+    background-color: hsl(var(--status-payment) / 0.1);
+    color: hsl(var(--status-payment));
+  }
+  
+  .status-done {
+    background-color: hsl(var(--status-done) / 0.1);
+    color: hsl(var(--status-done));
   }
   
   /* Form step indicator */
