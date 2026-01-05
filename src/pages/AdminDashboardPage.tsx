@@ -12,38 +12,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
 import { Search, FileText, Music2, Calendar, Building2, ChevronRight, Eye, Mail, User } from "lucide-react";
-import { formatDistanceToNow, format } from "date-fns";
+import { format } from "date-fns";
 
-// Status bucket groupings
-type StatusBucket = "new" | "in_process" | "awaiting_payment" | "done";
-
-const STATUS_BUCKETS: Record<StatusBucket, { label: string; statuses: RequestStatus[] }> = {
-  new: {
-    label: "New",
-    statuses: ["submitted"]
-  },
-  in_process: {
-    label: "In Process", 
-    statuses: ["in_review", "needs_info", "approved"]
-  },
-  awaiting_payment: {
-    label: "Awaiting Payment",
-    statuses: ["sent_for_signature"]
-  },
-  done: {
-    label: "Done",
-    statuses: ["executed", "closed"]
-  }
-};
-
-function getStatusBucket(status: RequestStatus): StatusBucket | null {
-  for (const [bucket, config] of Object.entries(STATUS_BUCKETS)) {
-    if (config.statuses.includes(status)) {
-      return bucket as StatusBucket;
-    }
-  }
-  return null;
-}
+// Active statuses for admin filtering (excluding draft and legacy statuses)
+const ADMIN_STATUSES: RequestStatus[] = [
+  "submitted",
+  "in_review", 
+  "needs_info",
+  "approved",
+  "awaiting_signature",
+  "awaiting_payment",
+  "done"
+];
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
@@ -51,7 +31,7 @@ export default function AdminDashboardPage() {
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeBucket, setActiveBucket] = useState<StatusBucket>("new");
+  const [activeStatus, setActiveStatus] = useState<RequestStatus>("submitted");
 
   useEffect(() => {
     fetchRequests();
@@ -74,7 +54,7 @@ export default function AdminDashboardPage() {
     }
   }
 
-  // Filter by search and bucket
+  // Filter by search and status
   const filteredRequests = requests.filter((request) => {
     const matchesSearch = searchQuery === "" || 
       request.licensee_legal_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -86,23 +66,19 @@ export default function AdminDashboardPage() {
       request.song_title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.recording_artist?.toLowerCase().includes(searchQuery.toLowerCase());
     
-    const bucket = getStatusBucket(request.status);
-    const matchesBucket = bucket === activeBucket;
+    const matchesStatus = request.status === activeStatus;
     
-    return matchesSearch && matchesBucket;
+    return matchesSearch && matchesStatus;
   });
 
-  // Count by bucket
-  const bucketCounts = requests.reduce((acc, req) => {
-    const bucket = getStatusBucket(req.status);
-    if (bucket) {
-      acc[bucket] = (acc[bucket] || 0) + 1;
-    }
+  // Count by status
+  const statusCounts = requests.reduce((acc, req) => {
+    acc[req.status] = (acc[req.status] || 0) + 1;
     return acc;
-  }, {} as Record<StatusBucket, number>);
+  }, {} as Record<string, number>);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Admin Header */}
       <header className="border-b bg-card">
         <div className="container flex items-center justify-between h-14">
@@ -123,7 +99,7 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
-      <main className="container py-6 space-y-6">
+      <main className="container py-6 space-y-6 flex-1">
         {/* Title */}
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">License Queue</h1>
@@ -132,15 +108,19 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        {/* Status Bucket Tabs */}
-        <Tabs value={activeBucket} onValueChange={(v) => setActiveBucket(v as StatusBucket)}>
-          <TabsList className="grid w-full grid-cols-4">
-            {(Object.keys(STATUS_BUCKETS) as StatusBucket[]).map((bucket) => (
-              <TabsTrigger key={bucket} value={bucket} className="relative">
-                {STATUS_BUCKETS[bucket].label}
-                {bucketCounts[bucket] > 0 && (
-                  <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs">
-                    {bucketCounts[bucket]}
+        {/* Status Tabs */}
+        <Tabs value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
+          <TabsList className="h-auto flex-wrap gap-1 bg-transparent p-0">
+            {ADMIN_STATUSES.map((status) => (
+              <TabsTrigger 
+                key={status} 
+                value={status} 
+                className="data-[state=active]:bg-secondary px-3 py-1.5 text-sm"
+              >
+                {STATUS_LABELS[status]}
+                {statusCounts[status] > 0 && (
+                  <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs bg-muted">
+                    {statusCounts[status]}
                   </Badge>
                 )}
               </TabsTrigger>
@@ -170,7 +150,7 @@ export default function AdminDashboardPage() {
           <EmptyState 
             icon={FileText} 
             title="No requests" 
-            description={`No requests in "${STATUS_BUCKETS[activeBucket].label}" status.`} 
+            description={`No requests with "${STATUS_LABELS[activeStatus]}" status.`} 
           />
         ) : (
           <div className="space-y-2">
@@ -238,7 +218,7 @@ export default function AdminDashboardPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-4 mt-auto">
+      <footer className="border-t py-4">
         <div className="container text-center text-xs text-muted-foreground">
           © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
         </div>

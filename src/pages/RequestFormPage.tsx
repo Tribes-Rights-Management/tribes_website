@@ -235,12 +235,22 @@ export default function RequestFormPage() {
     
     setIsSubmitting(true);
     try {
+      // Check current status to determine target status
+      const { data: currentRequest } = await supabase
+        .from("license_requests")
+        .select("status")
+        .eq("id", requestId)
+        .single();
+      
+      // If resubmitting from needs_info, go to in_review; otherwise submitted
+      const targetStatus = currentRequest?.status === "needs_info" ? "in_review" : "submitted";
+      
       const { error } = await supabase
         .from("license_requests")
         .update({
           ...formData,
-          status: "submitted" as const,
-          submitted_at: new Date().toISOString(),
+          status: targetStatus as any,
+          submitted_at: targetStatus === "submitted" ? new Date().toISOString() : undefined,
           // Combine first + last name into licensee_legal_name for compatibility
           licensee_legal_name: `${formData.first_name} ${formData.last_name}`.trim(),
           // Map track_title to song_title for contract generation

@@ -75,7 +75,7 @@ export default function RequestDetailPage() {
   if (!request) return null;
 
   const canEdit = request.status === "draft" || request.status === "needs_info";
-  const hasSigningUrl = request.signing_url && request.status === "sent_for_signature";
+  const hasSigningUrl = request.signing_url && (request.status === "sent_for_signature" || request.status === "awaiting_signature");
 
   return (
     <AppLayout>
