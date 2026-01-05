@@ -12,7 +12,76 @@ export type AppRole = "super_admin" | "admin_view" | "user";
 export type RequestStatus = Database["public"]["Enums"]["request_status"];
 export type MediaType = Database["public"]["Enums"]["media_type"];
 
-// Simplified form data (10-12 fields)
+// Wizard form data for multi-step form
+export interface WizardFormData {
+  // Agreement step
+  agreement_accounting: boolean;
+  agreement_terms: boolean;
+  
+  // Your Info step
+  first_name: string;
+  last_name: string;
+  organization: string;
+  licensee_email: string;
+  address_street: string;
+  address_city: string;
+  address_state: string;
+  address_zip: string;
+  
+  // Product Details step
+  label_master_owner: string;
+  distributor: string;
+  release_date: string | null;
+  recording_artist: string;
+  release_title: string;
+  product_upc: string;
+  additional_product_info: string;
+  
+  // Track Details step
+  track_title: string;
+  track_artist: string;
+  track_isrc: string;
+  runtime: string;
+  appears_multiple_times: boolean;
+  times_count: number | null;
+  additional_track_info: string;
+}
+
+export const DEFAULT_WIZARD_FORM: WizardFormData = {
+  // Agreement step
+  agreement_accounting: false,
+  agreement_terms: false,
+  
+  // Your Info step
+  first_name: "",
+  last_name: "",
+  organization: "",
+  licensee_email: "",
+  address_street: "",
+  address_city: "",
+  address_state: "",
+  address_zip: "",
+  
+  // Product Details step
+  label_master_owner: "",
+  distributor: "",
+  release_date: null,
+  recording_artist: "",
+  release_title: "",
+  product_upc: "",
+  additional_product_info: "",
+  
+  // Track Details step
+  track_title: "",
+  track_artist: "",
+  track_isrc: "",
+  runtime: "",
+  appears_multiple_times: false,
+  times_count: null,
+  additional_track_info: "",
+};
+
+// Legacy form data (keep for backward compatibility)
 export interface LicenseRequestFormData {
   licensee_legal_name: string;
   licensee_email: string;
@@ -65,7 +134,7 @@ export const MEDIA_TYPE_LABELS: Record<MediaType, string> = {
   other: "Other",
 };
 
-// Default form values
+// Default form values (legacy)
 export const DEFAULT_LICENSE_REQUEST: LicenseRequestFormData = {
   licensee_legal_name: "",
   licensee_email: "",

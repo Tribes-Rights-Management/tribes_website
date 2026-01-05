@@ -107,15 +107,34 @@ export type Database = {
       }
       license_requests: {
         Row: {
+          additional_product_info: string | null
+          additional_track_info: string | null
+          address_city: string | null
+          address_state: string | null
+          address_street: string | null
+          address_zip: string | null
+          agreement_accounting: boolean | null
+          agreement_terms: boolean | null
+          appears_multiple_times: boolean | null
           created_at: string
           currency: string | null
+          distributor: string | null
+          first_name: string | null
           id: string
+          label_master_owner: string | null
+          last_name: string | null
           licensee_email: string | null
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
+          organization: string | null
+          product_upc: string | null
           project_title: string | null
           proposed_fee: number | null
+          recording_artist: string | null
           reference_link: string | null
+          release_date: string | null
+          release_title: string | null
+          runtime: string | null
           signed_at: string | null
           signing_envelope_id: string | null
           signing_url: string | null
@@ -124,6 +143,10 @@ export type Database = {
           submitted_at: string | null
           term: string | null
           territory: string | null
+          times_count: number | null
+          track_artist: string | null
+          track_isrc: string | null
+          track_title: string | null
           updated_at: string
           usage_description: string | null
           usage_start_date: string | null
@@ -131,15 +154,34 @@ export type Database = {
           writers_publishers: string | null
         }
         Insert: {
+          additional_product_info?: string | null
+          additional_track_info?: string | null
+          address_city?: string | null
+          address_state?: string | null
+          address_street?: string | null
+          address_zip?: string | null
+          agreement_accounting?: boolean | null
+          agreement_terms?: boolean | null
+          appears_multiple_times?: boolean | null
           created_at?: string
           currency?: string | null
+          distributor?: string | null
+          first_name?: string | null
           id?: string
+          label_master_owner?: string | null
+          last_name?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
+          organization?: string | null
+          product_upc?: string | null
           project_title?: string | null
           proposed_fee?: number | null
+          recording_artist?: string | null
           reference_link?: string | null
+          release_date?: string | null
+          release_title?: string | null
+          runtime?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
           signing_url?: string | null
@@ -148,6 +190,10 @@ export type Database = {
           submitted_at?: string | null
           term?: string | null
           territory?: string | null
+          times_count?: number | null
+          track_artist?: string | null
+          track_isrc?: string | null
+          track_title?: string | null
           updated_at?: string
           usage_description?: string | null
           usage_start_date?: string | null
@@ -155,15 +201,34 @@ export type Database = {
           writers_publishers?: string | null
         }
         Update: {
+          additional_product_info?: string | null
+          additional_track_info?: string | null
+          address_city?: string | null
+          address_state?: string | null
+          address_street?: string | null
+          address_zip?: string | null
+          agreement_accounting?: boolean | null
+          agreement_terms?: boolean | null
+          appears_multiple_times?: boolean | null
           created_at?: string
           currency?: string | null
+          distributor?: string | null
+          first_name?: string | null
           id?: string
+          label_master_owner?: string | null
+          last_name?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
+          organization?: string | null
+          product_upc?: string | null
           project_title?: string | null
           proposed_fee?: number | null
+          recording_artist?: string | null
           reference_link?: string | null
+          release_date?: string | null
+          release_title?: string | null
+          runtime?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
           signing_url?: string | null
@@ -172,6 +237,10 @@ export type Database = {
           submitted_at?: string | null
           term?: string | null
           territory?: string | null
+          times_count?: number | null
+          track_artist?: string | null
+          track_isrc?: string | null
+          track_title?: string | null
           updated_at?: string
           usage_description?: string | null
           usage_start_date?: string | null
