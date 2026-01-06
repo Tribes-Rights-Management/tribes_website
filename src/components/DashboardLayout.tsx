@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { LogOut, Eye } from "lucide-react";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -66,16 +65,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Footer */}
         <div className="p-3 border-t border-border/40">
           {isAdminView && (
-            <div className="flex items-center gap-1.5 px-3 py-2 text-xs text-muted-foreground mb-2">
-              <Eye className="w-3 h-3" />
-              View Only
-            </div>
+            <p className="px-3 py-2 text-xs text-muted-foreground mb-2">
+              View only
+            </p>
           )}
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-2 w-full px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-muted/30"
+            className="w-full px-3 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md text-left"
           >
-            <LogOut className="w-4 h-4" />
             Sign out
           </button>
         </div>

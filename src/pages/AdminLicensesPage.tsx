@@ -12,7 +12,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search } from "lucide-react";
 import { format } from "date-fns";
 
 const ADMIN_STATUSES: RequestStatus[] = [
@@ -101,13 +100,11 @@ export default function AdminLicensesPage() {
 
         {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <div className="flex-1">
             <Input
               placeholder="Search by name, email, track, License ID…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
             />
           </div>
           <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus | "all")}>
