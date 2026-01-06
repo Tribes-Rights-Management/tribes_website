@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
+import MarketingPage from "./pages/MarketingPage";
 import AuthPage from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
@@ -41,11 +42,11 @@ function AppRoutes() {
       <Route path="/auth" element={user ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace /> : <AuthPage />} />
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       
-      {/* Root redirect based on role */}
+      {/* Root: marketing page for public, redirect for authenticated */}
       <Route path="/" element={
         user 
           ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
-          : <Navigate to="/auth" replace />
+          : <MarketingPage />
       } />
       
       {/* User Portal Routes */}
