@@ -5,7 +5,7 @@ export default function MarketingPage() {
   return (
     <PublicLayout>
       {/* Hero - Near-black (#111214) */}
-      <section className="bg-[#111214] pt-36 pb-28 md:pt-44 md:pb-36 lg:pt-52 lg:pb-44">
+      <section className="relative bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[720px]">
             {/* Logo */}
@@ -13,18 +13,18 @@ export default function MarketingPage() {
               TRIBES
             </p>
             
-            {/* H1 - Reduced weight for institutional feel */}
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.1] tracking-[-0.02em] text-white mb-10">
+            {/* H1 - Institutional weight, refined letter-spacing */}
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-12">
               Rights management, built to last.
             </h1>
             
             {/* Subhead - Generous spacing, soft gray */}
-            <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-14 max-w-[560px]">
+            <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
               A private publishing administration firm focused on accuracy, continuity, and long-term record integrity.
             </p>
             
             {/* Divider */}
-            <div className="w-16 h-px bg-white/12 mb-8" />
+            <div className="w-16 h-px bg-white/10 mb-8" />
             
             {/* Micro-line */}
             <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
@@ -40,10 +40,15 @@ export default function MarketingPage() {
             </a>
           </div>
         </div>
+        
+        {/* Soft gradient fade into light body */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, transparent, hsl(0 0% 100%))"
+          }}
+        />
       </section>
-
-      {/* Subtle divider transition */}
-      <div className="h-px bg-border/50" />
 
       {/* Who It's For */}
       <section className="py-24 md:py-32">
