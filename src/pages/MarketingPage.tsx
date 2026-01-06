@@ -221,37 +221,47 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Features & Benefits */}
+      {/* Music as an Asset Class */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
-            What You Get
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-12" style={{ color: '#6A6D70' }}>
+            Music as an Asset Class
           </h2>
-          <div className="max-w-[640px] space-y-6">
-            <div className="flex items-start gap-4">
-              <span className="text-muted-foreground">—</span>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Structured requests (no missing fields)
+          
+          <div className="max-w-[720px]">
+            <p className="text-lg md:text-xl font-medium leading-[1.5] text-foreground mb-2">
+              Publishing administration is not clerical work.
+            </p>
+            <p className="text-lg md:text-xl font-medium leading-[1.5] text-foreground mb-10">
+              It is long-term asset management.
+            </p>
+            
+            <p className="text-base leading-[1.8] text-muted-foreground mb-12 max-w-[640px]">
+              At Tribes, we treat music as a durable financial asset—one that requires structured rights administration, disciplined data stewardship, and continuous financial oversight.
+            </p>
+            
+            <p className="text-sm font-medium text-foreground mb-6">
+              That means:
+            </p>
+            
+            <div className="space-y-5 mb-12">
+              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
+                Rights and ownership are managed with the same rigor as any investable asset
+              </p>
+              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
+                Metadata, splits, and agreements are maintained as permanent financial records
+              </p>
+              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
+                Income streams are tracked, reconciled, and reported with continuity over time
+              </p>
+              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
+                Documentation is preserved to support audits, transactions, and future valuation
               </p>
             </div>
-            <div className="flex items-start gap-4">
-              <span className="text-muted-foreground">—</span>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Clear status at every step
-              </p>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-muted-foreground">—</span>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Permanent access to executed documents
-              </p>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-muted-foreground">—</span>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Identifiers for reference and audit
-              </p>
-            </div>
+            
+            <p className="text-base leading-[1.8] text-muted-foreground max-w-[640px]">
+              For creators and rights holders, this approach delivers clarity, defensibility, and long-term confidence—so the creative work can endure, perform, and compound.
+            </p>
           </div>
         </div>
       </section>
