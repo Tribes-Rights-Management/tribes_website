@@ -2,11 +2,14 @@ import { Database } from "@/integrations/supabase/types";
 
 // Database types
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
-export type LicenseRequest = Database["public"]["Tables"]["license_requests"]["Row"];
+export type LicensePackage = Database["public"]["Tables"]["license_packages"]["Row"];
+// Alias for backward compatibility
+export type LicenseRequest = LicensePackage;
 export type License = Database["public"]["Tables"]["licenses"]["Row"];
 export type Clause = Database["public"]["Tables"]["clauses"]["Row"];
 export type GeneratedDocument = Database["public"]["Tables"]["generated_documents"]["Row"];
 export type StatusHistory = Database["public"]["Tables"]["status_history"]["Row"];
+export type UserRole = Database["public"]["Tables"]["user_roles"]["Row"];
 
 // Enum types
 export type AppRole = "super_admin" | "admin_view" | "user";

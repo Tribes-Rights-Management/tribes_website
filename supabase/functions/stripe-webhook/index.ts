@@ -64,7 +64,7 @@ serve(async (req) => {
 
       // Look up by license_id (not database id)
       const { data: request, error: requestError } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .select('*')
         .eq('license_id', licenseId)
         .single();
@@ -103,7 +103,7 @@ serve(async (req) => {
       }
 
       const { error: updateError } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update(updateData)
         .eq('id', request.id);
 

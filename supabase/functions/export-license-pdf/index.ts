@@ -71,7 +71,7 @@ serve(async (req) => {
     let request;
     if (license_id) {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("*")
         .eq("license_id", license_id)
         .single();
@@ -80,7 +80,7 @@ serve(async (req) => {
     
     if (!request && requestId) {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("*")
         .eq("id", requestId)
         .single();

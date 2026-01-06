@@ -32,7 +32,7 @@ serve(async (req) => {
     
     if (license_id) {
       const { data, error } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .select('*')
         .eq('license_id', license_id)
         .single();
@@ -41,7 +41,7 @@ serve(async (req) => {
     
     if (!request && request_id) {
       const { data, error } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .select('*')
         .eq('id', request_id)
         .single();
@@ -95,7 +95,7 @@ serve(async (req) => {
 
     // Update request with signing info
     const { error: updateError } = await supabase
-      .from('license_requests')
+      .from('license_packages')
       .update({
         status: 'awaiting_signature',
         signature_status: 'sent',

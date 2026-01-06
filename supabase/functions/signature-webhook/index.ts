@@ -51,21 +51,21 @@ serve(async (req) => {
       // Priority: license_id > request_id > envelope_id
       if (licenseId) {
         const { data } = await supabase
-          .from('license_requests')
+          .from('license_packages')
           .select('*')
           .eq('license_id', licenseId)
           .single();
         request = data;
       } else if (request_id) {
         const { data } = await supabase
-          .from('license_requests')
+          .from('license_packages')
           .select('*')
           .eq('id', request_id)
           .single();
         request = data;
       } else if (envelope_id) {
         const { data } = await supabase
-          .from('license_requests')
+          .from('license_packages')
           .select('*')
           .eq('signing_envelope_id', envelope_id)
           .single();
@@ -140,7 +140,7 @@ serve(async (req) => {
       }
 
       const { error: updateError } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update(updateData)
         .eq('id', request.id);
 
@@ -174,14 +174,14 @@ serve(async (req) => {
       
       if (licenseId) {
         const { data } = await supabase
-          .from('license_requests')
+          .from('license_packages')
           .select('id, status, license_id')
           .eq('license_id', licenseId)
           .single();
         request = data;
       } else if (envelope_id) {
         const { data } = await supabase
-          .from('license_requests')
+          .from('license_packages')
           .select('id, status, license_id')
           .eq('signing_envelope_id', envelope_id)
           .single();
@@ -190,7 +190,7 @@ serve(async (req) => {
 
       if (request) {
         await supabase
-          .from('license_requests')
+          .from('license_packages')
           .update({ signature_status: event_type })
           .eq('id', request.id);
 

@@ -73,7 +73,7 @@ export default function AdminRequestDetailPage() {
   async function fetchRequestData(requestId: string) {
     try {
       const [requestRes, licensesRes, historyRes, docsRes, notesRes, typesRes] = await Promise.all([
-        supabase.from("license_requests").select("*").eq("id", requestId).single(),
+        supabase.from("license_packages").select("*").eq("id", requestId).single(),
         supabase.from("licenses").select("*").eq("request_id", requestId).order("created_at"),
         supabase.from("status_history").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
         supabase.from("generated_documents").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
@@ -102,7 +102,7 @@ export default function AdminRequestDetailPage() {
     
     setIsUpdating(true);
     try {
-      await supabase.from("license_requests").update({ status: newStatus }).eq("id", request.id);
+      await supabase.from("license_packages").update({ status: newStatus }).eq("id", request.id);
       await supabase.from("status_history").insert({
         request_id: request.id,
         from_status: request.status,

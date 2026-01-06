@@ -32,7 +32,7 @@ export default function PortalDashboard() {
   async function fetchRequests() {
     try {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("*")
         .eq("user_id", user!.id)
         .neq("status", "draft")

@@ -101,7 +101,7 @@ export type Database = {
             foreignKeyName: "generated_documents_request_id_fkey"
             columns: ["request_id"]
             isOneToOne: false
-            referencedRelation: "license_requests"
+            referencedRelation: "license_packages"
             referencedColumns: ["id"]
           },
         ]
@@ -133,12 +133,12 @@ export type Database = {
             foreignKeyName: "internal_notes_request_id_fkey"
             columns: ["request_id"]
             isOneToOne: false
-            referencedRelation: "license_requests"
+            referencedRelation: "license_packages"
             referencedColumns: ["id"]
           },
         ]
       }
-      license_requests: {
+      license_packages: {
         Row: {
           additional_product_info: string | null
           additional_track_info: string | null
@@ -408,7 +408,7 @@ export type Database = {
             foreignKeyName: "licenses_request_id_fkey"
             columns: ["request_id"]
             isOneToOne: false
-            referencedRelation: "license_requests"
+            referencedRelation: "license_packages"
             referencedColumns: ["id"]
           },
         ]
@@ -485,6 +485,7 @@ export type Database = {
           created_at: string
           from_status: Database["public"]["Enums"]["request_status"] | null
           id: string
+          license_id: string | null
           notes: string | null
           request_id: string
           to_status: Database["public"]["Enums"]["request_status"]
@@ -494,6 +495,7 @@ export type Database = {
           created_at?: string
           from_status?: Database["public"]["Enums"]["request_status"] | null
           id?: string
+          license_id?: string | null
           notes?: string | null
           request_id: string
           to_status: Database["public"]["Enums"]["request_status"]
@@ -503,16 +505,24 @@ export type Database = {
           created_at?: string
           from_status?: Database["public"]["Enums"]["request_status"] | null
           id?: string
+          license_id?: string | null
           notes?: string | null
           request_id?: string
           to_status?: Database["public"]["Enums"]["request_status"]
         }
         Relationships: [
           {
+            foreignKeyName: "status_history_license_id_fkey"
+            columns: ["license_id"]
+            isOneToOne: false
+            referencedRelation: "licenses"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "status_history_request_id_fkey"
             columns: ["request_id"]
             isOneToOne: false
-            referencedRelation: "license_requests"
+            referencedRelation: "license_packages"
             referencedColumns: ["id"]
           },
         ]
@@ -544,6 +554,10 @@ export type Database = {
     }
     Functions: {
       generate_license_id_v2: { Args: never; Returns: string }
+      get_package_derived_status: {
+        Args: { p_package_id: string }
+        Returns: Database["public"]["Enums"]["request_status"]
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]

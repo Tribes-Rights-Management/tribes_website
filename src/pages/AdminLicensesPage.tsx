@@ -38,7 +38,7 @@ export default function AdminLicensesPage() {
   async function fetchRequests() {
     try {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("*")
         .neq("status", "draft")
         .order("submitted_at", { ascending: false });

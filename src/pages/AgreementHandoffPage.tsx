@@ -19,7 +19,7 @@ export default function AgreementHandoffPage() {
   async function fetchRequest(requestId: string) {
     try {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("status, signing_url")
         .eq("id", requestId)
         .single();

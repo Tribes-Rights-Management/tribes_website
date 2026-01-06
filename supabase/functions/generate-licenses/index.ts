@@ -35,7 +35,7 @@ Deno.serve(async (req) => {
 
     // Fetch the license request
     const { data: request, error: requestError } = await supabase
-      .from("license_requests")
+      .from("license_packages")
       .select("*")
       .eq("id", request_id)
       .single();
@@ -151,7 +151,7 @@ Deno.serve(async (req) => {
     const packageReference = createdLicenses[0]?.license_id;
     
     await supabase
-      .from("license_requests")
+      .from("license_packages")
       .update({ 
         package_reference: packageReference,
         license_fee: totalFee,
