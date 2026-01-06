@@ -12,8 +12,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Navigation - Near-black header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0E0E10] border-b border-white/[0.08]">
+      {/* Navigation - Near-black header (#111214) */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#111214] border-b border-white/[0.06]">
         <nav className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-14">
             <Link to="/" className="text-sm font-medium text-white/90">
