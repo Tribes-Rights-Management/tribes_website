@@ -46,6 +46,29 @@ const WORKFLOW_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
   done: [],
 };
 
+const LICENSE_STATUS_ORDER: RequestStatus[] = [
+  "submitted",
+  "in_review", 
+  "needs_info",
+  "approved",
+  "awaiting_signature",
+  "awaiting_payment",
+  "done",
+];
+
+function getDerivedPackageStatus(licenses: License[]): RequestStatus | null {
+  if (licenses.length === 0) return null;
+  
+  let lowestIndex = LICENSE_STATUS_ORDER.length - 1;
+  for (const license of licenses) {
+    const idx = LICENSE_STATUS_ORDER.indexOf(license.status);
+    if (idx !== -1 && idx < lowestIndex) {
+      lowestIndex = idx;
+    }
+  }
+  return LICENSE_STATUS_ORDER[lowestIndex];
+}
+
 export default function AdminRequestDetailPage() {
   const { id } = useParams();
   const { user, isSuperAdmin, isAdminView } = useAuth();
@@ -65,6 +88,7 @@ export default function AdminRequestDetailPage() {
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [selectedLicenseForStatus, setSelectedLicenseForStatus] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -97,22 +121,27 @@ export default function AdminRequestDetailPage() {
     }
   }
 
-  async function updateStatus(newStatus: RequestStatus) {
+  async function updateLicenseStatus(licenseId: string, newStatus: RequestStatus) {
     if (!request || !user || !isSuperAdmin) return;
+    
+    const license = licenses.find(l => l.id === licenseId);
+    if (!license) return;
     
     setIsUpdating(true);
     try {
-      await supabase.from("license_packages").update({ status: newStatus }).eq("id", request.id);
+      await supabase.from("licenses").update({ status: newStatus }).eq("id", licenseId);
       await supabase.from("status_history").insert({
         request_id: request.id,
-        from_status: request.status,
+        license_id: licenseId,
+        from_status: license.status,
         to_status: newStatus,
         actor_user_id: user.id,
       });
-      toast({ title: "Status updated" });
+      toast({ title: "License status updated" });
+      setSelectedLicenseForStatus(null);
       fetchRequestData(request.id);
     } catch (error) {
-      console.error("Error updating status:", error);
+      console.error("Error updating license status:", error);
       toast({ title: "Error", description: "Failed to update status", variant: "destructive" });
     } finally {
       setIsUpdating(false);
@@ -139,9 +168,8 @@ export default function AdminRequestDetailPage() {
     }
   }
 
-  async function copyLicenseId() {
-    if (!request?.license_id) return;
-    await navigator.clipboard.writeText(request.license_id);
+  async function copyId(value: string) {
+    await navigator.clipboard.writeText(value);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -167,13 +195,15 @@ export default function AdminRequestDetailPage() {
     }
   }
 
-  const allowedTransitions = request ? WORKFLOW_TRANSITIONS[request.status] : [];
   const selectedTypeNames = (request?.selected_license_types || [])
     .map(code => licenseTypes.find(t => t.code === code)?.name || code);
   const canGenerateLicenses = request && isSuperAdmin && 
     ["in_review", "approved"].includes(request.status) && 
     licenses.length === 0 && 
     (request.selected_license_types?.length || 0) > 0;
+  
+  const derivedPackageStatus = getDerivedPackageStatus(licenses);
+  const hasMultipleLicenses = licenses.length > 1;
 
   if (isLoading) {
     return (
@@ -199,49 +229,182 @@ export default function AdminRequestDetailPage() {
           ← Dashboard
         </button>
 
-        {/* Header */}
+        {/* Header with Package ID */}
         <div className="mb-12">
+          {request.package_reference && (
+            <div className="mb-4">
+              <p className="text-[12px] text-muted-foreground mb-1">Package ID</p>
+              <p 
+                className="text-[15px] font-mono cursor-pointer hover:text-muted-foreground transition-colors"
+                onClick={() => copyId(request.package_reference!)}
+                title="Click to copy"
+              >
+                {request.package_reference} {copied && "· Copied"}
+              </p>
+              <p className="text-[11px] text-muted-foreground mt-1">System-generated. Not editable.</p>
+            </div>
+          )}
+          
           <div className="flex items-center gap-4 mb-2">
-            <StatusBadge status={request.status} />
+            {derivedPackageStatus && licenses.length > 0 ? (
+              <div>
+                <div className="flex items-center gap-2">
+                  <StatusBadge status={derivedPackageStatus} />
+                  <span className="text-[11px] text-muted-foreground">Package Status (Derived)</span>
+                </div>
+                <p className="text-[11px] text-muted-foreground mt-1">
+                  Calculated from the lowest-status license in this package.
+                </p>
+              </div>
+            ) : (
+              <StatusBadge status={request.status} />
+            )}
             {isAdminView && <span className="text-[12px] text-muted-foreground">View only</span>}
           </div>
-          
-          {request.license_id && (
-            <p 
-              className="text-[13px] text-muted-foreground font-mono cursor-pointer hover:text-foreground transition-colors"
-              onClick={copyLicenseId}
-              title="Click to copy"
-            >
-              {request.license_id} {copied && "· Copied"}
-            </p>
-          )}
         </div>
 
         {/* Single-column reading layout */}
         <div className="space-y-12">
           
-          {/* Admin Controls */}
-          {(isSuperAdmin || isAdminView) && (
-            <section className="space-y-6">
-              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Admin</h3>
+          {/* Package Summary with Licenses */}
+          {licenses.length > 0 && (
+            <section className="space-y-4">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">
+                License Package
+              </h3>
               
-              <div className="space-y-4">
-                {isSuperAdmin && allowedTransitions.length > 0 && (
-                  <div>
-                    <p className="text-[12px] text-muted-foreground mb-1.5">Status</p>
-                    <Select onValueChange={(v) => updateStatus(v as RequestStatus)} disabled={isUpdating}>
-                      <SelectTrigger className="w-48 h-9">
-                        <SelectValue placeholder="Change status…" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {allowedTransitions.map(s => (
-                          <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+              {hasMultipleLicenses && (
+                <div className="py-3 px-4 bg-muted/30 rounded text-[12px] text-muted-foreground leading-relaxed">
+                  <p>This package contains multiple independent licenses.</p>
+                  <p className="mt-1">Each license is governed by its own License ID and terms.</p>
+                </div>
+              )}
+              
+              <div className="space-y-6 mt-4">
+                {licenses.map(license => {
+                  const typeName = licenseTypes.find(t => t.code === license.license_type_code)?.name || license.license_type_code;
+                  const allowedTransitions = WORKFLOW_TRANSITIONS[license.status] || [];
+                  const isExpanded = selectedLicenseForStatus === license.id;
+                  
+                  return (
+                    <div key={license.id} className="py-4 border-b border-border/30 last:border-0">
+                      {/* License ID - Prominent */}
+                      <div className="mb-3">
+                        <p className="text-[12px] text-muted-foreground mb-0.5">License ID</p>
+                        <p 
+                          className="text-[14px] font-mono cursor-pointer hover:text-muted-foreground transition-colors"
+                          onClick={() => copyId(license.license_id)}
+                          title="Click to copy"
+                        >
+                          {license.license_id}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">System-generated. Not editable.</p>
+                      </div>
+                      
+                      {/* License Type */}
+                      <div className="mb-3">
+                        <p className="text-[12px] text-muted-foreground mb-0.5">License Type</p>
+                        <p className="text-[14px]">{typeName}</p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">System-generated. Not editable.</p>
+                      </div>
+                      
+                      {/* Status with controls */}
+                      <div className="mb-3">
+                        <p className="text-[12px] text-muted-foreground mb-1">Status</p>
+                        <div className="flex items-center gap-3">
+                          <StatusBadge status={license.status} />
+                          
+                          {isSuperAdmin && allowedTransitions.length > 0 && (
+                            <button
+                              onClick={() => setSelectedLicenseForStatus(isExpanded ? null : license.id)}
+                              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              {isExpanded ? "Cancel" : "Change status"}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      
+                      {/* Status change controls */}
+                      {isSuperAdmin && isExpanded && allowedTransitions.length > 0 && (
+                        <div className="mt-4 py-3 px-4 bg-muted/20 rounded space-y-3">
+                          <p className="text-[12px] text-muted-foreground">
+                            This action applies only to License ID {license.license_id}.
+                          </p>
+                          
+                          <Select 
+                            onValueChange={(v) => updateLicenseStatus(license.id, v as RequestStatus)} 
+                            disabled={isUpdating}
+                          >
+                            <SelectTrigger className="w-48 h-9">
+                              <SelectValue placeholder="Select new status…" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {allowedTransitions.map(s => (
+                                <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          
+                          {allowedTransitions.includes("done") && (
+                            <p className="text-[11px] text-muted-foreground">
+                              Marking this license as Done does not complete the entire package unless all licenses are Done.
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Additional license details */}
+                      {(license.term || license.territory || license.fee) && (
+                        <div className="mt-3 pt-3 border-t border-border/20 space-y-2">
+                          {license.term && (
+                            <div className="flex justify-between text-[13px]">
+                              <span className="text-muted-foreground">Term</span>
+                              <span>{license.term}</span>
+                            </div>
+                          )}
+                          {license.territory && (
+                            <div className="flex justify-between text-[13px]">
+                              <span className="text-muted-foreground">Territory</span>
+                              <span>{license.territory}</span>
+                            </div>
+                          )}
+                          {license.fee && (
+                            <div className="flex justify-between text-[13px]">
+                              <span className="text-muted-foreground">Fee</span>
+                              <span>${license.fee.toFixed(2)}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {/* Helper text for license context */}
+                      <p className="text-[11px] text-muted-foreground mt-4">
+                        This license is part of a License Package.
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Changes to this license affect only the License ID shown above.
+                      </p>
+                    </div>
+                  );
+                })}
+                
+                {/* Total fee */}
+                {request?.license_fee && (
+                  <div className="pt-2">
+                    <p className="text-[14px] font-medium">Total Package Fee: ${request.license_fee.toFixed(2)}</p>
                   </div>
                 )}
+              </div>
+            </section>
+          )}
 
+          {/* Admin Controls - Generate Licenses */}
+          {(isSuperAdmin || isAdminView) && (
+            <section className="space-y-6">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Admin Actions</h3>
+              
+              <div className="space-y-4">
                 <div>
                   <p className="text-[12px] text-muted-foreground mb-1.5">Selected License Types</p>
                   {selectedTypeNames.length > 0 ? (
@@ -267,45 +430,18 @@ export default function AdminRequestDetailPage() {
                   </div>
                 )}
 
-                {isSuperAdmin && request.status === "done" && (
-                  <div className="pt-2">
+                {isSuperAdmin && licenses.length > 0 && derivedPackageStatus === "done" && (
+                  <div className="pt-2 space-y-2">
                     <button
                       onClick={() => setShowPreview(true)}
                       className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      Preview agreement
+                      Export license package
                     </button>
-                  </div>
-                )}
-              </div>
-            </section>
-          )}
-
-          {/* Individual Licenses */}
-          {licenses.length > 0 && (
-            <section className="space-y-4">
-              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">
-                License Package ({licenses.length} License{licenses.length !== 1 ? "s" : ""})
-              </h3>
-              <div className="space-y-3">
-                {licenses.map(license => {
-                  const typeName = licenseTypes.find(t => t.code === license.license_type_code)?.name || license.license_type_code;
-                  return (
-                    <div key={license.id} className="py-2 border-b border-border/30 last:border-0">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[13px] font-mono text-muted-foreground">{license.license_id}</span>
-                        <span className="text-[12px] text-muted-foreground">{STATUS_LABELS[license.status] || license.status}</span>
-                      </div>
-                      <p className="text-[14px]">{typeName}</p>
-                      {license.fee && (
-                        <p className="text-[13px] text-muted-foreground mt-0.5">${license.fee.toFixed(2)}</p>
-                      )}
-                    </div>
-                  );
-                })}
-                {request?.license_fee && (
-                  <div className="pt-2">
-                    <p className="text-[14px] font-medium">Total: ${request.license_fee.toFixed(2)}</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      This export includes all licenses in the package.
+                      Each license remains independently enforceable.
+                    </p>
                   </div>
                 )}
               </div>
@@ -445,11 +581,17 @@ export default function AdminRequestDetailPage() {
             <section className="space-y-4">
               <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">History</h3>
               <div className="space-y-2">
-                {history.slice(0, 10).map(h => (
-                  <p key={h.id} className="text-[13px] text-muted-foreground">
-                    {format(new Date(h.created_at), "MMM d, yyyy")} — {h.from_status ? `${STATUS_LABELS[h.from_status]} → ` : ""}{STATUS_LABELS[h.to_status]}
-                  </p>
-                ))}
+                {history.slice(0, 10).map(h => {
+                  const licenseRef = h.license_id ? licenses.find(l => l.id === h.license_id)?.license_id : null;
+                  return (
+                    <p key={h.id} className="text-[13px] text-muted-foreground">
+                      {format(new Date(h.created_at), "MMM d, yyyy")} — 
+                      {licenseRef && <span className="font-mono"> {licenseRef}:</span>}
+                      {h.from_status ? ` ${STATUS_LABELS[h.from_status]} → ` : " "}
+                      {STATUS_LABELS[h.to_status]}
+                    </p>
+                  );
+                })}
               </div>
             </section>
           )}
