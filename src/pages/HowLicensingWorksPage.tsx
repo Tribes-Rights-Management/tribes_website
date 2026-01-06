@@ -96,6 +96,10 @@ export default function HowLicensingWorksPage() {
                 <p className="leading-relaxed">
                   No license is generated automatically. Every request is reviewed.
                 </p>
+                <p className="leading-relaxed">
+                  You don't need to be a legal expert to submit a request—only clear about 
+                  how the music will be used.
+                </p>
               </div>
             </div>
           </div>
