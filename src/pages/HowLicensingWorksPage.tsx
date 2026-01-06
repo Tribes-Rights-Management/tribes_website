@@ -300,20 +300,6 @@ export default function HowLicensingWorksPage() {
           </div>
         </div>
       </section>
-
-      {/* Footer branding */}
-      <section className="pb-24 md:pb-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[640px]">
-            <p className="text-xs text-muted-foreground/40">
-              © {new Date().getFullYear()} Tribes Rights Management LLC
-            </p>
-            <p className="text-xs text-muted-foreground/40 mt-1">
-              Built for creators. Powered by precision.
-            </p>
-          </div>
-        </div>
-      </section>
     </PublicLayout>
   );
 }

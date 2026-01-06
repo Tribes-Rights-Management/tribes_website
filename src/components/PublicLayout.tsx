@@ -57,6 +57,11 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         </nav>
       </header>
 
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          MAIN CONTENT - Page components render here
+          IMPORTANT: Do not render <footer> or footer-like content inside page components.
+          Footer belongs to this layout only.
+          ═══════════════════════════════════════════════════════════════════════════ */}
       <main>{children}</main>
 
       {/* Footer */}
