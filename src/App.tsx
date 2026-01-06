@@ -10,6 +10,7 @@ import AuthPage from "./pages/AuthPage";
 import PortalDashboard from "./pages/PortalDashboard";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
+import AgreementHandoffPage from "./pages/AgreementHandoffPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminRequestDetailPage from "./pages/AdminRequestDetailPage";
 import NotFound from "./pages/NotFound";
@@ -42,6 +43,7 @@ function AppRoutes() {
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
       <Route path="/portal/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
       <Route path="/portal/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/portal/request/:id/sign" element={<ProtectedRoute><AgreementHandoffPage /></ProtectedRoute>} />
       <Route path="/portal/request/:id/edit" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
       
       {/* Legacy routes - redirect to portal */}
