@@ -151,6 +151,7 @@ export type Database = {
           agreement_terms: boolean | null
           appears_multiple_times: boolean | null
           created_at: string
+          created_by: string | null
           currency: string | null
           distributor: string | null
           executed_at: string | null
@@ -194,6 +195,7 @@ export type Database = {
           track_isrc: string | null
           track_title: string | null
           updated_at: string
+          updated_by: string | null
           usage_description: string | null
           usage_start_date: string | null
           user_id: string
@@ -211,6 +213,7 @@ export type Database = {
           agreement_terms?: boolean | null
           appears_multiple_times?: boolean | null
           created_at?: string
+          created_by?: string | null
           currency?: string | null
           distributor?: string | null
           executed_at?: string | null
@@ -254,6 +257,7 @@ export type Database = {
           track_isrc?: string | null
           track_title?: string | null
           updated_at?: string
+          updated_by?: string | null
           usage_description?: string | null
           usage_start_date?: string | null
           user_id: string
@@ -271,6 +275,7 @@ export type Database = {
           agreement_terms?: boolean | null
           appears_multiple_times?: boolean | null
           created_at?: string
+          created_by?: string | null
           currency?: string | null
           distributor?: string | null
           executed_at?: string | null
@@ -314,6 +319,7 @@ export type Database = {
           track_isrc?: string | null
           track_title?: string | null
           updated_at?: string
+          updated_by?: string | null
           usage_description?: string | null
           usage_start_date?: string | null
           user_id?: string
@@ -363,45 +369,66 @@ export type Database = {
       licenses: {
         Row: {
           created_at: string
+          created_by: string | null
+          executed_at: string | null
           fee: number | null
           grant_of_rights: string | null
           id: string
+          immutable_lock_at: string | null
           license_id: string
           license_type_code: string
+          paid_at: string | null
+          payment_confirmed: boolean
           request_id: string
           restrictions: string | null
+          signature_completed: boolean
           status: Database["public"]["Enums"]["request_status"]
           term: string | null
           territory: string | null
           updated_at: string
+          updated_by: string | null
         }
         Insert: {
           created_at?: string
+          created_by?: string | null
+          executed_at?: string | null
           fee?: number | null
           grant_of_rights?: string | null
           id?: string
+          immutable_lock_at?: string | null
           license_id: string
           license_type_code: string
+          paid_at?: string | null
+          payment_confirmed?: boolean
           request_id: string
           restrictions?: string | null
+          signature_completed?: boolean
           status?: Database["public"]["Enums"]["request_status"]
           term?: string | null
           territory?: string | null
           updated_at?: string
+          updated_by?: string | null
         }
         Update: {
           created_at?: string
+          created_by?: string | null
+          executed_at?: string | null
           fee?: number | null
           grant_of_rights?: string | null
           id?: string
+          immutable_lock_at?: string | null
           license_id?: string
           license_type_code?: string
+          paid_at?: string | null
+          payment_confirmed?: boolean
           request_id?: string
           restrictions?: string | null
+          signature_completed?: boolean
           status?: Database["public"]["Enums"]["request_status"]
           term?: string | null
           territory?: string | null
           updated_at?: string
+          updated_by?: string | null
         }
         Relationships: [
           {
@@ -559,6 +586,10 @@ export type Database = {
         Args: { p_package_id: string }
         Returns: Database["public"]["Enums"]["request_status"]
       }
+      get_status_order: {
+        Args: { p_status: Database["public"]["Enums"]["request_status"] }
+        Returns: number
+      }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -586,6 +617,30 @@ export type Database = {
       is_admin_v2: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin_v2: { Args: { _user_id: string }; Returns: boolean }
+      rpc_admin_set_license_status_v1: {
+        Args: {
+          p_license_id_human: string
+          p_new_status: Database["public"]["Enums"]["request_status"]
+          p_notes?: string
+        }
+        Returns: Json
+      }
+      rpc_complete_license_v1: {
+        Args: { p_license_id_human: string }
+        Returns: Json
+      }
+      rpc_mark_payment_confirmed_v1: {
+        Args: { p_license_id_human: string; p_payment_intent_id?: string }
+        Returns: Json
+      }
+      rpc_mark_signature_complete_v1: {
+        Args: { p_license_id_human: string; p_signature_event_id?: string }
+        Returns: Json
+      }
+      rpc_submit_license_package_v1: {
+        Args: { p_payload: Json }
+        Returns: Json
+      }
     }
     Enums: {
       account_status: "pending" | "active" | "rejected"
