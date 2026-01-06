@@ -15,6 +15,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // Dynamic copyright year range - Do not hardcode years. This range is intentionally dynamic.
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const copyrightText = currentYear > startYear 
+    ? `© ${startYear}–${currentYear} Tribes Rights Management LLC. All rights reserved.`
+    : `© ${startYear} Tribes Rights Management LLC. All rights reserved.`;
+
   const navItems = isAnyAdmin
     ? [
         { label: "Dashboard", path: "/admin" },
@@ -94,7 +101,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
         <footer className="px-8 py-4 border-t border-border/40">
           <p className="text-xs text-muted-foreground">
-            © 2026 Tribes Rights Management LLC. All rights reserved.
+            {copyrightText}
           </p>
           {isAnyAdmin && <AdminFooterNote />}
         </footer>
