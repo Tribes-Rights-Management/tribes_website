@@ -4,7 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
   SelectContent,
@@ -57,6 +56,7 @@ export default function AdminLicensesPage() {
   const filteredRequests = requests.filter((request) => {
     const matchesSearch =
       searchQuery === "" ||
+      request.license_id?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.licensee_legal_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.first_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       request.last_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,9 +80,17 @@ export default function AdminLicensesPage() {
   const isFirstTime = requests.length === 0;
   const isFilteredEmpty = !isFirstTime && filteredRequests.length === 0;
 
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="max-w-5xl opacity-0" />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
-      <div className="max-w-5xl">
+      <div className="max-w-5xl animate-content-fade">
         {/* Page Header */}
         <div className="mb-6">
           <h1 className="mb-1">Licenses</h1>
@@ -96,7 +104,7 @@ export default function AdminLicensesPage() {
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search by name, email, track, or artist…"
+              placeholder="Search by name, email, track, License ID…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-9"
@@ -119,13 +127,7 @@ export default function AdminLicensesPage() {
         </div>
 
         {/* List */}
-        {isLoading ? (
-          <div className="space-y-3">
-            {[...Array(6)].map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full" />
-            ))}
-          </div>
-        ) : isFirstTime ? (
+        {isFirstTime ? (
           <div className="py-16">
             <p className="text-sm font-medium mb-1">No license activity yet</p>
             <p className="text-sm text-muted-foreground">
@@ -142,10 +144,10 @@ export default function AdminLicensesPage() {
         ) : (
           <div className="space-y-0">
             {/* Header */}
-            <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
+            <div className="hidden md:grid grid-cols-[140px_100px_1.2fr_1fr_1fr_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
+              <span>License ID</span>
               <span>Submitted</span>
               <span>Requester</span>
-              <span>Email</span>
               <span>Track</span>
               <span>Artist</span>
               <span>Status</span>
@@ -177,7 +179,8 @@ export default function AdminLicensesPage() {
                   }}
                 >
                   {/* Desktop */}
-                  <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 items-center w-full">
+                  <div className="hidden md:grid grid-cols-[140px_100px_1.2fr_1fr_1fr_100px] gap-4 items-center w-full">
+                    <span className="text-xs text-muted-foreground font-mono">{request.license_id || "—"}</span>
                     <span className="text-xs text-muted-foreground">{submittedDate}</span>
                     <div className="min-w-0">
                       <p className="text-sm font-medium truncate">{requesterName}</p>
@@ -185,9 +188,6 @@ export default function AdminLicensesPage() {
                         <p className="text-xs text-muted-foreground truncate">{request.organization}</p>
                       )}
                     </div>
-                    <span className="text-xs text-muted-foreground truncate">
-                      {request.licensee_email || "—"}
-                    </span>
                     <span className="text-sm font-medium truncate">{trackTitle}</span>
                     <span className="text-xs text-muted-foreground truncate">
                       {request.recording_artist || "—"}
@@ -198,12 +198,12 @@ export default function AdminLicensesPage() {
                   {/* Mobile */}
                   <div className="md:hidden flex items-center justify-between w-full">
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-3 mb-1">
+                      <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium truncate">{trackTitle}</span>
                         <StatusBadge status={request.status} />
                       </div>
                       <p className="text-xs text-muted-foreground">{requesterName}</p>
-                      <p className="text-xs text-muted-foreground">{submittedDate}</p>
+                      <p className="text-xs text-muted-foreground font-mono">{request.license_id || submittedDate}</p>
                     </div>
                   </div>
                 </div>

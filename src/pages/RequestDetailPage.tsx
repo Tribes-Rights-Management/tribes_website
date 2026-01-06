@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { AppLayout } from "@/components/AppLayout";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { LicenseRequest, GeneratedDocument, STATUS_LABELS, STATUS_DESCRIPTIONS } from "@/types";
-import { ArrowLeft, Download, Edit } from "lucide-react";
+import { LicenseRequest, GeneratedDocument, STATUS_DESCRIPTIONS } from "@/types";
+import { ArrowLeft, Download, Edit, Copy, Check } from "lucide-react";
 import { format } from "date-fns";
 
 export default function RequestDetailPage() {
@@ -17,6 +16,8 @@ export default function RequestDetailPage() {
   const [request, setRequest] = useState<LicenseRequest | null>(null);
   const [documents, setDocuments] = useState<GeneratedDocument[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -41,20 +42,49 @@ export default function RequestDetailPage() {
     }
   }
 
+  async function copyLicenseId() {
+    if (!request?.license_id) return;
+    await navigator.clipboard.writeText(request.license_id);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function handleExport() {
+    if (!request) return;
+    setIsExporting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("export-license-pdf", {
+        body: { requestId: request.id },
+      });
+
+      if (error) throw error;
+
+      // Create and download HTML as printable document
+      const blob = new Blob([data.html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = data.filename.replace(".pdf", ".html");
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error("Export error:", error);
+      toast({ title: "Error", description: error.message || "Failed to export", variant: "destructive" });
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
   if (isLoading) {
     return (
-      <AppLayout>
-        <div className="max-w-3xl mx-auto">
-          <Skeleton className="h-6 w-48 mb-8" />
-          <Skeleton className="h-64 w-full" />
-        </div>
-      </AppLayout>
+      <DashboardLayout>
+        <div className="max-w-3xl opacity-0" />
+      </DashboardLayout>
     );
   }
 
   if (!request) return null;
 
-  const shortId = request.id.slice(0, 8).toUpperCase();
   const canEdit = request.status === "needs_info";
   const showSignPayButton = request.status === "awaiting_signature" || request.status === "awaiting_payment";
   const executedDoc = documents.find(d => d.doc_type === "executed");
@@ -68,15 +98,15 @@ export default function RequestDetailPage() {
   ].filter(Boolean).join(", ");
 
   return (
-    <AppLayout>
-      <div className="max-w-3xl mx-auto">
+    <DashboardLayout>
+      <div className="max-w-3xl animate-content-fade">
         {/* Back */}
         <button
           onClick={() => navigate("/portal")}
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          My Requests
+          Dashboard
         </button>
 
         {/* Title */}
@@ -94,7 +124,7 @@ export default function RequestDetailPage() {
             {canEdit && (
               <Link
                 to={`/portal/request/${request.id}/edit`}
-                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors active:opacity-80 active:duration-75"
               >
                 <Edit className="w-4 h-4" />
                 Update Information
@@ -104,28 +134,43 @@ export default function RequestDetailPage() {
             {showSignPayButton && (
               <Link
                 to={`/portal/request/${request.id}/sign`}
-                className="h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors inline-flex items-center"
+                className="h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors inline-flex items-center active:opacity-80 active:duration-75"
               >
                 Review, Sign, and Pay
               </Link>
             )}
 
-            {request.status === "done" && executedDoc && (
-              <a
-                href={executedDoc.storage_path}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            {request.status === "done" && (
+              <button
+                onClick={handleExport}
+                disabled={isExporting}
+                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
               >
                 <Download className="w-4 h-4" />
-                Download Agreement
-              </a>
+                {isExporting ? "…" : "Download Agreement"}
+              </button>
             )}
           </div>
         </div>
 
         {/* Content */}
         <div className="space-y-8">
+          {/* License ID */}
+          {request.license_id && (
+            <Section title="License ID">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-mono">{request.license_id}</span>
+                <button
+                  onClick={copyLicenseId}
+                  className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label="Copy License ID"
+                >
+                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+            </Section>
+          )}
+
           <Section title="Your Info">
             <Grid>
               <Field label="First Name" value={request.first_name} />
@@ -159,8 +204,8 @@ export default function RequestDetailPage() {
             {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
           </Section>
 
-          <Section title="Files">
-            {documents.length > 0 ? (
+          {documents.length > 0 && (
+            <Section title="Files">
               <div className="space-y-2">
                 {documents.map(doc => (
                   <a
@@ -176,10 +221,8 @@ export default function RequestDetailPage() {
                   </a>
                 ))}
               </div>
-            ) : (
-              <p className="text-sm text-muted-foreground">No files uploaded.</p>
-            )}
-          </Section>
+            </Section>
+          )}
 
           {request.status !== "done" && (
             <Section title="Executed Agreement">
@@ -189,13 +232,12 @@ export default function RequestDetailPage() {
 
           <Section title="Request Info">
             <Grid>
-              <Field label="Request ID" value={`TRL-${shortId}`} />
               <Field label="Submitted" value={request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy 'at' h:mm a") : "—"} />
             </Grid>
           </Section>
         </div>
       </div>
-    </AppLayout>
+    </DashboardLayout>
   );
 }
 
