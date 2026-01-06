@@ -55,8 +55,11 @@ export function AccountMenu() {
         align="end" 
         className="w-56 bg-background border border-border/40 shadow-lg rounded-lg p-1"
       >
-        {/* Session Indicator - Informational only */}
-        <div className="px-3 py-2.5 select-none">
+        {/* Session Indicator - Informational only, non-clickable */}
+        <div className="px-3 py-2.5 select-none pointer-events-none">
+          <p className="text-[11px] text-muted-foreground/60 mb-1">
+            Signed in as
+          </p>
           <p className="text-[13px] font-medium text-foreground truncate">
             {displayName}
           </p>
