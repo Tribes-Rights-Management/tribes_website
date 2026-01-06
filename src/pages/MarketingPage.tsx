@@ -94,7 +94,7 @@ export default function MarketingPage() {
                 Publishing Administration
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Register, track, collect, and report—cleanly.
+                Register, track, collect, protect, and report—cleanly.
               </p>
             </div>
             <div className="p-6 border border-border rounded-lg">
