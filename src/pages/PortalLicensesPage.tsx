@@ -3,22 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { LicenseRequest } from "@/types";
+import { LicenseRequest, STATUS_LABELS } from "@/types";
 import { format } from "date-fns";
-
-const STATUS_LABELS: Record<string, string> = {
-  draft: "Draft",
-  submitted: "Submitted",
-  in_review: "In Review",
-  needs_info: "Needs Info",
-  approved: "Approved",
-  awaiting_signature: "Awaiting Signature",
-  awaiting_payment: "Awaiting Payment",
-  sent_for_signature: "Sent for Signature",
-  executed: "Executed",
-  closed: "Closed",
-  done: "Done",
-};
 
 export default function PortalLicensesPage() {
   const { user } = useAuth();
@@ -66,7 +52,7 @@ export default function PortalLicensesPage() {
           <div>
             <h1 className="mb-1">Licenses</h1>
             <p className="text-sm text-muted-foreground">
-              All your license requests.
+              All license requests and records.
             </p>
           </div>
           <Link
@@ -80,9 +66,9 @@ export default function PortalLicensesPage() {
         {/* List */}
         {isFirstTime ? (
           <div className="py-16">
-            <p className="text-sm font-medium mb-1">No license activity yet</p>
+            <p className="text-sm font-medium mb-1">No records yet</p>
             <p className="text-sm text-muted-foreground">
-              License requests will appear here once submitted.
+              Submitted requests will appear here.
             </p>
           </div>
         ) : (
@@ -93,7 +79,7 @@ export default function PortalLicensesPage() {
               <span>Track Title</span>
               <span>Status</span>
               <span>Submitted</span>
-              <span>Last Updated</span>
+              <span>Updated</span>
             </div>
 
             {/* Rows */}

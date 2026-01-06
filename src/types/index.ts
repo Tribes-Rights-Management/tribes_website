@@ -116,7 +116,7 @@ export const STATUS_LABELS: Record<RequestStatus, string> = {
   draft: "Draft",
   submitted: "Submitted",
   in_review: "Under Review",
-  needs_info: "Needs Information",
+  needs_info: "Information Required",
   approved: "Approved",
   sent_for_signature: "Awaiting Signature",
   awaiting_signature: "Awaiting Signature",
@@ -127,7 +127,7 @@ export const STATUS_LABELS: Record<RequestStatus, string> = {
 };
 
 export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
-  draft: "Request saved as draft",
+  draft: "Saved as draft",
   submitted: "Submitted for review",
   in_review: "Under review",
   needs_info: "Additional information required",
@@ -142,9 +142,9 @@ export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
 
 // Account status labels
 export const ACCOUNT_STATUS_LABELS: Record<AccountStatus, string> = {
-  pending: "Pending",
+  pending: "Pending Review",
   active: "Active",
-  rejected: "Rejected",
+  rejected: "Not Approved",
 };
 
 // Media type labels

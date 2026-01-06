@@ -84,7 +84,7 @@ export default function PortalDashboard() {
         <div className="mb-10">
           <h1 className="text-[15px] font-medium mb-1">Dashboard</h1>
           <p className="text-[13px] text-muted-foreground">
-            Overview of your licensing activity.
+            License request overview.
           </p>
         </div>
 
@@ -132,15 +132,15 @@ export default function PortalDashboard() {
 
           {isFirstTime ? (
             <div className="py-12">
-              <p className="text-[14px] font-medium mb-1">No license activity yet</p>
+              <p className="text-[14px] font-medium mb-1">No records yet</p>
               <p className="text-[13px] text-muted-foreground">
-                License requests will appear here once submitted.
+                Submitted requests will appear here.
               </p>
             </div>
           ) : isFilteredEmpty ? (
             <div className="py-12">
               <p className="text-[13px] text-muted-foreground">
-                No recent license requests.
+                No requests match this filter.
               </p>
             </div>
           ) : (

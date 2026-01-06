@@ -8,10 +8,10 @@ export function ThankYouStep() {
     <div className="text-center py-12 max-w-md mx-auto space-y-8">
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Request received
+          Request Submitted
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          We'll update you once review is complete.
+          You will be notified when review is complete.
         </p>
       </div>
 
@@ -19,7 +19,7 @@ export function ThankYouStep() {
         variant="outline"
         onClick={() => navigate("/portal")}
       >
-        Return to Portal
+        Return to Dashboard
       </Button>
     </div>
   );
