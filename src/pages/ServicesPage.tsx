@@ -23,44 +23,63 @@ export default function ServicesPage() {
         <div className="h-px bg-border" />
       </div>
 
+      {/* Music as an Asset Class - Thought Leadership */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+          <div className="max-w-[720px]">
+            <h2 className="text-[28px] md:text-[36px] lg:text-[40px] font-semibold leading-[1.15] tracking-[-0.02em] text-foreground mb-10">
+              Music as an Asset Class
+            </h2>
+            <div className="space-y-8 text-muted-foreground">
+              <p className="text-lg md:text-xl leading-relaxed">
+                Publishing administration is not clerical work.<br />
+                It is long-term asset management.
+              </p>
+              <p className="leading-relaxed">
+                At Tribes, we treat music as a durable financial asset—one that requires structured 
+                rights administration, disciplined data stewardship, and continuous financial oversight.
+              </p>
+              <div className="pt-4">
+                <p className="text-foreground font-medium mb-6">That means:</p>
+                <div className="space-y-4">
+                  <p className="leading-relaxed">
+                    Rights and ownership are managed with the same rigor as any investable asset
+                  </p>
+                  <p className="leading-relaxed">
+                    Metadata, splits, and agreements are maintained as permanent financial records
+                  </p>
+                  <p className="leading-relaxed">
+                    Income streams are tracked, reconciled, and reported with continuity over time
+                  </p>
+                  <p className="leading-relaxed">
+                    Documentation is preserved to support audits, transactions, and future valuation
+                  </p>
+                </div>
+              </div>
+              <p className="leading-relaxed pt-4">
+                For creators and rights holders, this approach delivers clarity, defensibility, 
+                and long-term confidence—so the creative work can endure, perform, and compound.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+        <div className="h-px bg-border" />
+      </div>
+
       {/* Publishing Administration */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
-            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
               Publishing Administration
             </h2>
-            <p className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-8">
-              Clear ownership. Accurate records.
+            <p className="text-muted-foreground leading-relaxed">
+              Rights registration, ownership tracking, collections, and reporting.
             </p>
-            <div className="space-y-6 text-muted-foreground">
-              <p className="leading-relaxed">
-                We handle the administrative work of music publishing: registration with 
-                collection societies, metadata management, royalty tracking, and reporting.
-              </p>
-              <p className="leading-relaxed">
-                Every song is documented. Every payment is tracked. Records are maintained 
-                for the long term.
-              </p>
-            </div>
-            <div className="mt-12 space-y-4">
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Song registration and metadata management</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Collection society relations</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Royalty tracking and reporting</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Audit-ready documentation</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -74,39 +93,12 @@ export default function ServicesPage() {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
-            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
               Rights Management
             </h2>
-            <p className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-8">
-              Know what you own. Know who owns what.
+            <p className="text-muted-foreground leading-relaxed">
+              Structured ownership records, metadata integrity, and ongoing maintenance.
             </p>
-            <div className="space-y-6 text-muted-foreground">
-              <p className="leading-relaxed">
-                We organize and maintain the ownership information for your catalog. 
-                Splits, territories, term dates, and chain of title—all documented and accessible.
-              </p>
-              <p className="leading-relaxed">
-                When questions arise years later, the records are there.
-              </p>
-            </div>
-            <div className="mt-12 space-y-4">
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Ownership documentation and split tracking</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Territory and term management</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Chain of title records</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Conflict resolution support</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -120,47 +112,56 @@ export default function ServicesPage() {
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
-            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
               Licensing
             </h2>
-            <p className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-8">
-              Structured requests. Defensible agreements.
+            <p className="text-muted-foreground leading-relaxed mb-8">
+              Review, authorization, execution, and permanent recordkeeping.
             </p>
-            <div className="space-y-6 text-muted-foreground">
-              <p className="leading-relaxed">
-                License requests are submitted through a structured process. Each request 
-                is reviewed, clarified if needed, and executed with proper documentation.
-              </p>
-              <p className="leading-relaxed">
-                Executed licenses are stored permanently and remain accessible to all parties.
-              </p>
-            </div>
-            <div className="mt-12 space-y-4">
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Mechanical and synchronization licenses</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Digital distribution permissions</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Electronic signature and payment</p>
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-muted-foreground">—</span>
-                <p className="text-sm text-muted-foreground">Permanent document storage</p>
-              </div>
-            </div>
-            <div className="mt-12">
-              <Link 
-                to="/how-licensing-works" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-              >
-                Learn how licensing works at Tribes
-              </Link>
-            </div>
+            <Link 
+              to="/how-licensing-works" 
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+            >
+              Learn how licensing works at Tribes
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+        <div className="h-px bg-border" />
+      </div>
+
+      {/* Financial Oversight */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+          <div className="max-w-[640px]">
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
+              Financial Oversight
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Income reconciliation, reporting continuity, and defensible records.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Divider */}
+      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+        <div className="h-px bg-border" />
+      </div>
+
+      {/* Documentation & Records */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+          <div className="max-w-[640px]">
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
+              Documentation & Records
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Executed agreements, identifiers, and long-term access.
+            </p>
           </div>
         </div>
       </section>
