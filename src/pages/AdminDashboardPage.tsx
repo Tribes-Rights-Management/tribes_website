@@ -9,7 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
 import { Search, FileText, Music2, Calendar, Building2, ChevronRight, Eye, Mail, User } from "lucide-react";
 import { format } from "date-fns";
@@ -108,35 +114,30 @@ export default function AdminDashboardPage() {
           </p>
         </div>
 
-        {/* Status Tabs */}
-        <Tabs value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
-          <TabsList className="h-auto flex-wrap gap-1 bg-transparent p-0">
-            {ADMIN_STATUSES.map((status) => (
-              <TabsTrigger 
-                key={status} 
-                value={status} 
-                className="data-[state=active]:bg-secondary px-3 py-1.5 text-sm"
-              >
-                {STATUS_LABELS[status]}
-                {statusCounts[status] > 0 && (
-                  <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs bg-muted">
-                    {statusCounts[status]}
-                  </Badge>
-                )}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-
-        {/* Search */}
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
-            placeholder="Search by name, email, track, or artist..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9"
-          />
+        {/* Search + Status Filter Row */}
+        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by name, email, track, or artist…"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 w-full"
+            />
+          </div>
+          <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
+            <SelectTrigger className="w-full sm:w-[240px]">
+              <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+              {ADMIN_STATUSES.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {STATUS_LABELS[status]}
+                  {statusCounts[status] > 0 && ` (${statusCounts[status]})`}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Results */}
