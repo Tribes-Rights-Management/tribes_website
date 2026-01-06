@@ -61,7 +61,9 @@ export function LicenseTypeStep({
       <div className="space-y-2">
         <h2 className="text-xl font-semibold tracking-tight">License Types</h2>
         <p className="text-muted-foreground text-sm">
-          Select all license types that apply to your use of this track.
+          Select all license types you expect to need for this song.
+          <br />
+          Each selected use will be reviewed and licensed separately.
         </p>
       </div>
 
@@ -95,13 +97,6 @@ export function LicenseTypeStep({
         {errors.selected_license_types && (
           <p className="text-sm text-destructive">{errors.selected_license_types}</p>
         )}
-      </div>
-
-      <div className="pt-4">
-        <p className="text-[13px] text-muted-foreground leading-relaxed">
-          Each license type you select will generate an independent license with its own unique License ID. 
-          All licenses will be grouped into a single License Package for review, signature, and payment.
-        </p>
       </div>
     </div>
   );

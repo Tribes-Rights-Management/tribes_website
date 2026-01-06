@@ -21,49 +21,57 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
   return (
     <div className="space-y-6 max-w-xl mx-auto">
       <div className="space-y-2">
-        <h2 className="text-xl font-semibold tracking-tight">Track Details</h2>
+        <h2 className="text-xl font-semibold tracking-tight">Song Information</h2>
         <p className="text-muted-foreground text-sm">
-          Tell us about the specific track.
+          Tell us about the song you want to license.
         </p>
       </div>
 
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="track_title">Track / Song Title *</Label>
-            <Input 
-              id="track_title"
-              value={data.track_title}
-              onChange={(e) => onUpdate("track_title", e.target.value)}
-              placeholder="Song title"
-            />
-            {errors.track_title && (
-              <p className="text-sm text-destructive">{errors.track_title}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="track_artist">Track Artist *</Label>
-            <Input 
-              id="track_artist"
-              value={data.track_artist}
-              onChange={(e) => onUpdate("track_artist", e.target.value)}
-              placeholder="Artist name"
-            />
-            {errors.track_artist && (
-              <p className="text-sm text-destructive">{errors.track_artist}</p>
-            )}
-          </div>
+        <div className="space-y-2">
+          <Label htmlFor="track_title">Song Title *</Label>
+          <Input 
+            id="track_title"
+            value={data.track_title}
+            onChange={(e) => onUpdate("track_title", e.target.value)}
+            placeholder="Song title"
+          />
+          <p className="text-xs text-muted-foreground">
+            Enter the exact title of the song you want to license.
+          </p>
+          {errors.track_title && (
+            <p className="text-sm text-destructive">{errors.track_title}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="track_artist">Songwriter(s) *</Label>
+          <Input 
+            id="track_artist"
+            value={data.track_artist}
+            onChange={(e) => onUpdate("track_artist", e.target.value)}
+            placeholder="Songwriter names"
+          />
+          <p className="text-xs text-muted-foreground">
+            List all known songwriters, separated by commas.
+          </p>
+          {errors.track_artist && (
+            <p className="text-sm text-destructive">{errors.track_artist}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="track_isrc">Track ISRC *</Label>
+            <Label htmlFor="track_isrc">Publisher</Label>
             <Input 
               id="track_isrc"
               value={data.track_isrc}
               onChange={(e) => onUpdate("track_isrc", e.target.value)}
-              placeholder="USRC12345678"
+              placeholder="Publisher name"
             />
+            <p className="text-xs text-muted-foreground">
+              If you are unsure, you may leave this blank.
+            </p>
             {errors.track_isrc && (
               <p className="text-sm text-destructive">{errors.track_isrc}</p>
             )}
@@ -118,14 +126,17 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="additional_track_info">Additional Track Info</Label>
+          <Label htmlFor="additional_track_info">Description of Use *</Label>
           <Textarea 
             id="additional_track_info"
             value={data.additional_track_info}
             onChange={(e) => onUpdate("additional_track_info", e.target.value)}
-            placeholder="Any additional details about the track..."
+            placeholder="Describe how the song will be used (for example: livestream, recording, broadcast, video content)."
             rows={3}
           />
+          <p className="text-xs text-muted-foreground">
+            Clear descriptions help us issue the correct license. This does not need to be perfect.
+          </p>
         </div>
       </div>
     </div>

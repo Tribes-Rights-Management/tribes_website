@@ -87,9 +87,6 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
       <div className="space-y-6 divide-y">
         <ReviewSection title="License Types" step={2} onEdit={onEditStep}>
           <ReviewField label="Selected Types" value={selectedTypeNames || "None selected"} />
-          <p className="text-[13px] text-muted-foreground pt-2">
-            Each license type will generate an independent license with its own License ID.
-          </p>
         </ReviewSection>
 
         <ReviewSection title="Your Info" step={3} onEdit={onEditStep}>
@@ -114,19 +111,26 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
           )}
         </ReviewSection>
 
-        <ReviewSection title="Track Details" step={5} onEdit={onEditStep}>
-          <ReviewField label="Track Title" value={data.track_title} />
-          <ReviewField label="Track Artist" value={data.track_artist} />
-          <ReviewField label="Track ISRC" value={data.track_isrc} />
+        <ReviewSection title="Song Information" step={5} onEdit={onEditStep}>
+          <ReviewField label="Song Title" value={data.track_title} />
+          <ReviewField label="Songwriter(s)" value={data.track_artist} />
+          <ReviewField label="Publisher" value={data.track_isrc} />
           <ReviewField label="Runtime" value={data.runtime} />
           <ReviewField 
             label="Multiple Appearances" 
             value={data.appears_multiple_times ? `Yes (${data.times_count} times)` : "No"} 
           />
           {data.additional_track_info && (
-            <ReviewField label="Additional Info" value={data.additional_track_info} />
+            <ReviewField label="Description of Use" value={data.additional_track_info} />
           )}
         </ReviewSection>
+      </div>
+
+      <div className="pt-4 space-y-3">
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Your request will be reviewed before any license is issued.
+          You'll have the opportunity to confirm details before execution.
+        </p>
       </div>
     </div>
   );

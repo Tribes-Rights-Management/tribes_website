@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { WizardFormData, DEFAULT_WIZARD_FORM } from "@/types";
-import { ArrowLeft, ArrowRight, Loader2, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
 
 import { WizardProgress } from "@/components/wizard/WizardProgress";
 import { CoverStep } from "@/components/wizard/steps/CoverStep";
@@ -365,10 +365,7 @@ export default function RequestFormPage() {
                       Submitting…
                     </>
                   ) : (
-                    <>
-                      <Send className="w-4 h-4 mr-2" />
-                      Submit Request
-                    </>
+                    "Submit License Request"
                   )}
                 </Button>
               )}
@@ -378,8 +375,13 @@ export default function RequestFormPage() {
       </main>
 
       <footer className="border-t border-border/50 py-4">
-        <div className="container text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
+        <div className="container text-center">
+          <p className="text-xs text-muted-foreground mb-2">
+            Each license issued through Tribes is reviewed and recorded for long-term reference.
+          </p>
+          <p className="text-xs text-muted-foreground">
+            © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

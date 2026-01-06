@@ -11,12 +11,12 @@ export function CoverStep({ onStart, isLoading }: CoverStepProps) {
     <div className="text-center py-12 max-w-lg mx-auto space-y-8">
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Mechanical & DPD Commercial License Request
+          New License Request
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          Interested in licensing a song from the Tribes Rights Management catalog?
+          This form collects the information needed to review and issue a license accurately.
           <br /><br />
-          Please fill out the form below with as much detail as possible. One song per submission.
+          Take your time—nothing is finalized until review and approval.
         </p>
       </div>
       
