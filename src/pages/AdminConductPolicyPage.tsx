@@ -1,13 +1,25 @@
+import { useEffect } from "react";
 import { DashboardLayout } from "@/components/DashboardLayout";
 
 export default function AdminConductPolicyPage() {
+  // Prevent indexing of internal policy page
+  useEffect(() => {
+    const metaRobots = document.createElement("meta");
+    metaRobots.name = "robots";
+    metaRobots.content = "noindex, nofollow";
+    document.head.appendChild(metaRobots);
+    return () => {
+      document.head.removeChild(metaRobots);
+    };
+  }, []);
+
   return (
     <DashboardLayout>
       <div className="max-w-[720px]">
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-2xl font-semibold text-foreground mb-2">
-            Portal Conduct Policy
+            Admin Conduct Policy
           </h1>
           <p className="text-sm text-muted-foreground">
             Internal policy governing administrative access and use.

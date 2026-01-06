@@ -22,7 +22,7 @@ export function PolicyAcknowledgmentScreen({
         
         {/* Title */}
         <h1 className="text-2xl font-semibold text-foreground mb-8">
-          Portal Conduct Policy
+          Admin Conduct Policy
         </h1>
 
         {/* Body */}
@@ -77,7 +77,7 @@ export function PolicyAcknowledgmentScreen({
             htmlFor="policy-agreement" 
             className="text-sm text-foreground leading-relaxed cursor-pointer"
           >
-            I have read and agree to the Portal Conduct Policy.
+            I have read and agree to the Admin Conduct Policy.
           </label>
         </div>
 
