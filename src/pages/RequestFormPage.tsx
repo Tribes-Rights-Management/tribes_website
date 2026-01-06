@@ -125,9 +125,15 @@ export default function RequestFormPage() {
     setIsSaving(true);
     
     try {
+      const insertData = {
+        user_id: user.id,
+        status: "draft" as const,
+        ...formData
+      };
+      
       const { data, error } = await supabase
         .from("license_packages")
-        .insert({ user_id: user.id, status: "draft" as const, ...formData })
+        .insert(insertData as any)
         .select()
         .single();
       
