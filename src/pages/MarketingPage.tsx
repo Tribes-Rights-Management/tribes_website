@@ -321,7 +321,7 @@ export default function MarketingPage() {
           <p className="text-xs text-muted-foreground/60 tracking-[0.02em] mb-4">
             Built for creators. Powered by precision.
           </p>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <p className="text-xs text-muted-foreground">
               © 2026 Tribes Rights Management LLC. All rights reserved.
             </p>
@@ -339,6 +339,11 @@ export default function MarketingPage() {
                 Terms of Use
               </Link>
             </div>
+          </div>
+          <div className="pt-6 border-t border-border/50">
+            <p className="text-[10px] text-muted-foreground/50 leading-relaxed max-w-[720px]">
+              This page is provided for informational purposes only and does not constitute legal advice or a binding offer. All license requests are subject to review, approval, and execution of a formal written agreement. No rights are granted unless and until a license is fully executed by all required parties. In the event of any inconsistency between this description and an executed license agreement, the terms of the executed agreement shall govern.
+            </p>
           </div>
         </div>
       </footer>
