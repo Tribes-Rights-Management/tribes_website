@@ -18,24 +18,38 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   const copyrightText = getCopyrightLine();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
+  const [isFooterDark, setIsFooterDark] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Track scroll position for header transition and dark section detection
+  /* ═══════════════════════════════════════════════════════════════════════════
+     CONTEXTUAL SURFACE SWITCHING
+     Light and dark surfaces are determined by content sections, not user toggles.
+     Header and footer automatically adapt to the active section's surface.
+     Portal UI is excluded from this rule and remains unchanged.
+     ═══════════════════════════════════════════════════════════════════════════ */
   useEffect(() => {
     const handleScroll = () => {
       const scrollThreshold = window.innerHeight * 0.6;
       setIsScrolled(window.scrollY > scrollThreshold);
 
-      // Check if header is over the dark "How Copyright Clearance Works" section
+      // Detect dark sections by ID
       const darkSection = document.getElementById("how-it-works");
+      
       if (darkSection) {
         const rect = darkSection.getBoundingClientRect();
-        const headerHeight = 56; // Approximate header height
+        const headerHeight = 56;
+        const viewportHeight = window.innerHeight;
+        
         // Header is over dark section when section top is above header bottom and section bottom is below header top
-        const isOverDark = rect.top <= headerHeight && rect.bottom >= 0;
-        setIsOverDarkSection(isOverDark);
+        const isHeaderOverDark = rect.top <= headerHeight && rect.bottom >= 0;
+        setIsOverDarkSection(isHeaderOverDark);
+        
+        // Footer is over dark section when section bottom is near or past viewport bottom
+        const isFooterOverDark = rect.bottom >= viewportHeight - 100 && rect.top < viewportHeight;
+        setIsFooterDark(isFooterOverDark);
       } else {
         setIsOverDarkSection(false);
+        setIsFooterDark(false);
       }
     };
 
@@ -53,6 +67,14 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   // Header is in dark mode when over hero (not scrolled) or over dark section
   const isHeaderDark = !isScrolled || isOverDarkSection;
 
+  /* ═══════════════════════════════════════════════════════════════════════════
+     DARK MODE CONTRAST VALUES (WCAG AA Compliant)
+     Primary: rgba(255,255,255,0.88) — Logo, primary text
+     Secondary: rgba(255,255,255,0.64) — Navigation links
+     Utility: rgba(255,255,255,0.48) — Inactive items
+     Dividers: rgba(255,255,255,0.08)
+     ═══════════════════════════════════════════════════════════════════════════ */
+
   const navLinkClass = (path: string) => {
     if (!isHeaderDark) {
       return location.pathname === path
@@ -60,8 +82,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         : "text-muted-foreground hover:text-foreground";
     }
     return location.pathname === path
-      ? "text-white/[0.82]"
-      : "text-white/60 hover:text-white/[0.82]";
+      ? "text-white/[0.88]"
+      : "text-white/[0.64] hover:text-white/[0.88]";
   };
 
   return (
@@ -89,7 +111,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <Link 
               to="/" 
               className={`transition-colors duration-[150ms] ${
-                isHeaderDark ? "text-white/[0.82]" : "text-foreground"
+                isHeaderDark ? "text-white/[0.88]" : "text-foreground"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.mobile.fontSize,
@@ -123,7 +145,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   <button
                     className={`flex items-center justify-center transition-colors duration-[150ms] ${
                       isHeaderDark 
-                        ? "text-white/[0.82] hover:text-white" 
+                        ? "text-white/[0.88] hover:text-white" 
                         : "text-foreground hover:text-foreground/70"
                     }`}
                     style={{ 
@@ -197,7 +219,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <Link 
               to="/" 
               className={`transition-colors duration-[150ms] ${
-                isHeaderDark ? "text-white/[0.82]" : "text-foreground"
+                isHeaderDark ? "text-white/[0.88]" : "text-foreground"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.desktop.fontSize,
@@ -227,7 +249,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 to="/auth" 
                 className={`text-sm transition-colors duration-[150ms] ${
                   isHeaderDark 
-                    ? "text-white/60 hover:text-white/[0.82]" 
+                    ? "text-white/[0.48] hover:text-white/[0.88]" 
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -237,7 +259,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 to="/auth?request=true" 
                 className={`text-sm transition-colors duration-[150ms] ${
                   isHeaderDark 
-                    ? "text-white/60 hover:text-white/[0.82]" 
+                    ? "text-white/[0.48] hover:text-white/[0.88]" 
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -254,19 +276,30 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       <main>{children}</main>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          FOOTER
+          FOOTER — Context-Aware Surface Switching
+          Automatically adapts to dark content sections with subtle crossfade.
           ═══════════════════════════════════════════════════════════════════════════ */}
-      <footer className="border-t border-border py-8 bg-background">
+      <footer 
+        className={`py-8 transition-colors duration-[150ms] ${
+          isFooterDark 
+            ? "bg-[#111214] border-t border-white/[0.08]" 
+            : "bg-background border-t border-border"
+        }`}
+      >
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <p 
-            className="text-muted-foreground/60 tracking-[0.02em] mb-4"
+            className={`tracking-[0.02em] mb-4 transition-colors duration-[150ms] ${
+              isFooterDark ? "text-white/[0.48]" : "text-muted-foreground/60"
+            }`}
             style={{ fontSize: LOGO_SIZES.footer.fontSize }}
           >
             Built for creators. Powered by precision.
           </p>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <p 
-              className="text-muted-foreground"
+              className={`transition-colors duration-[150ms] ${
+                isFooterDark ? "text-white/[0.64]" : "text-muted-foreground"
+              }`}
               style={{ fontSize: LOGO_SIZES.footer.fontSize }}
             >
               {copyrightText}
@@ -274,13 +307,21 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <div className="flex items-center gap-6">
               <Link 
                 to="/privacy" 
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className={`text-xs transition-colors duration-[150ms] ${
+                  isFooterDark 
+                    ? "text-white/[0.48] hover:text-white/[0.88]" 
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 Privacy Policy
               </Link>
               <Link 
                 to="/terms" 
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className={`text-xs transition-colors duration-[150ms] ${
+                  isFooterDark 
+                    ? "text-white/[0.48] hover:text-white/[0.88]" 
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 Terms of Use
               </Link>
