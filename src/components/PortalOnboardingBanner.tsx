@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
-const STORAGE_KEY = "tribes_portal_onboarding_dismissed";
+const STORAGE_KEY = "tribes_portal_banner_dismissed";
 
 export function PortalOnboardingBanner() {
   const [isVisible, setIsVisible] = useState(false);
@@ -25,10 +25,10 @@ export function PortalOnboardingBanner() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[14px] text-foreground leading-relaxed mb-1">
-            This system maintains your rights, records, and agreements with accuracy and continuity.
+            Submit details, review status, and access records.
           </p>
           <p className="text-[13px] text-muted-foreground leading-relaxed">
-            Long-term recordkeeping for the business of your music.
+            All submissions are reviewed before anything is finalized.
           </p>
         </div>
         <button

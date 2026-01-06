@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { PortalOnboardingBanner } from "@/components/PortalOnboardingBanner";
+import { PortalOnboarding } from "@/components/PortalOnboarding";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
 import { format } from "date-fns";
 
@@ -76,6 +77,9 @@ export default function PortalDashboard() {
 
   return (
     <DashboardLayout>
+      {/* Onboarding Modal */}
+      <PortalOnboarding />
+      
       <div className="max-w-3xl animate-content-fade">
         {/* Onboarding Banner */}
         <PortalOnboardingBanner />
@@ -84,7 +88,7 @@ export default function PortalDashboard() {
         <div className="mb-10">
           <h1 className="text-[15px] font-medium mb-1">Dashboard</h1>
           <p className="text-[13px] text-muted-foreground">
-            License request overview.
+            Request overview and status.
           </p>
         </div>
 
