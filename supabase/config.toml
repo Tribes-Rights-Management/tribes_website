@@ -1,1 +1,28 @@
 project_id = "mtoaopnwyfbzuqxvivbn"
+
+[functions.auth-check]
+verify_jwt = false
+
+[functions.create-signing-session]
+verify_jwt = false
+
+[functions.export-license-pdf]
+verify_jwt = false
+
+[functions.generate-contract]
+verify_jwt = false
+
+[functions.signature-webhook]
+verify_jwt = false
+
+[functions.create-stripe-checkout]
+verify_jwt = false
+
+[functions.stripe-webhook]
+verify_jwt = false
+
+[functions.create-pandadoc-document]
+verify_jwt = false
+
+[functions.pandadoc-webhook]
+verify_jwt = false

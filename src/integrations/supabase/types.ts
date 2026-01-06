@@ -120,15 +120,20 @@ export type Database = {
           created_at: string
           currency: string | null
           distributor: string | null
+          executed_at: string | null
           first_name: string | null
           id: string
           label_master_owner: string | null
           last_name: string | null
+          license_fee: number | null
           license_id: string | null
           licensee_email: string | null
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
           organization: string | null
+          paid_at: string | null
+          pandadoc_document_id: string | null
+          payment_status: string | null
           product_upc: string | null
           project_title: string | null
           proposed_fee: number | null
@@ -137,11 +142,14 @@ export type Database = {
           release_date: string | null
           release_title: string | null
           runtime: string | null
+          signature_status: string | null
           signed_at: string | null
           signing_envelope_id: string | null
           signing_url: string | null
           song_title: string | null
           status: Database["public"]["Enums"]["request_status"]
+          stripe_charge_id: string | null
+          stripe_payment_intent_id: string | null
           submitted_at: string | null
           term: string | null
           territory: string | null
@@ -169,15 +177,20 @@ export type Database = {
           created_at?: string
           currency?: string | null
           distributor?: string | null
+          executed_at?: string | null
           first_name?: string | null
           id?: string
           label_master_owner?: string | null
           last_name?: string | null
+          license_fee?: number | null
           license_id?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
+          paid_at?: string | null
+          pandadoc_document_id?: string | null
+          payment_status?: string | null
           product_upc?: string | null
           project_title?: string | null
           proposed_fee?: number | null
@@ -186,11 +199,14 @@ export type Database = {
           release_date?: string | null
           release_title?: string | null
           runtime?: string | null
+          signature_status?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
           signing_url?: string | null
           song_title?: string | null
           status?: Database["public"]["Enums"]["request_status"]
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
           submitted_at?: string | null
           term?: string | null
           territory?: string | null
@@ -218,15 +234,20 @@ export type Database = {
           created_at?: string
           currency?: string | null
           distributor?: string | null
+          executed_at?: string | null
           first_name?: string | null
           id?: string
           label_master_owner?: string | null
           last_name?: string | null
+          license_fee?: number | null
           license_id?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
+          paid_at?: string | null
+          pandadoc_document_id?: string | null
+          payment_status?: string | null
           product_upc?: string | null
           project_title?: string | null
           proposed_fee?: number | null
@@ -235,11 +256,14 @@ export type Database = {
           release_date?: string | null
           release_title?: string | null
           runtime?: string | null
+          signature_status?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
           signing_url?: string | null
           song_title?: string | null
           status?: Database["public"]["Enums"]["request_status"]
+          stripe_charge_id?: string | null
+          stripe_payment_intent_id?: string | null
           submitted_at?: string | null
           term?: string | null
           territory?: string | null

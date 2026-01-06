@@ -6,6 +6,19 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Sanitize filename: replace spaces with underscores, remove special characters
+function sanitizeFilename(str: string): string {
+  return str
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9_-]/g, '')
+    .substring(0, 100);
+}
+
+// Format date as YYYY-MM-DD
+function formatDate(date: Date): string {
+  return date.toISOString().split('T')[0];
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -16,77 +29,87 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Parse webhook payload
-    // Different e-sign providers have different payload formats
-    // This is a generic example that you'd adapt to your provider
     const payload = await req.json();
-    
     console.log('Received signature webhook:', JSON.stringify(payload));
 
     const { 
       envelope_id, 
       event_type, 
       signed_document_url,
-      request_id 
+      request_id,
+      license_id: payloadLicenseId,
+      metadata
     } = payload;
 
-    // Handle different event types
+    // Extract license_id from various possible locations
+    const licenseId = payloadLicenseId || metadata?.license_id;
+
+    // Handle completed/signed events
     if (event_type === 'completed' || event_type === 'signed') {
-      // Find the request by envelope ID
-      let requestData;
+      let request;
       
-      if (request_id) {
+      // Priority: license_id > request_id > envelope_id
+      if (licenseId) {
+        const { data } = await supabase
+          .from('license_requests')
+          .select('*')
+          .eq('license_id', licenseId)
+          .single();
+        request = data;
+      } else if (request_id) {
         const { data } = await supabase
           .from('license_requests')
           .select('*')
           .eq('id', request_id)
           .single();
-        requestData = data;
+        request = data;
       } else if (envelope_id) {
         const { data } = await supabase
           .from('license_requests')
           .select('*')
           .eq('signing_envelope_id', envelope_id)
           .single();
-        requestData = data;
+        request = data;
       }
 
-      if (!requestData) {
-        console.error('Request not found for envelope:', envelope_id);
+      if (!request) {
+        console.error('Request not found for:', { licenseId, request_id, envelope_id });
         return new Response(
           JSON.stringify({ error: 'Request not found' }),
           { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      console.log(`Processing signed document for request: ${requestData.id}`);
+      console.log(`Processing signed document for license: ${request.license_id}`);
 
-      // If a signed document URL is provided, download and store it
-      let executedDocPath = signed_document_url;
+      const executedAt = new Date().toISOString();
+      const trackTitle = sanitizeFilename(request.track_title || request.song_title || 'Unknown');
+      const executionDate = formatDate(new Date());
+
+      // Download and store signed document if URL provided
+      let storagePath = null;
       
       if (signed_document_url && signed_document_url.startsWith('http')) {
         try {
-          // Fetch the signed document from the e-sign provider
           const docResponse = await fetch(signed_document_url);
           const docBlob = await docResponse.blob();
           
-          // Store in Supabase Storage
-          const fileName = `${requestData.user_id}/${requestData.id}/contract-executed-${Date.now()}.pdf`;
+          // Filename format (locked per spec)
+          const filename = `Tribes_License_${request.license_id}_${trackTitle}_${executionDate}.pdf`;
+          storagePath = `licenses/${request.license_id}/${filename}`;
           
           const { error: uploadError } = await supabase.storage
             .from('generated-documents')
-            .upload(fileName, docBlob, {
+            .upload(storagePath, docBlob, {
               contentType: 'application/pdf',
               upsert: true,
             });
 
           if (uploadError) {
             console.error('Error uploading executed document:', uploadError);
+            storagePath = null;
           } else {
-            const { data: urlData } = supabase.storage
-              .from('generated-documents')
-              .getPublicUrl(fileName);
-            executedDocPath = urlData.publicUrl;
+            console.log(`Executed PDF stored: ${storagePath}`);
           }
         } catch (docError) {
           console.error('Error fetching signed document:', docError);
@@ -94,54 +117,92 @@ serve(async (req) => {
       }
 
       // Create executed document record
-      if (executedDocPath) {
+      if (storagePath) {
         await supabase.from('generated_documents').insert({
-          request_id: requestData.id,
+          request_id: request.id,
           doc_type: 'executed',
-          storage_path: executedDocPath,
+          storage_path: storagePath,
         });
       }
 
-      // Update request status to executed
+      // Update request
+      const updateData: Record<string, unknown> = {
+        signature_status: 'completed',
+        executed_at: executedAt,
+        signed_at: executedAt,
+      };
+
+      // Advance to 'done' only if payment is also complete
+      if (request.payment_status === 'paid') {
+        updateData.status = 'done';
+      } else {
+        updateData.status = 'awaiting_payment';
+      }
+
       const { error: updateError } = await supabase
         .from('license_requests')
-        .update({
-          status: 'executed',
-          signed_at: new Date().toISOString(),
-        })
-        .eq('id', requestData.id);
+        .update(updateData)
+        .eq('id', request.id);
 
       if (updateError) {
         console.error('Error updating request status:', updateError);
       }
 
-      // Add to status history
+      // Audit log entry with license_id
       await supabase.from('status_history').insert({
-        request_id: requestData.id,
-        from_status: 'sent_for_signature',
-        to_status: 'executed',
-        notes: 'Contract signed and executed',
+        request_id: request.id,
+        from_status: request.status,
+        to_status: updateData.status as string,
+        notes: `Signature completed. License ID: ${request.license_id}`,
       });
 
-      console.log(`Request ${requestData.id} marked as executed`);
-
-      // TODO: Send confirmation email to user
-      // You would call your email service here
+      console.log(`License ${request.license_id} signature completed. Status: ${updateData.status}`);
 
       return new Response(
         JSON.stringify({ 
           success: true, 
           message: 'Signature processed successfully',
-          request_id: requestData.id,
+          license_id: request.license_id,
         }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
-    // Handle other event types (declined, expired, etc.)
+    // Handle declined/voided events
     if (event_type === 'declined' || event_type === 'voided') {
-      console.log(`Signature ${event_type} for envelope: ${envelope_id}`);
-      // You might want to update status or notify admin
+      let request;
+      
+      if (licenseId) {
+        const { data } = await supabase
+          .from('license_requests')
+          .select('id, status, license_id')
+          .eq('license_id', licenseId)
+          .single();
+        request = data;
+      } else if (envelope_id) {
+        const { data } = await supabase
+          .from('license_requests')
+          .select('id, status, license_id')
+          .eq('signing_envelope_id', envelope_id)
+          .single();
+        request = data;
+      }
+
+      if (request) {
+        await supabase
+          .from('license_requests')
+          .update({ signature_status: event_type })
+          .eq('id', request.id);
+
+        await supabase.from('status_history').insert({
+          request_id: request.id,
+          from_status: request.status,
+          to_status: request.status,
+          notes: `Signature ${event_type}. License ID: ${request.license_id}`,
+        });
+
+        console.log(`Signature ${event_type} for license: ${request.license_id}`);
+      }
     }
 
     return new Response(
