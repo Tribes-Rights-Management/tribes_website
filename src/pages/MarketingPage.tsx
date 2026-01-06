@@ -132,32 +132,32 @@ export default function MarketingPage() {
             <div className="space-y-12">
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">01</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Request</h3>
+                <h3 className="text-lg font-medium text-foreground mb-3">Submit</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Submit details once, in a structured format.
+                  Rights usage details are submitted once, in a structured and complete format to ensure clarity from the outset.
                 </p>
               </div>
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">02</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Review</h3>
+                <h3 className="text-lg font-medium text-foreground mb-3">Verify</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  We confirm scope and terms, and clarify anything missing.
+                  We confirm ownership, scope, and applicable rights, resolving any gaps before proceeding.
                 </p>
               </div>
             </div>
             <div className="space-y-12">
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">03</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Execute</h3>
+                <h3 className="text-lg font-medium text-foreground mb-3">Authorize</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Agreement is signed. Payment is handled if applicable.
+                  Clearances are formally executed, with agreements signed and payments handled where applicable.
                 </p>
               </div>
               <div>
                 <p className="text-xs font-medium text-muted-foreground mb-2">04</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Record</h3>
+                <h3 className="text-lg font-medium text-foreground mb-3">Preserve</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Final documents are stored and accessible long-term.
+                  All finalized documents and records are securely stored and remain accessible long-term.
                 </p>
               </div>
             </div>
