@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { getCopyrightLine } from "@/lib/copyright";
 
 export default function AgreementHandoffPage() {
   const { id } = useParams();
@@ -89,7 +90,7 @@ export default function AgreementHandoffPage() {
 
       <footer className="py-6 text-center">
         <p className="text-xs text-muted-foreground">
-          © 2026 Tribes Rights Management LLC. All rights reserved.
+          {getCopyrightLine()}
         </p>
       </footer>
     </div>

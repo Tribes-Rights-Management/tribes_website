@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
+import { getCopyrightLine } from "@/lib/copyright";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -7,13 +8,7 @@ interface PublicLayoutProps {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   const location = useLocation();
-  
-  // Dynamic copyright year range - Do not hardcode years. This range is intentionally dynamic.
-  const startYear = 2025;
-  const currentYear = new Date().getFullYear();
-  const copyrightText = currentYear > startYear 
-    ? `© ${startYear}–${currentYear} Tribes Rights Management LLC. All rights reserved.`
-    : `© ${startYear} Tribes Rights Management LLC. All rights reserved.`;
+  const copyrightText = getCopyrightLine();
 
   return (
     <div className="min-h-screen bg-background text-foreground">

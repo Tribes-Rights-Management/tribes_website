@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getCopyrightLine } from "@/lib/copyright";
 import { useAuth } from "@/contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -544,7 +545,7 @@ function Footer() {
   return (
     <footer className="py-6 text-center">
       <p className="text-xs text-muted-foreground">
-        © 2026 Tribes Rights Management LLC. All rights reserved.
+        {getCopyrightLine()}
       </p>
     </footer>
   );

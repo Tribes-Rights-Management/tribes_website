@@ -2,6 +2,7 @@ import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { LicenseRequest } from "@/types";
 import { format } from "date-fns";
+import { getCopyrightLine } from "@/lib/copyright";
 
 interface LicensePreviewModalProps {
   request: LicenseRequest;
@@ -139,7 +140,7 @@ export function LicensePreviewModal({ request, onClose }: LicensePreviewModalPro
 
             {/* Footer */}
             <div className="mt-12 pt-4 border-t border-neutral-300 text-center">
-              <p className="text-[9pt] text-neutral-600">© 2026 Tribes Rights Management LLC. All rights reserved.</p>
+              <p className="text-[9pt] text-neutral-600">{getCopyrightLine()}</p>
             </div>
           </div>
         </div>
