@@ -12,7 +12,7 @@ export default function ServicesPage() {
               Services
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[560px]">
-              A focused set of capabilities for managing music rights with clarity and precision.
+              We provide structured rights administration designed for accuracy, continuity, and long-term value.
             </p>
           </div>
         </div>
