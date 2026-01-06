@@ -11,12 +11,11 @@ export function CoverStep({ onStart, isLoading }: CoverStepProps) {
     <div className="text-center py-12 max-w-lg mx-auto space-y-8">
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-tight">
-          New License Request
+          New license request
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          This form collects the information needed to review and issue a license accurately.
-          <br /><br />
-          Take your time—nothing is finalized until review and approval.
+          One song per request. Select the license types you need. 
+          We'll confirm scope, then issue documents for execution.
         </p>
       </div>
       

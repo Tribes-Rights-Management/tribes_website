@@ -9,10 +9,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { COUNTRIES } from "@/lib/countries";
+import { Info } from "lucide-react";
 
 const emailSchema = z.string().trim().email("Please enter a valid email address");
 
@@ -406,17 +412,37 @@ export default function AuthPage() {
               </div>
 
               <div>
-                <Select value={companyType} onValueChange={setCompanyType} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Company type">
-                    <SelectValue placeholder="Company type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="indie_church">Indie / Church</SelectItem>
-                    <SelectItem value="commercial">Commercial</SelectItem>
-                    <SelectItem value="broadcast">Broadcast</SelectItem>
-                  </SelectContent>
-                </Select>
-                <p className="text-xs text-muted-foreground mt-1.5">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <Select value={companyType} onValueChange={setCompanyType} disabled={isSubmitting}>
+                    <SelectTrigger aria-label="Company type" className="flex-1">
+                      <SelectValue placeholder="Company type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="indie_church">Indie / Church</SelectItem>
+                      <SelectItem value="commercial">Commercial</SelectItem>
+                      <SelectItem value="broadcast">Broadcast</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button 
+                        type="button"
+                        className="text-muted-foreground hover:text-foreground transition-colors p-1"
+                        aria-label="Company type definitions"
+                      >
+                        <Info className="w-4 h-4" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-72 text-xs" align="end">
+                      <div className="space-y-2">
+                        <p><strong className="text-foreground">Indie / Church</strong> — Church ministry, independent artist, nonprofit, social media</p>
+                        <p><strong className="text-foreground">Commercial</strong> — Label, publisher, large-scale commercial use</p>
+                        <p><strong className="text-foreground">Broadcast</strong> — Film/TV, games, advertising</p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                <p className="text-xs text-muted-foreground">
                   This helps us apply the correct licensing structure.
                 </p>
               </div>

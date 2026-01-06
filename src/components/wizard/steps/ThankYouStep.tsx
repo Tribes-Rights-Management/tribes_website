@@ -8,10 +8,10 @@ export function ThankYouStep() {
     <div className="text-center py-12 max-w-md mx-auto space-y-8">
       <div className="space-y-4">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Your license request has been submitted
+          Request received
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          We'll review the information provided and follow up if clarification is needed before approval.
+          You'll see status updates in your portal.
         </p>
       </div>
 
