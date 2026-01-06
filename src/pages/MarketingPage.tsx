@@ -5,7 +5,7 @@ export default function MarketingPage() {
   return (
     <PublicLayout>
       {/* Hero - Near-black (#111214) */}
-      <section className="relative bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
+      <section className="bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[720px]">
             {/* Logo */}
@@ -40,14 +40,6 @@ export default function MarketingPage() {
             </a>
           </div>
         </div>
-        
-        {/* Soft gradient fade into light body */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, transparent, hsl(0 0% 100%))"
-          }}
-        />
       </section>
 
       {/* Who It's For */}
