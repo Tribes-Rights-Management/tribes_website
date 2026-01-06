@@ -26,7 +26,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground public-scroll-smooth">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Navigation - Transitions from dark to light */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
