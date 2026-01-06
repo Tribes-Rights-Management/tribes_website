@@ -138,3 +138,45 @@ export const MOTION = {
     subtle: "cubic-bezier(0.25, 0.1, 0.25, 1)",
   },
 } as const;
+
+/**
+ * Navigation Pattern Rules — LOCKED
+ * 
+ * These rules define the structural navigation patterns for institutional interfaces.
+ * They reflect approval-based workflows, not consumer browsing behavior.
+ * 
+ * VIOLATIONS OF THESE RULES REQUIRE EXPLICIT ARCHITECTURAL REVIEW.
+ */
+export const NAV_PATTERNS = {
+  /**
+   * Mobile navigation MUST remain top-aligned.
+   * 
+   * PROHIBITED:
+   * - Bottom navigation bars
+   * - Tab bars
+   * - Floating action buttons for navigation
+   * - Swipe-based navigation drawers
+   * 
+   * REQUIRED:
+   * - Fixed top header with hamburger trigger
+   * - Right-side slide-in sheet for menu items
+   * - Sheet opens with fast, linear animation (no bounce/spring)
+   */
+  mobile: {
+    position: "top" as const,
+    menuTrigger: "hamburger" as const,
+    menuPosition: "right" as const,
+    menuType: "sheet" as const,
+    bottomNav: false as const,
+    tabBar: false as const,
+  },
+  
+  /**
+   * Desktop/tablet navigation uses inline links.
+   * No hamburger menu above mobile breakpoint.
+   */
+  desktop: {
+    position: "top" as const,
+    layout: "inline" as const,
+  },
+} as const;
