@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import AuthPage from "./pages/AuthPage";
+import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
@@ -32,6 +33,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/auth" element={user ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace /> : <AuthPage />} />
+      <Route path="/auth/callback" element={<AuthCallbackPage />} />
       
       {/* Root redirect based on role */}
       <Route path="/" element={
