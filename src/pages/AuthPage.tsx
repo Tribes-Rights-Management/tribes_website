@@ -12,6 +12,8 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEmailSent, setIsEmailSent] = useState(false);
+  const [showResend, setShowResend] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const { signInWithMagicLink } = useAuth();
   const { toast } = useToast();
 
@@ -43,29 +45,52 @@ export default function AuthPage() {
 
     setIsEmailSent(true);
     setIsSubmitting(false);
+    setShowResend(false);
+    
+    // Reveal resend option after 45 seconds
+    setTimeout(() => setShowResend(true), 45000);
+  }
+
+  async function handleResend() {
+    setIsResending(true);
+    const { error } = await signInWithMagicLink(email);
+    
+    if (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({ title: "Email sent" });
+      setShowResend(false);
+      setTimeout(() => setShowResend(true), 45000);
+    }
+    setIsResending(false);
   }
 
   if (isEmailSent) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1 flex items-center justify-center px-4">
-          <div className="w-full max-w-md text-center animate-fade-in">
+          <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Check your email</h1>
-            <p className="text-sm text-muted-foreground mb-6">
-              We've sent a sign-in link to <span className="text-foreground">{email}</span>
+            <p className="text-sm text-muted-foreground mb-2">
+              We've sent a sign-in link to your email address.
             </p>
-            <p className="text-sm text-muted-foreground mb-8">
-              Click the link in the email to continue.
+            <p className="text-xs text-muted-foreground mb-8">
+              If it doesn't appear within a minute, check your spam folder.
             </p>
-            <button
-              onClick={() => {
-                setIsEmailSent(false);
-                setEmail("");
-              }}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Use a different email
-            </button>
+            
+            {showResend && (
+              <button
+                onClick={handleResend}
+                disabled={isResending}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+              >
+                {isResending ? "Sending…" : "Resend email"}
+              </button>
+            )}
           </div>
         </main>
         <Footer />
