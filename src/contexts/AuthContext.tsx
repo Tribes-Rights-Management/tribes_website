@@ -27,9 +27,7 @@ interface AuthContextType {
   isAnyAdmin: boolean;
   isActiveUser: boolean;
   signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
-  requestAccess: (data: { firstName: string; lastName: string; email: string; organization?: string }) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
-  checkEmailStatus: (email: string) => Promise<{ exists: boolean; status: AccountStatus | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,13 +41,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, newSession) => {
         setSession(newSession);
         setUser(newSession?.user ?? null);
         
-        // Fetch profile after auth change using setTimeout
         if (newSession?.user) {
           setTimeout(() => {
             fetchUserData(newSession.user.id);
@@ -63,7 +59,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: existingSession } }) => {
       setSession(existingSession);
       setUser(existingSession?.user ?? null);
@@ -104,30 +99,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function checkEmailStatus(email: string): Promise<{ exists: boolean; status: AccountStatus | null }> {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("account_status")
-        .eq("email", email.toLowerCase().trim())
-        .maybeSingle();
-      
-      if (error) {
-        console.error("Error checking email status:", error);
-        return { exists: false, status: null };
-      }
-      
-      if (data) {
-        return { exists: true, status: data.account_status as AccountStatus };
-      }
-      
-      return { exists: false, status: null };
-    } catch (error) {
-      console.error("Error checking email:", error);
-      return { exists: false, status: null };
-    }
-  }
-
   async function signInWithMagicLink(email: string) {
     const redirectUrl = `${window.location.origin}/`;
     
@@ -135,28 +106,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email,
       options: {
         emailRedirectTo: redirectUrl,
-        shouldCreateUser: false, // Don't auto-create users
-      },
-    });
-
-    return { error: error ? new Error(error.message) : null };
-  }
-
-  async function requestAccess(data: { firstName: string; lastName: string; email: string; organization?: string }) {
-    const redirectUrl = `${window.location.origin}/`;
-    
-    // Sign up with OTP - this creates the user with pending status
-    const { error } = await supabase.auth.signInWithOtp({
-      email: data.email,
-      options: {
-        emailRedirectTo: redirectUrl,
-        shouldCreateUser: true,
-        data: {
-          name: `${data.firstName} ${data.lastName}`.trim(),
-          first_name: data.firstName,
-          last_name: data.lastName,
-          organization: data.organization || null,
-        },
       },
     });
 
@@ -189,9 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isAnyAdmin,
     isActiveUser,
     signInWithMagicLink,
-    requestAccess,
     signOut,
-    checkEmailStatus,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
