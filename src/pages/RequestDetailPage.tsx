@@ -159,8 +159,8 @@ export default function RequestDetailPage() {
             {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
           </Section>
 
-          {documents.length > 0 && (
-            <Section title="Files">
+          <Section title="Files">
+            {documents.length > 0 ? (
               <div className="space-y-2">
                 {documents.map(doc => (
                   <a
@@ -176,6 +176,14 @@ export default function RequestDetailPage() {
                   </a>
                 ))}
               </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">No files uploaded.</p>
+            )}
+          </Section>
+
+          {request.status !== "done" && (
+            <Section title="Executed Agreement">
+              <p className="text-sm text-muted-foreground">Your executed agreement will appear here once complete.</p>
             </Section>
           )}
 

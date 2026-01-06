@@ -8,7 +8,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LicenseRequest, MEDIA_TYPE_LABELS } from "@/types";
-import { Plus, FileText, Calendar, ChevronRight } from "lucide-react";
+import { Plus, Calendar, ChevronRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function PortalDashboard() {
@@ -62,14 +62,12 @@ export default function PortalDashboard() {
           </div>
         ) : requests.length === 0 ? (
           <EmptyState
-            icon={FileText}
-            title="No requests yet"
-            description="Create your first license request to get started."
+            title="No license requests yet"
+            description="Submit a request to begin the licensing process."
             action={
               <Button asChild>
                 <Link to="/portal/request/new">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Request
+                  New license request
                 </Link>
               </Button>
             }
