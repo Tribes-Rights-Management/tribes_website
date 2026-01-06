@@ -13,12 +13,19 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
   const isActive = (path: string) => location.pathname === path;
 
-  const navItems = [
-    { label: "Dashboard", path: isAnyAdmin ? "/admin" : "/portal" },
-    { label: "Licenses", path: isAnyAdmin ? "/admin/licenses" : "/portal/licenses" },
-    ...(isAnyAdmin ? [{ label: "Access Requests", path: "/admin/access-requests" }] : []),
-    { label: "Settings", path: isAnyAdmin ? "/admin/settings" : "/portal/settings" },
-  ];
+  const navItems = isAnyAdmin
+    ? [
+        { label: "Dashboard", path: "/admin" },
+        { label: "Licenses", path: "/admin/licenses" },
+        { label: "Access Requests", path: "/admin/access-requests" },
+        { label: "Settings", path: "/admin/settings" },
+      ]
+    : [
+        { label: "Dashboard", path: "/portal" },
+        { label: "Licenses", path: "/portal/licenses" },
+        { label: "My Account", path: "/portal/account" },
+        { label: "Data Retention", path: "/portal/data-retention" },
+      ];
 
   async function handleSignOut() {
     await signOut();

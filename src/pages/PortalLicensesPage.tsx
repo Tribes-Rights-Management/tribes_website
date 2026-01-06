@@ -3,9 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { StatusBadge } from "@/components/StatusBadge";
 import { LicenseRequest } from "@/types";
 import { format } from "date-fns";
+
+const STATUS_LABELS: Record<string, string> = {
+  draft: "Draft",
+  submitted: "Submitted",
+  in_review: "In Review",
+  needs_info: "Needs Info",
+  approved: "Approved",
+  awaiting_signature: "Awaiting Signature",
+  awaiting_payment: "Awaiting Payment",
+  sent_for_signature: "Sent for Signature",
+  executed: "Executed",
+  closed: "Closed",
+  done: "Done",
+};
 
 export default function PortalLicensesPage() {
   const { user } = useAuth();
@@ -35,7 +48,6 @@ export default function PortalLicensesPage() {
     }
   }
 
-  // Determine empty state type
   const isFirstTime = requests.length === 0;
 
   if (isLoading) {
@@ -48,44 +60,55 @@ export default function PortalLicensesPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-3xl animate-content-fade">
+      <div className="max-w-4xl animate-content-fade">
         {/* Page Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-[15px] font-medium mb-1">Licenses</h1>
-            <p className="text-[13px] text-muted-foreground">
+            <h1 className="mb-1">Licenses</h1>
+            <p className="text-sm text-muted-foreground">
               All your license requests.
             </p>
           </div>
           <Link
             to="/portal/request/new"
-            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
           >
-            + New request
+            New request
           </Link>
         </div>
 
         {/* List */}
         {isFirstTime ? (
           <div className="py-16">
-            <p className="text-[14px] font-medium mb-1">No license activity yet</p>
-            <p className="text-[13px] text-muted-foreground">
+            <p className="text-sm font-medium mb-1">No license activity yet</p>
+            <p className="text-sm text-muted-foreground">
               License requests will appear here once submitted.
             </p>
           </div>
         ) : (
-          <div>
+          <div className="space-y-0">
+            {/* Header */}
+            <div className="hidden md:grid grid-cols-[120px_1.5fr_100px_100px_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
+              <span>License ID</span>
+              <span>Track Title</span>
+              <span>Status</span>
+              <span>Submitted</span>
+              <span>Last Updated</span>
+            </div>
+
+            {/* Rows */}
             {requests.map((request) => {
               const title = request.track_title || request.song_title || request.project_title || "Untitled";
               const submittedDate = request.submitted_at
-                ? format(new Date(request.submitted_at), "MMM d")
+                ? format(new Date(request.submitted_at), "MMM d, yyyy")
                 : "—";
+              const updatedDate = format(new Date(request.updated_at), "MMM d, yyyy");
 
               return (
                 <div
                   key={request.id}
                   onClick={() => navigate(`/portal/request/${request.id}`)}
-                  className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/30 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="h-14 hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors cursor-pointer flex items-center"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -95,17 +118,33 @@ export default function PortalLicensesPage() {
                     }
                   }}
                 >
-                  <div className="flex items-center gap-4 min-w-0 flex-1">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-3">
-                        <p className="text-[14px] truncate">{title}</p>
-                        {request.license_id && (
-                          <span className="text-[12px] text-muted-foreground font-mono">{request.license_id}</span>
-                        )}
-                      </div>
-                      <p className="text-[13px] text-muted-foreground">{submittedDate}</p>
+                  {/* Desktop */}
+                  <div className="hidden md:grid grid-cols-[120px_1.5fr_100px_100px_100px] gap-4 items-center w-full">
+                    <span className="text-xs font-mono text-muted-foreground truncate">
+                      {request.license_id || "—"}
+                    </span>
+                    <span className="text-sm truncate">{title}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {STATUS_LABELS[request.status] || request.status}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{submittedDate}</span>
+                    <span className="text-xs text-muted-foreground">{updatedDate}</span>
+                  </div>
+
+                  {/* Mobile */}
+                  <div className="md:hidden w-full space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm truncate max-w-[200px]">{title}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {STATUS_LABELS[request.status] || request.status}
+                      </span>
                     </div>
-                    <StatusBadge status={request.status} />
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono text-muted-foreground">
+                        {request.license_id || "—"}
+                      </span>
+                      <span className="text-xs text-muted-foreground">{submittedDate}</span>
+                    </div>
                   </div>
                 </div>
               );

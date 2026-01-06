@@ -10,6 +10,8 @@ import AuthPage from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
 import PortalLicensesPage from "./pages/PortalLicensesPage";
+import MyAccountPage from "./pages/MyAccountPage";
+import DataRetentionPage from "./pages/DataRetentionPage";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
 import AgreementHandoffPage from "./pages/AgreementHandoffPage";
@@ -49,6 +51,8 @@ function AppRoutes() {
       {/* User Portal Routes */}
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
       <Route path="/portal/licenses" element={<ProtectedRoute><PortalLicensesPage /></ProtectedRoute>} />
+      <Route path="/portal/account" element={<ProtectedRoute><MyAccountPage /></ProtectedRoute>} />
+      <Route path="/portal/data-retention" element={<ProtectedRoute><DataRetentionPage /></ProtectedRoute>} />
       <Route path="/portal/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/portal/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
       <Route path="/portal/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
