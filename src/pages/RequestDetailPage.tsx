@@ -40,7 +40,7 @@ export default function RequestDetailPage() {
   async function fetchRequestData(requestId: string) {
     try {
       const [requestRes, docsRes] = await Promise.all([
-        supabase.from("license_requests").select("*").eq("id", requestId).single(),
+        supabase.from("license_packages").select("*").eq("id", requestId).single(),
         supabase.from("generated_documents").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
       ]);
 

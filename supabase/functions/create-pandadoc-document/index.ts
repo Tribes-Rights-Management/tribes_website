@@ -32,7 +32,7 @@ serve(async (req) => {
 
     // Fetch the license request by license_id
     const { data: request, error: requestError } = await supabase
-      .from('license_requests')
+      .from('license_packages')
       .select('*')
       .eq('license_id', license_id)
       .single();
@@ -89,7 +89,7 @@ serve(async (req) => {
       const mockDocId = `mock_doc_${Date.now()}`;
       
       await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update({
           pandadoc_document_id: mockDocId,
           signature_status: 'sent',
@@ -170,7 +170,7 @@ serve(async (req) => {
 
     // Update license request
     await supabase
-      .from('license_requests')
+      .from('license_packages')
       .update({
         pandadoc_document_id: docData.id,
         signature_status: 'sent',

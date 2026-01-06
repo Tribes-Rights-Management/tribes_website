@@ -31,7 +31,7 @@ serve(async (req) => {
 
     // Fetch the license request by license_id (not database id)
     const { data: request, error: requestError } = await supabase
-      .from('license_requests')
+      .from('license_packages')
       .select('*')
       .eq('license_id', license_id)
       .single();
@@ -136,7 +136,7 @@ serve(async (req) => {
 
     // Update request with pending payment status
     await supabase
-      .from('license_requests')
+      .from('license_packages')
       .update({
         payment_status: 'pending',
       })

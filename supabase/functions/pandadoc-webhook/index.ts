@@ -54,7 +54,7 @@ serve(async (req) => {
     
     if (metadata.license_id) {
       const { data } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .select('*')
         .eq('license_id', metadata.license_id)
         .single();
@@ -63,7 +63,7 @@ serve(async (req) => {
     
     if (!request) {
       const { data } = await supabase
-        .from('license_requests')
+        .from('license_packages')
         .select('*')
         .eq('pandadoc_document_id', documentId)
         .single();
@@ -99,7 +99,7 @@ serve(async (req) => {
       }
 
       await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update(updateData)
         .eq('id', request.id);
 
@@ -129,7 +129,7 @@ serve(async (req) => {
       }
 
       await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update(updateData)
         .eq('id', request.id);
 
@@ -201,7 +201,7 @@ serve(async (req) => {
       const newStatus = docData.status === 'document.declined' ? 'declined' : 'voided';
       
       await supabase
-        .from('license_requests')
+        .from('license_packages')
         .update({
           signature_status: newStatus,
         })

@@ -40,7 +40,7 @@ export default function RequestFormPage() {
   async function loadRequest(requestId: string) {
     try {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("*")
         .eq("id", requestId)
         .maybeSingle();
@@ -106,7 +106,7 @@ export default function RequestFormPage() {
     
     try {
       await supabase
-        .from("license_requests")
+        .from("license_packages")
         .update({ ...formData, updated_at: new Date().toISOString() })
         .eq("id", requestId);
     } catch (error) {
@@ -126,7 +126,7 @@ export default function RequestFormPage() {
     
     try {
       const { data, error } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .insert({ user_id: user.id, status: "draft" as const, ...formData })
         .select()
         .single();
@@ -210,7 +210,7 @@ export default function RequestFormPage() {
     setIsSubmitting(true);
     try {
       const { data: currentRequest } = await supabase
-        .from("license_requests")
+        .from("license_packages")
         .select("status")
         .eq("id", requestId)
         .single();
@@ -218,7 +218,7 @@ export default function RequestFormPage() {
       const targetStatus = currentRequest?.status === "needs_info" ? "in_review" : "submitted";
       
       await supabase
-        .from("license_requests")
+        .from("license_packages")
         .update({
           ...formData,
           status: targetStatus as any,

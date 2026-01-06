@@ -36,7 +36,7 @@ serve(async (req) => {
     console.log(`Generating contract for request: ${request_id}`);
 
     const { data: request, error: requestError } = await supabase
-      .from('license_requests')
+      .from('license_packages')
       .select('*')
       .eq('id', request_id)
       .single();
