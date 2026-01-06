@@ -375,6 +375,7 @@ export type Database = {
           grant_of_rights: string | null
           id: string
           immutable_lock_at: string | null
+          is_superseded: boolean
           license_id: string
           license_type_code: string
           paid_at: string | null
@@ -383,6 +384,10 @@ export type Database = {
           restrictions: string | null
           signature_completed: boolean
           status: Database["public"]["Enums"]["request_status"]
+          superseded_at: string | null
+          superseded_by: string | null
+          supersedes_license_id: string | null
+          supersession_reason: string | null
           term: string | null
           territory: string | null
           updated_at: string
@@ -396,6 +401,7 @@ export type Database = {
           grant_of_rights?: string | null
           id?: string
           immutable_lock_at?: string | null
+          is_superseded?: boolean
           license_id: string
           license_type_code: string
           paid_at?: string | null
@@ -404,6 +410,10 @@ export type Database = {
           restrictions?: string | null
           signature_completed?: boolean
           status?: Database["public"]["Enums"]["request_status"]
+          superseded_at?: string | null
+          superseded_by?: string | null
+          supersedes_license_id?: string | null
+          supersession_reason?: string | null
           term?: string | null
           territory?: string | null
           updated_at?: string
@@ -417,6 +427,7 @@ export type Database = {
           grant_of_rights?: string | null
           id?: string
           immutable_lock_at?: string | null
+          is_superseded?: boolean
           license_id?: string
           license_type_code?: string
           paid_at?: string | null
@@ -425,6 +436,10 @@ export type Database = {
           restrictions?: string | null
           signature_completed?: boolean
           status?: Database["public"]["Enums"]["request_status"]
+          superseded_at?: string | null
+          superseded_by?: string | null
+          supersedes_license_id?: string | null
+          supersession_reason?: string | null
           term?: string | null
           territory?: string | null
           updated_at?: string
@@ -436,6 +451,20 @@ export type Database = {
             columns: ["request_id"]
             isOneToOne: false
             referencedRelation: "license_packages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "licenses_superseded_by_fkey"
+            columns: ["superseded_by"]
+            isOneToOne: false
+            referencedRelation: "licenses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "licenses_supersedes_license_id_fkey"
+            columns: ["supersedes_license_id"]
+            isOneToOne: false
+            referencedRelation: "licenses"
             referencedColumns: ["id"]
           },
         ]
@@ -580,6 +609,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_export_package: { Args: { p_package_id: string }; Returns: boolean }
       generate_license_id_v2: { Args: never; Returns: string }
       generate_package_id: { Args: never; Returns: string }
       get_package_derived_status: {
@@ -629,6 +659,15 @@ export type Database = {
         Args: { p_license_id_human: string }
         Returns: Json
       }
+      rpc_log_audit_event_v1: {
+        Args: {
+          p_action: string
+          p_details?: Json
+          p_target_id: string
+          p_target_type: string
+        }
+        Returns: Json
+      }
       rpc_mark_payment_confirmed_v1: {
         Args: { p_license_id_human: string; p_payment_intent_id?: string }
         Returns: Json
@@ -637,8 +676,28 @@ export type Database = {
         Args: { p_license_id_human: string; p_signature_event_id?: string }
         Returns: Json
       }
+      rpc_search_audit_log_v1: {
+        Args: { p_license_id?: string; p_limit?: number; p_package_id?: string }
+        Returns: {
+          action: string
+          actor_id: string
+          created_at: string
+          details: Json
+          id: string
+          target_id: string
+          target_type: string
+        }[]
+      }
       rpc_submit_license_package_v1: {
         Args: { p_payload: Json }
+        Returns: Json
+      }
+      rpc_supersede_license_v1: {
+        Args: {
+          p_new_license_type?: string
+          p_original_license_id: string
+          p_reason: string
+        }
         Returns: Json
       }
     }

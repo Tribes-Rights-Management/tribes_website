@@ -94,20 +94,36 @@ serve(async (req) => {
       });
     }
 
-    // Only allow export for done status
-    if (request.status !== "done") {
-      return new Response(JSON.stringify({ error: "License must be complete to export" }), {
+    // Fetch individual licenses for this request (exclude superseded)
+    const { data: licenses } = await supabase
+      .from("licenses")
+      .select("*")
+      .eq("request_id", request.id)
+      .eq("is_superseded", false)
+      .order("created_at");
+
+    // D1: Export gating - ALL non-superseded licenses must be Done
+    const incompleteLicenses = (licenses || []).filter((l: License) => l.status !== "done");
+    if (incompleteLicenses.length > 0) {
+      return new Response(JSON.stringify({ 
+        error: "Export not permitted: not all licenses are complete",
+        incomplete_count: incompleteLicenses.length,
+        incomplete_licenses: incompleteLicenses.map((l: License) => ({
+          license_id: l.license_id,
+          status: l.status
+        }))
+      }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
 
-    // Fetch individual licenses for this request
-    const { data: licenses } = await supabase
-      .from("licenses")
-      .select("*")
-      .eq("request_id", request.id)
-      .order("created_at");
+    if (!licenses || licenses.length === 0) {
+      return new Response(JSON.stringify({ error: "No active licenses found in package" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
     // Fetch license types for display names
     const { data: licenseTypes } = await supabase

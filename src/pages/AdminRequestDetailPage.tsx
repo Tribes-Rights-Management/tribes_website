@@ -57,10 +57,12 @@ const LICENSE_STATUS_ORDER: RequestStatus[] = [
 ];
 
 function getDerivedPackageStatus(licenses: License[]): RequestStatus | null {
-  if (licenses.length === 0) return null;
+  // C5: Exclude superseded licenses from derived status calculation
+  const activeLicenses = licenses.filter(l => !(l as any).is_superseded);
+  if (activeLicenses.length === 0) return null;
   
   let lowestIndex = LICENSE_STATUS_ORDER.length - 1;
-  for (const license of licenses) {
+  for (const license of activeLicenses) {
     const idx = LICENSE_STATUS_ORDER.indexOf(license.status);
     if (idx !== -1 && idx < lowestIndex) {
       lowestIndex = idx;
@@ -89,6 +91,9 @@ export default function AdminRequestDetailPage() {
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [selectedLicenseForStatus, setSelectedLicenseForStatus] = useState<string | null>(null);
+  const [supersedingLicenseId, setSupersedingLicenseId] = useState<string | null>(null);
+  const [supersessionReason, setSupersessionReason] = useState("");
+  const [isSuperseding, setIsSuperseding] = useState(false);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -195,6 +200,38 @@ export default function AdminRequestDetailPage() {
     }
   }
 
+  async function supersedeLicense(licenseIdHuman: string) {
+    if (!request || !user || !isSuperAdmin || !supersessionReason.trim()) return;
+    
+    setIsSuperseding(true);
+    try {
+      const { data, error } = await supabase.rpc("rpc_supersede_license_v1", {
+        p_original_license_id: licenseIdHuman,
+        p_reason: supersessionReason.trim(),
+      });
+
+      if (error) throw error;
+      
+      const result = data as { new_license_id: string };
+      toast({ 
+        title: "License superseded", 
+        description: `New license ${result.new_license_id} created`
+      });
+      setSupersedingLicenseId(null);
+      setSupersessionReason("");
+      fetchRequestData(request.id);
+    } catch (error: any) {
+      console.error("Error superseding license:", error);
+      toast({ 
+        title: "Error", 
+        description: error.message || "Failed to supersede license", 
+        variant: "destructive" 
+      });
+    } finally {
+      setIsSuperseding(false);
+    }
+  }
+
   const selectedTypeNames = (request?.selected_license_types || [])
     .map(code => licenseTypes.find(t => t.code === code)?.name || code);
   const canGenerateLicenses = request && isSuperAdmin && 
@@ -202,8 +239,15 @@ export default function AdminRequestDetailPage() {
     licenses.length === 0 && 
     (request.selected_license_types?.length || 0) > 0;
   
+  // Separate active and superseded licenses
+  const activeLicenses = licenses.filter(l => !(l as any).is_superseded);
+  const supersededLicenses = licenses.filter(l => (l as any).is_superseded);
+  
   const derivedPackageStatus = getDerivedPackageStatus(licenses);
-  const hasMultipleLicenses = licenses.length > 1;
+  const hasMultipleLicenses = activeLicenses.length > 1;
+  
+  // D1: Check if export is allowed (all active licenses done)
+  const canExport = activeLicenses.length > 0 && activeLicenses.every(l => l.status === "done");
 
   if (isLoading) {
     return (
@@ -266,11 +310,11 @@ export default function AdminRequestDetailPage() {
         {/* Single-column reading layout */}
         <div className="space-y-12">
           
-          {/* Package Summary with Licenses */}
-          {licenses.length > 0 && (
+          {/* Active Licenses */}
+          {activeLicenses.length > 0 && (
             <section className="space-y-4">
               <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">
-                License Package
+                Active Licenses ({activeLicenses.length})
               </h3>
               
               {hasMultipleLicenses && (
@@ -281,10 +325,12 @@ export default function AdminRequestDetailPage() {
               )}
               
               <div className="space-y-6 mt-4">
-                {licenses.map(license => {
+                {activeLicenses.map(license => {
                   const typeName = licenseTypes.find(t => t.code === license.license_type_code)?.name || license.license_type_code;
                   const allowedTransitions = WORKFLOW_TRANSITIONS[license.status] || [];
                   const isExpanded = selectedLicenseForStatus === license.id;
+                  const isSupersedingThis = supersedingLicenseId === license.license_id;
+                  const canSupersede = license.status === "done" && isSuperAdmin;
                   
                   return (
                     <div key={license.id} className="py-4 border-b border-border/30 last:border-0">
@@ -378,6 +424,52 @@ export default function AdminRequestDetailPage() {
                         </div>
                       )}
                       
+                      {/* F1/F2: Supersede action for executed licenses */}
+                      {canSupersede && (
+                        <div className="mt-4 pt-3 border-t border-border/20">
+                          {!isSupersedingThis ? (
+                            <button
+                              onClick={() => setSupersedingLicenseId(license.license_id)}
+                              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                              Issue superseding license
+                            </button>
+                          ) : (
+                            <div className="space-y-3">
+                              <p className="text-[12px] text-muted-foreground">
+                                This will create a new license that supersedes {license.license_id}.
+                                The original license remains readable and downloadable.
+                              </p>
+                              <Textarea
+                                placeholder="Reason for supersession (required)"
+                                value={supersessionReason}
+                                onChange={(e) => setSupersessionReason(e.target.value)}
+                                rows={2}
+                                className="text-[13px]"
+                              />
+                              <div className="flex gap-3">
+                                <button
+                                  onClick={() => supersedeLicense(license.license_id)}
+                                  disabled={!supersessionReason.trim() || isSuperseding}
+                                  className="text-[12px] text-foreground hover:text-muted-foreground disabled:opacity-40 transition-colors"
+                                >
+                                  {isSuperseding ? "Processing…" : "Confirm supersession"}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setSupersedingLicenseId(null);
+                                    setSupersessionReason("");
+                                  }}
+                                  className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
                       {/* Helper text for license context */}
                       <p className="text-[11px] text-muted-foreground mt-4">
                         This license is part of a License Package.
@@ -395,6 +487,49 @@ export default function AdminRequestDetailPage() {
                     <p className="text-[14px] font-medium">Total Package Fee: ${request.license_fee.toFixed(2)}</p>
                   </div>
                 )}
+              </div>
+            </section>
+          )}
+
+          {/* Superseded Licenses (F2: remains readable) */}
+          {supersededLicenses.length > 0 && (
+            <section className="space-y-4">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">
+                Superseded Licenses ({supersededLicenses.length})
+              </h3>
+              <p className="text-[11px] text-muted-foreground">
+                These licenses have been superseded and are read-only. They remain downloadable for historical reference.
+              </p>
+              
+              <div className="space-y-4 mt-2">
+                {supersededLicenses.map(license => {
+                  const typeName = licenseTypes.find(t => t.code === license.license_type_code)?.name || license.license_type_code;
+                  const supersededByLicense = licenses.find(l => l.id === (license as any).superseded_by);
+                  
+                  return (
+                    <div key={license.id} className="py-3 px-4 bg-muted/20 rounded opacity-70">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <p className="text-[13px] font-mono">{license.license_id}</p>
+                          <p className="text-[12px] text-muted-foreground">{typeName}</p>
+                        </div>
+                        <span className="text-[11px] text-muted-foreground px-2 py-0.5 border border-muted-foreground/30 rounded">
+                          Superseded
+                        </span>
+                      </div>
+                      {supersededByLicense && (
+                        <p className="text-[11px] text-muted-foreground">
+                          Superseded by: {supersededByLicense.license_id}
+                        </p>
+                      )}
+                      {(license as any).supersession_reason && (
+                        <p className="text-[11px] text-muted-foreground mt-1">
+                          Reason: {(license as any).supersession_reason}
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </section>
           )}
@@ -430,18 +565,25 @@ export default function AdminRequestDetailPage() {
                   </div>
                 )}
 
-                {isSuperAdmin && licenses.length > 0 && derivedPackageStatus === "done" && (
+                {isSuperAdmin && activeLicenses.length > 0 && (
                   <div className="pt-2 space-y-2">
                     <button
                       onClick={() => setShowPreview(true)}
-                      className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                      disabled={!canExport}
+                      className="text-[13px] text-muted-foreground hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                     >
                       Export license package
                     </button>
-                    <p className="text-[11px] text-muted-foreground">
-                      This export includes all licenses in the package.
-                      Each license remains independently enforceable.
-                    </p>
+                    {canExport ? (
+                      <p className="text-[11px] text-muted-foreground">
+                        This export includes all active licenses in the package.
+                        Each license remains independently enforceable.
+                      </p>
+                    ) : (
+                      <p className="text-[11px] text-muted-foreground">
+                        Export not available. All active licenses must be Done before export.
+                      </p>
+                    )}
                   </div>
                 )}
               </div>
