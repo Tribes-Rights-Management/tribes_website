@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -14,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Eye } from "lucide-react";
 import { format } from "date-fns";
 
 interface PendingProfile {
@@ -26,15 +25,15 @@ interface PendingProfile {
 }
 
 export default function AdminAccessRequestsPage() {
-  const navigate = useNavigate();
   const { isSuperAdmin, isAdminView } = useAuth();
   const { toast } = useToast();
-  
+
   const [profiles, setProfiles] = useState<PendingProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [rejectingProfile, setRejectingProfile] = useState<PendingProfile | null>(null);
   const [approvingProfile, setApprovingProfile] = useState<PendingProfile | null>(null);
+
   useEffect(() => {
     fetchPendingProfiles();
   }, []);
@@ -59,20 +58,20 @@ export default function AdminAccessRequestsPage() {
 
   async function confirmApprove() {
     if (!isSuperAdmin || !approvingProfile) return;
-    
+
     setProcessingId(approvingProfile.id);
     try {
       const { error } = await supabase
         .from("profiles")
-        .update({ 
+        .update({
           account_status: "active",
           approved_at: new Date().toISOString(),
         })
         .eq("id", approvingProfile.id);
 
       if (error) throw error;
-      
-      setProfiles(prev => prev.filter(p => p.id !== approvingProfile.id));
+
+      setProfiles((prev) => prev.filter((p) => p.id !== approvingProfile.id));
     } catch (error) {
       console.error("Error approving user:", error);
       toast({ title: "Error", description: "Failed to approve user", variant: "destructive" });
@@ -84,7 +83,7 @@ export default function AdminAccessRequestsPage() {
 
   async function confirmReject() {
     if (!isSuperAdmin || !rejectingProfile) return;
-    
+
     setProcessingId(rejectingProfile.id);
     try {
       const { error } = await supabase
@@ -93,8 +92,8 @@ export default function AdminAccessRequestsPage() {
         .eq("id", rejectingProfile.id);
 
       if (error) throw error;
-      
-      setProfiles(prev => prev.filter(p => p.id !== rejectingProfile.id));
+
+      setProfiles((prev) => prev.filter((p) => p.id !== rejectingProfile.id));
     } catch (error) {
       console.error("Error rejecting user:", error);
       toast({ title: "Error", description: "Failed to reject user", variant: "destructive" });
@@ -105,7 +104,7 @@ export default function AdminAccessRequestsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <DashboardLayout>
       {/* Approval Confirmation Dialog */}
       <AlertDialog open={!!approvingProfile} onOpenChange={(open) => !open && setApprovingProfile(null)}>
         <AlertDialogContent>
@@ -138,31 +137,14 @@ export default function AdminAccessRequestsPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Header */}
-      <header className="border-b border-border/50">
-        <div className="container flex items-center justify-between h-12">
-          <div className="flex items-center gap-3">
-            <span className="text-base font-semibold tracking-tight">TRIBES</span>
-            <span className="text-muted-foreground/40">|</span>
-            <span className="text-sm text-muted-foreground">Admin</span>
-            {isAdminView && (
-              <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                <Eye className="w-3 h-3" />
-                View Only
-              </span>
-            )}
-          </div>
-          <button 
-            onClick={() => navigate("/admin")}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Back to Queue
-          </button>
+      <div className="max-w-4xl">
+        {/* Page Header */}
+        <div className="mb-6">
+          <h1 className="mb-1">Access Requests</h1>
+          <p className="text-sm text-muted-foreground">
+            Users requesting access to Tribes Rights Licensing.
+          </p>
         </div>
-      </header>
-
-      <main className="container flex-1 py-8">
-        <h1 className="mb-6">Access Requests</h1>
 
         {isLoading ? (
           <div className="space-y-3">
@@ -171,7 +153,7 @@ export default function AdminAccessRequestsPage() {
             ))}
           </div>
         ) : profiles.length === 0 ? (
-          <div className="py-16 text-center">
+          <div className="py-16">
             <p className="text-sm font-medium mb-1">No access requests</p>
             <p className="text-sm text-muted-foreground">
               New requests will appear here when submitted.
@@ -180,7 +162,7 @@ export default function AdminAccessRequestsPage() {
         ) : (
           <div>
             {/* Header */}
-            <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 px-1 pb-3 text-xs font-medium text-muted-foreground border-b border-border/30">
+            <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 pb-3 text-xs font-medium text-muted-foreground border-b border-border/30">
               <span>Name</span>
               <span>Email</span>
               <span>Requested</span>
@@ -189,10 +171,7 @@ export default function AdminAccessRequestsPage() {
 
             {/* Rows */}
             {profiles.map((profile) => (
-              <div 
-                key={profile.id} 
-                className="py-4 px-1 border-b border-border/20"
-              >
+              <div key={profile.id} className="py-4 border-b border-border/20">
                 {/* Desktop */}
                 <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 items-center">
                   <span className="text-sm">{profile.name || "—"}</span>
@@ -206,14 +185,14 @@ export default function AdminAccessRequestsPage() {
                         <button
                           onClick={() => setApprovingProfile(profile)}
                           disabled={processingId === profile.id}
-                          className="h-8 px-3 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
+                          className="h-8 px-3 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => setRejectingProfile(profile)}
                           disabled={processingId === profile.id}
-                          className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
+                          className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50"
                         >
                           Reject
                         </button>
@@ -238,14 +217,14 @@ export default function AdminAccessRequestsPage() {
                       <button
                         onClick={() => setApprovingProfile(profile)}
                         disabled={processingId === profile.id}
-                        className="flex-1 h-8 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
+                        className="flex-1 h-8 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                       >
                         Approve
                       </button>
                       <button
                         onClick={() => setRejectingProfile(profile)}
                         disabled={processingId === profile.id}
-                        className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
+                        className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50"
                       >
                         Reject
                       </button>
@@ -256,13 +235,7 @@ export default function AdminAccessRequestsPage() {
             ))}
           </div>
         )}
-      </main>
-
-      <footer className="border-t border-border/50 py-4 mt-auto">
-        <div className="container text-center text-xs text-muted-foreground">
-          © 2026 Tribes Rights Management LLC. All rights reserved.
-        </div>
-      </footer>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

@@ -9,12 +9,15 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import AuthPage from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
+import PortalLicensesPage from "./pages/PortalLicensesPage";
 import RequestFormPage from "./pages/RequestFormPage";
 import RequestDetailPage from "./pages/RequestDetailPage";
 import AgreementHandoffPage from "./pages/AgreementHandoffPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AdminLicensesPage from "./pages/AdminLicensesPage";
 import AdminRequestDetailPage from "./pages/AdminRequestDetailPage";
 import AdminAccessRequestsPage from "./pages/AdminAccessRequestsPage";
+import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +47,8 @@ function AppRoutes() {
       
       {/* User Portal Routes */}
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
+      <Route path="/portal/licenses" element={<ProtectedRoute><PortalLicensesPage /></ProtectedRoute>} />
+      <Route path="/portal/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/portal/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
       <Route path="/portal/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
       <Route path="/portal/request/:id/sign" element={<ProtectedRoute><AgreementHandoffPage /></ProtectedRoute>} />
@@ -56,7 +61,9 @@ function AppRoutes() {
       
       {/* Admin Console Routes */}
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
+      <Route path="/admin/licenses" element={<ProtectedRoute requireAdmin><AdminLicensesPage /></ProtectedRoute>} />
       <Route path="/admin/access-requests" element={<ProtectedRoute requireAdmin><AdminAccessRequestsPage /></ProtectedRoute>} />
+      <Route path="/admin/settings" element={<ProtectedRoute requireAdmin><SettingsPage /></ProtectedRoute>} />
       <Route path="/admin/licenses/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
       
       {/* Legacy admin route redirect */}

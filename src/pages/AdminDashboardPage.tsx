@@ -2,63 +2,37 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search, Eye, AlignJustify, Users } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 
-const ADMIN_STATUSES: RequestStatus[] = [
+type StatusFilter = "all" | RequestStatus;
+
+const STATUS_ORDER: RequestStatus[] = [
   "submitted",
-  "in_review", 
+  "in_review",
   "needs_info",
   "approved",
   "awaiting_signature",
   "awaiting_payment",
-  "done"
+  "done",
 ];
-
-type Density = "comfortable" | "compact";
-
-const getDensityFromStorage = (): Density => {
-  if (typeof window !== "undefined") {
-    return (localStorage.getItem("admin-queue-density") as Density) || "comfortable";
-  }
-  return "comfortable";
-};
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
-  const { isAdminView, isSuperAdmin } = useAuth();
+  const { isSuperAdmin } = useAuth();
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
   const [pendingCount, setPendingCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeStatus, setActiveStatus] = useState<RequestStatus>("submitted");
-  const [density, setDensity] = useState<Density>(getDensityFromStorage);
+  const [activeFilter, setActiveFilter] = useState<StatusFilter>("submitted");
 
   useEffect(() => {
     fetchRequests();
     fetchPendingCount();
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("admin-queue-density", density);
-  }, [density]);
 
   async function fetchRequests() {
     try {
@@ -92,210 +66,123 @@ export default function AdminDashboardPage() {
     }
   }
 
-  const filteredRequests = requests.filter((request) => {
-    const matchesSearch = searchQuery === "" || 
-      request.licensee_legal_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.first_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.last_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.licensee_email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.track_title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.song_title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.recording_artist?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    return matchesSearch && request.status === activeStatus;
-  });
-
+  // Calculate counts
   const statusCounts = requests.reduce((acc, req) => {
     acc[req.status] = (acc[req.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const rowClass = density === "compact" ? "py-2.5" : "py-4";
+  // Filter requests
+  const filteredRequests = activeFilter === "all"
+    ? requests
+    : requests.filter(r => r.status === activeFilter);
+
+  // Take recent 7 for display
+  const displayRequests = filteredRequests.slice(0, 7);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border/50">
-        <div className="container flex items-center justify-between h-12">
-          <div className="flex items-center gap-3">
-            <span className="text-base font-semibold tracking-tight">TRIBES</span>
-            <span className="text-muted-foreground/40">|</span>
-            <span className="text-sm text-muted-foreground">Admin</span>
-            {isAdminView && (
-              <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-                <Eye className="w-3 h-3" />
-                View Only
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            {pendingCount > 0 && (
-              <button
-                onClick={() => navigate("/admin/access-requests")}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Users className="w-4 h-4" />
-                <span>{pendingCount} pending</span>
-              </button>
-            )}
-            {pendingCount === 0 && (
-              <button
-                onClick={() => navigate("/admin/access-requests")}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Users className="w-4 h-4" />
-                <span>Access</span>
-              </button>
-            )}
-            <button 
-              onClick={() => navigate("/portal")}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Exit Admin
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <main className="container flex-1 py-8">
-        {/* Title */}
-        <h1 className="mb-6">License Queue</h1>
-
-        {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              placeholder="Search by name, email, track, or artist…"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-          <div className="flex gap-3">
-            <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
-              <SelectTrigger className="w-full sm:w-[200px]">
-                <SelectValue placeholder="Status" />
-              </SelectTrigger>
-              <SelectContent>
-                {ADMIN_STATUSES.map((status) => (
-                  <SelectItem key={status} value={status}>
-                    {STATUS_LABELS[status]}
-                    {statusCounts[status] > 0 && ` (${statusCounts[status]})`}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="h-10 w-10 flex items-center justify-center border border-input rounded-md hover:bg-muted/40 transition-colors">
-                  <AlignJustify className="w-4 h-4 text-muted-foreground" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-popover">
-                <DropdownMenuItem 
-                  onClick={() => setDensity("comfortable")}
-                  className={density === "comfortable" ? "bg-muted" : ""}
-                >
-                  Comfortable
-                </DropdownMenuItem>
-                <DropdownMenuItem 
-                  onClick={() => setDensity("compact")}
-                  className={density === "compact" ? "bg-muted" : ""}
-                >
-                  Compact
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+    <DashboardLayout>
+      <div className="max-w-4xl">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="mb-1">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">
+            Overview of current licensing activity.
+          </p>
         </div>
 
-        {/* Table */}
         {isLoading ? (
-          <div>
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className={`${rowClass} border-b border-border/30`}>
-                <Skeleton className="h-10 w-full" />
-              </div>
-            ))}
-          </div>
-        ) : filteredRequests.length === 0 ? (
-          <div className="py-16 text-center">
-            <p className="text-sm font-medium mb-1">
-              {searchQuery ? "No results" : "No license requests"}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              {searchQuery ? "No license requests match your selection." : "New requests will appear here."}
-            </p>
+          <div className="space-y-6">
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-64 w-full" />
           </div>
         ) : (
-          <div>
-            {/* Header */}
-            <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 px-1 pb-3 text-xs font-medium text-muted-foreground border-b border-border/30">
-              <span>Submitted</span>
-              <span>Requester</span>
-              <span>Email</span>
-              <span>Track</span>
-              <span>Artist</span>
-              <span>Status</span>
-            </div>
+          <>
+            {/* Status Overview */}
+            <section className="mb-10">
+              <div className="space-y-0">
+                {STATUS_ORDER.map((status) => {
+                  const count = statusCounts[status] || 0;
+                  return (
+                    <button
+                      key={status}
+                      onClick={() => setActiveFilter(status)}
+                      className={`flex items-center justify-between w-full py-2.5 text-left transition-colors ${
+                        activeFilter === status ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <span className="text-sm">{STATUS_LABELS[status]}</span>
+                      <span className="text-sm tabular-nums">{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
 
-            {/* Rows */}
-            {filteredRequests.map((request) => {
-              const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
-              const trackTitle = request.track_title || request.song_title || "—";
-              const submittedDate = request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—";
-              
-              return (
-                <div 
-                  key={request.id} 
-                  onClick={() => navigate(`/admin/licenses/${request.id}`)}
-                  className={`${rowClass} px-1 cursor-pointer transition-colors border-b border-border/20 hover:bg-muted/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/50`}
-                  tabIndex={0}
-                  role="button"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      navigate(`/admin/licenses/${request.id}`);
-                    }
-                  }}
-                >
-                  {/* Desktop */}
-                  <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 items-center">
-                    <span className="text-xs text-muted-foreground">{submittedDate}</span>
-                    <div className="min-w-0">
-                      <p className="text-sm truncate">{requesterName}</p>
-                      {request.organization && <p className="text-xs text-muted-foreground truncate">{request.organization}</p>}
-                    </div>
-                    <span className="text-sm text-muted-foreground truncate">{request.licensee_email || "—"}</span>
-                    <span className="text-sm truncate">{trackTitle}</span>
-                    <span className="text-sm text-muted-foreground truncate">{request.recording_artist || "—"}</span>
-                    <StatusBadge status={request.status} />
-                  </div>
+            {/* Recent Requests */}
+            <section className="mb-10">
+              <h2 className="text-sm font-medium mb-4">Recent license requests</h2>
 
-                  {/* Mobile */}
-                  <div className="md:hidden space-y-1">
-                    <div className="flex items-center justify-between gap-3">
-                      <span className="text-sm font-medium truncate">{trackTitle}</span>
-                      <StatusBadge status={request.status} />
-                    </div>
-                    <p className="text-xs text-muted-foreground">{requesterName}</p>
-                    <p className="text-xs text-muted-foreground">{submittedDate}</p>
-                  </div>
+              {displayRequests.length === 0 ? (
+                <div className="py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No license requests yet. New requests will appear here.
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-        )}
-      </main>
+              ) : (
+                <div>
+                  {displayRequests.map((request) => {
+                    const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
+                    const trackTitle = request.track_title || request.song_title || "Untitled";
+                    const submittedDate = request.submitted_at
+                      ? format(new Date(request.submitted_at), "MMM d, yyyy")
+                      : "—";
 
-      <footer className="border-t border-border/50 py-4 mt-auto">
-        <div className="container text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
-        </div>
-      </footer>
-    </div>
+                    return (
+                      <div
+                        key={request.id}
+                        onClick={() => navigate(`/admin/licenses/${request.id}`)}
+                        className="flex items-center justify-between py-3.5 border-b border-border/20 cursor-pointer hover:bg-muted/20 -mx-2 px-2 rounded transition-colors"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            navigate(`/admin/licenses/${request.id}`);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center gap-6 min-w-0 flex-1">
+                          <span className="text-xs text-muted-foreground w-20 flex-shrink-0">{submittedDate}</span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm truncate">{trackTitle}</p>
+                            <p className="text-xs text-muted-foreground truncate">{requesterName}</p>
+                          </div>
+                          <StatusBadge status={request.status} />
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground ml-3 flex-shrink-0" />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+
+            {/* Access Requests (Admin only) */}
+            {pendingCount > 0 && (
+              <section>
+                <h2 className="text-sm font-medium mb-4">Access requests</h2>
+                <button
+                  onClick={() => navigate("/admin/access-requests")}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {pendingCount} access request{pendingCount !== 1 ? "s" : ""} awaiting review
+                </button>
+              </section>
+            )}
+          </>
+        )}
+      </div>
+    </DashboardLayout>
   );
 }

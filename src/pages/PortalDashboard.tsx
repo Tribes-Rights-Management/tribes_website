@@ -1,20 +1,31 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
-import { AppLayout } from "@/components/AppLayout";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
-import { EmptyState } from "@/components/EmptyState";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LicenseRequest, MEDIA_TYPE_LABELS } from "@/types";
-import { Plus, Calendar, ChevronRight } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
+import { ChevronRight, Plus } from "lucide-react";
+import { format } from "date-fns";
+
+type StatusFilter = "all" | RequestStatus;
+
+const STATUS_ORDER: RequestStatus[] = [
+  "submitted",
+  "in_review",
+  "needs_info",
+  "awaiting_signature",
+  "awaiting_payment",
+  "done",
+];
 
 export default function PortalDashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<StatusFilter>("all");
 
   useEffect(() => {
     if (user) fetchRequests();
@@ -26,6 +37,7 @@ export default function PortalDashboard() {
         .from("license_requests")
         .select("*")
         .eq("user_id", user!.id)
+        .neq("status", "draft")
         .order("updated_at", { ascending: false });
 
       if (error) throw error;
@@ -37,76 +49,127 @@ export default function PortalDashboard() {
     }
   }
 
+  // Calculate counts
+  const statusCounts = requests.reduce((acc, req) => {
+    acc[req.status] = (acc[req.status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  // Filter requests
+  const filteredRequests = activeFilter === "all" 
+    ? requests 
+    : requests.filter(r => r.status === activeFilter);
+
+  // Take recent 7 for display
+  const displayRequests = filteredRequests.slice(0, 7);
+
   return (
-    <AppLayout>
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h1>My Requests</h1>
-          <Button asChild>
-            <Link to="/portal/request/new">
-              <Plus className="w-4 h-4 mr-2" />
-              New Request
-            </Link>
-          </Button>
+    <DashboardLayout>
+      <div className="max-w-4xl">
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="mb-1">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">
+            Overview of your licensing activity.
+          </p>
         </div>
 
-        {/* Content */}
         {isLoading ? (
-          <div className="space-y-3">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="py-4 border-b border-border/30">
-                <Skeleton className="h-12 w-full" />
-              </div>
-            ))}
+          <div className="space-y-6">
+            <Skeleton className="h-24 w-full" />
+            <Skeleton className="h-64 w-full" />
           </div>
-        ) : requests.length === 0 ? (
-          <EmptyState
-            title="No license requests yet"
-            description="Submit a request to begin the licensing process."
-            action={
-              <Button asChild>
-                <Link to="/portal/request/new">
-                  New license request
-                </Link>
-              </Button>
-            }
-          />
         ) : (
-          <div>
-            {requests.map((request) => (
-              <Link 
-                key={request.id} 
-                to={`/portal/request/${request.id}`}
-                className="block py-4 border-b border-border/20 hover:bg-muted/30 -mx-2 px-2 rounded transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
-              >
-                <div className="flex items-center gap-4">
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="text-sm font-medium truncate">
-                        {request.song_title || request.track_title || request.project_title || "Untitled Request"}
-                      </span>
-                      <StatusBadge status={request.status} />
-                    </div>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                      {request.media_type && (
-                        <span>{MEDIA_TYPE_LABELS[request.media_type]}</span>
-                      )}
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {formatDistanceToNow(new Date(request.updated_at), { addSuffix: true })}
-                      </span>
-                    </div>
-                  </div>
+          <>
+            {/* Status Overview */}
+            <section className="mb-10">
+              <div className="space-y-0">
+                <button
+                  onClick={() => setActiveFilter("all")}
+                  className={`flex items-center justify-between w-full py-2.5 text-left transition-colors ${
+                    activeFilter === "all" ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <span className="text-sm">All requests</span>
+                  <span className="text-sm tabular-nums">{requests.length}</span>
+                </button>
+                {STATUS_ORDER.map((status) => {
+                  const count = statusCounts[status] || 0;
+                  if (count === 0) return null;
+                  return (
+                    <button
+                      key={status}
+                      onClick={() => setActiveFilter(status)}
+                      className={`flex items-center justify-between w-full py-2.5 text-left transition-colors ${
+                        activeFilter === status ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      <span className="text-sm">{STATUS_LABELS[status]}</span>
+                      <span className="text-sm tabular-nums">{count}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
 
-                  <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+            {/* Recent Requests */}
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-medium">Recent license requests</h2>
+                <Link
+                  to="/portal/request/new"
+                  className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  New request
+                </Link>
+              </div>
+
+              {displayRequests.length === 0 ? (
+                <div className="py-12">
+                  <p className="text-sm text-muted-foreground">
+                    No license requests yet. New requests will appear here.
+                  </p>
                 </div>
-              </Link>
-            ))}
-          </div>
+              ) : (
+                <div>
+                  {displayRequests.map((request) => {
+                    const title = request.track_title || request.song_title || request.project_title || "Untitled";
+                    const submittedDate = request.submitted_at 
+                      ? format(new Date(request.submitted_at), "MMM d, yyyy") 
+                      : "—";
+
+                    return (
+                      <div
+                        key={request.id}
+                        onClick={() => navigate(`/portal/request/${request.id}`)}
+                        className="flex items-center justify-between py-3.5 border-b border-border/20 cursor-pointer hover:bg-muted/20 -mx-2 px-2 rounded transition-colors"
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            navigate(`/portal/request/${request.id}`);
+                          }
+                        }}
+                      >
+                        <div className="flex items-center gap-4 min-w-0 flex-1">
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm truncate">{title}</p>
+                            <p className="text-xs text-muted-foreground">{submittedDate}</p>
+                          </div>
+                          <StatusBadge status={request.status} />
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground ml-3 flex-shrink-0" />
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </section>
+          </>
         )}
       </div>
-    </AppLayout>
+    </DashboardLayout>
   );
 }
