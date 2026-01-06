@@ -33,12 +33,15 @@ export default function MarketingPage() {
         <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[720px]">
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
+              <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
                 Licensing, handled properly.
               </h1>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4 max-w-[560px]">
                 A private portal for requesting, executing, and managing music licenses. 
                 Structured for clarity. Built for long-term record-keeping.
+              </p>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed mb-3 max-w-[560px]">
+                Designed for organizations that need licensing done correctly—without uncertainty, missing paperwork, or long-term legal risk.
               </p>
               <p className="text-xs font-light text-muted-foreground/70 tracking-[0.05em] mb-10">
                 Powered by precision. Built for creators.
@@ -78,8 +81,8 @@ export default function MarketingPage() {
                   Creators & Rights Holders
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Artists, writers, and publishers seeking a clear, documented 
-                  licensing process with permanent records of every agreement.
+                  Artists, writers, and publishers who require clear, documented 
+                  licensing with permanent records for every agreement.
                 </p>
               </div>
               <div>
@@ -87,8 +90,8 @@ export default function MarketingPage() {
                   Churches & Ministries
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Religious organizations requiring proper licensing for 
-                  recordings, streaming, and distribution of worship music.
+                  Organizations that need proper licensing for recording, streaming, 
+                  and distribution—handled clearly and responsibly.
                 </p>
               </div>
               <div>
@@ -96,8 +99,8 @@ export default function MarketingPage() {
                   Commercial & Broadcast Users
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Film, television, advertising, and media companies needing 
-                  sync licenses with defensible legal documentation.
+                  Film, television, advertising, and media teams requiring sync 
+                  licenses with defensible legal documentation.
                 </p>
               </div>
             </div>
@@ -124,7 +127,7 @@ export default function MarketingPage() {
                   Most licensing systems are either informal or overbuilt. Tribes Rights 
                   Licensing exists to sit in the middle: structured enough to be enforceable, 
                   simple enough to move quickly, and designed for long-term clarity across 
-                  every agreement.
+                  every agreement—especially when documentation matters years later.
                 </p>
                 <p className="leading-relaxed mt-8 text-foreground/80">
                   Built for creators. Powered by precision.
@@ -151,16 +154,16 @@ export default function MarketingPage() {
                   <p className="text-xs font-medium text-muted-foreground mb-2">01</p>
                   <h3 className="text-lg font-medium text-foreground mb-3">Request</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Submit a license request through a structured form. Identify the track, 
-                    intended use, territory, and term. Select the license types you need.
+                    Submit a structured license request identifying the song, intended use, 
+                    territory, and term. Select the license types you need.
                   </p>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground mb-2">02</p>
                   <h3 className="text-lg font-medium text-foreground mb-3">Review</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Your request is reviewed by our team. We may request additional 
-                    information. Once terms are confirmed, the license is approved.
+                    Each request is reviewed by our team. We may request clarification 
+                    to ensure the license is accurate and enforceable.
                   </p>
                 </div>
               </div>
@@ -169,16 +172,16 @@ export default function MarketingPage() {
                   <p className="text-xs font-medium text-muted-foreground mb-2">03</p>
                   <h3 className="text-lg font-medium text-foreground mb-3">Execute</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Sign the agreement electronically. Complete payment if applicable. 
-                    The license becomes legally binding upon execution.
+                    Once approved, sign electronically and complete payment if applicable. 
+                    Each license becomes legally binding upon execution.
                   </p>
                 </div>
                 <div>
                   <p className="text-xs font-medium text-muted-foreground mb-2">04</p>
                   <h3 className="text-lg font-medium text-foreground mb-3">Record</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    The executed license is stored permanently. Download your agreement 
-                    at any time. The complete history remains available for reference.
+                    Executed licenses are stored permanently in your account. Download 
+                    agreements at any time. The complete history remains available for reference.
                   </p>
                 </div>
               </div>
@@ -200,11 +203,11 @@ export default function MarketingPage() {
             <div className="max-w-[640px] space-y-8">
               <div className="pb-8 border-b border-border">
                 <h3 className="text-base font-medium text-foreground mb-2">
-                  Structured license requests
+                  No missing information
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Every request follows a consistent format. No missing information. 
-                  No ambiguity about terms.
+                  Every license request is complete and review-ready from the start. 
+                  No follow-up emails. No ambiguity about terms.
                 </p>
               </div>
               <div className="pb-8 border-b border-border">
@@ -212,35 +215,17 @@ export default function MarketingPage() {
                   Independent license records
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Each license receives its own unique identifier and can be 
-                  tracked, referenced, and audited independently.
-                </p>
-              </div>
-              <div className="pb-8 border-b border-border">
-                <h3 className="text-base font-medium text-foreground mb-2">
-                  Single execution flow
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Signature and payment happen in one place. Status is always clear. 
-                  Nothing falls through the cracks.
-                </p>
-              </div>
-              <div className="pb-8 border-b border-border">
-                <h3 className="text-base font-medium text-foreground mb-2">
-                  Permanent access
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Executed licenses are never deleted. Download your agreements 
-                  whenever you need them, years from now.
+                  Each executed license is issued its own permanent identifier and stored 
+                  as a standalone legal record—trackable, referenceable, and auditable at any time.
                 </p>
               </div>
               <div>
                 <h3 className="text-base font-medium text-foreground mb-2">
-                  Administrative oversight
+                  One execution flow
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Every request is reviewed before approval. No automated licensing. 
-                  Human judgment at every step.
+                  Signature and payment happen in a single, controlled step. Status is 
+                  always clear. Nothing falls through the cracks.
                 </p>
               </div>
             </div>
@@ -278,6 +263,10 @@ export default function MarketingPage() {
                   long-term relationships with organizations and individuals who 
                   value clarity and proper documentation.
                 </p>
+                <p className="leading-relaxed">
+                  This ensures that every license issued through the portal is intentional, 
+                  appropriate, and defensible for both parties.
+                </p>
               </div>
             </div>
           </div>
@@ -297,7 +286,7 @@ export default function MarketingPage() {
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 If you already have an account, sign in to access your portal. 
-                Otherwise, request access to get started.
+                Otherwise, request access to begin the review process.
               </p>
               <div className="flex items-center gap-6">
                 <Link 
