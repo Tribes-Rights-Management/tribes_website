@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { LicenseRequest } from "@/types";
-import { Plus } from "lucide-react";
 import { format } from "date-fns";
 
 export default function PortalLicensesPage() {
@@ -49,45 +48,44 @@ export default function PortalLicensesPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-4xl animate-content-fade">
+      <div className="max-w-3xl animate-content-fade">
         {/* Page Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="mb-1">Licenses</h1>
-            <p className="text-sm text-muted-foreground">
+            <h1 className="text-[15px] font-medium mb-1">Licenses</h1>
+            <p className="text-[13px] text-muted-foreground">
               All your license requests.
             </p>
           </div>
           <Link
             to="/portal/request/new"
-            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors active:opacity-80 active:duration-75"
+            className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
           >
-            <Plus className="w-4 h-4" />
-            New request
+            + New request
           </Link>
         </div>
 
         {/* List */}
         {isFirstTime ? (
           <div className="py-16">
-            <p className="text-sm font-medium mb-1">No license activity yet</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[14px] font-medium mb-1">No license activity yet</p>
+            <p className="text-[13px] text-muted-foreground">
               License requests will appear here once submitted.
             </p>
           </div>
         ) : (
-          <div className="space-y-0">
+          <div>
             {requests.map((request) => {
               const title = request.track_title || request.song_title || request.project_title || "Untitled";
               const submittedDate = request.submitted_at
-                ? format(new Date(request.submitted_at), "MMM d, yyyy")
+                ? format(new Date(request.submitted_at), "MMM d")
                 : "—";
 
               return (
                 <div
                   key={request.id}
                   onClick={() => navigate(`/portal/request/${request.id}`)}
-                  className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/30 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -99,13 +97,13 @@ export default function PortalLicensesPage() {
                 >
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium truncate">{title}</p>
+                      <div className="flex items-center gap-3">
+                        <p className="text-[14px] truncate">{title}</p>
                         {request.license_id && (
-                          <span className="text-xs text-muted-foreground font-mono">{request.license_id}</span>
+                          <span className="text-[12px] text-muted-foreground font-mono">{request.license_id}</span>
                         )}
                       </div>
-                      <p className="text-xs text-muted-foreground">{submittedDate}</p>
+                      <p className="text-[13px] text-muted-foreground">{submittedDate}</p>
                     </div>
                     <StatusBadge status={request.status} />
                   </div>
