@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails";
+import { AccountMenu } from "@/components/AccountMenu";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -9,8 +10,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
-  const navigate = useNavigate();
-  const { signOut, isAnyAdmin, isSuperAdmin, isAdminView } = useAuth();
+  const { isAnyAdmin, isAdminView } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -24,17 +24,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     : [
         { label: "Dashboard", path: "/portal" },
         { label: "Licenses", path: "/portal/licenses" },
-        { label: "My Account", path: "/portal/account" },
-        { label: "Data Retention", path: "/portal/data-retention" },
       ];
 
-  async function handleSignOut() {
-    await signOut();
-    navigate("/auth");
-  }
-
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex relative">
       {/* Left Navigation */}
       <aside className="w-56 border-r border-border/30 flex flex-col">
         {/* Brand */}
@@ -71,23 +64,22 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* Footer */}
-        <div className="px-3 pb-4">
-          {isAdminView && (
+        {isAdminView && (
+          <div className="px-3 pb-4">
             <p className="h-11 flex items-center px-4 text-[12px] text-muted-foreground">
               View only
             </p>
-          )}
-          <button
-            onClick={handleSignOut}
-            className="w-full h-11 flex items-center px-4 text-[13px] text-muted-foreground hover:bg-muted/30 transition-colors rounded-md text-left"
-          >
-            Sign out
-          </button>
-        </div>
+          </div>
+        )}
       </aside>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Top Bar with Account Menu */}
+        <div className="h-14 flex items-center justify-end px-8 border-b border-border/30">
+          <AccountMenu />
+        </div>
+
         {/* Admin Banner - Only for admin views */}
         {isAnyAdmin && <AdminBanner />}
         
