@@ -13,6 +13,7 @@ import RequestDetailPage from "./pages/RequestDetailPage";
 import AgreementHandoffPage from "./pages/AgreementHandoffPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminRequestDetailPage from "./pages/AdminRequestDetailPage";
+import AdminAccessRequestsPage from "./pages/AdminAccessRequestsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -53,6 +54,7 @@ function AppRoutes() {
       
       {/* Admin Console Routes */}
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
+      <Route path="/admin/access-requests" element={<ProtectedRoute requireAdmin><AdminAccessRequestsPage /></ProtectedRoute>} />
       <Route path="/admin/licenses/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
       
       {/* Legacy admin route redirect */}

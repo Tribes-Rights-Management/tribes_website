@@ -11,6 +11,7 @@ export type StatusHistory = Database["public"]["Tables"]["status_history"]["Row"
 export type AppRole = "super_admin" | "admin_view" | "user";
 export type RequestStatus = Database["public"]["Enums"]["request_status"];
 export type MediaType = Database["public"]["Enums"]["media_type"];
+export type AccountStatus = "pending" | "active" | "rejected";
 
 // Wizard form data for multi-step form
 export interface WizardFormData {
@@ -127,6 +128,13 @@ export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
   executed: "Signed and complete",
   closed: "Request closed",
   done: "Complete",
+};
+
+// Account status labels
+export const ACCOUNT_STATUS_LABELS: Record<AccountStatus, string> = {
+  pending: "Pending",
+  active: "Active",
+  rejected: "Rejected",
 };
 
 // Media type labels
