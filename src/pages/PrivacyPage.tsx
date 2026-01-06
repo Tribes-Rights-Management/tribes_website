@@ -162,6 +162,11 @@ export default function PrivacyPage() {
             <div>
               <h2 className="text-lg font-medium text-foreground mb-4">Use of Information</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
+                <p>
+                  Information is collected and maintained to support accurate rights administration, 
+                  financial reporting, record continuity, and the long-term stewardship of intellectual 
+                  property assets.
+                </p>
                 <p>We use the information we collect to:</p>
                 <ul className="space-y-1 ml-4">
                   <li>— Provide, maintain, and improve the Platform</li>
