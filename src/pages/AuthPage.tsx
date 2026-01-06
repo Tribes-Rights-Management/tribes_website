@@ -1,13 +1,32 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { COUNTRIES } from "@/lib/countries";
 
 const emailSchema = z.string().trim().email("Please enter a valid email address");
 
-type ViewState = "form" | "check_email" | "pending" | "new_request" | "rejected";
+const requestSchema = z.object({
+  firstName: z.string().trim().min(1, "First name is required"),
+  lastName: z.string().trim().min(1, "Last name is required"),
+  company: z.string().trim().min(1, "Company is required"),
+  country: z.string().min(1, "Country is required"),
+  email: z.string().trim().email("Please enter a valid email address"),
+  companyType: z.string().min(1, "Company type is required"),
+  companyDescription: z.string().trim().min(1, "Please tell us about your company"),
+});
+
+type ViewState = "form" | "request_form" | "check_email" | "pending" | "new_request" | "rejected";
 
 export default function AuthPage() {
   const [viewState, setViewState] = useState<ViewState>("form");
@@ -16,6 +35,15 @@ export default function AuthPage() {
   const [showResend, setShowResend] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [resendConfirmed, setResendConfirmed] = useState(false);
+
+  // Request form fields
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [company, setCompany] = useState("");
+  const [country, setCountry] = useState("");
+  const [requestEmail, setRequestEmail] = useState("");
+  const [companyType, setCompanyType] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
 
   const { signInWithMagicLink } = useAuth();
   const { toast } = useToast();
@@ -54,10 +82,15 @@ export default function AuthPage() {
         setTimeout(() => setShowResend(true), 45000);
       } else if (status === "pending") {
         setViewState("pending");
-      } else if (status === "new_request") {
-        setViewState("new_request");
       } else if (status === "rejected") {
         setViewState("rejected");
+      } else if (status === "no_account") {
+        toast({
+          title: "No account found",
+          description: "Please request access to get started.",
+        });
+        setViewState("request_form");
+        setRequestEmail(email);
       } else {
         throw new Error("Unexpected response");
       }
@@ -87,9 +120,93 @@ export default function AuthPage() {
     setIsResending(false);
   }
 
+  function resetRequestForm() {
+    setFirstName("");
+    setLastName("");
+    setCompany("");
+    setCountry("");
+    setRequestEmail("");
+    setCompanyType("");
+    setCompanyDescription("");
+  }
+
+  async function handleRequestSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    const result = requestSchema.safeParse({
+      firstName,
+      lastName,
+      company,
+      country,
+      email: requestEmail,
+      companyType,
+      companyDescription,
+    });
+
+    if (!result.success) {
+      toast({
+        title: "Please complete all fields",
+        description: result.error.errors[0].message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("auth-check", {
+        body: {
+          email: requestEmail.trim().toLowerCase(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          company: company.trim(),
+          country,
+          companyType,
+          companyDescription: companyDescription.trim(),
+          isRequestAccess: true,
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message || "Failed to process request");
+      }
+
+      const status = data?.status;
+
+      if (status === "active") {
+        toast({
+          title: "Account exists",
+          description: "An account with this email already exists. Please log in.",
+        });
+        setEmail(requestEmail);
+        setViewState("form");
+      } else if (status === "pending") {
+        setViewState("pending");
+      } else if (status === "new_request") {
+        setViewState("new_request");
+        resetRequestForm();
+      } else if (status === "rejected") {
+        setViewState("rejected");
+      } else {
+        throw new Error("Unexpected response");
+      }
+    } catch (error: any) {
+      console.error("Request error:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   function handleDone() {
     setViewState("form");
     setEmail("");
+    resetRequestForm();
   }
 
   // Check email screen (magic link sent)
@@ -195,7 +312,138 @@ export default function AuthPage() {
     );
   }
 
-  // Main form
+  // Request access form
+  if (viewState === "request_form") {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <main className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="text-center mb-8">
+              <h1 className="mb-2">Request access</h1>
+              <p className="text-sm text-muted-foreground">
+                Tell us about yourself and your company.
+              </p>
+            </div>
+
+            <form onSubmit={handleRequestSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="First name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    aria-label="First name"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="text"
+                    placeholder="Last name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    aria-label="Last name"
+                  />
+                </div>
+              </div>
+
+              <Input
+                type="text"
+                placeholder="Company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Company"
+              />
+
+              <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Country">
+                  <SelectValue placeholder="Country" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COUNTRIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={requestEmail}
+                  onChange={(e) => setRequestEmail(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  aria-label="Email"
+                />
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  This will be your login email.
+                </p>
+              </div>
+
+              <div>
+                <Select value={companyType} onValueChange={setCompanyType} disabled={isSubmitting}>
+                  <SelectTrigger aria-label="Company type">
+                    <SelectValue placeholder="Company type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="indie_church">Indie / Church</SelectItem>
+                    <SelectItem value="commercial">Commercial</SelectItem>
+                    <SelectItem value="broadcast">Broadcast</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="text-xs text-muted-foreground mt-1.5 space-y-0.5">
+                  <p>Indie / Church — Independent artists, churches, nonprofits, social media creators</p>
+                  <p>Commercial — Record labels, publishers, high-volume commercial use</p>
+                  <p>Broadcast — Film, TV, advertising, video games</p>
+                </div>
+              </div>
+
+              <Textarea
+                placeholder="Tell us about your company"
+                value={companyDescription}
+                onChange={(e) => setCompanyDescription(e.target.value)}
+                required
+                disabled={isSubmitting}
+                rows={3}
+                aria-label="Tell us about your company"
+              />
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+              >
+                {isSubmitting ? "…" : "Submit request"}
+              </button>
+            </form>
+
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              Already have access?{" "}
+              <button
+                type="button"
+                onClick={() => setViewState("form")}
+                className="text-foreground hover:underline"
+              >
+                Log in.
+              </button>
+            </p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Main login form
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <main className="flex-1 flex items-center justify-center px-4">
@@ -230,7 +478,7 @@ export default function AuthPage() {
             Don't have access?{" "}
             <button
               type="button"
-              onClick={() => {}}
+              onClick={() => setViewState("request_form")}
               className="text-foreground hover:underline"
             >
               Request access.
