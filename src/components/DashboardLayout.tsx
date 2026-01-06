@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -87,6 +88,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Admin Banner - Only for admin views */}
+        {isAnyAdmin && <AdminBanner />}
+        
         <main className="flex-1 px-8 py-8">
           {children}
         </main>
@@ -95,6 +99,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           <p className="text-xs text-muted-foreground">
             © 2026 Tribes Rights Management LLC. All rights reserved.
           </p>
+          {isAnyAdmin && <AdminFooterNote />}
         </footer>
       </div>
     </div>

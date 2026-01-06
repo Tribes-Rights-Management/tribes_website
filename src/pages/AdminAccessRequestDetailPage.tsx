@@ -5,16 +5,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { 
+  AccessApproveModal, 
+  AccessRejectModal,
+  AuditLogHeader 
+} from "@/components/admin/AdminGuardrails";
 
 interface AccessRequestProfile {
   id: string;
@@ -172,40 +167,21 @@ export default function AdminAccessRequestDetailPage() {
   return (
     <DashboardLayout>
       {/* Approve Dialog */}
-      <AlertDialog open={showApproveDialog} onOpenChange={setShowApproveDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Approve access</AlertDialogTitle>
-            <AlertDialogDescription>
-              This will grant access to Tribes Rights Licensing and send a login email.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isProcessing}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleApprove} disabled={isProcessing}>
-              {isProcessing ? "…" : "Approve"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AccessApproveModal
+        open={showApproveDialog}
+        onClose={() => setShowApproveDialog(false)}
+        onConfirm={handleApprove}
+        isProcessing={isProcessing}
+        userName={profile.name || profile.email}
+      />
 
       {/* Reject Dialog */}
-      <AlertDialog open={showRejectDialog} onOpenChange={setShowRejectDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Reject access request</AlertDialogTitle>
-            <AlertDialogDescription>
-              This request will be closed. No account will be created.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isProcessing}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleReject} disabled={isProcessing}>
-              {isProcessing ? "…" : "Reject"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AccessRejectModal
+        open={showRejectDialog}
+        onClose={() => setShowRejectDialog(false)}
+        onConfirm={handleReject}
+        isProcessing={isProcessing}
+      />
 
       <div className="max-w-2xl animate-content-fade">
         {/* Back link */}
@@ -321,6 +297,7 @@ export default function AdminAccessRequestDetailPage() {
           {isSuperAdmin && auditLog.length > 0 && (
             <section className="space-y-4 pt-4 border-t border-border/50">
               <h2 className="text-sm font-medium text-muted-foreground">Activity</h2>
+              <AuditLogHeader />
               
               <div className="space-y-3">
                 {auditLog.map((entry) => (

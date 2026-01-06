@@ -16,6 +16,15 @@ import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, License, StatusHistory, GeneratedDocument, RequestStatus, STATUS_LABELS } from "@/types";
 import { format } from "date-fns";
 import { LicensePreviewModal } from "@/components/LicensePreviewModal";
+import { 
+  StatusChangeNote, 
+  ViewOnlyMessage, 
+  AuditLogHeader,
+  ApprovalConfirmModal,
+  SupersedeConfirmModal,
+  ExportWarning,
+  EditBlockModal
+} from "@/components/admin/AdminGuardrails";
 
 interface InternalNote {
   id: string;
@@ -94,6 +103,9 @@ export default function AdminRequestDetailPage() {
   const [supersedingLicenseId, setSupersedingLicenseId] = useState<string | null>(null);
   const [supersessionReason, setSupersessionReason] = useState("");
   const [isSuperseding, setIsSuperseding] = useState(false);
+  const [showApprovalModal, setShowApprovalModal] = useState<string | null>(null);
+  const [showEditBlockModal, setShowEditBlockModal] = useState(false);
+  const [showSupersedeModal, setShowSupersedeModal] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -307,6 +319,13 @@ export default function AdminRequestDetailPage() {
           </div>
         </div>
 
+        {/* View-Only Warning for admin_view role */}
+        {isAdminView && !isSuperAdmin && (
+          <div className="mb-8">
+            <ViewOnlyMessage />
+          </div>
+        )}
+
         {/* Single-column reading layout */}
         <div className="space-y-12">
           
@@ -379,7 +398,14 @@ export default function AdminRequestDetailPage() {
                           </p>
                           
                           <Select 
-                            onValueChange={(v) => updateLicenseStatus(license.id, v as RequestStatus)} 
+                            onValueChange={(v) => {
+                              // If transitioning to approved, show confirmation modal
+                              if (v === "approved") {
+                                setShowApprovalModal(license.id);
+                              } else {
+                                updateLicenseStatus(license.id, v as RequestStatus);
+                              }
+                            }} 
                             disabled={isUpdating}
                           >
                             <SelectTrigger className="w-48 h-9">
@@ -391,6 +417,8 @@ export default function AdminRequestDetailPage() {
                               ))}
                             </SelectContent>
                           </Select>
+                          
+                          <StatusChangeNote />
                           
                           {allowedTransitions.includes("done") && (
                             <p className="text-[11px] text-muted-foreground">
@@ -427,46 +455,12 @@ export default function AdminRequestDetailPage() {
                       {/* F1/F2: Supersede action for executed licenses */}
                       {canSupersede && (
                         <div className="mt-4 pt-3 border-t border-border/20">
-                          {!isSupersedingThis ? (
-                            <button
-                              onClick={() => setSupersedingLicenseId(license.license_id)}
-                              className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                              Issue superseding license
-                            </button>
-                          ) : (
-                            <div className="space-y-3">
-                              <p className="text-[12px] text-muted-foreground">
-                                This will create a new license that supersedes {license.license_id}.
-                                The original license remains readable and downloadable.
-                              </p>
-                              <Textarea
-                                placeholder="Reason for supersession (required)"
-                                value={supersessionReason}
-                                onChange={(e) => setSupersessionReason(e.target.value)}
-                                rows={2}
-                                className="text-[13px]"
-                              />
-                              <div className="flex gap-3">
-                                <button
-                                  onClick={() => supersedeLicense(license.license_id)}
-                                  disabled={!supersessionReason.trim() || isSuperseding}
-                                  className="text-[12px] text-foreground hover:text-muted-foreground disabled:opacity-40 transition-colors"
-                                >
-                                  {isSuperseding ? "Processing…" : "Confirm supersession"}
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setSupersedingLicenseId(null);
-                                    setSupersessionReason("");
-                                  }}
-                                  className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </div>
-                          )}
+                          <button
+                            onClick={() => setShowSupersedeModal(license.license_id)}
+                            className="text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            Issue superseding license
+                          </button>
                         </div>
                       )}
                       
@@ -574,16 +568,7 @@ export default function AdminRequestDetailPage() {
                     >
                       Export license package
                     </button>
-                    {canExport ? (
-                      <p className="text-[11px] text-muted-foreground">
-                        This export includes all active licenses in the package.
-                        Each license remains independently enforceable.
-                      </p>
-                    ) : (
-                      <p className="text-[11px] text-muted-foreground">
-                        Export not available. All active licenses must be Done before export.
-                      </p>
-                    )}
+                    <ExportWarning canExport={canExport} />
                   </div>
                 )}
               </div>
@@ -722,6 +707,7 @@ export default function AdminRequestDetailPage() {
           {history.length > 0 && (
             <section className="space-y-4">
               <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">History</h3>
+              <AuditLogHeader />
               <div className="space-y-2">
                 {history.slice(0, 10).map(h => {
                   const licenseRef = h.license_id ? licenses.find(l => l.id === h.license_id)?.license_id : null;
@@ -747,6 +733,40 @@ export default function AdminRequestDetailPage() {
           onClose={() => setShowPreview(false)}
         />
       )}
+
+      {/* Approval Confirmation Modal */}
+      <ApprovalConfirmModal
+        open={!!showApprovalModal}
+        onClose={() => setShowApprovalModal(null)}
+        onConfirm={() => {
+          if (showApprovalModal) {
+            updateLicenseStatus(showApprovalModal, "approved");
+            setShowApprovalModal(null);
+          }
+        }}
+        isProcessing={isUpdating}
+      />
+
+      {/* Supersede Confirmation Modal */}
+      <SupersedeConfirmModal
+        open={!!showSupersedeModal}
+        onClose={() => setShowSupersedeModal(null)}
+        onConfirm={(reason) => {
+          if (showSupersedeModal) {
+            setSupersessionReason(reason);
+            supersedeLicense(showSupersedeModal);
+            setShowSupersedeModal(null);
+          }
+        }}
+        isProcessing={isSuperseding}
+        licenseId={showSupersedeModal || undefined}
+      />
+
+      {/* Edit Block Modal */}
+      <EditBlockModal
+        open={showEditBlockModal}
+        onClose={() => setShowEditBlockModal(false)}
+      />
     </DashboardLayout>
   );
 }
