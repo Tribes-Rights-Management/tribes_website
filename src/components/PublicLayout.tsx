@@ -33,24 +33,27 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       setIsScrolled(window.scrollY > scrollThreshold);
 
       // Detect dark sections by ID
-      const darkSection = document.getElementById("how-it-works");
+      const darkSections = [
+        document.getElementById("asset-management"),
+        document.getElementById("how-it-works"),
+      ].filter(Boolean) as HTMLElement[];
       
-      if (darkSection) {
-        const rect = darkSection.getBoundingClientRect();
-        const headerHeight = NAV_SIZES.header.mobile;
-        const viewportHeight = window.innerHeight;
-        
-        // Header is over dark section when section top is above header bottom and section bottom is below header top
-        const isHeaderOverDark = rect.top <= headerHeight && rect.bottom >= 0;
-        setIsOverDarkSection(isHeaderOverDark);
-        
-        // Footer is over dark section when section bottom is near or past viewport bottom
-        const isFooterOverDark = rect.bottom >= viewportHeight - 100 && rect.top < viewportHeight;
-        setIsFooterDark(isFooterOverDark);
-      } else {
-        setIsOverDarkSection(false);
-        setIsFooterDark(false);
-      }
+      const headerHeight = NAV_SIZES.header.mobile;
+      const viewportHeight = window.innerHeight;
+      
+      // Check if header is over any dark section
+      const isHeaderOverAnyDark = darkSections.some(section => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= headerHeight && rect.bottom >= 0;
+      });
+      setIsOverDarkSection(isHeaderOverAnyDark);
+      
+      // Check if footer is over any dark section
+      const isFooterOverAnyDark = darkSections.some(section => {
+        const rect = section.getBoundingClientRect();
+        return rect.bottom >= viewportHeight - 100 && rect.top < viewportHeight;
+      });
+      setIsFooterDark(isFooterOverAnyDark);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
