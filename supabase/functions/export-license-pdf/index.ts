@@ -7,7 +7,8 @@ const corsHeaders = {
 };
 
 interface ExportRequest {
-  requestId: string;
+  requestId?: string;
+  license_id?: string;
 }
 
 function sanitizeFilename(str: string): string {
@@ -39,23 +40,36 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { requestId }: ExportRequest = await req.json();
+    const { requestId, license_id }: ExportRequest = await req.json();
 
-    if (!requestId) {
-      return new Response(JSON.stringify({ error: "Request ID required" }), {
+    if (!requestId && !license_id) {
+      return new Response(JSON.stringify({ error: "Request ID or License ID required" }), {
         status: 400,
         headers: { "Content-Type": "application/json", ...corsHeaders },
       });
     }
 
-    // Fetch the license request
-    const { data: request, error: fetchError } = await supabase
-      .from("license_requests")
-      .select("*")
-      .eq("id", requestId)
-      .single();
+    // Fetch the license request - prefer license_id lookup
+    let request;
+    if (license_id) {
+      const { data, error } = await supabase
+        .from("license_requests")
+        .select("*")
+        .eq("license_id", license_id)
+        .single();
+      if (!error) request = data;
+    }
+    
+    if (!request && requestId) {
+      const { data, error } = await supabase
+        .from("license_requests")
+        .select("*")
+        .eq("id", requestId)
+        .single();
+      if (!error) request = data;
+    }
 
-    if (fetchError || !request) {
+    if (!request) {
       return new Response(JSON.stringify({ error: "License request not found" }), {
         status: 404,
         headers: { "Content-Type": "application/json", ...corsHeaders },
