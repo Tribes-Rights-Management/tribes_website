@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
 import { getCopyrightLine } from "@/lib/copyright";
-import tribesLogoBlack from "@/assets/tribes-logo-black.png";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -17,17 +16,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50">
         <nav className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-14">
-            <Link to="/" className="flex items-center">
-              <img 
-                src={tribesLogoBlack} 
-                alt="Tribes" 
-                className="h-5 w-auto dark:hidden" 
-              />
-              <img 
-                src={tribesLogoBlack} 
-                alt="Tribes" 
-                className="h-5 w-auto hidden dark:block invert" 
-              />
+            <Link to="/" className="text-sm font-medium text-foreground">
+              Tribes Rights Management
             </Link>
             <div className="flex items-center gap-6">
               <Link 
