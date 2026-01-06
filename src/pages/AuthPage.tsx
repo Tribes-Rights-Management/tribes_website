@@ -272,9 +272,9 @@ export default function AuthPage() {
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
-            <h1 className="mb-2">Request received</h1>
+            <h1 className="mb-2">Your request has been received</h1>
             <p className="text-sm text-muted-foreground mb-8">
-              Your access request has been submitted. You'll receive an email once it's approved.
+              We'll review the information provided and contact you if anything further is needed.
             </p>
             <button
               onClick={handleDone}
@@ -319,16 +319,13 @@ export default function AuthPage() {
         <main className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
-              <h1 className="mb-2">Request access</h1>
-              <p className="text-sm text-muted-foreground mb-4">
-                Tell us about yourself and your company.
-              </p>
+              <h1 className="mb-2">Request Access</h1>
               <p className="text-sm text-muted-foreground">
-                Access is reviewed to ensure licensing requests are handled accurately and appropriately.
+                This form helps us review your request accurately before granting access to the licensing portal.
               </p>
             </div>
 
-            <form onSubmit={handleRequestSubmit} className="space-y-4">
+            <form onSubmit={handleRequestSubmit} className="space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Input
@@ -340,6 +337,9 @@ export default function AuthPage() {
                     disabled={isSubmitting}
                     aria-label="First name"
                   />
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Your legal first name.
+                  </p>
                 </div>
                 <div>
                   <Input
@@ -351,31 +351,44 @@ export default function AuthPage() {
                     disabled={isSubmitting}
                     aria-label="Last name"
                   />
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Your legal last name.
+                  </p>
                 </div>
               </div>
 
-              <Input
-                type="text"
-                placeholder="Company"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                required
-                disabled={isSubmitting}
-                aria-label="Company"
-              />
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  aria-label="Company"
+                />
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  If you are an individual creator, enter your artist name or personal name.
+                </p>
+              </div>
 
-              <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                <SelectTrigger aria-label="Country">
-                  <SelectValue placeholder="Country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {COUNTRIES.map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div>
+                <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
+                  <SelectTrigger aria-label="Country">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES.map((c) => (
+                      <SelectItem key={c} value={c}>
+                        {c}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  Used to ensure licenses are issued correctly by territory.
+                </p>
+              </div>
 
               <div>
                 <Input
@@ -388,7 +401,7 @@ export default function AuthPage() {
                   aria-label="Email"
                 />
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  This will be your login email.
+                  This will be used as your login email.
                 </p>
               </div>
 
@@ -403,29 +416,36 @@ export default function AuthPage() {
                     <SelectItem value="broadcast">Broadcast</SelectItem>
                   </SelectContent>
                 </Select>
-                <div className="text-xs text-muted-foreground mt-1.5 space-y-0.5">
-                  <p>Indie / Church — Independent artists, churches, nonprofits, social media creators</p>
-                  <p>Commercial — Record labels, publishers, high-volume commercial use</p>
-                  <p>Broadcast — Film, TV, advertising, video games</p>
-                </div>
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  This helps us apply the correct licensing structure.
+                </p>
               </div>
 
-              <Textarea
-                placeholder="Tell us about your company"
-                value={companyDescription}
-                onChange={(e) => setCompanyDescription(e.target.value)}
-                required
-                disabled={isSubmitting}
-                rows={3}
-                aria-label="Tell us about your company"
-              />
+              <div>
+                <Textarea
+                  placeholder="Briefly describe who you are, how you work with music, and the type of usage you expect."
+                  value={companyDescription}
+                  onChange={(e) => setCompanyDescription(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  rows={3}
+                  aria-label="Tell us about your company"
+                />
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  This does not need to be perfect. Clear context helps us review your request accurately.
+                </p>
+              </div>
+
+              <p className="text-sm text-muted-foreground">
+                You don't need to be a legal expert to submit a request—only clear about how the music will be used.
+              </p>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
-                {isSubmitting ? "…" : "Submit request"}
+                {isSubmitting ? "…" : "Request Access"}
               </button>
             </form>
 
