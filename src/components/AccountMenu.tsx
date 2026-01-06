@@ -11,15 +11,46 @@ import { LogOut } from "lucide-react";
 import { ROLE_LABELS } from "@/types";
 
 /**
- * AccountMenu - System-wide account navigation component
+ * AccountMenu - CANONICAL SYSTEM-WIDE NAVIGATION PATTERN
  * 
- * This is the ONLY authorized location for account-level actions.
- * All authenticated routes must use this component via DashboardLayout.
+ * ═══════════════════════════════════════════════════════════════════════════
+ * NAVIGATION CONTRACT — DO NOT MODIFY WITHOUT GOVERNANCE REVIEW
+ * ═══════════════════════════════════════════════════════════════════════════
  * 
- * UI Contract:
+ * This component is the ONLY authorized location for account-level actions.
+ * All authenticated routes (User, Admin, Super Admin) must use this pattern.
+ * 
+ * LOCKED MENU STRUCTURE:
+ * ┌─────────────────────────┐
+ * │ Signed in as            │  ← Session indicator (non-interactive)
+ * │ [Full Name]             │
+ * │ [Email Address]         │
+ * │ [Role - Admin only]     │
+ * ├─────────────────────────┤
+ * │ Account                 │  ← Navigation actions
+ * │ Notifications           │
+ * │ Security                │
+ * ├─────────────────────────┤
+ * │ Sign out                │  ← Always last, neutral styling
+ * └─────────────────────────┘
+ * 
+ * FORBIDDEN MODIFICATIONS:
  * - Sign out MUST NOT appear in sidebars or other navigation
- * - Menu order is fixed: Session Info → Account → Notifications → Security → Divider → Sign out
- * - Sign out styling is neutral (not destructive/red)
+ * - No items may appear above the session indicator
+ * - Menu order is fixed and may not be reordered
+ * - Session indicator may not be hidden based on role
+ * - Sign out may not be relocated to secondary menus
+ * - Sign out styling must remain neutral (never destructive/red)
+ * 
+ * DESIGN PRINCIPLES:
+ * - Identity confirmation, not navigation
+ * - No avatar, icons, or color emphasis in session block
+ * - Typography communicates hierarchy, not decoration
+ * - Zero animation flourish
+ * - Neutral, institutional tone
+ * 
+ * This pattern aligns with Apple, Stripe, and enterprise SaaS standards.
+ * ═══════════════════════════════════════════════════════════════════════════
  */
 export function AccountMenu() {
   const navigate = useNavigate();
