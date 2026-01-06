@@ -21,24 +21,31 @@ export const BRAND = {
 } as const;
 
 /**
- * Logo Sizing System
+ * Logo Sizing System — LOCKED BRAND CONSTRAINT
  * 
- * Minimum visual size rules ensure the TRIBES mark never appears
- * small or diminished. These are MINIMUM values — components may
- * use larger sizes but never smaller.
+ * Logo scale is a brand constant, not a layout variable.
+ * These values apply globally across header, footer, auth screens,
+ * OG images, and system surfaces.
  * 
- * All values in pixels for predictable rendering.
+ * MINIMUM: 20px — logo must never appear smaller than this
+ * MOBILE: 22–24px
+ * DESKTOP: 24–28px
+ * 
+ * No responsive shrink or stretch behavior allowed.
  */
 export const LOGO_SIZES = {
+  /** Absolute minimum — NEVER go below this */
+  absoluteMin: 20,
+  
   /** Header wordmark sizing */
   header: {
     desktop: {
-      fontSize: 14,        // text-sm equivalent
+      fontSize: 15,        // 24-28px range target (using relative)
       fontWeight: 500,     // font-medium
       letterSpacing: 0,    // normal tracking
     },
     mobile: {
-      fontSize: 14,        // maintain readability
+      fontSize: 15,        // 22-24px range, never below 20px
       fontWeight: 600,     // font-semibold for small screens
       letterSpacing: 0.5,  // slight tracking for legibility
     },
@@ -46,7 +53,7 @@ export const LOGO_SIZES = {
   
   /** Footer wordmark sizing */
   footer: {
-    fontSize: 12,          // text-xs equivalent
+    fontSize: 13,          // above minimum
     fontWeight: 400,       // font-normal
   },
   
@@ -69,26 +76,23 @@ export const LOGO_SIZES = {
     fontWeight: 700,       // font-bold
     letterSpacing: 2,      // generous tracking at display size
   },
-  
-  /** Absolute minimums — never go below these */
-  minimums: {
-    fontSize: 12,          // smallest allowed font size
-    tapTarget: 44,         // minimum touch target (px)
-  },
 } as const;
 
 /**
  * Logo image assets (when using image-based logo)
- * Heights are minimum values to maintain visual presence.
+ * Heights follow the same locked scale rules.
  */
 export const LOGO_IMAGES = {
+  /** Absolute minimum height */
+  absoluteMin: 20,
+  
   header: {
-    desktop: { height: 24, minHeight: 20 },
-    mobile: { height: 20, minHeight: 18 },
+    desktop: { height: 26, minHeight: 24 },
+    mobile: { height: 24, minHeight: 22 },
   },
   footer: {
-    height: 16,
-    minHeight: 14,
+    height: 20,
+    minHeight: 20,
   },
   auth: {
     height: 32,
@@ -100,10 +104,19 @@ export const LOGO_IMAGES = {
  * Navigation sizing standards
  */
 export const NAV_SIZES = {
-  /** Header heights */
+  /** Header heights — LOCKED */
   header: {
-    desktop: 56,           // h-14 equivalent
-    mobile: 56,            // consistent across breakpoints
+    desktop: 64,           // 64-68px range
+    mobile: 64,            // consistent, no shrink
+  },
+  
+  /** Header padding */
+  headerPadding: {
+    vertical: 16,          // 16px top/bottom
+    horizontal: {
+      mobile: 20,          // 20px on mobile
+      desktop: 48,         // 48px on desktop
+    },
   },
   
   /** Tap target minimums (accessibility) */
@@ -114,28 +127,62 @@ export const NAV_SIZES = {
   
   /** Spacing */
   padding: {
-    mobile: 16,            // px-4 equivalent
+    mobile: 20,            // px-5 equivalent
     tablet: 32,            // px-8 equivalent
     desktop: 48,           // px-12 equivalent
   },
 } as const;
 
 /**
- * Animation standards for institutional interfaces
+ * Animation & Interaction Standards — LOCKED
+ * 
  * Motion should be linear, restrained, and fast.
+ * No spring, bounce, or elastic effects.
  */
 export const MOTION = {
   /** Duration in milliseconds */
   duration: {
     instant: 100,
-    fast: 150,
-    normal: 200,
+    fast: 120,             // 120-150ms for interactions
+    normal: 150,
   },
   
-  /** Easing functions */
+  /** Easing functions — ease-out only */
   easing: {
+    default: "ease-out",
     linear: "linear",
-    subtle: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+  },
+} as const;
+
+/**
+ * Interaction States — INSTITUTIONAL RESTRAINT
+ * 
+ * These rules ensure all hover, focus, and disabled states
+ * feel calm, predictable, and professional.
+ */
+export const INTERACTION = {
+  /** Hover opacity shift (10-12%) */
+  hover: {
+    opacityShift: 0.1,     // 10% shift
+    backgroundShift: 0.04, // 4-6% for buttons
+  },
+  
+  /** Focus ring */
+  focus: {
+    width: 1,              // 1px solid outline
+    offset: 2,             // 2px offset
+    light: "rgba(0,0,0,0.4)",
+    dark: "rgba(255,255,255,0.4)",
+  },
+  
+  /** Disabled state */
+  disabled: {
+    opacity: 0.5,          // opacity only, no blur/grayscale
+  },
+  
+  /** Active/pressed state */
+  active: {
+    opacity: 0.85,         // slight opacity dip
   },
 } as const;
 
