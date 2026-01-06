@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
+import { PortalOnboardingBanner } from "@/components/PortalOnboardingBanner";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
 import { format } from "date-fns";
 
@@ -76,6 +77,9 @@ export default function PortalDashboard() {
   return (
     <DashboardLayout>
       <div className="max-w-3xl animate-content-fade">
+        {/* Onboarding Banner */}
+        <PortalOnboardingBanner />
+
         {/* Page Header */}
         <div className="mb-10">
           <h1 className="text-[15px] font-medium mb-1">Dashboard</h1>
