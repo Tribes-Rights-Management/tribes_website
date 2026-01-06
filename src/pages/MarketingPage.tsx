@@ -33,12 +33,15 @@ export default function MarketingPage() {
         <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[720px]">
-              <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
                 Licensing, handled properly.
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-[560px]">
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4 max-w-[560px]">
                 A private portal for requesting, executing, and managing music licenses. 
                 Structured for clarity. Built for long-term record-keeping.
+              </p>
+              <p className="text-xs font-light text-muted-foreground/70 tracking-[0.05em] mb-10">
+                Powered by precision. Built for creators.
               </p>
               <div className="flex items-center gap-6">
                 <Link 
@@ -114,23 +117,17 @@ export default function MarketingPage() {
                 Why It Exists
               </h2>
               <p className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-8">
-                Music licensing should be clear, structured, and enforceable.
+                Music licensing should be precise—not complicated.
               </p>
               <div className="space-y-6 text-muted-foreground">
                 <p className="leading-relaxed">
-                  Too often, licensing happens through scattered emails, unclear terms, 
-                  and informal approvals. When questions arise years later, records are 
-                  incomplete or missing entirely.
+                  Most licensing systems are either informal or overbuilt. Tribes Rights 
+                  Licensing exists to sit in the middle: structured enough to be enforceable, 
+                  simple enough to move quickly, and designed for long-term clarity across 
+                  every agreement.
                 </p>
-                <p className="leading-relaxed">
-                  This portal provides a single, structured process for every license request. 
-                  Each license receives its own identifier. Every action is logged. 
-                  Executed agreements are stored permanently and remain accessible 
-                  to all parties.
-                </p>
-                <p className="leading-relaxed">
-                  The goal is not speed or volume. The goal is clarity that holds up 
-                  over time, under audit, and in legal proceedings if necessary.
+                <p className="leading-relaxed mt-8 text-foreground/80">
+                  Built for creators. Powered by precision.
                 </p>
               </div>
             </div>
@@ -324,6 +321,9 @@ export default function MarketingPage() {
       {/* Footer */}
       <footer className="border-t border-border py-8">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+          <p className="text-xs text-muted-foreground/60 tracking-[0.02em] mb-4">
+            Built for creators. Powered by precision.
+          </p>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <p className="text-xs text-muted-foreground">
               © 2026 Tribes Rights Management LLC. All rights reserved.
