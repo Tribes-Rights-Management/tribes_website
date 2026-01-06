@@ -196,7 +196,7 @@ export default function AuthPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="mb-2">Tribes Rights Licensing</h1>
-            <p className="text-sm text-muted-foreground">Continue with your email</p>
+            <p className="text-sm text-muted-foreground">Log in to get started.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -219,6 +219,17 @@ export default function AuthPage() {
               {isSubmitting ? "…" : "Continue"}
             </button>
           </form>
+
+          <p className="text-center text-sm text-muted-foreground mt-6">
+            Don't have access?{" "}
+            <button
+              type="button"
+              onClick={() => {}}
+              className="text-foreground hover:underline"
+            >
+              Request access.
+            </button>
+          </p>
         </div>
       </main>
       <Footer />
