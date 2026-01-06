@@ -27,25 +27,17 @@ export default function MarketingPage() {
             <div className="w-16 h-px bg-white/20 mb-6" />
             
             {/* Micro-line */}
-            <p className="text-xs font-light text-white/40 tracking-[0.05em] mb-12">
+            <p className="text-xs font-light text-white/40 tracking-[0.05em] mb-16">
               Built for creators. Powered by precision.
             </p>
             
-            {/* CTAs */}
-            <div className="flex items-center gap-6">
-              <Link 
-                to="/auth" 
-                className="text-sm font-medium text-white underline underline-offset-4 hover:text-white/70 transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link 
-                to="/auth?request=true" 
-                className="text-sm text-white/60 hover:text-white transition-colors"
-              >
-                Request Access
-              </Link>
-            </div>
+            {/* Understated link */}
+            <a 
+              href="#how-it-works" 
+              className="text-xs text-white/40 hover:text-white/60 transition-colors"
+            >
+              How it works
+            </a>
           </div>
         </div>
       </section>
@@ -136,7 +128,7 @@ export default function MarketingPage() {
       </div>
 
       {/* How It Works */}
-      <section className="py-24 md:py-32">
+      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
             How It Works
