@@ -7,7 +7,11 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import MarketingPage from "./pages/MarketingPage";
+import ServicesPage from "./pages/ServicesPage";
+import ContactPage from "./pages/ContactPage";
 import HowLicensingWorksPage from "./pages/HowLicensingWorksPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
 import AuthPage from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
@@ -43,13 +47,17 @@ function AppRoutes() {
       <Route path="/auth" element={user ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace /> : <AuthPage />} />
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       
-      {/* Root: marketing page for public, redirect for authenticated */}
+      {/* Public pages */}
       <Route path="/" element={
         user 
           ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
           : <MarketingPage />
       } />
+      <Route path="/services" element={<ServicesPage />} />
+      <Route path="/contact" element={<ContactPage />} />
       <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       
       {/* User Portal Routes */}
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />

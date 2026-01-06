@@ -37,7 +37,7 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
             placeholder="Song title"
           />
           <p className="text-xs text-muted-foreground">
-            Enter the exact title of the song you want to license.
+            Use the exact track title as released or delivered.
           </p>
           {errors.track_title && (
             <p className="text-sm text-destructive">{errors.track_title}</p>
