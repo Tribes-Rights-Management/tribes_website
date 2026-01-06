@@ -202,10 +202,49 @@ export default function PrivacyPage() {
             {/* Analytics */}
             <div>
               <h2 className="text-lg font-medium text-foreground mb-4">Analytics</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                We use analytics providers that may collect usage data through cookies, SDKs, 
-                and similar technologies to understand platform performance and engagement.
-              </p>
+              <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
+                <p>
+                  We use analytics services to understand how our Platform is accessed and used, 
+                  to evaluate performance, and to improve the quality, security, and usability 
+                  of our services.
+                </p>
+                <p>
+                  These analytics services may include Google Analytics, which uses the Global 
+                  Site Tag (gtag.js) and similar technologies to collect information such as 
+                  pages visited, time spent on pages, referring URLs, device and browser 
+                  information, approximate geographic location, and interaction patterns. This 
+                  information is collected in an aggregated and anonymized form where possible 
+                  and is used to generate reports about Platform usage and activity.
+                </p>
+                <p>
+                  Google may use this information in accordance with its own privacy policies. 
+                  You can learn more about how Google collects and processes data by visiting:{" "}
+                  <a 
+                    href="https://policies.google.com/privacy" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-foreground underline underline-offset-2"
+                  >
+                    https://policies.google.com/privacy
+                  </a>
+                </p>
+                <p>
+                  You may opt out of Google Analytics tracking by installing the Google Analytics 
+                  Opt-out Browser Add-on, available at:{" "}
+                  <a 
+                    href="https://tools.google.com/dlpage/gaoptout" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-foreground underline underline-offset-2"
+                  >
+                    https://tools.google.com/dlpage/gaoptout
+                  </a>
+                </p>
+                <p>
+                  Analytics data is used solely for internal operational, performance, and security 
+                  purposes and is not used to make automated legal or licensing decisions.
+                </p>
+              </div>
             </div>
 
             {/* International Data Transfers */}
