@@ -14,8 +14,7 @@ export function CoverStep({ onStart, isLoading }: CoverStepProps) {
           New license request
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          All fields are required to ensure accurate review and execution. 
-          Submissions cannot be processed if required information is missing or unclear.
+          Complete all fields so we can review and process your request accurately.
         </p>
       </div>
       
