@@ -89,17 +89,17 @@ export default function AdminLicensesPage() {
 
   return (
     <DashboardLayout>
-      <div className="max-w-5xl animate-content-fade">
+      <div className="max-w-4xl animate-content-fade">
         {/* Page Header */}
-        <div className="mb-6">
-          <h1 className="mb-1">Licenses</h1>
-          <p className="text-sm text-muted-foreground">
+        <div className="mb-8">
+          <h1 className="text-[15px] font-medium mb-1">Licenses</h1>
+          <p className="text-[13px] text-muted-foreground">
             All license requests.
           </p>
         </div>
 
         {/* Controls */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <div className="flex flex-col sm:flex-row gap-3 mb-8">
           <div className="flex-1">
             <Input
               placeholder="Search by name, email, track, License ID…"
@@ -108,11 +108,11 @@ export default function AdminLicensesPage() {
             />
           </div>
           <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus | "all")}>
-            <SelectTrigger className="w-full sm:w-[200px]">
+            <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="All statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All statuses ({requests.length})</SelectItem>
+              <SelectItem value="all">All ({requests.length})</SelectItem>
               {ADMIN_STATUSES.map((status) => (
                 <SelectItem key={status} value={status}>
                   {STATUS_LABELS[status]}
@@ -123,49 +123,48 @@ export default function AdminLicensesPage() {
           </Select>
         </div>
 
-        {/* List */}
+        {/* Table */}
         {isFirstTime ? (
           <div className="py-16">
-            <p className="text-sm font-medium mb-1">No license activity yet</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[14px] font-medium mb-1">No license activity yet</p>
+            <p className="text-[13px] text-muted-foreground">
               License requests will appear here once submitted.
             </p>
           </div>
         ) : isFilteredEmpty ? (
           <div className="py-16">
-            <p className="text-sm font-medium mb-1">No license requests</p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[14px] font-medium mb-1">No license requests</p>
+            <p className="text-[13px] text-muted-foreground">
               {searchQuery ? "No license requests match your search." : "There's nothing to review right now."}
             </p>
           </div>
         ) : (
-          <div className="space-y-0">
-            {/* Header */}
-            <div className="hidden md:grid grid-cols-[140px_100px_1.2fr_1fr_1fr_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
-              <span>License ID</span>
-              <span>Submitted</span>
-              <span>Requester</span>
-              <span>Track</span>
-              <span>Artist</span>
-              <span>Status</span>
+          <div>
+            {/* Header - minimal, left-aligned */}
+            <div className="hidden md:flex items-center h-10 text-[12px] text-muted-foreground">
+              <span className="w-[130px]">License ID</span>
+              <span className="w-[100px]">Date</span>
+              <span className="flex-1 min-w-0">Requester</span>
+              <span className="flex-1 min-w-0">Track</span>
+              <span className="w-[100px] text-right">Status</span>
             </div>
 
-            {/* Rows */}
-            {filteredRequests.map((request) => {
+            {/* Rows - 56px height, spacing-based separation */}
+            {filteredRequests.map((request, index) => {
               const requesterName =
                 [request.first_name, request.last_name].filter(Boolean).join(" ") ||
                 request.licensee_legal_name ||
                 "Unknown";
               const trackTitle = request.track_title || request.song_title || "—";
               const submittedDate = request.submitted_at
-                ? format(new Date(request.submitted_at), "MMM d, yyyy")
+                ? format(new Date(request.submitted_at), "MMM d")
                 : "—";
 
               return (
                 <div
                   key={request.id}
                   onClick={() => navigate(`/admin/licenses/${request.id}`)}
-                  className="h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring flex items-center"
+                  className="h-14 cursor-pointer hover:bg-muted/30 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring flex items-center"
                   tabIndex={0}
                   role="button"
                   onKeyDown={(e) => {
@@ -176,31 +175,28 @@ export default function AdminLicensesPage() {
                   }}
                 >
                   {/* Desktop */}
-                  <div className="hidden md:grid grid-cols-[140px_100px_1.2fr_1fr_1fr_100px] gap-4 items-center w-full">
-                    <span className="text-xs text-muted-foreground font-mono">{request.license_id || "—"}</span>
-                    <span className="text-xs text-muted-foreground">{submittedDate}</span>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium truncate">{requesterName}</p>
-                      {request.organization && (
-                        <p className="text-xs text-muted-foreground truncate">{request.organization}</p>
-                      )}
+                  <div className="hidden md:flex items-center w-full">
+                    <span className="w-[130px] text-[13px] text-muted-foreground font-mono">{request.license_id || "—"}</span>
+                    <span className="w-[100px] text-[13px] text-muted-foreground">{submittedDate}</span>
+                    <div className="flex-1 min-w-0 pr-4">
+                      <p className="text-[14px] truncate">{requesterName}</p>
                     </div>
-                    <span className="text-sm font-medium truncate">{trackTitle}</span>
-                    <span className="text-xs text-muted-foreground truncate">
-                      {request.recording_artist || "—"}
-                    </span>
-                    <StatusBadge status={request.status} />
+                    <div className="flex-1 min-w-0 pr-4">
+                      <p className="text-[14px] truncate">{trackTitle}</p>
+                    </div>
+                    <div className="w-[100px] text-right">
+                      <StatusBadge status={request.status} />
+                    </div>
                   </div>
 
                   {/* Mobile */}
-                  <div className="md:hidden flex items-center justify-between w-full">
+                  <div className="md:hidden flex items-center justify-between w-full px-1">
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-medium truncate">{trackTitle}</span>
+                      <div className="flex items-center gap-3 mb-1">
+                        <span className="text-[14px] truncate">{trackTitle}</span>
                         <StatusBadge status={request.status} />
                       </div>
-                      <p className="text-xs text-muted-foreground">{requesterName}</p>
-                      <p className="text-xs text-muted-foreground font-mono">{request.license_id || submittedDate}</p>
+                      <p className="text-[13px] text-muted-foreground">{requesterName}</p>
                     </div>
                   </div>
                 </div>

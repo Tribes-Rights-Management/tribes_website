@@ -5,8 +5,8 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, GeneratedDocument, STATUS_DESCRIPTIONS } from "@/types";
-import { ArrowLeft, Download, Edit, Copy, Check } from "lucide-react";
 import { format } from "date-fns";
+import { LicensePreviewModal } from "@/components/LicensePreviewModal";
 
 export default function RequestDetailPage() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export default function RequestDetailPage() {
   const [documents, setDocuments] = useState<GeneratedDocument[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const [isExporting, setIsExporting] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -49,36 +49,10 @@ export default function RequestDetailPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  async function handleExport() {
-    if (!request) return;
-    setIsExporting(true);
-    try {
-      const { data, error } = await supabase.functions.invoke("export-license-pdf", {
-        body: { requestId: request.id },
-      });
-
-      if (error) throw error;
-
-      // Create and download HTML as printable document
-      const blob = new Blob([data.html], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = data.filename.replace(".pdf", ".html");
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (error: any) {
-      console.error("Export error:", error);
-      toast({ title: "Error", description: error.message || "Failed to export", variant: "destructive" });
-    } finally {
-      setIsExporting(false);
-    }
-  }
-
   if (isLoading) {
     return (
       <DashboardLayout>
-        <div className="max-w-3xl opacity-0" />
+        <div className="max-w-2xl opacity-0" />
       </DashboardLayout>
     );
   }
@@ -87,7 +61,6 @@ export default function RequestDetailPage() {
 
   const canEdit = request.status === "needs_info";
   const showSignPayButton = request.status === "awaiting_signature" || request.status === "awaiting_payment";
-  const executedDoc = documents.find(d => d.doc_type === "executed");
   
   const fullAddress = [
     request.address_street,
@@ -97,115 +70,118 @@ export default function RequestDetailPage() {
     request.address_country,
   ].filter(Boolean).join(", ");
 
+  const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "—";
+
   return (
     <DashboardLayout>
-      <div className="max-w-3xl animate-content-fade">
+      <div className="max-w-2xl animate-content-fade">
         {/* Back */}
         <button
           onClick={() => navigate("/portal")}
-          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+          className="text-[13px] text-muted-foreground hover:text-foreground transition-colors mb-8"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Dashboard
+          ← Dashboard
         </button>
 
-        {/* Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <div>
-            <div className="flex items-center gap-3 mb-1">
-              <h1>License Request</h1>
-              <StatusBadge status={request.status} />
-            </div>
-            <p className="text-sm text-muted-foreground">{STATUS_DESCRIPTIONS[request.status]}</p>
+        {/* Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-4 mb-2">
+            <StatusBadge status={request.status} />
           </div>
+          <p className="text-[13px] text-muted-foreground mb-4">{STATUS_DESCRIPTIONS[request.status]}</p>
+          
+          {request.license_id && (
+            <p 
+              className="text-[13px] text-muted-foreground font-mono cursor-pointer hover:text-foreground transition-colors"
+              onClick={copyLicenseId}
+              title="Click to copy"
+            >
+              {request.license_id} {copied && "· Copied"}
+            </p>
+          )}
+        </div>
 
-          {/* Actions */}
-          <div className="flex gap-3">
+        {/* Actions */}
+        {(canEdit || showSignPayButton || request.status === "done") && (
+          <div className="mb-12 space-y-3">
             {canEdit && (
               <Link
                 to={`/portal/request/${request.id}/edit`}
-                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors active:opacity-80 active:duration-75"
+                className="inline-block text-[13px] text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Edit className="w-4 h-4" />
-                Update Information
+                Update information →
               </Link>
             )}
 
             {showSignPayButton && (
               <Link
                 to={`/portal/request/${request.id}/sign`}
-                className="h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors inline-flex items-center active:opacity-80 active:duration-75"
+                className="inline-block h-10 px-5 text-[13px] bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors leading-10"
               >
-                Review, Sign, and Pay
+                Review, sign, and pay
               </Link>
             )}
 
             {request.status === "done" && (
               <button
-                onClick={handleExport}
-                disabled={isExporting}
-                className="inline-flex items-center gap-2 h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
+                onClick={() => setShowPreview(true)}
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Download className="w-4 h-4" />
-                {isExporting ? "…" : "Download Agreement"}
+                View agreement
               </button>
             )}
           </div>
-        </div>
+        )}
 
-        {/* Content */}
-        <div className="space-y-8">
-          {/* License ID */}
-          {request.license_id && (
-            <Section title="License ID">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-mono">{request.license_id}</span>
-                <button
-                  onClick={copyLicenseId}
-                  className="p-1 text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Copy License ID"
-                >
-                  {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                </button>
-              </div>
-            </Section>
-          )}
-
-          <Section title="Your Info">
-            <Grid>
-              <Field label="First Name" value={request.first_name} />
-              <Field label="Last Name" value={request.last_name} />
+        {/* Single-column reading layout */}
+        <div className="space-y-12">
+          
+          {/* Your Info */}
+          <section className="space-y-4">
+            <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Your Info</h3>
+            <div className="space-y-3">
+              <Field label="Name" value={requesterName} />
               <Field label="Organization" value={request.organization} />
               <Field label="Email" value={request.licensee_email} />
-            </Grid>
-            {fullAddress && <p className="text-sm mt-3">{fullAddress}</p>}
-          </Section>
+              {fullAddress && <Field label="Address" value={fullAddress} />}
+            </div>
+          </section>
 
-          <Section title="Product Details">
-            <Grid>
+          {/* Product Details */}
+          <section className="space-y-4">
+            <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Product Details</h3>
+            <div className="space-y-3">
               <Field label="Label / Master Owner" value={request.label_master_owner} />
               <Field label="Distributor" value={request.distributor} />
-              <Field label="Release Date" value={request.release_date ? format(new Date(request.release_date), "MMM d, yyyy") : null} />
               <Field label="Recording Artist" value={request.recording_artist} />
               <Field label="Release Title" value={request.release_title} />
-              <Field label="Product UPC" value={request.product_upc} />
-            </Grid>
-            {request.additional_product_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_product_info}</p>}
-          </Section>
+              <Field label="Release Date" value={request.release_date ? format(new Date(request.release_date), "MMMM d, yyyy") : null} />
+              <Field label="UPC" value={request.product_upc} />
+            </div>
+            {request.additional_product_info && (
+              <p className="text-[13px] text-muted-foreground pt-2">{request.additional_product_info}</p>
+            )}
+          </section>
 
-          <Section title="Track Details">
-            <Grid>
+          {/* Track Details */}
+          <section className="space-y-4">
+            <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Track Details</h3>
+            <div className="space-y-3">
               <Field label="Track Title" value={request.track_title || request.song_title} />
               <Field label="Track Artist" value={request.track_artist} />
-              <Field label="Track ISRC" value={request.track_isrc} />
+              <Field label="ISRC" value={request.track_isrc} />
               <Field label="Runtime" value={request.runtime} />
               <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "?"})` : "No"} />
-            </Grid>
-            {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
-          </Section>
+            </div>
+            {request.additional_track_info && (
+              <p className="text-[13px] text-muted-foreground pt-2">{request.additional_track_info}</p>
+            )}
+          </section>
 
+          {/* Documents */}
           {documents.length > 0 && (
-            <Section title="Files">
+            <section className="space-y-4">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Documents</h3>
               <div className="space-y-2">
                 {documents.map(doc => (
                   <a
@@ -213,53 +189,50 @@ export default function RequestDetailPage() {
                     href={doc.storage_path}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
+                    className="block text-[14px] text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    <Download className="w-3.5 h-3.5 text-muted-foreground" />
-                    {doc.doc_type === "draft" ? "Draft Contract" : "Executed Agreement"}
-                    <span className="text-xs text-muted-foreground">({format(new Date(doc.created_at), "MMM d, yyyy")})</span>
+                    {doc.doc_type === "draft" ? "Draft Contract" : "Executed Agreement"} — {format(new Date(doc.created_at), "MMM d, yyyy")}
                   </a>
                 ))}
               </div>
-            </Section>
+            </section>
           )}
 
+          {/* Executed Agreement placeholder */}
           {request.status !== "done" && (
-            <Section title="Executed Agreement">
-              <p className="text-sm text-muted-foreground">Your executed agreement will appear here once complete.</p>
-            </Section>
+            <section className="space-y-4">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Executed Agreement</h3>
+              <p className="text-[13px] text-muted-foreground">Your executed agreement will appear here once complete.</p>
+            </section>
           )}
 
-          <Section title="Request Info">
-            <Grid>
-              <Field label="Submitted" value={request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy 'at' h:mm a") : "—"} />
-            </Grid>
-          </Section>
+          {/* Request Info */}
+          <section className="space-y-4">
+            <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">Request Info</h3>
+            <div className="space-y-3">
+              <Field label="Submitted" value={request.submitted_at ? format(new Date(request.submitted_at), "MMMM d, yyyy 'at' h:mm a") : null} />
+            </div>
+          </section>
         </div>
       </div>
+
+      {/* Preview Modal */}
+      {showPreview && request && (
+        <LicensePreviewModal
+          request={request}
+          onClose={() => setShowPreview(false)}
+        />
+      )}
     </DashboardLayout>
   );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section>
-      <h2 className="text-muted-foreground mb-3">{title}</h2>
-      {children}
-    </section>
-  );
-}
-
-function Grid({ children }: { children: React.ReactNode }) {
-  return <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">{children}</div>;
 }
 
 function Field({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null;
   return (
-    <div className="text-sm">
-      <span className="text-muted-foreground">{label}</span>
-      <p className="mt-0.5">{value}</p>
+    <div>
+      <p className="text-[12px] text-muted-foreground">{label}</p>
+      <p className="text-[14px] mt-0.5">{value}</p>
     </div>
   );
 }
