@@ -12,6 +12,7 @@ export default function AuthCallbackPage() {
   const [error, setError] = useState<ErrorType>(null);
   const [email, setEmail] = useState("");
   const [isResending, setIsResending] = useState(false);
+  const [resendConfirmed, setResendConfirmed] = useState(false);
 
   useEffect(() => {
     handleCallback();
@@ -59,7 +60,7 @@ export default function AuthCallbackPage() {
     setIsResending(false);
 
     if (!resendError) {
-      navigate("/auth", { replace: true });
+      setResendConfirmed(true);
     }
   }
 
@@ -86,29 +87,37 @@ export default function AuthCallbackPage() {
             <p className="text-sm text-muted-foreground mb-6">
               For security, sign-in links expire after a short time.
             </p>
-            <div className="space-y-3">
-              <input
-                type="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-10 px-3 text-sm border border-input rounded-md bg-background"
-                aria-label="Email address"
-              />
-              <button
-                onClick={handleResend}
-                disabled={isResending || !email.trim()}
-                className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-              >
-                {isResending ? "…" : "Send a new link"}
-              </button>
-              <button
-                onClick={handleBack}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Back
-              </button>
-            </div>
+            {resendConfirmed ? (
+              <p className="text-sm text-muted-foreground">
+                A new link has been sent.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                <input
+                  type="email"
+                  placeholder="you@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-10 px-3 text-sm border border-input rounded-md bg-background"
+                  aria-label="Email address"
+                />
+                <button
+                  onClick={handleResend}
+                  disabled={isResending || !email.trim()}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+                >
+                  {isResending ? "…" : "Resend link"}
+                </button>
+                <div>
+                  <button
+                    onClick={handleBack}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </main>
         <Footer />
@@ -126,29 +135,37 @@ export default function AuthCallbackPage() {
             <p className="text-sm text-muted-foreground mb-6">
               The sign-in link may be incorrect or no longer available.
             </p>
-            <div className="space-y-3">
-              <input
-                type="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full h-10 px-3 text-sm border border-input rounded-md bg-background"
-                aria-label="Email address"
-              />
-              <button
-                onClick={handleResend}
-                disabled={isResending || !email.trim()}
-                className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-              >
-                {isResending ? "…" : "Send a new link"}
-              </button>
-              <button
-                onClick={handleBack}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Back
-              </button>
-            </div>
+            {resendConfirmed ? (
+              <p className="text-sm text-muted-foreground">
+                A new link has been sent.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                <input
+                  type="email"
+                  placeholder="you@company.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-10 px-3 text-sm border border-input rounded-md bg-background"
+                  aria-label="Email address"
+                />
+                <button
+                  onClick={handleResend}
+                  disabled={isResending || !email.trim()}
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+                >
+                  {isResending ? "…" : "Resend link"}
+                </button>
+                <div>
+                  <button
+                    onClick={handleBack}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    Back
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </main>
         <Footer />

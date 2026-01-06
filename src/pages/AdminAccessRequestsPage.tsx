@@ -14,7 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Eye, Check, X } from "lucide-react";
+import { Eye } from "lucide-react";
 import { format } from "date-fns";
 
 interface PendingProfile {
@@ -34,7 +34,7 @@ export default function AdminAccessRequestsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
   const [rejectingProfile, setRejectingProfile] = useState<PendingProfile | null>(null);
-
+  const [approvingProfile, setApprovingProfile] = useState<PendingProfile | null>(null);
   useEffect(() => {
     fetchPendingProfiles();
   }, []);
@@ -57,10 +57,10 @@ export default function AdminAccessRequestsPage() {
     }
   }
 
-  async function handleApprove(profileId: string) {
-    if (!isSuperAdmin) return;
+  async function confirmApprove() {
+    if (!isSuperAdmin || !approvingProfile) return;
     
-    setProcessingId(profileId);
+    setProcessingId(approvingProfile.id);
     try {
       const { error } = await supabase
         .from("profiles")
@@ -68,16 +68,17 @@ export default function AdminAccessRequestsPage() {
           account_status: "active",
           approved_at: new Date().toISOString(),
         })
-        .eq("id", profileId);
+        .eq("id", approvingProfile.id);
 
       if (error) throw error;
       
-      setProfiles(prev => prev.filter(p => p.id !== profileId));
+      setProfiles(prev => prev.filter(p => p.id !== approvingProfile.id));
     } catch (error) {
       console.error("Error approving user:", error);
       toast({ title: "Error", description: "Failed to approve user", variant: "destructive" });
     } finally {
       setProcessingId(null);
+      setApprovingProfile(null);
     }
   }
 
@@ -105,6 +106,22 @@ export default function AdminAccessRequestsPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Approval Confirmation Dialog */}
+      <AlertDialog open={!!approvingProfile} onOpenChange={(open) => !open && setApprovingProfile(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Approve access?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will allow the user to sign in and access Tribes Rights Licensing.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmApprove}>Approve</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Rejection Confirmation Dialog */}
       <AlertDialog open={!!rejectingProfile} onOpenChange={(open) => !open && setRejectingProfile(null)}>
         <AlertDialogContent>
@@ -187,11 +204,10 @@ export default function AdminAccessRequestsPage() {
                     {isSuperAdmin ? (
                       <>
                         <button
-                          onClick={() => handleApprove(profile.id)}
+                          onClick={() => setApprovingProfile(profile)}
                           disabled={processingId === profile.id}
                           className="h-8 px-3 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
                         >
-                          <Check className="w-3.5 h-3.5" />
                           Approve
                         </button>
                         <button
@@ -199,7 +215,6 @@ export default function AdminAccessRequestsPage() {
                           disabled={processingId === profile.id}
                           className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
                         >
-                          <X className="w-3.5 h-3.5" />
                           Reject
                         </button>
                       </>
@@ -221,11 +236,10 @@ export default function AdminAccessRequestsPage() {
                   {isSuperAdmin && (
                     <div className="flex gap-2 pt-2">
                       <button
-                        onClick={() => handleApprove(profile.id)}
+                        onClick={() => setApprovingProfile(profile)}
                         disabled={processingId === profile.id}
                         className="flex-1 h-8 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
                       >
-                        <Check className="w-3.5 h-3.5" />
                         Approve
                       </button>
                       <button
@@ -233,7 +247,6 @@ export default function AdminAccessRequestsPage() {
                         disabled={processingId === profile.id}
                         className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
                       >
-                        <X className="w-3.5 h-3.5" />
                         Reject
                       </button>
                     </div>

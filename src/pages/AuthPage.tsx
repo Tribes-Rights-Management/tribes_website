@@ -15,6 +15,7 @@ export default function AuthPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResend, setShowResend] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [resendConfirmed, setResendConfirmed] = useState(false);
 
   const { signInWithMagicLink } = useAuth();
   const { toast } = useToast();
@@ -79,7 +80,7 @@ export default function AuthPage() {
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Email sent" });
+      setResendConfirmed(true);
       setShowResend(false);
       setTimeout(() => setShowResend(true), 45000);
     }
@@ -104,13 +105,18 @@ export default function AuthPage() {
             <p className="text-xs text-muted-foreground mb-8">
               If it doesn't appear within a minute, check your spam folder.
             </p>
+            {resendConfirmed && (
+              <p className="text-sm text-muted-foreground mb-4">
+                A new link has been sent.
+              </p>
+            )}
             {showResend && (
               <button
                 onClick={handleResend}
                 disabled={isResending}
                 className="text-sm text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
               >
-                {isResending ? "Sending…" : "Resend email"}
+                {isResending ? "…" : "Resend link"}
               </button>
             )}
           </div>
