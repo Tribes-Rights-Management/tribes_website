@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { StatusBadge } from "@/components/StatusBadge";
-import { EmptyState } from "@/components/EmptyState";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select,
@@ -16,11 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search, FileText, Music2, Calendar, Building2, ChevronRight, Eye, Mail, User } from "lucide-react";
+import { Search, FileText, Eye, AlignJustify } from "lucide-react";
 import { format } from "date-fns";
 
-// Active statuses for admin filtering (excluding draft and legacy statuses)
 const ADMIN_STATUSES: RequestStatus[] = [
   "submitted",
   "in_review", 
@@ -31,17 +32,31 @@ const ADMIN_STATUSES: RequestStatus[] = [
   "done"
 ];
 
+type Density = "comfortable" | "compact";
+
+const getDensityFromStorage = (): Density => {
+  if (typeof window !== "undefined") {
+    return (localStorage.getItem("admin-queue-density") as Density) || "comfortable";
+  }
+  return "comfortable";
+};
+
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
-  const { isAdminView, isSuperAdmin } = useAuth();
+  const { isAdminView } = useAuth();
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState<RequestStatus>("submitted");
+  const [density, setDensity] = useState<Density>(getDensityFromStorage);
 
   useEffect(() => {
     fetchRequests();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("admin-queue-density", density);
+  }, [density]);
 
   async function fetchRequests() {
     try {
@@ -60,7 +75,6 @@ export default function AdminDashboardPage() {
     }
   }
 
-  // Filter by search and status
   const filteredRequests = requests.filter((request) => {
     const matchesSearch = searchQuery === "" || 
       request.licensee_legal_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -77,11 +91,12 @@ export default function AdminDashboardPage() {
     return matchesSearch && matchesStatus;
   });
 
-  // Count by status
   const statusCounts = requests.reduce((acc, req) => {
     acc[req.status] = (acc[req.status] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
+
+  const rowPadding = density === "compact" ? "py-2" : "py-3.5";
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -108,107 +123,157 @@ export default function AdminDashboardPage() {
         </div>
       </header>
 
-      <main className="container flex-1 pt-6 pb-8">
+      <main className="container flex-1 pt-5 pb-8">
         {/* Title */}
-        <h1 className="text-xl font-semibold tracking-tight mb-5">License Queue</h1>
+        <h1 className="text-xl font-semibold tracking-tight mb-4">License Queue</h1>
 
         {/* Controls Row */}
-        <div className="flex flex-col sm:flex-row gap-2.5 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2.5 mb-5">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
             <Input
               placeholder="Search by name, email, track, or artist…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 h-9 text-sm border-border/60 bg-background"
+              className="pl-9 h-9 text-sm border-border/50 bg-background"
             />
           </div>
-          <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
-            <SelectTrigger className="w-full sm:w-[220px] h-9 text-sm border-border/60 bg-background">
-              <SelectValue placeholder="Status" />
-            </SelectTrigger>
-            <SelectContent>
-              {ADMIN_STATUSES.map((status) => (
-                <SelectItem key={status} value={status} className="text-sm">
-                  {STATUS_LABELS[status]}
-                  {statusCounts[status] > 0 && (
-                    <span className="text-muted-foreground ml-1.5">({statusCounts[status]})</span>
-                  )}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex gap-2">
+            <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
+              <SelectTrigger className="w-full sm:w-[200px] h-9 text-sm border-border/50 bg-background">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                {ADMIN_STATUSES.map((status) => (
+                  <SelectItem key={status} value={status} className="text-sm">
+                    {STATUS_LABELS[status]}
+                    {statusCounts[status] > 0 && (
+                      <span className="text-muted-foreground ml-1.5">({statusCounts[status]})</span>
+                    )}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            
+            {/* Density Control */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="h-9 w-9 flex items-center justify-center border border-border/50 rounded-md hover:bg-muted/50 transition-colors">
+                  <AlignJustify className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-popover">
+                <DropdownMenuItem 
+                  onClick={() => setDensity("comfortable")}
+                  className={density === "comfortable" ? "bg-muted" : ""}
+                >
+                  Comfortable
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  onClick={() => setDensity("compact")}
+                  className={density === "compact" ? "bg-muted" : ""}
+                >
+                  Compact
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
 
-        {/* Results */}
+        {/* Table */}
         {isLoading ? (
-          <div className="space-y-2">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="py-4 border-b border-border/30">
-                <Skeleton className="h-14 w-full" />
+          <div className="space-y-0">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className={`${rowPadding} border-b border-border/20`}>
+                <Skeleton className="h-10 w-full" />
               </div>
             ))}
           </div>
         ) : filteredRequests.length === 0 ? (
-          <EmptyState 
-            icon={FileText} 
-            title="No requests" 
-            description={`No requests with "${STATUS_LABELS[activeStatus]}" status.`} 
-          />
+          <div className="py-16 text-center">
+            <FileText className="w-8 h-8 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-sm font-medium text-foreground mb-1">No requests</p>
+            <p className="text-xs text-muted-foreground">
+              {searchQuery 
+                ? "No results for your search." 
+                : `No requests with "${STATUS_LABELS[activeStatus]}" status.`}
+            </p>
+          </div>
         ) : (
-          <div className="divide-y divide-border/30">
-            {filteredRequests.map((request) => {
-              const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
-              const trackTitle = request.track_title || request.song_title || "Untitled";
-              
-              return (
-                <div 
-                  key={request.id} 
-                  className="py-3.5 flex items-center gap-3.5 cursor-pointer hover:bg-muted/30 -mx-2 px-2 rounded transition-colors" 
-                  onClick={() => navigate(`/admin/licenses/${request.id}`)}
-                >
-                  {/* Icon */}
-                  <div className="h-9 w-9 rounded-md bg-muted/50 flex items-center justify-center flex-shrink-0">
-                    <Music2 className="w-4 h-4 text-muted-foreground" />
-                  </div>
+          <div>
+            {/* Table Header - Desktop */}
+            <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 px-2 py-2 text-[11px] uppercase tracking-wider text-muted-foreground/70 border-b border-border/30">
+              <span>Submitted</span>
+              <span>Requester</span>
+              <span>Email</span>
+              <span>Track</span>
+              <span>Artist</span>
+              <span>Status</span>
+            </div>
 
-                  {/* Main content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium truncate">{trackTitle}</span>
-                      <StatusBadge status={request.status} />
+            {/* Table Body */}
+            <div>
+              {filteredRequests.map((request) => {
+                const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
+                const trackTitle = request.track_title || request.song_title || "—";
+                const artistName = request.recording_artist || "—";
+                const submittedDate = request.submitted_at 
+                  ? format(new Date(request.submitted_at), "MMM d, yyyy") 
+                  : "—";
+                
+                return (
+                  <div 
+                    key={request.id} 
+                    onClick={() => navigate(`/admin/licenses/${request.id}`)}
+                    className={`
+                      ${rowPadding} px-2 cursor-pointer transition-colors
+                      border-b border-border/20 
+                      hover:bg-muted/40
+                      focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1
+                    `}
+                    tabIndex={0}
+                    role="button"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        navigate(`/admin/licenses/${request.id}`);
+                      }
+                    }}
+                  >
+                    {/* Desktop Layout */}
+                    <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 items-center">
+                      <span className="text-xs text-muted-foreground">{submittedDate}</span>
+                      <div className="min-w-0">
+                        <p className="text-sm truncate">{requesterName}</p>
+                        {request.organization && (
+                          <p className="text-xs text-muted-foreground truncate">{request.organization}</p>
+                        )}
+                      </div>
+                      <span className="text-sm text-muted-foreground truncate">{request.licensee_email || "—"}</span>
+                      <span className="text-sm truncate">{trackTitle}</span>
+                      <span className="text-sm text-muted-foreground truncate">{artistName}</span>
+                      <div>
+                        <StatusBadge status={request.status} />
+                      </div>
                     </div>
-                    
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—"}
-                      </span>
-                      <span className="flex items-center gap-1 truncate">
-                        <User className="w-3 h-3" />
+
+                    {/* Mobile Layout */}
+                    <div className="md:hidden space-y-1">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-medium truncate">{trackTitle}</span>
+                        <StatusBadge status={request.status} />
+                      </div>
+                      <p className="text-xs text-muted-foreground">
                         {requesterName}
-                      </span>
-                      {request.organization && (
-                        <span className="flex items-center gap-1 truncate">
-                          <Building2 className="w-3 h-3" />
-                          {request.organization}
-                        </span>
-                      )}
-                      <span className="flex items-center gap-1 truncate">
-                        <Mail className="w-3 h-3" />
-                        {request.licensee_email || "—"}
-                      </span>
-                      {request.recording_artist && (
-                        <span className="truncate">Artist: {request.recording_artist}</span>
-                      )}
+                        {request.organization && ` · ${request.organization}`}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">{request.licensee_email || "—"}</p>
+                      <p className="text-[11px] text-muted-foreground/70">{submittedDate}</p>
                     </div>
                   </div>
-
-                  {/* Arrow */}
-                  <ChevronRight className="w-4 h-4 text-muted-foreground/50 flex-shrink-0" />
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         )}
       </main>
