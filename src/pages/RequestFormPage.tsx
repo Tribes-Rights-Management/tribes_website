@@ -10,13 +10,14 @@ import { ArrowLeft, ArrowRight, Loader2, Send } from "lucide-react";
 import { WizardProgress } from "@/components/wizard/WizardProgress";
 import { CoverStep } from "@/components/wizard/steps/CoverStep";
 import { AgreementStep } from "@/components/wizard/steps/AgreementStep";
+import { LicenseTypeStep } from "@/components/wizard/steps/LicenseTypeStep";
 import { YourInfoStep } from "@/components/wizard/steps/YourInfoStep";
 import { ProductDetailsStep } from "@/components/wizard/steps/ProductDetailsStep";
 import { TrackDetailsStep } from "@/components/wizard/steps/TrackDetailsStep";
 import { ReviewStep } from "@/components/wizard/steps/ReviewStep";
 import { ThankYouStep } from "@/components/wizard/steps/ThankYouStep";
 
-const TOTAL_STEPS = 7;
+const TOTAL_STEPS = 8;
 
 export default function RequestFormPage() {
   const { user } = useAuth();
@@ -54,6 +55,7 @@ export default function RequestFormPage() {
       setFormData({
         agreement_accounting: data.agreement_accounting || false,
         agreement_terms: data.agreement_terms || false,
+        selected_license_types: data.selected_license_types || [],
         first_name: data.first_name || "",
         last_name: data.last_name || "",
         organization: data.organization || "",
@@ -113,7 +115,7 @@ export default function RequestFormPage() {
   }, [user, requestId, formData]);
 
   useEffect(() => {
-    if (!requestId || currentStep === 0 || currentStep === 6) return;
+    if (!requestId || currentStep === 0 || currentStep === 7) return;
     const timer = setTimeout(() => autosave(), 1000);
     return () => clearTimeout(timer);
   }, [formData, requestId, currentStep, autosave]);
@@ -151,6 +153,9 @@ export default function RequestFormPage() {
         if (!formData.agreement_terms) newErrors.agreement_terms = "Required";
         break;
       case 2:
+        if (formData.selected_license_types.length === 0) newErrors.selected_license_types = "Please select at least one license type";
+        break;
+      case 3:
         if (!formData.first_name.trim()) newErrors.first_name = "Required";
         if (!formData.last_name.trim()) newErrors.last_name = "Required";
         if (!formData.licensee_email.trim()) newErrors.licensee_email = "Required";
@@ -161,7 +166,7 @@ export default function RequestFormPage() {
         if (!formData.address_state.trim()) newErrors.address_state = "Required";
         if (!formData.address_zip.trim()) newErrors.address_zip = "Required";
         break;
-      case 3:
+      case 4:
         if (!formData.label_master_owner.trim()) newErrors.label_master_owner = "Required";
         if (!formData.distributor.trim()) newErrors.distributor = "Required";
         if (!formData.release_date) newErrors.release_date = "Required";
@@ -169,7 +174,7 @@ export default function RequestFormPage() {
         if (!formData.release_title.trim()) newErrors.release_title = "Required";
         if (!formData.product_upc.trim()) newErrors.product_upc = "Required";
         break;
-      case 4:
+      case 5:
         if (!formData.track_title.trim()) newErrors.track_title = "Required";
         if (!formData.track_artist.trim()) newErrors.track_artist = "Required";
         if (!formData.track_isrc.trim()) newErrors.track_isrc = "Required";
@@ -276,6 +281,13 @@ export default function RequestFormPage() {
               />
             )}
             {currentStep === 2 && (
+              <LicenseTypeStep
+                selectedTypes={formData.selected_license_types}
+                onUpdate={update}
+                errors={errors}
+              />
+            )}
+            {currentStep === 3 && (
               <YourInfoStep
                 data={{
                   first_name: formData.first_name,
@@ -292,7 +304,7 @@ export default function RequestFormPage() {
                 errors={errors}
               />
             )}
-            {currentStep === 3 && (
+            {currentStep === 4 && (
               <ProductDetailsStep
                 data={{
                   label_master_owner: formData.label_master_owner,
@@ -307,7 +319,7 @@ export default function RequestFormPage() {
                 errors={errors}
               />
             )}
-            {currentStep === 4 && (
+            {currentStep === 5 && (
               <TrackDetailsStep
                 data={{
                   track_title: formData.track_title,
@@ -322,19 +334,19 @@ export default function RequestFormPage() {
                 errors={errors}
               />
             )}
-            {currentStep === 5 && <ReviewStep data={formData} onEditStep={goToStep} />}
-            {currentStep === 6 && <ThankYouStep />}
+            {currentStep === 6 && <ReviewStep data={formData} onEditStep={goToStep} />}
+            {currentStep === 7 && <ThankYouStep />}
           </div>
 
           {/* Navigation */}
-          {currentStep >= 1 && currentStep <= 5 && (
+          {currentStep >= 1 && currentStep <= 6 && (
             <div className="flex justify-between mt-8">
               <Button variant="ghost" onClick={goBack} disabled={currentStep === 1}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
               
-              {currentStep < 5 ? (
+              {currentStep < 6 ? (
                 <Button onClick={goNext}>
                   Next
                   <ArrowRight className="w-4 h-4 ml-2" />

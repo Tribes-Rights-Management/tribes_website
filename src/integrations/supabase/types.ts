@@ -165,6 +165,7 @@ export type Database = {
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
           organization: string | null
+          package_reference: string | null
           paid_at: string | null
           pandadoc_document_id: string | null
           payment_status: string | null
@@ -176,6 +177,7 @@ export type Database = {
           release_date: string | null
           release_title: string | null
           runtime: string | null
+          selected_license_types: string[] | null
           signature_status: string | null
           signed_at: string | null
           signing_envelope_id: string | null
@@ -223,6 +225,7 @@ export type Database = {
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
+          package_reference?: string | null
           paid_at?: string | null
           pandadoc_document_id?: string | null
           payment_status?: string | null
@@ -234,6 +237,7 @@ export type Database = {
           release_date?: string | null
           release_title?: string | null
           runtime?: string | null
+          selected_license_types?: string[] | null
           signature_status?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
@@ -281,6 +285,7 @@ export type Database = {
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
+          package_reference?: string | null
           paid_at?: string | null
           pandadoc_document_id?: string | null
           payment_status?: string | null
@@ -292,6 +297,7 @@ export type Database = {
           release_date?: string | null
           release_title?: string | null
           runtime?: string | null
+          selected_license_types?: string[] | null
           signature_status?: string | null
           signed_at?: string | null
           signing_envelope_id?: string | null
@@ -353,6 +359,59 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      licenses: {
+        Row: {
+          created_at: string
+          fee: number | null
+          grant_of_rights: string | null
+          id: string
+          license_id: string
+          license_type_code: string
+          request_id: string
+          restrictions: string | null
+          status: Database["public"]["Enums"]["request_status"]
+          term: string | null
+          territory: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          fee?: number | null
+          grant_of_rights?: string | null
+          id?: string
+          license_id: string
+          license_type_code: string
+          request_id: string
+          restrictions?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          term?: string | null
+          territory?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          fee?: number | null
+          grant_of_rights?: string | null
+          id?: string
+          license_id?: string
+          license_type_code?: string
+          request_id?: string
+          restrictions?: string | null
+          status?: Database["public"]["Enums"]["request_status"]
+          term?: string | null
+          territory?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "licenses_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "license_requests"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -463,6 +522,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_individual_license_id: { Args: never; Returns: string }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
