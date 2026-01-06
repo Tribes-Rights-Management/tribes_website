@@ -326,6 +326,10 @@ export type Database = {
           account_status: Database["public"]["Enums"]["account_status"]
           approved_at: string | null
           approved_by: string | null
+          company: string | null
+          company_description: string | null
+          company_type: string | null
+          country: string | null
           created_at: string
           email: string
           id: string
@@ -337,6 +341,10 @@ export type Database = {
           account_status?: Database["public"]["Enums"]["account_status"]
           approved_at?: string | null
           approved_by?: string | null
+          company?: string | null
+          company_description?: string | null
+          company_type?: string | null
+          country?: string | null
           created_at?: string
           email: string
           id: string
@@ -348,6 +356,10 @@ export type Database = {
           account_status?: Database["public"]["Enums"]["account_status"]
           approved_at?: string | null
           approved_by?: string | null
+          company?: string | null
+          company_description?: string | null
+          company_type?: string | null
+          country?: string | null
           created_at?: string
           email?: string
           id?: string

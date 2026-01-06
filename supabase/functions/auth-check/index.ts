@@ -8,6 +8,13 @@ const corsHeaders = {
 
 interface AuthCheckRequest {
   email: string;
+  firstName?: string;
+  lastName?: string;
+  company?: string;
+  country?: string;
+  companyType?: string;
+  companyDescription?: string;
+  isRequestAccess?: boolean;
 }
 
 interface AuthCheckResponse {
@@ -26,7 +33,8 @@ serve(async (req: Request): Promise<Response> => {
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { email }: AuthCheckRequest = await req.json();
+    const body: AuthCheckRequest = await req.json();
+    const { email, firstName, lastName, company, country, companyType, companyDescription, isRequestAccess } = body;
     
     if (!email || typeof email !== "string") {
       return new Response(
@@ -69,18 +77,32 @@ serve(async (req: Request): Promise<Response> => {
       );
     }
 
-    // Profile doesn't exist - create new pending profile
-    // First, we need to create an auth user, then the profile will be created via trigger
-    // But we want to create just the profile without sending any auth email
-    
-    // Create profile directly (without auth user for now - they'll get one when approved)
+    // Profile doesn't exist - only create if this is a request access submission
+    if (!isRequestAccess) {
+      // For login attempts with no profile, tell them to request access
+      return new Response(
+        JSON.stringify({ 
+          status: "no_account", 
+          message: "No account found. Please request access." 
+        }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    // Create profile with all the provided information
     const newProfileId = crypto.randomUUID();
+    const name = firstName && lastName ? `${firstName} ${lastName}` : normalizedEmail.split("@")[0];
+    
     const { error: insertError } = await supabase
       .from("profiles")
       .insert({
         id: newProfileId,
         email: normalizedEmail,
-        name: normalizedEmail.split("@")[0], // Use email prefix as temp name
+        name: name,
+        company: company || null,
+        country: country || null,
+        company_type: companyType || null,
+        company_description: companyDescription || null,
         role: "user",
         account_status: "pending",
       });
