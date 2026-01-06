@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Music2, Mail, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { z } from "zod";
 
 const emailSchema = z.string().email("Please enter a valid email address");
@@ -19,7 +18,6 @@ export default function AuthPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     
-    // Validate email
     const result = emailSchema.safeParse(email);
     if (!result.success) {
       toast({
@@ -31,7 +29,6 @@ export default function AuthPage() {
     }
 
     setIsSubmitting(true);
-
     const { error } = await signInWithMagicLink(email);
 
     if (error) {
@@ -50,99 +47,100 @@ export default function AuthPage() {
 
   if (isEmailSent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <div className="w-full max-w-sm animate-fade-in">
-          <div className="text-center space-y-6">
-            <div className="mx-auto w-16 h-16 bg-success/10 rounded-full flex items-center justify-center">
-              <CheckCircle2 className="w-8 h-8 text-success" />
-            </div>
-            <div className="space-y-2">
-              <h1 className="text-2xl font-semibold tracking-tight">Check your email</h1>
-              <p className="text-muted-foreground">
-                We've sent a magic link to <span className="font-medium text-foreground">{email}</span>
-              </p>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Click the link in the email to sign in to your account.
+      <div className="min-h-screen flex flex-col bg-background">
+        <main className="flex-1 flex items-center justify-center px-4">
+          <div className="w-full max-w-md text-center animate-fade-in">
+            <h1 className="mb-2">Check your email</h1>
+            <p className="text-sm text-muted-foreground mb-6">
+              We've sent a sign-in link to <span className="text-foreground">{email}</span>
             </p>
-            <Button
-              variant="ghost"
+            <p className="text-sm text-muted-foreground mb-8">
+              Click the link in the email to continue.
+            </p>
+            <button
               onClick={() => {
                 setIsEmailSent(false);
                 setEmail("");
               }}
-              className="text-muted-foreground"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               Use a different email
-            </Button>
+            </button>
           </div>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="w-full max-w-sm space-y-8 animate-fade-in">
-        {/* Logo and Title */}
-        <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-6">
-            <Music2 className="w-6 h-6 text-primary-foreground" />
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-1 flex items-center justify-center px-4">
+        <div className="w-full max-w-md animate-fade-in">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="mb-2">Tribes Rights Licensing</h1>
+            <p className="text-sm text-muted-foreground">Sign in with your email to continue</p>
           </div>
-          <h1 className="text-2xl font-semibold tracking-tight">Tribes Rights Licensing</h1>
-          <p className="text-muted-foreground">Sign in with your email to continue</p>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              type="email"
+              placeholder="you@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              disabled={isSubmitting}
+            />
+
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending…
+                </>
+              ) : (
+                "Continue with Email"
+              )}
+            </Button>
+          </form>
+
+          {/* Legal */}
+          <p className="text-center text-xs text-muted-foreground mt-6">
+            By continuing, you agree to our{" "}
+            <a 
+              href="https://www.tribesrightsmanagement.com/terms-of-use" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-foreground hover:underline transition-colors"
+            >
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a 
+              href="https://www.tribesrightsmanagement.com/privacy-policy" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-foreground hover:underline transition-colors"
+            >
+              Privacy Policy
+            </a>.
+          </p>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email address</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                id="email"
-                type="email"
-                placeholder="you@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="pl-10"
-                required
-                autoComplete="email"
-                disabled={isSubmitting}
-              />
-            </div>
-          </div>
-
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Sending link...
-              </>
-            ) : (
-              <>
-                Continue with Email
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </>
-            )}
-          </Button>
-        </form>
-
-        {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground">
-          By continuing, you agree to our{" "}
-          <a href="https://www.tribesrightsmanagement.com/terms-of-use" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a href="https://www.tribesrightsmanagement.com/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
-            Privacy Policy
-          </a>.
-        </p>
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
-        </p>
-      </div>
+      </main>
+      <Footer />
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-6 text-center">
+      <p className="text-xs text-muted-foreground">
+        © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
+      </p>
+    </footer>
   );
 }
