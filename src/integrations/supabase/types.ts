@@ -469,6 +469,33 @@ export type Database = {
           },
         ]
       }
+      policy_acknowledgments: {
+        Row: {
+          acknowledged_at: string
+          created_at: string
+          id: string
+          policy_version: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          acknowledged_at?: string
+          created_at?: string
+          id?: string
+          policy_version: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          acknowledged_at?: string
+          created_at?: string
+          id?: string
+          policy_version?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           account_status: Database["public"]["Enums"]["account_status"]
@@ -627,6 +654,10 @@ export type Database = {
       get_user_role_v2: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_acknowledged_policy: {
+        Args: { _policy_version: string; _user_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {

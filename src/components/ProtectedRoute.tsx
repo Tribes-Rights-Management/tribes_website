@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { getCopyrightLine } from "@/lib/copyright";
+import { usePolicyAcknowledgment } from "@/hooks/usePolicyAcknowledgment";
+import { PolicyAcknowledgmentScreen } from "@/components/admin/PolicyAcknowledgmentScreen";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -97,10 +99,18 @@ export function ProtectedRoute({
   requireAdmin = false,
   requireSuperAdmin = false 
 }: ProtectedRouteProps) {
-  const { user, isAnyAdmin, isSuperAdmin, isActiveUser, isLoading, accountStatus } = useAuth();
+  const { user, isAnyAdmin, isSuperAdmin, isActiveUser, isLoading, accountStatus, role } = useAuth();
   const location = useLocation();
+  
+  const { 
+    hasAcknowledged, 
+    isLoading: isPolicyLoading, 
+    isSubmitting,
+    acknowledgePolicy,
+    requiresAcknowledgment 
+  } = usePolicyAcknowledgment(user?.id, role);
 
-  if (isLoading) {
+  if (isLoading || isPolicyLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -130,6 +140,16 @@ export function ProtectedRoute({
   // Check any admin requirement (super_admin or admin_view)
   if (requireAdmin && !isAnyAdmin) {
     return <UnauthorizedPage />;
+  }
+
+  // For admin routes, check policy acknowledgment
+  if (requireAdmin && requiresAcknowledgment) {
+    return (
+      <PolicyAcknowledgmentScreen 
+        onAcknowledge={acknowledgePolicy}
+        isSubmitting={isSubmitting}
+      />
+    );
   }
 
   return <>{children}</>;
