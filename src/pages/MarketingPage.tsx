@@ -41,7 +41,7 @@ export default function MarketingPage() {
                 Structured for clarity. Built for long-term record-keeping.
               </p>
               <p className="text-sm text-muted-foreground/80 leading-relaxed mb-3 max-w-[560px]">
-                Designed for organizations that need licensing done correctly—without uncertainty, missing paperwork, or long-term legal risk.
+                Designed for organizations and creators who need licensing done correctly—without uncertainty, missing paperwork, or long-term risk.
               </p>
               <p className="text-xs font-light text-muted-foreground/70 tracking-[0.05em] mb-10">
                 Powered by precision. Built for creators.
@@ -170,8 +170,13 @@ export default function MarketingPage() {
                   <p className="text-xs font-medium text-muted-foreground mb-2">02</p>
                   <h3 className="text-lg font-medium text-foreground mb-3">Review</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Each request is reviewed by our team. We may request clarification 
-                    to ensure the license is accurate and enforceable.
+                    Each request is reviewed by our team to confirm that the intended use 
+                    is appropriate and clearly defined. If additional clarification is needed, 
+                    we will request it before proceeding.
+                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-3">
+                    This review step exists to protect both you and the rights holder before 
+                    anything is finalized.
                   </p>
                 </div>
               </div>
@@ -214,26 +219,26 @@ export default function MarketingPage() {
                   No missing information
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Every license request is complete and review-ready from the start. 
-                  No follow-up emails. No ambiguity about terms.
+                  Every request is complete and review-ready from the start. You won't 
+                  be asked to re-submit or clarify basic details later.
                 </p>
               </div>
               <div className="pb-8 border-b border-border">
                 <h3 className="text-base font-medium text-foreground mb-2">
-                  Independent license records
+                  Clear, individual licenses
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Each executed license is issued its own permanent identifier and stored 
-                  as a standalone legal record—trackable, referenceable, and auditable at any time.
+                  Each approved use is issued its own license and identifier, so you 
+                  always know what is permitted—and what is not.
                 </p>
               </div>
               <div>
                 <h3 className="text-base font-medium text-foreground mb-2">
-                  One execution flow
+                  Nothing disappears
                 </h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Signature and payment happen in a single, controlled step. Status is 
-                  always clear. Nothing falls through the cracks.
+                  Executed licenses remain available in your account indefinitely. You 
+                  can download them years later if needed.
                 </p>
               </div>
             </div>

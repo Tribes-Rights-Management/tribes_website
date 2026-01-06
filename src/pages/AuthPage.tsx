@@ -320,8 +320,11 @@ export default function AuthPage() {
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="mb-2">Request access</h1>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mb-4">
                 Tell us about yourself and your company.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Access is reviewed to ensure licensing requests are handled accurately and appropriately.
               </p>
             </div>
 
