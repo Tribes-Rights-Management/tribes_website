@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search, FileText, Eye, AlignJustify } from "lucide-react";
+import { Search, FileText, Eye, AlignJustify, Users } from "lucide-react";
 import { format } from "date-fns";
 
 const ADMIN_STATUSES: RequestStatus[] = [
@@ -43,8 +43,9 @@ const getDensityFromStorage = (): Density => {
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate();
-  const { isAdminView } = useAuth();
+  const { isAdminView, isSuperAdmin } = useAuth();
   const [requests, setRequests] = useState<LicenseRequest[]>([]);
+  const [pendingCount, setPendingCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeStatus, setActiveStatus] = useState<RequestStatus>("submitted");
@@ -52,6 +53,7 @@ export default function AdminDashboardPage() {
 
   useEffect(() => {
     fetchRequests();
+    fetchPendingCount();
   }, []);
 
   useEffect(() => {
@@ -72,6 +74,21 @@ export default function AdminDashboardPage() {
       console.error("Error fetching requests:", error);
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function fetchPendingCount() {
+    try {
+      const { count, error } = await supabase
+        .from("profiles")
+        .select("*", { count: "exact", head: true })
+        .eq("account_status", "pending");
+
+      if (!error && count !== null) {
+        setPendingCount(count);
+      }
+    } catch (error) {
+      console.error("Error fetching pending count:", error);
     }
   }
 
@@ -112,12 +129,32 @@ export default function AdminDashboardPage() {
               </span>
             )}
           </div>
-          <button 
-            onClick={() => navigate("/portal")}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Exit Admin
-          </button>
+          <div className="flex items-center gap-3">
+            {pendingCount > 0 && (
+              <button
+                onClick={() => navigate("/admin/access-requests")}
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Users className="w-4 h-4" />
+                <span>{pendingCount} pending</span>
+              </button>
+            )}
+            {pendingCount === 0 && (
+              <button
+                onClick={() => navigate("/admin/access-requests")}
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <Users className="w-4 h-4" />
+                <span>Access</span>
+              </button>
+            )}
+            <button 
+              onClick={() => navigate("/portal")}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Exit Admin
+            </button>
+          </div>
         </div>
       </header>
 

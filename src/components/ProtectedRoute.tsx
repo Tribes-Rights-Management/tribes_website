@@ -1,8 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Loader2, ShieldX } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,23 +8,56 @@ interface ProtectedRouteProps {
   requireSuperAdmin?: boolean;
 }
 
+function PendingApprovalPage() {
+  const { signOut } = useAuth();
+  
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-1 flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="mb-2">Pending approval</h1>
+          <p className="text-sm text-muted-foreground mb-8">
+            Your account is pending approval. You'll receive an email when it's ready.
+          </p>
+          <button
+            onClick={() => signOut()}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Sign out
+          </button>
+        </div>
+      </main>
+      <footer className="py-6 text-center">
+        <p className="text-xs text-muted-foreground">
+          © 2026 Tribes Rights Management LLC. All rights reserved.
+        </p>
+      </footer>
+    </div>
+  );
+}
+
 function UnauthorizedPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="text-center space-y-6 max-w-md">
-        <div className="mx-auto w-16 h-16 bg-destructive/10 rounded-full flex items-center justify-center">
-          <ShieldX className="w-8 h-8 text-destructive" />
-        </div>
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight">Access Denied</h1>
-          <p className="text-muted-foreground">
-            You don't have permission to access this area. Please contact an administrator if you believe this is an error.
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-1 flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="mb-2">Access denied</h1>
+          <p className="text-sm text-muted-foreground mb-8">
+            You don't have permission to access this area.
           </p>
+          <a 
+            href="/portal" 
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Return to Portal
+          </a>
         </div>
-        <Button asChild>
-          <a href="/portal">Return to Portal</a>
-        </Button>
-      </div>
+      </main>
+      <footer className="py-6 text-center">
+        <p className="text-xs text-muted-foreground">
+          © 2026 Tribes Rights Management LLC. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 }
@@ -36,19 +67,29 @@ export function ProtectedRoute({
   requireAdmin = false,
   requireSuperAdmin = false 
 }: ProtectedRouteProps) {
-  const { user, isAnyAdmin, isSuperAdmin, isLoading } = useAuth();
+  const { user, isAnyAdmin, isSuperAdmin, isActiveUser, isLoading, accountStatus } = useAuth();
   const location = useLocation();
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!user) {
     return <Navigate to="/auth" state={{ from: location }} replace />;
+  }
+
+  // Check account status - pending users can't access portal
+  if (!isActiveUser) {
+    if (accountStatus === "pending") {
+      return <PendingApprovalPage />;
+    }
+    if (accountStatus === "rejected") {
+      return <UnauthorizedPage />;
+    }
   }
 
   // Check super admin requirement
