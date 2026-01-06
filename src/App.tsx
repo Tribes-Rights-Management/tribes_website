@@ -28,6 +28,7 @@ import AdminAccessRequestsPage from "./pages/AdminAccessRequestsPage";
 import AdminAccessRequestDetailPage from "./pages/AdminAccessRequestDetailPage";
 import SettingsPage from "./pages/SettingsPage";
 import AdminGuidelinesPage from "./pages/AdminGuidelinesPage";
+import AdminConductPolicyPage from "./pages/AdminConductPolicyPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -83,6 +84,7 @@ function AppRoutes() {
       <Route path="/admin/access-requests/:id" element={<ProtectedRoute requireAdmin><AdminAccessRequestDetailPage /></ProtectedRoute>} />
       <Route path="/admin/settings" element={<ProtectedRoute requireAdmin><SettingsPage /></ProtectedRoute>} />
       <Route path="/admin/guidelines" element={<ProtectedRoute requireAdmin><AdminGuidelinesPage /></ProtectedRoute>} />
+      <Route path="/admin/conduct-policy" element={<ProtectedRoute requireAdmin><AdminConductPolicyPage /></ProtectedRoute>} />
       <Route path="/admin/licenses/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
       
       {/* Legacy admin route redirect */}
