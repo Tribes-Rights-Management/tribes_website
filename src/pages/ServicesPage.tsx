@@ -12,7 +12,7 @@ export default function ServicesPage() {
               Services
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[560px]">
-              We provide structured rights administration designed for accuracy, continuity, and long-term value.
+              Rights administration with accuracy, continuity, and long-term record integrity.
             </p>
           </div>
         </div>
@@ -57,8 +57,7 @@ export default function ServicesPage() {
                 </div>
               </div>
               <p className="leading-relaxed pt-4">
-                For creators and rights holders, this approach delivers clarity, defensibility, 
-                and long-term confidence—so the creative work can endure, perform, and compound.
+                Records remain accessible. Ownership stays documented. Agreements stay enforceable.
               </p>
             </div>
           </div>

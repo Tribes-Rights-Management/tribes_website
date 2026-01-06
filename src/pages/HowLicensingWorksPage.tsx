@@ -38,8 +38,7 @@ export default function HowLicensingWorksPage() {
               <p className="leading-relaxed">
                 At Tribes, licensing is handled deliberately. Every request is reviewed, 
                 every agreement is issued with clarity, and every executed license is 
-                preserved for long-term reference. The goal is simple: remove uncertainty 
-                now and protect everyone later.
+                preserved for long-term reference.
               </p>
               <p className="leading-relaxed">
                 This page explains how the process works, step by step.
@@ -137,8 +136,7 @@ export default function HowLicensingWorksPage() {
                 clearly defined.
               </p>
               <p className="leading-relaxed">
-                This review step exists to protect both the licensee and the rights 
-                holder before anything becomes binding.
+                Review occurs before anything becomes binding.
               </p>
             </div>
           </div>
@@ -278,11 +276,10 @@ export default function HowLicensingWorksPage() {
               Closing
             </h2>
             <p className="text-lg font-medium text-foreground leading-relaxed mb-6">
-              Licensing should be clear, defensible, and durable.
+              Every license is reviewed, executed, and recorded.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-12">
-              Our process exists to ensure that every agreement meets those standards—without 
-              unnecessary complexity or uncertainty.
+              Agreements are preserved with their full execution history.
             </p>
             <div className="pt-8 border-t border-border">
               <h3 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-4">
