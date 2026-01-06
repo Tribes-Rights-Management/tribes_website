@@ -4,48 +4,51 @@ import { PublicLayout } from "@/components/PublicLayout";
 export default function MarketingPage() {
   return (
     <PublicLayout>
-      {/* Hero - Dark */}
-      <section className="bg-[hsl(0,0%,8%)] pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+      {/* Hero - Near-black (#111214) */}
+      <section className="relative bg-[#111214] pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[720px]">
             {/* Logo */}
-            <p className="text-sm font-medium tracking-[0.08em] text-white/90 mb-12">
+            <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-12">
               TRIBES
             </p>
             
-            {/* H1 */}
+            {/* H1 - Pure white for headlines */}
             <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-white mb-6">
               Rights management, handled properly.
             </h1>
             
-            {/* Subhead */}
-            <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-[560px]">
+            {/* Subhead - Soft gray for secondary text */}
+            <p className="text-lg md:text-xl text-[#C9C9CC] leading-relaxed mb-10 max-w-[560px]">
               A private publishing administration firm built for clarity, accuracy, and long-term record-keeping.
             </p>
             
             {/* Divider */}
-            <div className="w-16 h-px bg-white/20 mb-6" />
+            <div className="w-16 h-px bg-white/15 mb-6" />
             
             {/* Micro-line */}
-            <p className="text-xs font-light text-white/40 tracking-[0.05em] mb-16">
+            <p className="text-xs font-light text-[#C9C9CC]/60 tracking-[0.05em] mb-16">
               Built for creators. Powered by precision.
             </p>
             
             {/* Understated link */}
             <a 
               href="#how-it-works" 
-              className="text-xs text-white/40 hover:text-white/60 transition-colors"
+              className="text-xs text-[#C9C9CC]/50 hover:text-[#C9C9CC]/80 transition-colors"
             >
               How it works
             </a>
           </div>
         </div>
+        
+        {/* Gradient fade transition to light content */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, transparent, hsl(0 0% 100%))"
+          }}
+        />
       </section>
-
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
 
       {/* Who It's For */}
       <section className="py-24 md:py-32">
