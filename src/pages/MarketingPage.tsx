@@ -210,31 +210,6 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
-
-      {/* Trust Section */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[640px]">
-            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
-              Stewardship
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              We prioritize clarity over volume. Every agreement is reviewed. 
-              Every record is maintained. This is a long-term system designed to hold up.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
-
       {/* Final CTA */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
