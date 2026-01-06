@@ -17,13 +17,26 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   const location = useLocation();
   const copyrightText = getCopyrightLine();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOverDarkSection, setIsOverDarkSection] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Track scroll position for header transition
+  // Track scroll position for header transition and dark section detection
   useEffect(() => {
     const handleScroll = () => {
       const scrollThreshold = window.innerHeight * 0.6;
       setIsScrolled(window.scrollY > scrollThreshold);
+
+      // Check if header is over the dark "How Copyright Clearance Works" section
+      const darkSection = document.getElementById("how-it-works");
+      if (darkSection) {
+        const rect = darkSection.getBoundingClientRect();
+        const headerHeight = 56; // Approximate header height
+        // Header is over dark section when section top is above header bottom and section bottom is below header top
+        const isOverDark = rect.top <= headerHeight && rect.bottom >= 0;
+        setIsOverDarkSection(isOverDark);
+      } else {
+        setIsOverDarkSection(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -37,15 +50,18 @@ export function PublicLayout({ children }: PublicLayoutProps) {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
+  // Header is in dark mode when over hero (not scrolled) or over dark section
+  const isHeaderDark = !isScrolled || isOverDarkSection;
+
   const navLinkClass = (path: string) => {
-    if (isScrolled) {
+    if (!isHeaderDark) {
       return location.pathname === path
         ? "text-foreground"
         : "text-muted-foreground hover:text-foreground";
     }
     return location.pathname === path
-      ? "text-white"
-      : "text-white/60 hover:text-white";
+      ? "text-white/[0.82]"
+      : "text-white/60 hover:text-white/[0.82]";
   };
 
   return (
@@ -56,10 +72,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Logo sizing follows locked rules in src/lib/brand.ts
           ═══════════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-200 ${
-          isScrolled 
-            ? "bg-background border-b border-border/50" 
-            : "bg-[#111214]/95 border-b border-white/[0.06]"
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[150ms] ${
+          isHeaderDark 
+            ? "bg-[#111214] border-b border-white/[0.08]" 
+            : "bg-background border-b border-border/50"
         }`}
         style={{ 
           paddingTop: "env(safe-area-inset-top)",
@@ -72,8 +88,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             {/* Logo — Locked sizing from brand.ts */}
             <Link 
               to="/" 
-              className={`transition-colors duration-200 ${
-                isScrolled ? "text-foreground" : "text-white/90"
+              className={`transition-colors duration-[150ms] ${
+                isHeaderDark ? "text-white/[0.82]" : "text-foreground"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.mobile.fontSize,
@@ -88,10 +104,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               {/* Primary CTA — Neutral, compact button */}
               <Link 
                 to="/auth?request=true" 
-                className={`text-xs font-medium px-3 rounded transition-colors duration-150 flex items-center border ${
-                  isScrolled 
-                    ? "border-border bg-muted text-foreground hover:bg-muted/80" 
-                    : "border-white/20 bg-white/10 text-white/90 hover:bg-white/15"
+                className={`text-xs font-medium px-3 rounded transition-colors duration-[150ms] flex items-center border ${
+                  isHeaderDark 
+                    ? "border-white/20 bg-white/10 text-white/[0.82] hover:bg-white/15" 
+                    : "border-border bg-muted text-foreground hover:bg-muted/80"
                 }`}
                 style={{ 
                   minHeight: NAV_SIZES.tapTarget.min,
@@ -105,10 +121,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
                   <button
-                    className={`flex items-center justify-center transition-colors duration-150 ${
-                      isScrolled 
-                        ? "text-foreground hover:text-foreground/70" 
-                        : "text-white/90 hover:text-white"
+                    className={`flex items-center justify-center transition-colors duration-[150ms] ${
+                      isHeaderDark 
+                        ? "text-white/[0.82] hover:text-white" 
+                        : "text-foreground hover:text-foreground/70"
                     }`}
                     style={{ 
                       minHeight: NAV_SIZES.tapTarget.min,
@@ -180,8 +196,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             {/* Logo — Full name on desktop */}
             <Link 
               to="/" 
-              className={`transition-colors duration-200 ${
-                isScrolled ? "text-foreground" : "text-white/90"
+              className={`transition-colors duration-[150ms] ${
+                isHeaderDark ? "text-white/[0.82]" : "text-foreground"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.desktop.fontSize,
@@ -194,35 +210,35 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <div className="flex items-center gap-6">
               <Link 
                 to="/services" 
-                className={`text-sm transition-colors duration-200 ${navLinkClass("/services")}`}
+                className={`text-sm transition-colors duration-[150ms] ${navLinkClass("/services")}`}
               >
                 Services
               </Link>
               <Link 
                 to="/contact" 
-                className={`text-sm transition-colors duration-200 ${navLinkClass("/contact")}`}
+                className={`text-sm transition-colors duration-[150ms] ${navLinkClass("/contact")}`}
               >
                 Contact
               </Link>
-              <span className={`w-px h-4 transition-colors duration-200 ${
-                isScrolled ? "bg-border" : "bg-white/[0.12]"
+              <span className={`w-px h-4 transition-colors duration-[150ms] ${
+                isHeaderDark ? "bg-white/[0.08]" : "bg-border"
               }`} />
               <Link 
                 to="/auth" 
-                className={`text-sm transition-colors duration-200 ${
-                  isScrolled 
-                    ? "text-muted-foreground hover:text-foreground" 
-                    : "text-white/60 hover:text-white"
+                className={`text-sm transition-colors duration-[150ms] ${
+                  isHeaderDark 
+                    ? "text-white/60 hover:text-white/[0.82]" 
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Sign In
               </Link>
               <Link 
                 to="/auth?request=true" 
-                className={`text-sm transition-colors duration-200 ${
-                  isScrolled 
-                    ? "text-muted-foreground hover:text-foreground" 
-                    : "text-white/60 hover:text-white"
+                className={`text-sm transition-colors duration-[150ms] ${
+                  isHeaderDark 
+                    ? "text-white/60 hover:text-white/[0.82]" 
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Request Access
