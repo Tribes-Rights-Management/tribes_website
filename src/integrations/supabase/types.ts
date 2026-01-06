@@ -366,7 +366,13 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          last_sign_in_at: string | null
           name: string | null
+          notify_admin_announcements: boolean
+          notify_license_status: boolean
+          notify_signature_payment: boolean
+          org_admin_notification_email: string | null
+          org_reply_to_email: string | null
           role: Database["public"]["Enums"]["app_role"]
           updated_at: string
         }
@@ -381,7 +387,13 @@ export type Database = {
           created_at?: string
           email: string
           id: string
+          last_sign_in_at?: string | null
           name?: string | null
+          notify_admin_announcements?: boolean
+          notify_license_status?: boolean
+          notify_signature_payment?: boolean
+          org_admin_notification_email?: string | null
+          org_reply_to_email?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
@@ -396,7 +408,13 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          last_sign_in_at?: string | null
           name?: string | null
+          notify_admin_announcements?: boolean
+          notify_license_status?: boolean
+          notify_signature_payment?: boolean
+          org_admin_notification_email?: string | null
+          org_reply_to_email?: string | null
           role?: Database["public"]["Enums"]["app_role"]
           updated_at?: string
         }
