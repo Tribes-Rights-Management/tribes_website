@@ -31,6 +31,11 @@ export default function TermsPage() {
                 successor services (collectively, the "Services").
               </p>
               <p>
+                The Company provides publishing administration, rights management, and licensing 
+                services as part of a structured system for the long-term stewardship, documentation, 
+                and financial administration of musical works as durable intellectual property assets.
+              </p>
+              <p>
                 The Services include public informational areas and approval-based non-public 
                 portions (the "Portal") used to submit, review, execute, store, and manage legally 
                 binding music license agreements and related records.
