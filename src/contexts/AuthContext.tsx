@@ -7,12 +7,18 @@ interface Profile {
   id: string;
   email: string;
   name: string | null;
-  role: AppRole;
   account_status: AccountStatus;
+  company: string | null;
+  country: string | null;
+  company_type: string | null;
   approved_at: string | null;
   approved_by: string | null;
   created_at: string;
   updated_at: string;
+}
+
+interface UserRole {
+  role: AppRole;
 }
 
 interface AuthContextType {
@@ -75,20 +81,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function fetchUserData(userId: string) {
     try {
+      // Fetch profile data (account_status, name, etc.)
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("*")
+        .select("id, email, name, account_status, company, country, company_type, approved_at, approved_by, created_at, updated_at")
         .eq("id", userId)
         .single();
 
       if (profileError) {
         console.error("Error fetching profile:", profileError);
-        setRole("user");
         setAccountStatus("pending");
       } else {
         setProfile(profileData as Profile);
-        setRole((profileData?.role as AppRole) ?? "user");
         setAccountStatus((profileData?.account_status as AccountStatus) ?? "pending");
+      }
+
+      // Fetch role from user_roles table (proper RBAC separation)
+      const { data: roleData, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .order("role")
+        .limit(1);
+
+      if (roleError) {
+        console.error("Error fetching role:", roleError);
+        setRole("user");
+      } else if (roleData && roleData.length > 0) {
+        // Get highest privilege role
+        const roles = roleData.map((r: UserRole) => r.role);
+        if (roles.includes("super_admin")) {
+          setRole("super_admin");
+        } else if (roles.includes("admin_view")) {
+          setRole("admin_view");
+        } else {
+          setRole("user");
+        }
+      } else {
+        setRole("user");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);

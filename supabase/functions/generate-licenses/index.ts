@@ -104,9 +104,9 @@ Deno.serve(async (req) => {
     for (const typeCode of selectedTypes) {
       const licenseType = licenseTypes?.find((t: LicenseType) => t.code === typeCode);
       
-      // Generate unique license ID
+      // Generate unique license ID using versioned function
       const { data: newLicenseId, error: idError } = await supabase
-        .rpc("generate_individual_license_id");
+        .rpc("generate_license_id_v2");
 
       if (idError) {
         console.error("Error generating license ID:", idError);

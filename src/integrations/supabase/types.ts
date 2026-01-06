@@ -517,13 +517,38 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      generate_individual_license_id: { Args: never; Returns: string }
+      generate_license_id_v2: { Args: never; Returns: string }
       get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      get_user_role_v2: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
       }
@@ -534,9 +559,18 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_role_v2: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_active_user: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_admin_v2: { Args: { _user_id: string }; Returns: boolean }
       is_super_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_super_admin_v2: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       account_status: "pending" | "active" | "rejected"
