@@ -5,7 +5,7 @@ import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails
 import { AccountMenu } from "@/components/AccountMenu";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
 import { getCopyrightLine } from "@/lib/copyright";
-import tribesLogoBlack from "@/assets/tribes-logo-black.png";
+
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -40,12 +40,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <aside className="w-56 border-r border-border/30 flex flex-col">
         {/* Brand */}
         <div className="h-14 flex items-center px-6">
-          <Link to={isAnyAdmin ? "/admin" : "/portal"} className="flex items-center gap-3">
-            <img 
-              src={tribesLogoBlack} 
-              alt="Tribes" 
-              className="h-4 w-auto dark:invert" 
-            />
+          <Link to={isAnyAdmin ? "/admin" : "/portal"} className="flex items-center gap-2">
+            <span className="text-[15px] font-semibold tracking-tight">TRIBES</span>
             {isAnyAdmin && (
               <>
                 <span className="text-muted-foreground/30">|</span>
