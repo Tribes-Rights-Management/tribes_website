@@ -172,7 +172,7 @@ export default function AuthPage() {
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
-            <h1 className="mb-2">Access denied</h1>
+            <h1 className="mb-2">Access unavailable</h1>
             <p className="text-sm text-muted-foreground mb-8">
               Your access request was not approved.
             </p>

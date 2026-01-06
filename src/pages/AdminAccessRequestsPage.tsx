@@ -4,6 +4,16 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Eye, Check, X } from "lucide-react";
 import { format } from "date-fns";
 
@@ -23,6 +33,7 @@ export default function AdminAccessRequestsPage() {
   const [profiles, setProfiles] = useState<PendingProfile[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [processingId, setProcessingId] = useState<string | null>(null);
+  const [rejectingProfile, setRejectingProfile] = useState<PendingProfile | null>(null);
 
   useEffect(() => {
     fetchPendingProfiles();
@@ -61,7 +72,6 @@ export default function AdminAccessRequestsPage() {
 
       if (error) throw error;
       
-      toast({ title: "Approved", description: "User has been granted access." });
       setProfiles(prev => prev.filter(p => p.id !== profileId));
     } catch (error) {
       console.error("Error approving user:", error);
@@ -71,30 +81,46 @@ export default function AdminAccessRequestsPage() {
     }
   }
 
-  async function handleReject(profileId: string) {
-    if (!isSuperAdmin) return;
+  async function confirmReject() {
+    if (!isSuperAdmin || !rejectingProfile) return;
     
-    setProcessingId(profileId);
+    setProcessingId(rejectingProfile.id);
     try {
       const { error } = await supabase
         .from("profiles")
         .update({ account_status: "rejected" })
-        .eq("id", profileId);
+        .eq("id", rejectingProfile.id);
 
       if (error) throw error;
       
-      toast({ title: "Rejected", description: "Access request has been rejected." });
-      setProfiles(prev => prev.filter(p => p.id !== profileId));
+      setProfiles(prev => prev.filter(p => p.id !== rejectingProfile.id));
     } catch (error) {
       console.error("Error rejecting user:", error);
       toast({ title: "Error", description: "Failed to reject user", variant: "destructive" });
     } finally {
       setProcessingId(null);
+      setRejectingProfile(null);
     }
   }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Rejection Confirmation Dialog */}
+      <AlertDialog open={!!rejectingProfile} onOpenChange={(open) => !open && setRejectingProfile(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Reject access request?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will prevent the user from accessing Tribes Rights Licensing.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmReject}>Reject</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {/* Header */}
       <header className="border-b border-border/50">
         <div className="container flex items-center justify-between h-12">
@@ -169,7 +195,7 @@ export default function AdminAccessRequestsPage() {
                           Approve
                         </button>
                         <button
-                          onClick={() => handleReject(profile.id)}
+                          onClick={() => setRejectingProfile(profile)}
                           disabled={processingId === profile.id}
                           className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center gap-1.5"
                         >
@@ -203,7 +229,7 @@ export default function AdminAccessRequestsPage() {
                         Approve
                       </button>
                       <button
-                        onClick={() => handleReject(profile.id)}
+                        onClick={() => setRejectingProfile(profile)}
                         disabled={processingId === profile.id}
                         className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 inline-flex items-center justify-center gap-1.5"
                       >

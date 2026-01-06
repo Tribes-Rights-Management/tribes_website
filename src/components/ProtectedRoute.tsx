@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface ProtectedRouteProps {
@@ -17,48 +17,77 @@ function PendingApprovalPage() {
         <div className="w-full max-w-md text-center">
           <h1 className="mb-2">Pending approval</h1>
           <p className="text-sm text-muted-foreground mb-8">
-            Your account is pending approval. You'll receive an email when it's ready.
+            Your access request is under review.<br />
+            You'll receive an email once it's approved.
           </p>
           <button
             onClick={() => signOut()}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            className="h-10 px-6 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
-            Sign out
+            Done
           </button>
         </div>
       </main>
-      <footer className="py-6 text-center">
-        <p className="text-xs text-muted-foreground">
-          © 2026 Tribes Rights Management LLC. All rights reserved.
-        </p>
-      </footer>
+      <Footer />
+    </div>
+  );
+}
+
+function RejectedPage() {
+  const { signOut } = useAuth();
+  
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <main className="flex-1 flex items-center justify-center px-4">
+        <div className="w-full max-w-md text-center">
+          <h1 className="mb-2">Access unavailable</h1>
+          <p className="text-sm text-muted-foreground mb-8">
+            Your access request was not approved.
+          </p>
+          <button
+            onClick={() => signOut()}
+            className="h-10 px-6 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+          >
+            Done
+          </button>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }
 
 function UnauthorizedPage() {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <h1 className="mb-2">Access denied</h1>
+          <h1 className="mb-2">Access restricted</h1>
           <p className="text-sm text-muted-foreground mb-8">
-            You don't have permission to access this area.
+            You don't have permission to view this page.
           </p>
-          <a 
-            href="/portal" 
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          <button
+            onClick={() => navigate(-1)}
+            className="h-10 px-6 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
           >
-            Return to Portal
-          </a>
+            Back
+          </button>
         </div>
       </main>
-      <footer className="py-6 text-center">
-        <p className="text-xs text-muted-foreground">
-          © 2026 Tribes Rights Management LLC. All rights reserved.
-        </p>
-      </footer>
+      <Footer />
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-6 text-center">
+      <p className="text-xs text-muted-foreground">
+        © 2026 Tribes Rights Management LLC. All rights reserved.
+      </p>
+    </footer>
   );
 }
 
@@ -88,7 +117,7 @@ export function ProtectedRoute({
       return <PendingApprovalPage />;
     }
     if (accountStatus === "rejected") {
-      return <UnauthorizedPage />;
+      return <RejectedPage />;
     }
   }
 
