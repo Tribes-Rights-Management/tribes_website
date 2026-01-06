@@ -28,7 +28,7 @@ export default function MarketingPage() {
             
             {/* Micro-line */}
             <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
-              Publishing administration for music creators.
+              Publishing administration, built for precision.
             </p>
             
             {/* Understated link */}
