@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails";
@@ -14,6 +14,11 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const location = useLocation();
   const { isAnyAdmin, isAdminView } = useAuth();
+
+  // Force light mode for portal/admin - remove dark class
+  useEffect(() => {
+    document.documentElement.classList.remove("dark");
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
   const copyrightText = getCopyrightLine();

@@ -1,19 +1,51 @@
 import { Link, useLocation } from "react-router-dom";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { getCopyrightLine } from "@/lib/copyright";
+import { ThemeProvider, useTheme } from "@/contexts/ThemeContext";
 
 interface PublicLayoutProps {
   children: ReactNode;
 }
 
-export function PublicLayout({ children }: PublicLayoutProps) {
+function ThemeToggle() {
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  
+  const cycleTheme = () => {
+    if (theme === "system") {
+      setTheme("light");
+    } else if (theme === "light") {
+      setTheme("dark");
+    } else {
+      setTheme("system");
+    }
+  };
+
+  const label = theme === "system" ? "Auto" : theme === "dark" ? "Dark" : "Light";
+
+  return (
+    <button
+      onClick={cycleTheme}
+      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+      aria-label={`Current theme: ${label}. Click to change.`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function PublicLayoutInner({ children }: PublicLayoutProps) {
   const location = useLocation();
   const copyrightText = getCopyrightLine();
+  const { resolvedTheme } = useTheme();
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50">
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-sm border-b ${
+        resolvedTheme === "dark" 
+          ? "bg-background/90 border-border" 
+          : "bg-background/80 border-border/50"
+      }`}>
         <nav className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-center justify-between h-14">
             <Link to="/" className="text-sm font-medium text-foreground">
@@ -53,6 +85,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               >
                 Request Access
               </Link>
+              <span className="w-px h-4 bg-border" />
+              <ThemeToggle />
             </div>
           </div>
         </nav>
@@ -93,5 +127,13 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         </div>
       </footer>
     </div>
+  );
+}
+
+export function PublicLayout({ children }: PublicLayoutProps) {
+  return (
+    <ThemeProvider>
+      <PublicLayoutInner>{children}</PublicLayoutInner>
+    </ThemeProvider>
   );
 }
