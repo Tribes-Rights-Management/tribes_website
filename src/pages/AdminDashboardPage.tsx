@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search, FileText, Eye, AlignJustify, Users } from "lucide-react";
+import { Search, Eye, AlignJustify, Users } from "lucide-react";
 import { format } from "date-fns";
 
 const ADMIN_STATUSES: RequestStatus[] = [
@@ -223,10 +223,11 @@ export default function AdminDashboardPage() {
           </div>
         ) : filteredRequests.length === 0 ? (
           <div className="py-16 text-center">
-            <FileText className="w-8 h-8 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-sm font-medium mb-1">No requests</p>
-            <p className="text-xs text-muted-foreground">
-              {searchQuery ? "No results for your search." : `No requests with "${STATUS_LABELS[activeStatus]}" status.`}
+            <p className="text-sm font-medium mb-1">
+              {searchQuery ? "No results" : "No license requests"}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {searchQuery ? "No license requests match your selection." : "New requests will appear here."}
             </p>
           </div>
         ) : (

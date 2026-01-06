@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
-import { Eye, Check, X, Users } from "lucide-react";
+import { Eye, Check, X } from "lucide-react";
 import { format } from "date-fns";
 
 interface PendingProfile {
@@ -129,10 +129,9 @@ export default function AdminAccessRequestsPage() {
           </div>
         ) : profiles.length === 0 ? (
           <div className="py-16 text-center">
-            <Users className="w-8 h-8 text-muted-foreground/40 mx-auto mb-3" />
-            <p className="text-sm font-medium mb-1">No pending requests</p>
-            <p className="text-xs text-muted-foreground">
-              New access requests will appear here.
+            <p className="text-sm font-medium mb-1">No access requests</p>
+            <p className="text-sm text-muted-foreground">
+              New requests will appear here when submitted.
             </p>
           </div>
         ) : (
