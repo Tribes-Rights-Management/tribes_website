@@ -60,6 +60,14 @@ export default function MarketingPage() {
                   Request Access
                 </Link>
               </div>
+              <div className="mt-8">
+                <Link 
+                  to="/how-licensing-works" 
+                  className="text-xs text-muted-foreground/70 hover:text-muted-foreground transition-colors"
+                >
+                  Learn how licensing works
+                </Link>
+              </div>
             </div>
           </div>
         </section>

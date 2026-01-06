@@ -7,6 +7,7 @@ import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import MarketingPage from "./pages/MarketingPage";
+import HowLicensingWorksPage from "./pages/HowLicensingWorksPage";
 import AuthPage from "./pages/AuthPage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
 import PortalDashboard from "./pages/PortalDashboard";
@@ -48,6 +49,7 @@ function AppRoutes() {
           ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
           : <MarketingPage />
       } />
+      <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
       
       {/* User Portal Routes */}
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
