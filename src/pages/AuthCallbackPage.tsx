@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { getCopyrightLine } from "@/lib/copyright";
 
 type ErrorType = "expired" | "invalid" | "generic" | null;
 
@@ -199,7 +200,7 @@ function Footer() {
   return (
     <footer className="py-6 text-center">
       <p className="text-xs text-muted-foreground">
-        © 2026 Tribes Rights Management LLC. All rights reserved.
+        {getCopyrightLine()}
       </p>
     </footer>
   );

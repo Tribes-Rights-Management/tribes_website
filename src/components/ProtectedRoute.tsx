@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { getCopyrightLine } from "@/lib/copyright";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -85,7 +86,7 @@ function Footer() {
   return (
     <footer className="py-6 text-center">
       <p className="text-xs text-muted-foreground">
-        © 2026 Tribes Rights Management LLC. All rights reserved.
+        {getCopyrightLine()}
       </p>
     </footer>
   );

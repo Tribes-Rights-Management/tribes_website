@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { getCopyrightLine } from "@/lib/copyright";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function NotFound() {
       </main>
       <footer className="py-6 text-center">
         <p className="text-xs text-muted-foreground">
-          © 2026 Tribes Rights Management LLC. All rights reserved.
+          {getCopyrightLine()}
         </p>
       </footer>
     </div>

@@ -40,6 +40,20 @@ function formatDate(date: Date): string {
   return date.toISOString().split("T")[0];
 }
 
+/**
+ * Generates dynamic copyright line - SINGLE SOURCE OF TRUTH for PDFs
+ * Do not hardcode years. This range is intentionally dynamic.
+ * Uses server time to avoid client clock drift.
+ */
+function getCopyrightLine(serverYear?: number): string {
+  const startYear = 2025;
+  const currentYear = serverYear ?? new Date().getFullYear();
+  const yearRange = currentYear > startYear 
+    ? `${startYear}–${currentYear}` // en dash
+    : `${startYear}`;
+  return `© ${yearRange} Tribes Rights Management LLC. All rights reserved.`;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -557,7 +571,7 @@ serve(async (req) => {
     </div>
 
     <div class="footer">
-      <div>© ${new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.</div>
+      <div>${getCopyrightLine()}</div>
       <div style="margin-top: 0.5em; font-size: 8pt;">This document was generated on ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.</div>
     </div>
   </div>
