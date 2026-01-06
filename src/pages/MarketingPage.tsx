@@ -4,30 +4,44 @@ import { PublicLayout } from "@/components/PublicLayout";
 export default function MarketingPage() {
   return (
     <PublicLayout>
-      {/* Hero */}
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+      {/* Hero - Dark */}
+      <section className="bg-[hsl(0,0%,8%)] pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[720px]">
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
+            {/* Logo */}
+            <p className="text-sm font-medium tracking-[0.08em] text-white/90 mb-12">
+              TRIBES
+            </p>
+            
+            {/* H1 */}
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-semibold leading-[1.05] tracking-[-0.03em] text-white mb-6">
               Rights management, handled properly.
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4 max-w-[560px]">
-              A private, approval-based team for publishing administration and licensing. 
-              Clear process. Clean documentation. Long-term records.
+            
+            {/* Subhead */}
+            <p className="text-lg md:text-xl text-white/70 leading-relaxed mb-10 max-w-[560px]">
+              A private publishing administration firm built for clarity, accuracy, and long-term record-keeping.
             </p>
-            <p className="text-xs font-light text-muted-foreground/70 tracking-[0.05em] mb-10">
-              Powered by precision.
+            
+            {/* Divider */}
+            <div className="w-16 h-px bg-white/20 mb-6" />
+            
+            {/* Micro-line */}
+            <p className="text-xs font-light text-white/40 tracking-[0.05em] mb-12">
+              Built for creators. Powered by precision.
             </p>
+            
+            {/* CTAs */}
             <div className="flex items-center gap-6">
               <Link 
                 to="/auth" 
-                className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
+                className="text-sm font-medium text-white underline underline-offset-4 hover:text-white/70 transition-colors"
               >
                 Sign In
               </Link>
               <Link 
                 to="/auth?request=true" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm text-white/60 hover:text-white transition-colors"
               >
                 Request Access
               </Link>
