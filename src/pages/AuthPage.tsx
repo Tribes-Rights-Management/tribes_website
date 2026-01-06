@@ -93,6 +93,7 @@ export default function AuthPage() {
               required
               autoComplete="email"
               disabled={isSubmitting}
+              aria-label="Email address"
             />
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
@@ -102,7 +103,7 @@ export default function AuthPage() {
                   Sending…
                 </>
               ) : (
-                "Continue with Email"
+                "Continue"
               )}
             </Button>
           </form>
