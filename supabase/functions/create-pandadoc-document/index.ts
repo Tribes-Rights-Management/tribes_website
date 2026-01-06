@@ -15,7 +15,7 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const pandadocApiKey = Deno.env.get('PANDADOC_API_KEY');
-    const pandadocTemplateId = Deno.env.get('PANDADOC_TEMPLATE_ID');
+    const defaultTemplateId = Deno.env.get('PANDADOC_TEMPLATE_ID');
     
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
@@ -61,11 +61,31 @@ serve(async (req) => {
     const trackTitle = request.track_title || request.song_title || 'Unknown Track';
     const licenseFee = request.license_fee || request.proposed_fee || 0;
 
+    // Get license type configuration for PandaDoc template selection
+    let templateId = defaultTemplateId;
+    let licenseTypeName = 'Standard';
+    
+    if (request.license_type) {
+      const { data: licenseType } = await supabase
+        .from('license_types')
+        .select('pandadoc_template_id, name')
+        .eq('code', request.license_type)
+        .eq('is_active', true)
+        .single();
+      
+      if (licenseType) {
+        // Use license-type-specific template if configured
+        if (licenseType.pandadoc_template_id) {
+          templateId = licenseType.pandadoc_template_id;
+        }
+        licenseTypeName = licenseType.name;
+      }
+    }
+
     // Check if PandaDoc is configured
-    if (!pandadocApiKey || !pandadocTemplateId) {
+    if (!pandadocApiKey || !templateId) {
       console.log('PandaDoc not configured - returning mock document');
       
-      // Update with mock data for development
       const mockDocId = `mock_doc_${Date.now()}`;
       
       await supabase
@@ -81,7 +101,7 @@ serve(async (req) => {
         request_id: request.id,
         from_status: request.status,
         to_status: 'awaiting_signature',
-        notes: `Agreement sent (mock). License ID: ${license_id}`,
+        notes: `Agreement sent (mock). License ID: ${license_id}. Type: ${request.license_type || 'default'}`,
       });
 
       return new Response(
@@ -97,7 +117,7 @@ serve(async (req) => {
     // Document name format (locked per spec)
     const documentName = `Tribes License — ${request.license_id} — ${trackTitle}`;
 
-    // Prepare template variables (minimum required per spec)
+    // Prepare template variables (minimum required per spec + license_type for internal reference)
     const tokens = [
       { name: 'license_id', value: request.license_id },
       { name: 'execution_date', value: '' }, // Populated at completion
@@ -105,6 +125,7 @@ serve(async (req) => {
       { name: 'licensee_legal_name', value: licenseeName },
       { name: 'licensee_email', value: request.licensee_email || '' },
       { name: 'license_fee', value: `$${licenseFee.toLocaleString()}` },
+      { name: 'license_type', value: licenseTypeName }, // Internal reference
     ];
 
     // Create PandaDoc document from template
@@ -116,7 +137,7 @@ serve(async (req) => {
       },
       body: JSON.stringify({
         name: documentName,
-        template_uuid: pandadocTemplateId,
+        template_uuid: templateId,
         recipients: [
           {
             email: request.licensee_email,
@@ -129,6 +150,7 @@ serve(async (req) => {
         metadata: {
           license_id: request.license_id,
           request_id: request.id,
+          license_type: request.license_type || 'default',
         },
         parse_form_fields: false,
       }),
@@ -144,7 +166,7 @@ serve(async (req) => {
     }
 
     const docData = await createResponse.json();
-    console.log(`PandaDoc document created: ${docData.id} for license: ${request.license_id}`);
+    console.log(`PandaDoc document created: ${docData.id} for license: ${request.license_id} (type: ${request.license_type || 'default'})`);
 
     // Update license request
     await supabase
@@ -161,7 +183,7 @@ serve(async (req) => {
       request_id: request.id,
       from_status: request.status,
       to_status: 'awaiting_signature',
-      notes: `Agreement sent. License ID: ${request.license_id}. PandaDoc: ${docData.id}`,
+      notes: `Agreement sent. License ID: ${request.license_id}. Type: ${request.license_type || 'default'}. PandaDoc: ${docData.id}`,
     });
 
     return new Response(
@@ -170,6 +192,7 @@ serve(async (req) => {
         document_id: docData.id,
         document_name: documentName,
         license_id: request.license_id,
+        license_type: request.license_type || 'default',
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );

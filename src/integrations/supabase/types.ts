@@ -127,6 +127,7 @@ export type Database = {
           last_name: string | null
           license_fee: number | null
           license_id: string | null
+          license_type: string | null
           licensee_email: string | null
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
@@ -184,6 +185,7 @@ export type Database = {
           last_name?: string | null
           license_fee?: number | null
           license_id?: string | null
+          license_type?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
@@ -241,6 +243,7 @@ export type Database = {
           last_name?: string | null
           license_fee?: number | null
           license_id?: string | null
+          license_type?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
@@ -276,6 +279,45 @@ export type Database = {
           usage_start_date?: string | null
           user_id?: string
           writers_publishers?: string | null
+        }
+        Relationships: []
+      }
+      license_types: {
+        Row: {
+          base_fee: number | null
+          code: string
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          pandadoc_template_id: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          base_fee?: number | null
+          code: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          pandadoc_template_id?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          base_fee?: number | null
+          code?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          pandadoc_template_id?: string | null
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }

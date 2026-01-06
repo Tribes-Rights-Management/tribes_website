@@ -30,6 +30,14 @@ interface InternalNote {
   created_at: string;
 }
 
+interface LicenseType {
+  id: string;
+  code: string;
+  name: string;
+  description: string | null;
+  is_active: boolean;
+}
+
 const WORKFLOW_TRANSITIONS: Record<RequestStatus, RequestStatus[]> = {
   draft: [],
   submitted: ["in_review", "needs_info"],
@@ -54,10 +62,12 @@ export default function AdminRequestDetailPage() {
   const [history, setHistory] = useState<StatusHistory[]>([]);
   const [documents, setDocuments] = useState<GeneratedDocument[]>([]);
   const [notes, setNotes] = useState<InternalNote[]>([]);
+  const [licenseTypes, setLicenseTypes] = useState<LicenseType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newNote, setNewNote] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
+  const [isUpdatingType, setIsUpdatingType] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
@@ -67,11 +77,12 @@ export default function AdminRequestDetailPage() {
 
   async function fetchRequestData(requestId: string) {
     try {
-      const [requestRes, historyRes, docsRes, notesRes] = await Promise.all([
+      const [requestRes, historyRes, docsRes, notesRes, typesRes] = await Promise.all([
         supabase.from("license_requests").select("*").eq("id", requestId).single(),
         supabase.from("status_history").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
         supabase.from("generated_documents").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
         supabase.from("internal_notes").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
+        supabase.from("license_types").select("*").eq("is_active", true).order("sort_order"),
       ]);
 
       if (requestRes.error) throw requestRes.error;
@@ -79,6 +90,7 @@ export default function AdminRequestDetailPage() {
       setHistory(historyRes.data || []);
       setDocuments(docsRes.data || []);
       setNotes(notesRes.data || []);
+      setLicenseTypes(typesRes.data || []);
     } catch (error) {
       console.error("Error fetching request:", error);
       toast({ title: "Error", description: "Failed to load request", variant: "destructive" });
@@ -137,6 +149,36 @@ export default function AdminRequestDetailPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
+  async function updateLicenseType(typeCode: string) {
+    if (!request || !user || !isSuperAdmin) return;
+    
+    // Only allow setting license type before sending for signature
+    const editableStatuses: RequestStatus[] = ["submitted", "in_review", "needs_info", "approved"];
+    if (!editableStatuses.includes(request.status)) {
+      toast({ title: "Cannot change", description: "License type cannot be changed after agreement is sent", variant: "destructive" });
+      return;
+    }
+    
+    setIsUpdatingType(true);
+    try {
+      await supabase.from("license_requests").update({ license_type: typeCode }).eq("id", request.id);
+      await supabase.from("status_history").insert({
+        request_id: request.id,
+        from_status: request.status,
+        to_status: request.status,
+        actor_user_id: user.id,
+        notes: `License type set to: ${typeCode}`,
+      });
+      toast({ title: "License type updated" });
+      fetchRequestData(request.id);
+    } catch (error) {
+      console.error("Error updating license type:", error);
+      toast({ title: "Error", description: "Failed to update license type", variant: "destructive" });
+    } finally {
+      setIsUpdatingType(false);
+    }
+  }
+
   async function handleExport() {
     if (!request) return;
     setIsExporting(true);
@@ -164,6 +206,8 @@ export default function AdminRequestDetailPage() {
 
   const allowedTransitions = request ? WORKFLOW_TRANSITIONS[request.status] : [];
   const executedDoc = documents.find(d => d.doc_type === "executed");
+  const currentLicenseType = licenseTypes.find(t => t.code === (request as any)?.license_type);
+  const canEditLicenseType = request && isSuperAdmin && ["submitted", "in_review", "needs_info", "approved"].includes(request.status);
 
   if (isLoading) {
     return (
@@ -302,8 +346,42 @@ export default function AdminRequestDetailPage() {
               )}
 
               {isAdminView && <p className="text-xs text-muted-foreground mt-2">View only</p>}
+            </div>
 
-              {/* Actions */}
+            {/* License Type */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-3">License Type</p>
+              
+              {canEditLicenseType ? (
+                <Select 
+                  value={(request as any)?.license_type || ""} 
+                  onValueChange={updateLicenseType} 
+                  disabled={isUpdatingType}
+                >
+                  <SelectTrigger className="h-9">
+                    <SelectValue placeholder="Select type…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {licenseTypes.map(t => (
+                      <SelectItem key={t.code} value={t.code}>{t.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <p className="text-sm">
+                  {currentLicenseType?.name || <span className="text-muted-foreground">Not set</span>}
+                </p>
+              )}
+              
+              {isAdminView && (request as any)?.license_type && (
+                <p className="text-xs text-muted-foreground mt-1">
+                  {currentLicenseType?.description}
+                </p>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div>
               <TooltipProvider>
                 {isSuperAdmin && request.status === "approved" && (
                   <Tooltip>
