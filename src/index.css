@@ -178,14 +178,64 @@
     @apply py-2.5; /* ~10px vertical = 44px total */
   }
   
-  /* Focus ring - subtle but visible */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     INTERACTION STATES — INSTITUTIONAL RESTRAINT
+     Links: opacity shift only (10-12%)
+     Buttons: subtle background shift (±4-6%)
+     Focus: 1px solid, 2px offset
+     Disabled: opacity only
+     Transitions: 120-150ms ease-out
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  /* Focus ring - visible, 1px solid, 2px offset */
   .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1;
+    @apply focus-visible:outline-none;
   }
   
-  /* Hover state - extremely subtle */
+  .focus-ring:focus-visible {
+    outline: 1px solid rgba(0, 0, 0, 0.4);
+    outline-offset: 2px;
+  }
+  
+  .dark .focus-ring:focus-visible,
+  [data-dark="true"] .focus-ring:focus-visible {
+    outline-color: rgba(255, 255, 255, 0.4);
+  }
+  
+  /* Hover state - opacity shift only */
   .hover-subtle {
-    @apply transition-colors hover:bg-muted/40;
+    @apply transition-opacity duration-[120ms] ease-out;
+  }
+  
+  .hover-subtle:hover {
+    opacity: 0.88;
+  }
+  
+  /* Button hover - subtle background shift */
+  .btn-hover {
+    @apply transition-all duration-[120ms] ease-out;
+  }
+  
+  .btn-hover:hover {
+    filter: brightness(0.96);
+  }
+  
+  .btn-hover:active {
+    opacity: 0.85;
+  }
+  
+  /* Link hover - opacity shift only, no underline */
+  .link-hover {
+    @apply transition-opacity duration-[120ms] ease-out no-underline;
+  }
+  
+  .link-hover:hover {
+    opacity: 0.88;
+  }
+  
+  /* Disabled state - opacity only */
+  .state-disabled {
+    @apply opacity-50 pointer-events-none;
   }
   
   /* Label style */
@@ -197,7 +247,7 @@
 @layer utilities {
   /* Apple-grade content fade - opacity only, 120-150ms */
   .animate-content-fade {
-    animation: contentFade 0.14s ease-out forwards;
+    animation: contentFade 0.12s ease-out forwards;
   }
   
   @keyframes contentFade {
@@ -207,6 +257,12 @@
   
   /* Button active state - brief opacity reduction */
   .btn-active {
-    @apply active:opacity-80 active:transition-opacity active:duration-75;
+    @apply active:opacity-85 active:transition-opacity active:duration-75;
+  }
+  
+  /* Global focus visible override for dark surfaces */
+  [data-surface="dark"] *:focus-visible {
+    outline: 1px solid rgba(255, 255, 255, 0.4) !important;
+    outline-offset: 2px;
   }
 }

@@ -37,7 +37,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       
       if (darkSection) {
         const rect = darkSection.getBoundingClientRect();
-        const headerHeight = 56;
+        const headerHeight = NAV_SIZES.header.mobile;
         const viewportHeight = window.innerHeight;
         
         // Header is over dark section when section top is above header bottom and section bottom is below header top
@@ -76,14 +76,15 @@ export function PublicLayout({ children }: PublicLayoutProps) {
      ═══════════════════════════════════════════════════════════════════════════ */
 
   const navLinkClass = (path: string) => {
+    const base = "transition-opacity duration-[120ms] ease-out focus-ring";
     if (!isHeaderDark) {
-      return location.pathname === path
+      return `${base} ${location.pathname === path
         ? "text-foreground"
-        : "text-muted-foreground hover:text-foreground";
+        : "text-muted-foreground hover:opacity-88"}`;
     }
-    return location.pathname === path
+    return `${base} ${location.pathname === path
       ? "text-white/[0.88]"
-      : "text-white/[0.64] hover:text-white/[0.88]";
+      : "text-white/[0.64] hover:opacity-88"}`;
   };
 
   return (
@@ -94,7 +95,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Logo sizing follows locked rules in src/lib/brand.ts
           ═══════════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[150ms] ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[120ms] ease-out ${
           isHeaderDark 
             ? "bg-[#111214] border-b border-white/[0.08]" 
             : "bg-background border-b border-border/50"
@@ -103,8 +104,15 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           paddingTop: "env(safe-area-inset-top)",
           height: NAV_SIZES.header.mobile,
         }}
+        data-surface={isHeaderDark ? "dark" : "light"}
       >
-        <nav className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 h-full">
+        <nav 
+          className="max-w-[1200px] mx-auto h-full flex items-center"
+          style={{
+            paddingLeft: NAV_SIZES.headerPadding.horizontal.mobile,
+            paddingRight: NAV_SIZES.headerPadding.horizontal.mobile,
+          }}
+        >
           {/* Mobile Header (≤768px) */}
           <div className="flex md:hidden items-center justify-between h-full">
             {/* Logo — Locked sizing from brand.ts */}
@@ -214,12 +222,12 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           </div>
 
           {/* Desktop/Tablet Header (>768px) */}
-          <div className="hidden md:flex items-center justify-between h-full">
+          <div className="hidden md:flex items-center justify-between h-full w-full" style={{ paddingLeft: NAV_SIZES.headerPadding.horizontal.desktop - NAV_SIZES.headerPadding.horizontal.mobile, paddingRight: NAV_SIZES.headerPadding.horizontal.desktop - NAV_SIZES.headerPadding.horizontal.mobile }}>
             {/* Logo — Full name on desktop */}
             <Link 
               to="/" 
-              className={`transition-colors duration-[150ms] ${
-                isHeaderDark ? "text-white/[0.88]" : "text-foreground"
+              className={`transition-opacity duration-[120ms] ease-out focus-ring ${
+                isHeaderDark ? "text-white/[0.88] hover:opacity-88" : "text-foreground hover:opacity-88"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.desktop.fontSize,
@@ -232,24 +240,24 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <div className="flex items-center gap-6">
               <Link 
                 to="/services" 
-                className={`text-sm transition-colors duration-[150ms] ${navLinkClass("/services")}`}
+                className={`text-sm ${navLinkClass("/services")}`}
               >
                 Services
               </Link>
               <Link 
                 to="/contact" 
-                className={`text-sm transition-colors duration-[150ms] ${navLinkClass("/contact")}`}
+                className={`text-sm ${navLinkClass("/contact")}`}
               >
                 Contact
               </Link>
-              <span className={`w-px h-4 transition-colors duration-[150ms] ${
+              <span className={`w-px h-4 transition-colors duration-[120ms] ease-out ${
                 isHeaderDark ? "bg-white/[0.08]" : "bg-border"
               }`} />
               <Link 
                 to="/auth" 
-                className={`text-sm transition-colors duration-[150ms] ${
+                className={`text-sm transition-opacity duration-[120ms] ease-out focus-ring ${
                   isHeaderDark 
-                    ? "text-white/[0.48] hover:text-white/[0.88]" 
+                    ? "text-white/[0.48] hover:opacity-88" 
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -257,10 +265,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               </Link>
               <Link 
                 to="/auth?request=true" 
-                className={`text-sm transition-colors duration-[150ms] ${
+                className={`text-sm transition-opacity duration-[120ms] ease-out focus-ring ${
                   isHeaderDark 
-                    ? "text-white/[0.48] hover:text-white/[0.88]" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-white/[0.48] hover:opacity-88" 
+                    : "text-muted-foreground hover:opacity-88"
                 }`}
               >
                 Request Access
@@ -280,15 +288,16 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Automatically adapts to dark content sections with subtle crossfade.
           ═══════════════════════════════════════════════════════════════════════════ */}
       <footer 
-        className={`py-8 transition-colors duration-[150ms] ${
+        className={`py-8 transition-colors duration-[120ms] ease-out ${
           isFooterDark 
             ? "bg-[#111214] border-t border-white/[0.08]" 
             : "bg-background border-t border-border"
         }`}
+        data-surface={isFooterDark ? "dark" : "light"}
       >
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <p 
-            className={`tracking-[0.02em] mb-4 transition-colors duration-[150ms] ${
+            className={`tracking-[0.02em] mb-4 transition-colors duration-[120ms] ease-out ${
               isFooterDark ? "text-white/[0.48]" : "text-muted-foreground/60"
             }`}
             style={{ fontSize: LOGO_SIZES.footer.fontSize }}
@@ -297,7 +306,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           </p>
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <p 
-              className={`transition-colors duration-[150ms] ${
+              className={`transition-colors duration-[120ms] ease-out ${
                 isFooterDark ? "text-white/[0.64]" : "text-muted-foreground"
               }`}
               style={{ fontSize: LOGO_SIZES.footer.fontSize }}
@@ -307,20 +316,20 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <div className="flex items-center gap-6">
               <Link 
                 to="/privacy" 
-                className={`text-xs transition-colors duration-[150ms] ${
+                className={`text-xs transition-opacity duration-[120ms] ease-out focus-ring ${
                   isFooterDark 
-                    ? "text-white/[0.48] hover:text-white/[0.88]" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-white/[0.48] hover:opacity-88" 
+                    : "text-muted-foreground hover:opacity-88"
                 }`}
               >
                 Privacy Policy
               </Link>
               <Link 
                 to="/terms" 
-                className={`text-xs transition-colors duration-[150ms] ${
+                className={`text-xs transition-opacity duration-[120ms] ease-out focus-ring ${
                   isFooterDark 
-                    ? "text-white/[0.48] hover:text-white/[0.88]" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-white/[0.48] hover:opacity-88" 
+                    : "text-muted-foreground hover:opacity-88"
                 }`}
               >
                 Terms of Use

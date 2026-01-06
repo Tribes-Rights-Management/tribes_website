@@ -10,20 +10,39 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Music2, LogOut, User, ChevronDown } from "lucide-react";
 import { ROLE_LABELS } from "@/types";
+import { BRAND, LOGO_SIZES, NAV_SIZES } from "@/lib/brand";
 
 export function AppHeader() {
   const { profile, role, signOut } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        {/* Logo */}
-        <Link to="/portal" className="flex items-center space-x-2 mr-8">
+    <header 
+      className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      style={{ height: NAV_SIZES.header.desktop }}
+    >
+      <div 
+        className="container flex items-center h-full"
+        style={{
+          paddingLeft: NAV_SIZES.headerPadding.horizontal.mobile,
+          paddingRight: NAV_SIZES.headerPadding.horizontal.mobile,
+        }}
+      >
+        {/* Logo — Locked sizing from brand.ts */}
+        <Link 
+          to="/portal" 
+          className="flex items-center space-x-2 mr-8 focus-ring transition-opacity duration-[120ms] ease-out hover:opacity-88"
+        >
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <Music2 className="w-4 h-4 text-primary-foreground" />
           </div>
-          <span className="font-semibold text-sm hidden sm:inline-block">
-            Tribes Rights Licensing
+          <span 
+            className="hidden sm:inline-block"
+            style={{
+              fontSize: LOGO_SIZES.portal.fontSize,
+              fontWeight: LOGO_SIZES.portal.fontWeight,
+            }}
+          >
+            {BRAND.legalName}
           </span>
         </Link>
 
@@ -33,7 +52,10 @@ export function AppHeader() {
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="flex items-center space-x-2">
+            <Button 
+              variant="ghost" 
+              className="flex items-center space-x-2 focus-ring transition-opacity duration-[120ms] ease-out hover:opacity-88 hover:bg-transparent"
+            >
               <div className="w-7 h-7 rounded-full bg-secondary flex items-center justify-center">
                 <User className="w-4 h-4 text-muted-foreground" />
               </div>
@@ -59,7 +81,10 @@ export function AppHeader() {
               )}
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={signOut} className="text-destructive focus:text-destructive">
+            <DropdownMenuItem 
+              onClick={signOut} 
+              className="text-destructive focus:text-destructive focus-ring"
+            >
               <LogOut className="mr-2 h-4 w-4" />
               Sign out
             </DropdownMenuItem>
