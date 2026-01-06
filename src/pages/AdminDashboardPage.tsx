@@ -85,55 +85,55 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Admin Header */}
-      <header className="border-b bg-card">
-        <div className="container flex items-center justify-between h-14">
-          <div className="flex items-center gap-3">
-            <span className="text-lg font-bold tracking-tight">TRIBES</span>
-            <span className="text-muted-foreground">|</span>
-            <span className="text-sm font-medium">Admin Console</span>
+      {/* Header */}
+      <header className="border-b border-border/40">
+        <div className="container flex items-center justify-between h-12">
+          <div className="flex items-center gap-2.5">
+            <span className="text-base font-semibold tracking-tight">TRIBES</span>
+            <span className="text-muted-foreground/50">|</span>
+            <span className="text-sm text-muted-foreground">Admin</span>
             {isAdminView && (
-              <Badge variant="secondary" className="flex items-center gap-1 ml-2">
+              <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted/50 px-2 py-0.5 rounded">
                 <Eye className="w-3 h-3" />
                 View Only
-              </Badge>
+              </span>
             )}
           </div>
-          <Button variant="ghost" size="sm" onClick={() => navigate("/portal")}>
+          <button 
+            onClick={() => navigate("/portal")}
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
             Exit Admin
-          </Button>
+          </button>
         </div>
       </header>
 
-      <main className="container py-6 space-y-6 flex-1">
+      <main className="container flex-1 pt-6 pb-8">
         {/* Title */}
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">License Queue</h1>
-          <p className="text-muted-foreground text-sm">
-            {isSuperAdmin ? "Manage all license requests" : "View all license requests (read-only)"}
-          </p>
-        </div>
+        <h1 className="text-xl font-semibold tracking-tight mb-5">License Queue</h1>
 
-        {/* Search + Status Filter Row */}
-        <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+        {/* Controls Row */}
+        <div className="flex flex-col sm:flex-row gap-2.5 mb-6">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground/60" />
             <Input
               placeholder="Search by name, email, track, or artist…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9 w-full"
+              className="pl-9 h-9 text-sm border-border/60 bg-background"
             />
           </div>
           <Select value={activeStatus} onValueChange={(v) => setActiveStatus(v as RequestStatus)}>
-            <SelectTrigger className="w-full sm:w-[240px]">
-              <SelectValue placeholder="Select status" />
+            <SelectTrigger className="w-full sm:w-[220px] h-9 text-sm border-border/60 bg-background">
+              <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
               {ADMIN_STATUSES.map((status) => (
-                <SelectItem key={status} value={status}>
+                <SelectItem key={status} value={status} className="text-sm">
                   {STATUS_LABELS[status]}
-                  {statusCounts[status] > 0 && ` (${statusCounts[status]})`}
+                  {statusCounts[status] > 0 && (
+                    <span className="text-muted-foreground ml-1.5">({statusCounts[status]})</span>
+                  )}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -142,9 +142,11 @@ export default function AdminDashboardPage() {
 
         {/* Results */}
         {isLoading ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {[...Array(5)].map((_, i) => (
-              <Card key={i}><CardContent className="p-4"><Skeleton className="h-20 w-full" /></CardContent></Card>
+              <div key={i} className="py-4 border-b border-border/30">
+                <Skeleton className="h-14 w-full" />
+              </div>
             ))}
           </div>
         ) : filteredRequests.length === 0 ? (
@@ -154,64 +156,57 @@ export default function AdminDashboardPage() {
             description={`No requests with "${STATUS_LABELS[activeStatus]}" status.`} 
           />
         ) : (
-          <div className="space-y-2">
+          <div className="divide-y divide-border/30">
             {filteredRequests.map((request) => {
               const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
               const trackTitle = request.track_title || request.song_title || "Untitled";
               
               return (
-                <Card 
+                <div 
                   key={request.id} 
-                  className="cursor-pointer hover:bg-secondary/30 transition-colors" 
+                  className="py-3.5 flex items-center gap-3.5 cursor-pointer hover:bg-muted/30 -mx-2 px-2 rounded transition-colors" 
                   onClick={() => navigate(`/admin/licenses/${request.id}`)}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-4">
-                      {/* Icon */}
-                      <div className="h-10 w-10 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
-                        <Music2 className="w-5 h-5 text-muted-foreground" />
-                      </div>
+                  {/* Icon */}
+                  <div className="h-9 w-9 rounded-md bg-muted/50 flex items-center justify-center flex-shrink-0">
+                    <Music2 className="w-4 h-4 text-muted-foreground" />
+                  </div>
 
-                      {/* Main content */}
-                      <div className="flex-1 min-w-0 space-y-2">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-medium truncate">{trackTitle}</h3>
-                          <StatusBadge status={request.status} />
-                        </div>
-                        
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
-                            {request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—"}
-                          </span>
-                          <span className="flex items-center gap-1.5 truncate">
-                            <User className="w-3.5 h-3.5 flex-shrink-0" />
-                            {requesterName}
-                          </span>
-                          {request.organization && (
-                            <span className="flex items-center gap-1.5 truncate">
-                              <Building2 className="w-3.5 h-3.5 flex-shrink-0" />
-                              {request.organization}
-                            </span>
-                          )}
-                          <span className="flex items-center gap-1.5 truncate">
-                            <Mail className="w-3.5 h-3.5 flex-shrink-0" />
-                            {request.licensee_email || "—"}
-                          </span>
-                        </div>
-
-                        {request.recording_artist && (
-                          <p className="text-sm text-muted-foreground">
-                            Artist: {request.recording_artist}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* Arrow */}
-                      <ChevronRight className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-2" />
+                  {/* Main content */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-medium truncate">{trackTitle}</span>
+                      <StatusBadge status={request.status} />
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        {request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—"}
+                      </span>
+                      <span className="flex items-center gap-1 truncate">
+                        <User className="w-3 h-3" />
+                        {requesterName}
+                      </span>
+                      {request.organization && (
+                        <span className="flex items-center gap-1 truncate">
+                          <Building2 className="w-3 h-3" />
+                          {request.organization}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1 truncate">
+                        <Mail className="w-3 h-3" />
+                        {request.licensee_email || "—"}
+                      </span>
+                      {request.recording_artist && (
+                        <span className="truncate">Artist: {request.recording_artist}</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Arrow */}
+                  <ChevronRight className="w-4 h-4 text-muted-foreground/50 flex-shrink-0" />
+                </div>
               );
             })}
           </div>
@@ -219,8 +214,8 @@ export default function AdminDashboardPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t py-4">
-        <div className="container text-center text-xs text-muted-foreground">
+      <footer className="border-t border-border/40 py-4 mt-auto">
+        <div className="container text-center text-xs text-muted-foreground/70">
           © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
         </div>
       </footer>
