@@ -28,7 +28,7 @@ export default function MarketingPage() {
             
             {/* Micro-line */}
             <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
-              For creators. Powered by precision.
+              Publishing administration for music creators.
             </p>
             
             {/* Understated link */}
@@ -260,7 +260,7 @@ export default function MarketingPage() {
             </div>
             
             <p className="text-base leading-[1.8] text-muted-foreground max-w-[640px]">
-              For creators and rights holders, this delivers clarity, defensibility, and long-term confidence.
+              Records remain accessible. Ownership stays documented. Agreements stay enforceable.
             </p>
           </div>
         </div>

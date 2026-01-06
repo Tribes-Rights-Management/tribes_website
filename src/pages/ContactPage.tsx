@@ -68,7 +68,7 @@ export default function ContactPage() {
               Contact
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[560px]">
-              Questions about our services or interested in working with us? Get in touch.
+              Inquiries about services, access, or licensing.
             </p>
           </div>
         </div>
@@ -148,7 +148,7 @@ export default function ContactPage() {
                 <div className="pt-8 border-t border-border">
                   <p className="text-sm font-medium text-foreground mb-3">Request Access</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    If you're interested in licensing or working with us, request access to get started.
+                    Access is granted by review. Submit a request and we will follow up.
                   </p>
                   <Link 
                     to="/auth?request=true" 
