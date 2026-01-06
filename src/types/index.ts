@@ -3,6 +3,7 @@ import { Database } from "@/integrations/supabase/types";
 // Database types
 export type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 export type LicenseRequest = Database["public"]["Tables"]["license_requests"]["Row"];
+export type License = Database["public"]["Tables"]["licenses"]["Row"];
 export type Clause = Database["public"]["Tables"]["clauses"]["Row"];
 export type GeneratedDocument = Database["public"]["Tables"]["generated_documents"]["Row"];
 export type StatusHistory = Database["public"]["Tables"]["status_history"]["Row"];
@@ -18,6 +19,9 @@ export interface WizardFormData {
   // Agreement step
   agreement_accounting: boolean;
   agreement_terms: boolean;
+  
+  // License Types step (multi-select)
+  selected_license_types: string[];
   
   // Your Info step
   first_name: string;
@@ -53,6 +57,9 @@ export const DEFAULT_WIZARD_FORM: WizardFormData = {
   // Agreement step
   agreement_accounting: false,
   agreement_terms: false,
+  
+  // License Types step
+  selected_license_types: [],
   
   // Your Info step
   first_name: "",

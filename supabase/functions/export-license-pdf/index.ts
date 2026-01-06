@@ -11,6 +11,24 @@ interface ExportRequest {
   license_id?: string;
 }
 
+interface License {
+  id: string;
+  license_id: string;
+  license_type_code: string;
+  term: string | null;
+  territory: string | null;
+  fee: number | null;
+  grant_of_rights: string | null;
+  restrictions: string | null;
+  status: string;
+}
+
+interface LicenseType {
+  code: string;
+  name: string;
+  description: string | null;
+}
+
 function sanitizeFilename(str: string): string {
   return str
     .replace(/[^a-zA-Z0-9\s-]/g, "")
@@ -49,7 +67,7 @@ serve(async (req) => {
       });
     }
 
-    // Fetch the license request - prefer license_id lookup
+    // Fetch the license request
     let request;
     if (license_id) {
       const { data, error } = await supabase
@@ -84,20 +102,112 @@ serve(async (req) => {
       });
     }
 
-    const licenseId = request.license_id || `TRL-${formatDate(new Date(request.submitted_at || request.created_at)).replace(/-/g, "")}-0000`;
+    // Fetch individual licenses for this request
+    const { data: licenses } = await supabase
+      .from("licenses")
+      .select("*")
+      .eq("request_id", request.id)
+      .order("created_at");
+
+    // Fetch license types for display names
+    const { data: licenseTypes } = await supabase
+      .from("license_types")
+      .select("code, name, description")
+      .eq("is_active", true);
+
+    const licenseTypeMap = new Map<string, LicenseType>();
+    (licenseTypes || []).forEach((t: LicenseType) => licenseTypeMap.set(t.code, t));
+
+    // Use package_reference or first license ID
+    const packageReference = request.package_reference || 
+      (licenses && licenses.length > 0 ? licenses[0].license_id : null) ||
+      `TRL-${formatDate(new Date(request.submitted_at || request.created_at)).replace(/-/g, "")}-PKG`;
+    
     const trackTitle = sanitizeFilename(request.track_title || request.song_title || "Untitled");
-    const executionDate = request.signed_at ? new Date(request.signed_at) : new Date();
+    const executionDate = request.executed_at ? new Date(request.executed_at) : 
+                          request.signed_at ? new Date(request.signed_at) : new Date();
     const formattedExecutionDate = formatDate(executionDate);
 
     // Generate filename
-    const filename = `Tribes_License_${licenseId}_${trackTitle}_${formattedExecutionDate}.pdf`;
+    const filename = `Tribes_License_${packageReference}_${trackTitle}_${formattedExecutionDate}.pdf`;
 
-    // Build licensee name
+    // Build licensee info
     const licenseeName = [request.first_name, request.last_name].filter(Boolean).join(" ") || 
                          request.licensee_legal_name || 
                          "Unknown";
+    
+    const licenseeAddress = [
+      request.address_street,
+      [request.address_city, request.address_state, request.address_zip].filter(Boolean).join(", "),
+      request.address_country
+    ].filter(Boolean).join("\n");
 
-    // Generate HTML for PDF
+    // Calculate total fee
+    const totalFee = licenses?.reduce((sum: number, l: License) => sum + (l.fee || 0), 0) || request.license_fee || 0;
+
+    // Generate license table rows
+    const licenseTableRows = (licenses || []).map((l: License) => {
+      const typeName = licenseTypeMap.get(l.license_type_code)?.name || l.license_type_code;
+      return `
+        <tr>
+          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.license_id}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${typeName}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.term || "Perpetual"}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.territory || "Worldwide"}</td>
+          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5; text-align: right;">${l.fee ? `$${l.fee.toFixed(2)}` : "—"}</td>
+        </tr>
+      `;
+    }).join("");
+
+    // Generate individual license pages
+    const individualLicensePages = (licenses || []).map((l: License, index: number) => {
+      const typeName = licenseTypeMap.get(l.license_type_code)?.name || l.license_type_code;
+      const typeDescription = licenseTypeMap.get(l.license_type_code)?.description || "";
+      
+      return `
+        <div class="page-break"></div>
+        <div class="license-page">
+          <div class="license-header">
+            <h2>License Grant — ${typeName}</h2>
+            <div class="license-id">License ID: ${l.license_id}</div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Grant of Rights</div>
+            <p>${l.grant_of_rights || `Licensor hereby grants to Licensee a non-exclusive license to use the Composition as specified in this ${typeName}.`}</p>
+            ${typeDescription ? `<p class="type-description">${typeDescription}</p>` : ""}
+          </div>
+
+          <div class="section">
+            <div class="section-title">Licensed Work</div>
+            <div class="field"><span class="field-label">Track Title:</span> ${request.track_title || "—"}</div>
+            <div class="field"><span class="field-label">Track Artist:</span> ${request.track_artist || "—"}</div>
+            <div class="field"><span class="field-label">ISRC:</span> ${request.track_isrc || "—"}</div>
+            <div class="field"><span class="field-label">Runtime:</span> ${request.runtime || "—"}</div>
+          </div>
+
+          <div class="section">
+            <div class="section-title">Terms</div>
+            <div class="field"><span class="field-label">Territory:</span> ${l.territory || "Worldwide"}</div>
+            <div class="field"><span class="field-label">Term:</span> ${l.term || "Perpetual"}</div>
+            <div class="field"><span class="field-label">License Fee:</span> ${l.fee ? `$${l.fee.toFixed(2)}` : "—"}</div>
+          </div>
+
+          ${l.restrictions ? `
+          <div class="section">
+            <div class="section-title">Restrictions</div>
+            <p>${l.restrictions}</p>
+          </div>
+          ` : ""}
+
+          <div class="license-footer">
+            <p>This License Grant is part of License Package executed on ${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.</p>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // Generate complete HTML document
     const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -115,65 +225,150 @@ serve(async (req) => {
     body {
       font-family: Georgia, serif;
       font-size: 11pt;
-      line-height: 1.5;
+      line-height: 1.6;
       color: #1a1a1a;
       max-width: 7.5in;
       margin: 0 auto;
     }
-    .header {
+    .page-break {
+      page-break-before: always;
+    }
+    .cover-page {
+      min-height: 100vh;
+    }
+    .cover-header {
       text-align: center;
+      margin-bottom: 3em;
+      padding-bottom: 2em;
+      border-bottom: 2px solid #1a1a1a;
+    }
+    .cover-header h1 {
+      font-size: 18pt;
+      font-weight: bold;
+      margin: 0 0 0.5em 0;
+      letter-spacing: 0.1em;
+    }
+    .cover-header h2 {
+      font-size: 14pt;
+      font-weight: normal;
+      margin: 0 0 1.5em 0;
+    }
+    .cover-header .package-ref {
+      font-size: 11pt;
+      color: #666;
+      font-family: 'Courier New', monospace;
+    }
+    .section {
+      margin-bottom: 2em;
+    }
+    .section-title {
+      font-weight: bold;
+      font-size: 12pt;
+      margin-bottom: 0.75em;
+      padding-bottom: 0.25em;
+      border-bottom: 1px solid #ccc;
+    }
+    .field {
+      margin-bottom: 0.5em;
+    }
+    .field-label {
+      font-weight: bold;
+    }
+    .parties-grid {
+      display: flex;
+      gap: 2em;
+    }
+    .party {
+      flex: 1;
+    }
+    .party-name {
+      font-weight: bold;
+      margin-bottom: 0.25em;
+    }
+    .party-address {
+      white-space: pre-line;
+      font-size: 10pt;
+      color: #444;
+    }
+    .license-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10pt;
+      margin-top: 1em;
+    }
+    .license-table th {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 2px solid #1a1a1a;
+      font-weight: bold;
+    }
+    .license-table th:last-child {
+      text-align: right;
+    }
+    .total-row {
+      font-weight: bold;
+      border-top: 2px solid #1a1a1a;
+    }
+    .total-row td {
+      padding-top: 12px;
+    }
+    .legal-notice {
+      margin-top: 2em;
+      padding: 1.5em;
+      background: #f9f9f9;
+      border: 1px solid #e5e5e5;
+      font-size: 10pt;
+      line-height: 1.5;
+    }
+    .license-page {
+      min-height: 90vh;
+    }
+    .license-header {
       margin-bottom: 2em;
       padding-bottom: 1em;
       border-bottom: 1px solid #ccc;
     }
-    .header h1 {
+    .license-header h2 {
       font-size: 14pt;
-      font-weight: bold;
       margin: 0 0 0.5em 0;
-      letter-spacing: 0.05em;
     }
-    .header h2 {
-      font-size: 12pt;
-      font-weight: normal;
-      margin: 0 0 1em 0;
-    }
-    .header-meta {
-      font-size: 10pt;
+    .license-id {
+      font-family: 'Courier New', monospace;
+      font-size: 11pt;
       color: #666;
     }
-    .section {
-      margin-bottom: 1.5em;
+    .type-description {
+      font-style: italic;
+      color: #666;
+      margin-top: 0.5em;
     }
-    .section-title {
-      font-weight: bold;
-      margin-bottom: 0.5em;
-    }
-    .field {
-      margin-bottom: 0.75em;
-    }
-    .field-label {
-      font-weight: bold;
-      display: inline;
-    }
-    .field-value {
-      display: inline;
-    }
-    .signature-block {
+    .license-footer {
       margin-top: 3em;
       padding-top: 1em;
       border-top: 1px solid #ccc;
+      font-size: 10pt;
+      color: #666;
+    }
+    .signature-page {
+      min-height: 80vh;
+    }
+    .signature-block {
+      margin-top: 3em;
     }
     .signature-line {
       border-bottom: 1px solid #1a1a1a;
-      width: 250px;
-      margin: 2em 0 0.25em 0;
+      width: 300px;
+      margin: 3em 0 0.25em 0;
     }
     .signature-label {
       font-size: 10pt;
       color: #666;
     }
+    .execution-date {
+      margin-top: 2em;
+    }
     .footer {
-      margin-top: 3em;
+      margin-top: 4em;
       padding-top: 1em;
       border-top: 1px solid #ccc;
       font-size: 9pt;
@@ -183,123 +378,114 @@ serve(async (req) => {
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>TRIBES RIGHTS MANAGEMENT LLC</h1>
-    <h2>Mechanical &amp; DPD License Agreement</h2>
-    <div class="header-meta">
-      <div>License ID: ${licenseId}</div>
-      <div>Execution Date: ${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</div>
+  <!-- COVER PAGE -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <h1>TRIBES RIGHTS MANAGEMENT LLC</h1>
+      <h2>Music Synchronization License Agreement</h2>
+      <div class="package-ref">Package Reference: ${packageReference}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Parties</div>
+      <div class="parties-grid">
+        <div class="party">
+          <div class="party-name">Licensor</div>
+          <div class="party-address">Tribes Rights Management LLC</div>
+        </div>
+        <div class="party">
+          <div class="party-name">Licensee</div>
+          <div class="party-address">${licenseeName}${request.organization ? `\n${request.organization}` : ""}${licenseeAddress ? `\n${licenseeAddress}` : ""}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Composition</div>
+      <div class="field"><span class="field-label">Title:</span> ${request.track_title || "—"}</div>
+      <div class="field"><span class="field-label">Artist:</span> ${request.track_artist || "—"}</div>
+      <div class="field"><span class="field-label">Writers/Publishers:</span> ${request.writers_publishers || "As registered with applicable PROs"}</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Execution Date</div>
+      <p>${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">License Grants</div>
+      <table class="license-table">
+        <thead>
+          <tr>
+            <th>License ID</th>
+            <th>Type</th>
+            <th>Term</th>
+            <th>Territory</th>
+            <th>Fee</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${licenseTableRows}
+          <tr class="total-row">
+            <td colspan="4">Total License Fee</td>
+            <td style="text-align: right;">$${totalFee.toFixed(2)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="legal-notice">
+      <strong>Legal Notice:</strong> This Agreement consists of multiple independent License Grants, each identified by a unique License ID. Each License Grant governs a specific permitted use of the Composition and is independently enforceable, notwithstanding that all License Grants are executed concurrently as part of this License Package.
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">1. Parties</div>
-    <div class="field">
-      <span class="field-label">Licensor:</span>
-      <span class="field-value">Tribes Rights Management LLC</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Licensee:</span>
-      <span class="field-value">${licenseeName}${request.organization ? ` (${request.organization})` : ""}</span>
-    </div>
-  </div>
+  <!-- INDIVIDUAL LICENSE PAGES -->
+  ${individualLicensePages}
 
-  <div class="section">
-    <div class="section-title">2. Licensed Work</div>
-    <div class="field">
-      <span class="field-label">Track Title:</span>
-      <span class="field-value">${request.track_title || "—"}</span>
+  <!-- SIGNATURE PAGE -->
+  <div class="page-break"></div>
+  <div class="signature-page">
+    <div class="section">
+      <div class="section-title">Execution & Acknowledgment</div>
+      <p>By signing below, the undersigned acknowledges and agrees to all terms set forth in this License Agreement, including all License Grants identified on the Cover Page.</p>
+      <p>This signature applies to the following License IDs:</p>
+      <ul>
+        ${(licenses || []).map((l: License) => `<li>${l.license_id}</li>`).join("")}
+      </ul>
     </div>
-    <div class="field">
-      <span class="field-label">Track Artist:</span>
-      <span class="field-value">${request.track_artist || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">ISRC:</span>
-      <span class="field-value">${request.track_isrc || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Runtime:</span>
-      <span class="field-value">${request.runtime || "—"}</span>
-    </div>
-  </div>
 
-  <div class="section">
-    <div class="section-title">3. Product Details</div>
-    <div class="field">
-      <span class="field-label">Recording Artist:</span>
-      <span class="field-value">${request.recording_artist || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Release Title:</span>
-      <span class="field-value">${request.release_title || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Label / Master Owner:</span>
-      <span class="field-value">${request.label_master_owner || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Distributor:</span>
-      <span class="field-value">${request.distributor || "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">Release Date:</span>
-      <span class="field-value">${request.release_date ? new Date(request.release_date).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "—"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">UPC:</span>
-      <span class="field-value">${request.product_upc || "—"}</span>
-    </div>
-  </div>
+    <div class="signature-block">
+      <div class="field"><span class="field-label">Licensee Name:</span> ${licenseeName}</div>
+      ${request.organization ? `<div class="field"><span class="field-label">Company:</span> ${request.organization}</div>` : ""}
+      
+      <div class="signature-line"></div>
+      <div class="signature-label">Authorized Signature</div>
 
-  <div class="section">
-    <div class="section-title">4. License Terms</div>
-    <div class="field">
-      <span class="field-label">Territory:</span>
-      <span class="field-value">${request.territory || "Worldwide"}</span>
+      <div class="execution-date">
+        <span class="field-label">Date of Execution:</span> ${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
+      </div>
     </div>
-    <div class="field">
-      <span class="field-label">Term:</span>
-      <span class="field-value">${request.term || "Perpetual"}</span>
-    </div>
-    <div class="field">
-      <span class="field-label">License Fee:</span>
-      <span class="field-value">${request.proposed_fee ? `${request.currency || "USD"} ${request.proposed_fee.toLocaleString()}` : "—"}</span>
-    </div>
-  </div>
 
-  <div class="signature-block">
-    <div class="section-title">5. Execution</div>
-    <div class="field">
-      <span class="field-label">Licensee Name:</span>
-      <span class="field-value">${licenseeName}</span>
+    <div class="footer">
+      <div>© ${new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.</div>
+      <div style="margin-top: 0.5em; font-size: 8pt;">This document was generated on ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.</div>
     </div>
-    ${request.organization ? `<div class="field"><span class="field-label">Company:</span><span class="field-value">${request.organization}</span></div>` : ""}
-    <div class="signature-line"></div>
-    <div class="signature-label">Signature</div>
-    <div class="field" style="margin-top: 1em;">
-      <span class="field-label">Date:</span>
-      <span class="field-value">${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
-    </div>
-  </div>
-
-  <div class="footer">
-    <div>© 2026 Tribes Rights Management LLC. All rights reserved.</div>
   </div>
 </body>
 </html>`;
 
     // Return HTML with metadata for client-side PDF generation
-    // In production, integrate with a PDF generation service
     return new Response(
       JSON.stringify({
         html: htmlContent,
         filename: filename,
         metadata: {
-          licenseId: licenseId,
+          packageReference: packageReference,
+          licenseCount: licenses?.length || 0,
           trackTitle: request.track_title || request.song_title || "Untitled",
           licenseeName: licenseeName,
           executionDate: formattedExecutionDate,
+          totalFee: totalFee,
         },
       }),
       {
@@ -307,9 +493,10 @@ serve(async (req) => {
         headers: { "Content-Type": "application/json", ...corsHeaders },
       }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error generating PDF:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : "Internal server error";
+    return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });

@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { LicenseRequest, StatusHistory, GeneratedDocument, RequestStatus, STATUS_LABELS } from "@/types";
+import { LicenseRequest, License, StatusHistory, GeneratedDocument, RequestStatus, STATUS_LABELS } from "@/types";
 import { format } from "date-fns";
 import { LicensePreviewModal } from "@/components/LicensePreviewModal";
 
@@ -53,6 +53,7 @@ export default function AdminRequestDetailPage() {
   const { toast } = useToast();
   
   const [request, setRequest] = useState<LicenseRequest | null>(null);
+  const [licenses, setLicenses] = useState<License[]>([]);
   const [history, setHistory] = useState<StatusHistory[]>([]);
   const [documents, setDocuments] = useState<GeneratedDocument[]>([]);
   const [notes, setNotes] = useState<InternalNote[]>([]);
@@ -60,8 +61,8 @@ export default function AdminRequestDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [newNote, setNewNote] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isGeneratingLicenses, setIsGeneratingLicenses] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
-  const [isUpdatingType, setIsUpdatingType] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
@@ -71,8 +72,9 @@ export default function AdminRequestDetailPage() {
 
   async function fetchRequestData(requestId: string) {
     try {
-      const [requestRes, historyRes, docsRes, notesRes, typesRes] = await Promise.all([
+      const [requestRes, licensesRes, historyRes, docsRes, notesRes, typesRes] = await Promise.all([
         supabase.from("license_requests").select("*").eq("id", requestId).single(),
+        supabase.from("licenses").select("*").eq("request_id", requestId).order("created_at"),
         supabase.from("status_history").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
         supabase.from("generated_documents").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
         supabase.from("internal_notes").select("*").eq("request_id", requestId).order("created_at", { ascending: false }),
@@ -81,6 +83,7 @@ export default function AdminRequestDetailPage() {
 
       if (requestRes.error) throw requestRes.error;
       setRequest(requestRes.data);
+      setLicenses(licensesRes.data || []);
       setHistory(historyRes.data || []);
       setDocuments(docsRes.data || []);
       setNotes(notesRes.data || []);
@@ -143,38 +146,34 @@ export default function AdminRequestDetailPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  async function updateLicenseType(typeCode: string) {
+  async function generateLicenses() {
     if (!request || !user || !isSuperAdmin) return;
     
-    const editableStatuses: RequestStatus[] = ["submitted", "in_review", "needs_info", "approved"];
-    if (!editableStatuses.includes(request.status)) {
-      toast({ title: "Cannot change", description: "License type cannot be changed after agreement is sent", variant: "destructive" });
-      return;
-    }
-    
-    setIsUpdatingType(true);
+    setIsGeneratingLicenses(true);
     try {
-      await supabase.from("license_requests").update({ license_type: typeCode }).eq("id", request.id);
-      await supabase.from("status_history").insert({
-        request_id: request.id,
-        from_status: request.status,
-        to_status: request.status,
-        actor_user_id: user.id,
-        notes: `License type set to: ${typeCode}`,
+      const { data, error } = await supabase.functions.invoke("generate-licenses", {
+        body: { request_id: request.id },
       });
-      toast({ title: "License type updated" });
+
+      if (error) throw error;
+      
+      toast({ title: "Licenses generated", description: `${data.licenses?.length || 0} licenses created` });
       fetchRequestData(request.id);
     } catch (error) {
-      console.error("Error updating license type:", error);
-      toast({ title: "Error", description: "Failed to update license type", variant: "destructive" });
+      console.error("Error generating licenses:", error);
+      toast({ title: "Error", description: "Failed to generate licenses", variant: "destructive" });
     } finally {
-      setIsUpdatingType(false);
+      setIsGeneratingLicenses(false);
     }
   }
 
   const allowedTransitions = request ? WORKFLOW_TRANSITIONS[request.status] : [];
-  const currentLicenseType = licenseTypes.find(t => t.code === (request as any)?.license_type);
-  const canEditLicenseType = request && isSuperAdmin && ["submitted", "in_review", "needs_info", "approved"].includes(request.status);
+  const selectedTypeNames = (request?.selected_license_types || [])
+    .map(code => licenseTypes.find(t => t.code === code)?.name || code);
+  const canGenerateLicenses = request && isSuperAdmin && 
+    ["in_review", "approved"].includes(request.status) && 
+    licenses.length === 0 && 
+    (request.selected_license_types?.length || 0) > 0;
 
   if (isLoading) {
     return (
@@ -244,28 +243,29 @@ export default function AdminRequestDetailPage() {
                 )}
 
                 <div>
-                  <p className="text-[12px] text-muted-foreground mb-1.5">License Type</p>
-                  {canEditLicenseType ? (
-                    <Select 
-                      value={(request as any)?.license_type || ""} 
-                      onValueChange={updateLicenseType} 
-                      disabled={isUpdatingType}
-                    >
-                      <SelectTrigger className="w-48 h-9">
-                        <SelectValue placeholder="Select type…" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {licenseTypes.map(t => (
-                          <SelectItem key={t.code} value={t.code}>{t.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <p className="text-[12px] text-muted-foreground mb-1.5">Selected License Types</p>
+                  {selectedTypeNames.length > 0 ? (
+                    <div className="space-y-1">
+                      {selectedTypeNames.map((name, i) => (
+                        <p key={i} className="text-[14px]">{name}</p>
+                      ))}
+                    </div>
                   ) : (
-                    <p className="text-[14px]">
-                      {currentLicenseType?.name || <span className="text-muted-foreground">Not set</span>}
-                    </p>
+                    <p className="text-[14px] text-muted-foreground">None selected</p>
                   )}
                 </div>
+
+                {canGenerateLicenses && (
+                  <div className="pt-2">
+                    <button
+                      onClick={generateLicenses}
+                      disabled={isGeneratingLicenses}
+                      className="text-[13px] text-muted-foreground hover:text-foreground disabled:opacity-50 transition-colors"
+                    >
+                      {isGeneratingLicenses ? "Generating…" : "Generate individual licenses"}
+                    </button>
+                  </div>
+                )}
 
                 {isSuperAdmin && request.status === "done" && (
                   <div className="pt-2">
@@ -275,6 +275,37 @@ export default function AdminRequestDetailPage() {
                     >
                       Preview agreement
                     </button>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {/* Individual Licenses */}
+          {licenses.length > 0 && (
+            <section className="space-y-4">
+              <h3 className="text-[12px] font-medium text-muted-foreground uppercase tracking-wide">
+                License Package ({licenses.length} License{licenses.length !== 1 ? "s" : ""})
+              </h3>
+              <div className="space-y-3">
+                {licenses.map(license => {
+                  const typeName = licenseTypes.find(t => t.code === license.license_type_code)?.name || license.license_type_code;
+                  return (
+                    <div key={license.id} className="py-2 border-b border-border/30 last:border-0">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[13px] font-mono text-muted-foreground">{license.license_id}</span>
+                        <span className="text-[12px] text-muted-foreground">{STATUS_LABELS[license.status] || license.status}</span>
+                      </div>
+                      <p className="text-[14px]">{typeName}</p>
+                      {license.fee && (
+                        <p className="text-[13px] text-muted-foreground mt-0.5">${license.fee.toFixed(2)}</p>
+                      )}
+                    </div>
+                  );
+                })}
+                {request?.license_fee && (
+                  <div className="pt-2">
+                    <p className="text-[14px] font-medium">Total: ${request.license_fee.toFixed(2)}</p>
                   </div>
                 )}
               </div>

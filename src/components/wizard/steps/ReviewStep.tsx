@@ -1,34 +1,18 @@
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { format } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
+import { WizardFormData } from "@/types";
 
 interface ReviewStepProps {
-  data: {
-    first_name: string;
-    last_name: string;
-    organization: string;
-    licensee_email: string;
-    address_street: string;
-    address_city: string;
-    address_state: string;
-    address_zip: string;
-    address_country: string;
-    label_master_owner: string;
-    distributor: string;
-    release_date: string | null;
-    recording_artist: string;
-    release_title: string;
-    product_upc: string;
-    additional_product_info: string;
-    track_title: string;
-    track_artist: string;
-    track_isrc: string;
-    runtime: string;
-    appears_multiple_times: boolean;
-    times_count: number | null;
-    additional_track_info: string;
-  };
+  data: WizardFormData;
   onEditStep: (step: number) => void;
+}
+
+interface LicenseType {
+  code: string;
+  name: string;
 }
 
 function ReviewSection({ 
@@ -67,12 +51,29 @@ function ReviewField({ label, value }: { label: string; value: string | null | u
 }
 
 export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
+  const [licenseTypes, setLicenseTypes] = useState<LicenseType[]>([]);
+  
+  useEffect(() => {
+    async function fetchLicenseTypes() {
+      const { data: types } = await supabase
+        .from("license_types")
+        .select("code, name")
+        .eq("is_active", true);
+      setLicenseTypes(types || []);
+    }
+    fetchLicenseTypes();
+  }, []);
+
   const fullName = [data.first_name, data.last_name].filter(Boolean).join(" ");
   const fullAddress = [
     data.address_street,
     [data.address_city, data.address_state, data.address_zip].filter(Boolean).join(", "),
     data.address_country
   ].filter(Boolean).join(", ");
+
+  const selectedTypeNames = data.selected_license_types
+    .map(code => licenseTypes.find(t => t.code === code)?.name || code)
+    .join(", ");
 
   return (
     <div className="space-y-6 max-w-xl mx-auto">
@@ -84,14 +85,21 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
       </div>
 
       <div className="space-y-6 divide-y">
-        <ReviewSection title="Your Info" step={2} onEdit={onEditStep}>
+        <ReviewSection title="License Types" step={2} onEdit={onEditStep}>
+          <ReviewField label="Selected Types" value={selectedTypeNames || "None selected"} />
+          <p className="text-[13px] text-muted-foreground pt-2">
+            Each license type will generate an independent license with its own License ID.
+          </p>
+        </ReviewSection>
+
+        <ReviewSection title="Your Info" step={3} onEdit={onEditStep}>
           <ReviewField label="Name" value={fullName} />
           {data.organization && <ReviewField label="Organization" value={data.organization} />}
           <ReviewField label="Email" value={data.licensee_email} />
           {fullAddress && <ReviewField label="Address" value={fullAddress} />}
         </ReviewSection>
 
-        <ReviewSection title="Product Details" step={3} onEdit={onEditStep}>
+        <ReviewSection title="Product Details" step={4} onEdit={onEditStep}>
           <ReviewField label="Label / Master Owner" value={data.label_master_owner} />
           <ReviewField label="Distributor" value={data.distributor} />
           <ReviewField 
@@ -106,7 +114,7 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
           )}
         </ReviewSection>
 
-        <ReviewSection title="Track Details" step={4} onEdit={onEditStep}>
+        <ReviewSection title="Track Details" step={5} onEdit={onEditStep}>
           <ReviewField label="Track Title" value={data.track_title} />
           <ReviewField label="Track Artist" value={data.track_artist} />
           <ReviewField label="Track ISRC" value={data.track_isrc} />

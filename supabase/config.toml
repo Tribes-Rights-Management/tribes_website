@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.pandadoc-webhook]
 verify_jwt = false
+
+[functions.generate-licenses]
+verify_jwt = false
