@@ -17,6 +17,7 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminLicensesPage from "./pages/AdminLicensesPage";
 import AdminRequestDetailPage from "./pages/AdminRequestDetailPage";
 import AdminAccessRequestsPage from "./pages/AdminAccessRequestsPage";
+import AdminAccessRequestDetailPage from "./pages/AdminAccessRequestDetailPage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 
@@ -63,6 +64,7 @@ function AppRoutes() {
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
       <Route path="/admin/licenses" element={<ProtectedRoute requireAdmin><AdminLicensesPage /></ProtectedRoute>} />
       <Route path="/admin/access-requests" element={<ProtectedRoute requireAdmin><AdminAccessRequestsPage /></ProtectedRoute>} />
+      <Route path="/admin/access-requests/:id" element={<ProtectedRoute requireAdmin><AdminAccessRequestDetailPage /></ProtectedRoute>} />
       <Route path="/admin/settings" element={<ProtectedRoute requireAdmin><SettingsPage /></ProtectedRoute>} />
       <Route path="/admin/licenses/:id" element={<ProtectedRoute requireAdmin><AdminRequestDetailPage /></ProtectedRoute>} />
       
