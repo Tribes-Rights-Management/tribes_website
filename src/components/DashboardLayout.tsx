@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails";
 import { AccountMenu } from "@/components/AccountMenu";
+import { ImpersonationBanner } from "@/components/ImpersonationBanner";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -27,7 +28,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       ];
 
   return (
-    <div className="min-h-screen bg-background flex relative">
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Impersonation Banner - Always at top when active, cannot be hidden */}
+      <ImpersonationBanner />
+      
+      <div className="flex-1 flex relative">
       {/* Left Navigation */}
       <aside className="w-56 border-r border-border/30 flex flex-col">
         {/* Brand */}
@@ -95,5 +100,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </footer>
       </div>
     </div>
+  </div>
   );
 }

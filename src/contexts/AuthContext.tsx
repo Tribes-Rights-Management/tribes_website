@@ -13,6 +13,7 @@ interface Profile {
   company_type: string | null;
   approved_at: string | null;
   approved_by: string | null;
+  last_sign_in_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -84,7 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Fetch profile data (account_status, name, etc.)
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("id, email, name, account_status, company, country, company_type, approved_at, approved_by, created_at, updated_at")
+        .select("id, email, name, account_status, company, country, company_type, approved_at, approved_by, last_sign_in_at, created_at, updated_at")
         .eq("id", userId)
         .single();
 
