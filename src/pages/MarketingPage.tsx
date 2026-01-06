@@ -54,15 +54,15 @@ export default function MarketingPage() {
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Clear administration and defensible records.
+                Clear copyright administration, global collections, and defensible records.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-medium text-foreground mb-3">
-                Churches & Ministries
+                Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Proper licensing for worship usage and distribution.
+                Structured catalog and licensing management across all rights types and income sources.
               </p>
             </div>
             <div>
@@ -70,7 +70,7 @@ export default function MarketingPage() {
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Professional clearance and documentation for media.
+                Professional clearance and documentation for recorded music and media.
               </p>
             </div>
           </div>
