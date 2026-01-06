@@ -26,20 +26,20 @@ export default function PrivacyPage() {
               <p className="text-sm text-muted-foreground leading-relaxed">
                 This Privacy Policy explains how Tribes Rights Management LLC (collectively, 
                 the "Company," "we," or "us") collects, uses, and discloses information about 
-                you. This Privacy Policy applies when you use our websites, private portals, 
-                platforms, products, and services that link to this Privacy Policy (collectively, 
-                our "Platform"), purchase our products, engage with us on social media, or 
+                you. This Privacy Policy applies when you use our websites, portals, 
+                services, and records systems that link to this Privacy Policy (collectively, 
+                our "Services"), purchase our products, engage with us on social media, or 
                 otherwise interact with us.
               </p>
             </div>
 
             <div>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                In addition to providing informational content, the Platform includes a private, 
-                approval-based licensing portal used to submit, review, execute, store, and manage 
-                legally binding music license agreements and related documentation. Certain features 
-                of the Platform are accessible only to approved users and are intended for 
-                professional and commercial use.
+                In addition to providing informational content, the Services include an approval-based 
+                licensing portal (the "Portal") used to submit, review, execute, store, and manage 
+                legally binding music license agreements and related documentation (collectively, 
+                "Records"). Certain features of the Services are accessible only to approved users 
+                and are intended for professional and commercial use.
               </p>
             </div>
 
@@ -59,10 +59,10 @@ export default function PrivacyPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">Collection of Information</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 The information we collect from you varies depending on the way you use our 
-                Platform. When you browse our public website to learn more about us ("Website 
+                Services. When you browse our public website to learn more about us ("Website 
                 Visitor"), the information we collect differs from the information collected if 
                 you are a business owner, agent, songwriter, creator, music user, or publisher 
-                (collectively, "Platform User"). Below, we describe the different ways we 
+                (collectively, "Portal User"). Below, we describe the different ways we 
                 collect information.
               </p>
             </div>
@@ -84,9 +84,9 @@ export default function PrivacyPage() {
                 </div>
 
                 <div>
-                  <h4 className="text-sm font-medium text-foreground mb-2">Business Owners and Platform Users</h4>
+                  <h4 className="text-sm font-medium text-foreground mb-2">Business Owners and Portal Users</h4>
                   <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
-                    <p>If you are a Business Owner or Platform User, we may collect:</p>
+                    <p>If you are a Business Owner or Portal User, we may collect:</p>
                     <ul className="space-y-1 ml-4">
                       <li>— Name</li>
                       <li>— Business and personal email</li>

@@ -279,9 +279,9 @@ export default function AuthPage() {
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
-            <h1 className="mb-2">Your request has been received</h1>
+            <h1 className="mb-2">Request received</h1>
             <p className="text-sm text-muted-foreground mb-8">
-              We'll review the information provided and contact you if anything further is needed.
+              Status will update once review is complete.
             </p>
             <button
               onClick={handleDone}
@@ -328,7 +328,7 @@ export default function AuthPage() {
             <div className="text-center mb-8">
               <h1 className="mb-2">Request Access</h1>
               <p className="text-sm text-muted-foreground">
-                This form helps us review your request accurately before granting access to the licensing portal.
+                Access to the Tribes portal is granted by review. Requests are evaluated to ensure proper scope and authorization.
               </p>
             </div>
 

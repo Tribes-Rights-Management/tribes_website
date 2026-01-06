@@ -27,18 +27,18 @@ export default function TermsPage() {
               <p>
                 These Terms of Use ("Terms") are a legal agreement between you and Tribes Rights 
                 Management LLC ("Company," "we," "us") governing your access to and use of the 
-                Company's websites, private portals, software applications, databases, and related 
-                services, including any successor platforms (collectively, the "Platform").
+                Company's websites, portals, databases, and related services, including any 
+                successor services (collectively, the "Services").
               </p>
               <p>
-                The Platform includes public informational areas and private, approval-based 
-                non-public portions used to submit, review, execute, store, and manage legally 
+                The Services include public informational areas and approval-based non-public 
+                portions (the "Portal") used to submit, review, execute, store, and manage legally 
                 binding music license agreements and related records.
               </p>
               <p>
-                By accessing or using the Platform, or by indicating your assent electronically 
+                By accessing or using the Services, or by indicating your assent electronically 
                 (including by clicking "Agree," "Accept," or similar), you agree to be bound by 
-                these Terms. If you do not agree, you must not access or use the Platform.
+                these Terms. If you do not agree, you must not access or use the Services.
               </p>
             </div>
 
@@ -47,10 +47,11 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">1. Definitions</h2>
               <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
                 <li>"Company" means Tribes Rights Management LLC.</li>
-                <li>"User" or "you" means any individual or entity accessing or using the Platform, including any entity on whose behalf you act.</li>
-                <li>"General User" means a User accessing only public portions of the Platform.</li>
-                <li>"Registered User" means a User authorized by Company to access non-public portions of the Platform.</li>
-                <li>"Materials" means all content, data, software, databases, documents, designs, and functionality made available through the Platform.</li>
+                <li>"User" or "you" means any individual or entity accessing or using the Services, including any entity on whose behalf you act.</li>
+                <li>"General User" means a User accessing only public portions of the Services.</li>
+                <li>"Registered User" means a User authorized by Company to access non-public portions of the Services (the Portal).</li>
+                <li>"Materials" means all content, data, databases, documents, designs, and functionality made available through the Services.</li>
+                <li>"Records" means executed license agreements, transactional documentation, and related audit materials.</li>
               </ul>
             </div>
 
@@ -58,7 +59,7 @@ export default function TermsPage() {
             <div>
               <h2 className="text-lg font-medium text-foreground mb-4">2. Eligibility and Authority</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                <p>The Platform is intended for business and professional use only. You represent and warrant that:</p>
+                <p>The Services are intended for business and professional use only. You represent and warrant that:</p>
                 <ul className="space-y-2 ml-4">
                   <li>— You are at least 18 years of age.</li>
                   <li>— If acting on behalf of an entity, you have authority to bind that entity.</li>
@@ -67,16 +68,16 @@ export default function TermsPage() {
               </div>
             </div>
 
-            {/* 3. License to Use the Platform */}
+            {/* 3. License to Use the Services */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">3. License to Use the Platform</h2>
+              <h2 className="text-lg font-medium text-foreground mb-4">3. License to Use the Services</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
                   Subject to compliance with these Terms, Company grants you a limited, non-exclusive, 
-                  non-transferable, revocable license to access and use the Platform solely for its 
+                  non-transferable, revocable license to access and use the Services solely for their 
                   intended purposes.
                 </p>
-                <p>You acquire no ownership or intellectual property rights in the Platform or Materials.</p>
+                <p>You acquire no ownership or intellectual property rights in the Services or Materials.</p>
                 <p>Company may suspend, restrict, or terminate access at any time, with or without notice.</p>
               </div>
             </div>
@@ -86,7 +87,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">4. Access to Non-Public Portions</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
-                  You may not access non-public portions of the Platform unless you are a Registered 
+                  You may not access non-public portions of the Services (the Portal) unless you are a Registered 
                   User expressly authorized by Company.
                 </p>
                 <p>
@@ -122,7 +123,7 @@ export default function TermsPage() {
             <div>
               <h2 className="text-lg font-medium text-foreground mb-4">6. Licensing Workflow and Executed Agreements</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                <p>The Platform enables Users to submit license requests for review and approval.</p>
+                <p>The Portal enables Users to submit license requests for review and approval.</p>
                 <p>You acknowledge and agree that:</p>
                 <ul className="space-y-2 ml-4">
                   <li>— License requests are not automatically approved</li>
@@ -131,7 +132,7 @@ export default function TermsPage() {
                   <li>— Payment, where required, may be completed as part of execution</li>
                 </ul>
                 <p>
-                  Executed licenses and related records constitute permanent legal records and may 
+                  Executed licenses and related Records constitute permanent legal documentation and may 
                   be retained indefinitely, even after account termination, as required by law or 
                   legitimate business purposes.
                 </p>
@@ -143,11 +144,11 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">7. Electronic Communications and Records</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
-                  By using the Platform, you consent to receive communications electronically and 
+                  By using the Services, you consent to receive communications electronically and 
                   agree that electronic records, signatures, and documents have the same legal 
                   effect as physical counterparts, in accordance with applicable law.
                 </p>
-                <p>Platform records may be relied upon as authoritative business records.</p>
+                <p>Records maintained through the Services may be relied upon as authoritative business records.</p>
               </div>
             </div>
 
@@ -183,11 +184,11 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">10. Intellectual Property</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p>
-                  The Platform and all Materials are owned by Company or its licensors and are 
+                  The Services and all Materials are owned by Company or its licensors and are 
                   protected by intellectual property laws.
                 </p>
                 <p>
-                  You may not copy, reverse engineer, scrape, reproduce, or distribute the Platform 
+                  You may not copy, reverse engineer, scrape, reproduce, or distribute the Services 
                   or Materials without express written permission.
                 </p>
               </div>
@@ -198,7 +199,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">11. Disclaimers</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
                 <p className="uppercase">
-                  The Platform is provided "as is" and "as available."
+                  The Services are provided "as is" and "as available."
                 </p>
                 <p className="uppercase">
                   Company disclaims all warranties, express or implied, including merchantability, 
@@ -219,7 +220,7 @@ export default function TermsPage() {
                 <p className="uppercase">
                   Company's total aggregate liability shall not exceed ten U.S. dollars ($10.00).
                 </p>
-                <p>Your sole remedy is to discontinue use of the Platform.</p>
+                <p>Your sole remedy is to discontinue use of the Services.</p>
               </div>
             </div>
 
@@ -228,7 +229,7 @@ export default function TermsPage() {
               <h2 className="text-lg font-medium text-foreground mb-4">13. Indemnification</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 You agree to indemnify and hold harmless Company and its affiliates from claims 
-                arising from your breach of these Terms, misuse of the Platform, or violation 
+                arising from your breach of these Terms, misuse of the Services, or violation 
                 of law or third-party rights.
               </p>
             </div>
@@ -266,7 +267,7 @@ export default function TermsPage() {
             <div>
               <h2 className="text-lg font-medium text-foreground mb-4">16. Miscellaneous</h2>
               <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                <p>These Terms constitute the entire agreement regarding Platform use.</p>
+                <p>These Terms constitute the entire agreement regarding use of the Services.</p>
                 <p>Company may assign these Terms without restriction.</p>
                 <p>Headings are for convenience only.</p>
                 <p>If any provision is unenforceable, the remainder remains in effect.</p>

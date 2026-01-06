@@ -11,7 +11,7 @@ export function ThankYouStep() {
           Request received
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          You'll see status updates in your portal.
+          Status will update once review is complete.
         </p>
       </div>
 
