@@ -134,27 +134,19 @@ serve(async (req) => {
                          request.licensee_legal_name || 
                          "Unknown";
     
-    const licenseeAddress = [
-      request.address_street,
-      [request.address_city, request.address_state, request.address_zip].filter(Boolean).join(", "),
-      request.address_country
-    ].filter(Boolean).join("\n");
+    const licenseeCompany = request.organization || "";
+    const licenseeStreet = request.address_street || "";
+    const licenseeCityStateZip = [request.address_city, request.address_state, request.address_zip].filter(Boolean).join(", ");
+    const licenseeCountry = request.address_country || "";
+    const licenseeEmail = request.licensee_email || "";
 
     // Calculate total fee
     const totalFee = licenses?.reduce((sum: number, l: License) => sum + (l.fee || 0), 0) || request.license_fee || 0;
 
-    // Generate license table rows
-    const licenseTableRows = (licenses || []).map((l: License) => {
+    // Generate included licenses list
+    const includedLicensesList = (licenses || []).map((l: License) => {
       const typeName = licenseTypeMap.get(l.license_type_code)?.name || l.license_type_code;
-      return `
-        <tr>
-          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.license_id}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${typeName}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.term || "Perpetual"}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5;">${l.territory || "Worldwide"}</td>
-          <td style="padding: 8px; border-bottom: 1px solid #e5e5e5; text-align: right;">${l.fee ? `$${l.fee.toFixed(2)}` : "—"}</td>
-        </tr>
-      `;
+      return `<div class="license-list-item"><span class="license-list-id">License ID: ${l.license_id}</span> — ${typeName}</div>`;
     }).join("");
 
     // Generate individual license pages
@@ -236,24 +228,35 @@ serve(async (req) => {
     }
     .cover-header {
       text-align: center;
-      margin-bottom: 3em;
-      padding-bottom: 2em;
+      margin-bottom: 2em;
+      padding-bottom: 1.5em;
       border-bottom: 2px solid #1a1a1a;
     }
-    .cover-header h1 {
+    .cover-title {
+      font-size: 13pt;
+      font-weight: bold;
+      letter-spacing: 0.15em;
+      margin: 0 0 1.5em 0;
+      color: #333;
+    }
+    .cover-main-title {
       font-size: 18pt;
       font-weight: bold;
-      margin: 0 0 0.5em 0;
-      letter-spacing: 0.1em;
-    }
-    .cover-header h2 {
-      font-size: 14pt;
-      font-weight: normal;
       margin: 0 0 1.5em 0;
     }
-    .cover-header .package-ref {
-      font-size: 11pt;
+    .cover-field {
+      margin-bottom: 1.5em;
+    }
+    .cover-field-label {
+      font-weight: bold;
+      font-size: 10pt;
       color: #666;
+      margin-bottom: 0.25em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .cover-field-value {
+      font-size: 12pt;
       font-family: 'Courier New', monospace;
     }
     .section {
@@ -261,62 +264,74 @@ serve(async (req) => {
     }
     .section-title {
       font-weight: bold;
-      font-size: 12pt;
+      font-size: 11pt;
       margin-bottom: 0.75em;
-      padding-bottom: 0.25em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       border-bottom: 1px solid #ccc;
+      padding-bottom: 0.25em;
     }
-    .field {
-      margin-bottom: 0.5em;
+    .party-block {
+      margin-bottom: 1.5em;
     }
-    .field-label {
+    .party-label {
       font-weight: bold;
-    }
-    .parties-grid {
-      display: flex;
-      gap: 2em;
-    }
-    .party {
-      flex: 1;
-    }
-    .party-name {
-      font-weight: bold;
+      font-size: 10pt;
+      color: #666;
       margin-bottom: 0.25em;
     }
-    .party-address {
-      white-space: pre-line;
-      font-size: 10pt;
-      color: #444;
-    }
-    .license-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 10pt;
-      margin-top: 1em;
-    }
-    .license-table th {
-      text-align: left;
-      padding: 8px;
-      border-bottom: 2px solid #1a1a1a;
-      font-weight: bold;
-    }
-    .license-table th:last-child {
-      text-align: right;
-    }
-    .total-row {
-      font-weight: bold;
-      border-top: 2px solid #1a1a1a;
-    }
-    .total-row td {
-      padding-top: 12px;
-    }
-    .legal-notice {
-      margin-top: 2em;
-      padding: 1.5em;
-      background: #f9f9f9;
-      border: 1px solid #e5e5e5;
-      font-size: 10pt;
+    .party-info {
+      font-size: 11pt;
       line-height: 1.5;
+    }
+    .party-info div {
+      margin-bottom: 0.15em;
+    }
+    .composition-field {
+      margin-bottom: 0.75em;
+    }
+    .composition-label {
+      font-weight: bold;
+      font-size: 10pt;
+      color: #666;
+      margin-bottom: 0.15em;
+    }
+    .composition-value {
+      font-size: 11pt;
+    }
+    .description-text {
+      font-size: 10.5pt;
+      line-height: 1.7;
+      text-align: justify;
+    }
+    .license-list-item {
+      margin-bottom: 0.5em;
+      font-size: 11pt;
+    }
+    .license-list-id {
+      font-family: 'Courier New', monospace;
+      font-weight: bold;
+    }
+    .notice-box {
+      margin-top: 2em;
+      padding: 1.25em;
+      background: #f8f8f8;
+      border: 1px solid #ddd;
+      font-size: 10pt;
+      line-height: 1.6;
+    }
+    .notice-title {
+      font-weight: bold;
+      font-size: 10pt;
+      text-transform: uppercase;
+      margin-bottom: 0.5em;
+    }
+    .end-marker {
+      text-align: center;
+      font-style: italic;
+      color: #666;
+      margin-top: 2em;
+      font-size: 10pt;
     }
     .license-page {
       min-height: 90vh;
@@ -373,68 +388,129 @@ serve(async (req) => {
       color: #666;
       text-align: center;
     }
+    .field {
+      margin-bottom: 0.5em;
+    }
+    .field-label {
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <!-- COVER PAGE -->
   <div class="cover-page">
     <div class="cover-header">
-      <h1>TRIBES RIGHTS MANAGEMENT LLC</h1>
-      <h2>Music Synchronization License Agreement</h2>
-      <div class="package-ref">Package ID: ${packageId}</div>
+      <div class="cover-title">LICENSE PACKAGE COVER PAGE</div>
+      <div style="font-size: 9pt; color: #666; margin-bottom: 1em;">(Package-Level Summary and Identification)</div>
+      <div class="cover-main-title">MUSIC LICENSE PACKAGE</div>
+    </div>
+
+    <div class="cover-field">
+      <div class="cover-field-label">License Package ID:</div>
+      <div class="cover-field-value">${packageId}</div>
+    </div>
+
+    <div class="cover-field">
+      <div class="cover-field-label">Effective Date:</div>
+      <div class="cover-field-value">${formattedExecutionDate}</div>
     </div>
 
     <div class="section">
       <div class="section-title">Parties</div>
-      <div class="parties-grid">
-        <div class="party">
-          <div class="party-name">Licensor</div>
-          <div class="party-address">Tribes Rights Management LLC</div>
+      
+      <div class="party-block">
+        <div class="party-label">Licensor:</div>
+        <div class="party-info">
+          <div>Tribes Rights Management LLC</div>
         </div>
-        <div class="party">
-          <div class="party-name">Licensee</div>
-          <div class="party-address">${licenseeName}${request.organization ? `\n${request.organization}` : ""}${licenseeAddress ? `\n${licenseeAddress}` : ""}</div>
+      </div>
+
+      <div class="party-block">
+        <div class="party-label">Licensee:</div>
+        <div class="party-info">
+          <div>${licenseeName}</div>
+          ${licenseeCompany ? `<div>${licenseeCompany}</div>` : ""}
+          ${licenseeStreet ? `<div>${licenseeStreet}</div>` : ""}
+          ${licenseeCityStateZip ? `<div>${licenseeCityStateZip}</div>` : ""}
+          ${licenseeCountry ? `<div>${licenseeCountry}</div>` : ""}
+          ${licenseeEmail ? `<div>${licenseeEmail}</div>` : ""}
         </div>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title">Composition</div>
-      <div class="field"><span class="field-label">Title:</span> ${request.track_title || "—"}</div>
-      <div class="field"><span class="field-label">Artist:</span> ${request.track_artist || "—"}</div>
-      <div class="field"><span class="field-label">Writers/Publishers:</span> ${request.writers_publishers || "As registered with applicable PROs"}</div>
+      <div class="section-title">Musical Composition</div>
+      
+      <div class="composition-field">
+        <div class="composition-label">Title:</div>
+        <div class="composition-value">${request.track_title || "—"}</div>
+      </div>
+
+      <div class="composition-field">
+        <div class="composition-label">Songwriter(s):</div>
+        <div class="composition-value">${request.writers_publishers || "As registered with applicable PROs"}</div>
+      </div>
+
+      <div class="composition-field">
+        <div class="composition-label">Publisher:</div>
+        <div class="composition-value">Tribes Rights Management LLC</div>
+      </div>
     </div>
 
     <div class="section">
-      <div class="section-title">Execution Date</div>
-      <p>${executionDate.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</p>
+      <div class="section-title">License Package Description</div>
+      <p class="description-text">
+        This License Package is issued in response to a single license request for the musical composition identified above.
+      </p>
+      <p class="description-text">
+        This Package consists of one or more individual license agreements, each granting a specific and distinct category of rights for the same musical composition. Each individual license contained herein:
+      </p>
+      <ul class="description-text">
+        <li>Is identified by its own unique License ID</li>
+        <li>Contains its own license-specific terms and conditions</li>
+        <li>Is independently enforceable</li>
+      </ul>
     </div>
 
     <div class="section">
-      <div class="section-title">License Grants</div>
-      <table class="license-table">
-        <thead>
-          <tr>
-            <th>License ID</th>
-            <th>Type</th>
-            <th>Term</th>
-            <th>Territory</th>
-            <th>Fee</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${licenseTableRows}
-          <tr class="total-row">
-            <td colspan="4">Total License Fee</td>
-            <td style="text-align: right;">$${totalFee.toFixed(2)}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="section-title">Included Licenses</div>
+      <p class="description-text">The following individual licenses are included in this License Package:</p>
+      <div style="margin-top: 1em;">
+        ${includedLicensesList}
+      </div>
+      <p class="description-text" style="margin-top: 1em; font-style: italic; color: #666;">
+        (This list reflects all licenses requested and approved under this Package. Where only one license is included, this Package shall consist of a single license.)
+      </p>
     </div>
 
-    <div class="legal-notice">
-      <strong>Legal Notice:</strong> This Agreement consists of multiple independent License Grants, each identified by a unique License ID. Each License Grant governs a specific permitted use of the Composition and is independently enforceable, notwithstanding that all License Grants are executed concurrently as part of this License Package.
+    <div class="section">
+      <div class="section-title">Execution and Effectiveness</div>
+      <p class="description-text">This License Package is deemed executed only upon:</p>
+      <ol class="description-text">
+        <li>Electronic execution of all included licenses by the Licensee; and</li>
+        <li>Successful payment of all applicable license fees.</li>
+      </ol>
+      <p class="description-text">
+        Execution and payment are completed as part of a single transaction session. No license granted herein becomes effective until both conditions are satisfied.
+      </p>
     </div>
+
+    <div class="section">
+      <div class="section-title">Governing Law</div>
+      <p class="description-text">
+        This License Package and all licenses contained herein are governed by and construed in accordance with the laws of the State of Texas, without regard to conflict of law principles.
+      </p>
+    </div>
+
+    <div class="notice-box">
+      <div class="notice-title">Package Scope Notice</div>
+      <p>
+        This cover page is provided for identification, organization, and administrative clarity only.
+        The legally binding rights, obligations, limitations, and conditions applicable to each license are set forth exclusively in the individual license agreements that follow.
+      </p>
+    </div>
+
+    <div class="end-marker">(End of Cover Page)</div>
   </div>
 
   <!-- INDIVIDUAL LICENSE PAGES -->
@@ -445,8 +521,8 @@ serve(async (req) => {
   <div class="signature-page">
     <div class="section">
       <div class="section-title">Execution & Acknowledgment</div>
-      <p>By signing below, the undersigned acknowledges and agrees to all terms set forth in this License Agreement, including all License Grants identified on the Cover Page.</p>
-      <p>This signature applies to the following License IDs:</p>
+      <p class="description-text">By signing below, the undersigned acknowledges and agrees to all terms set forth in this License Agreement, including all License Grants identified on the Cover Page.</p>
+      <p class="description-text" style="margin-top: 1em;">This signature applies to the following License IDs:</p>
       <ul>
         ${(licenses || []).map((l: License) => `<li>${l.license_id}</li>`).join("")}
       </ul>
@@ -454,7 +530,7 @@ serve(async (req) => {
 
     <div class="signature-block">
       <div class="field"><span class="field-label">Licensee Name:</span> ${licenseeName}</div>
-      ${request.organization ? `<div class="field"><span class="field-label">Company:</span> ${request.organization}</div>` : ""}
+      ${licenseeCompany ? `<div class="field"><span class="field-label">Company:</span> ${licenseeCompany}</div>` : ""}
       
       <div class="signature-line"></div>
       <div class="signature-label">Authorized Signature</div>
