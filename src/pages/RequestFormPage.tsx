@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { WizardFormData, DEFAULT_WIZARD_FORM } from "@/types";
 import { ArrowLeft, ArrowRight, Loader2, Send } from "lucide-react";
@@ -17,7 +16,7 @@ import { TrackDetailsStep } from "@/components/wizard/steps/TrackDetailsStep";
 import { ReviewStep } from "@/components/wizard/steps/ReviewStep";
 import { ThankYouStep } from "@/components/wizard/steps/ThankYouStep";
 
-const TOTAL_STEPS = 7; // 0: Cover, 1: Agreement, 2: Your Info, 3: Product, 4: Track, 5: Review, 6: Thank You
+const TOTAL_STEPS = 7;
 
 export default function RequestFormPage() {
   const { user } = useAuth();
@@ -91,7 +90,6 @@ export default function RequestFormPage() {
 
   function update(field: string, value: any) {
     setFormData(prev => ({ ...prev, [field]: value }));
-    // Clear error for this field
     if (errors[field]) {
       setErrors(prev => {
         const next = { ...prev };
@@ -105,28 +103,18 @@ export default function RequestFormPage() {
     if (!user || !requestId) return;
     
     try {
-      const { error } = await supabase
+      await supabase
         .from("license_requests")
-        .update({ 
-          ...formData,
-          updated_at: new Date().toISOString()
-        })
+        .update({ ...formData, updated_at: new Date().toISOString() })
         .eq("id", requestId);
-      
-      if (error) console.error("Autosave error:", error);
     } catch (error) {
       console.error("Autosave error:", error);
     }
   }, [user, requestId, formData]);
 
-  // Autosave on form data change (debounced)
   useEffect(() => {
     if (!requestId || currentStep === 0 || currentStep === 6) return;
-    
-    const timer = setTimeout(() => {
-      autosave();
-    }, 1000);
-    
+    const timer = setTimeout(() => autosave(), 1000);
     return () => clearTimeout(timer);
   }, [formData, requestId, currentStep, autosave]);
 
@@ -137,11 +125,7 @@ export default function RequestFormPage() {
     try {
       const { data, error } = await supabase
         .from("license_requests")
-        .insert({
-          user_id: user.id,
-          status: "draft" as const,
-          ...formData
-        })
+        .insert({ user_id: user.id, status: "draft" as const, ...formData })
         .select()
         .single();
       
@@ -162,48 +146,35 @@ export default function RequestFormPage() {
     const newErrors: Record<string, string> = {};
     
     switch (step) {
-      case 1: // Agreement
-        if (!formData.agreement_accounting) {
-          newErrors.agreement_accounting = "You must agree to provide accounting";
-        }
-        if (!formData.agreement_terms) {
-          newErrors.agreement_terms = "You must agree to the Terms of Use";
-        }
+      case 1:
+        if (!formData.agreement_accounting) newErrors.agreement_accounting = "Required";
+        if (!formData.agreement_terms) newErrors.agreement_terms = "Required";
         break;
-      
-      case 2: // Your Info
-        if (!formData.first_name.trim()) newErrors.first_name = "First name is required";
-        if (!formData.last_name.trim()) newErrors.last_name = "Last name is required";
-        if (!formData.licensee_email.trim()) {
-          newErrors.licensee_email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.licensee_email)) {
-          newErrors.licensee_email = "Please enter a valid email";
-        }
-        if (!formData.address_country.trim()) newErrors.address_country = "Country is required";
-        if (!formData.address_street.trim()) newErrors.address_street = "Street address is required";
-        if (!formData.address_city.trim()) newErrors.address_city = "City is required";
-        if (!formData.address_state.trim()) newErrors.address_state = "State/Province is required";
-        if (!formData.address_zip.trim()) newErrors.address_zip = "ZIP/Postal code is required";
+      case 2:
+        if (!formData.first_name.trim()) newErrors.first_name = "Required";
+        if (!formData.last_name.trim()) newErrors.last_name = "Required";
+        if (!formData.licensee_email.trim()) newErrors.licensee_email = "Required";
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.licensee_email)) newErrors.licensee_email = "Invalid email";
+        if (!formData.address_country.trim()) newErrors.address_country = "Required";
+        if (!formData.address_street.trim()) newErrors.address_street = "Required";
+        if (!formData.address_city.trim()) newErrors.address_city = "Required";
+        if (!formData.address_state.trim()) newErrors.address_state = "Required";
+        if (!formData.address_zip.trim()) newErrors.address_zip = "Required";
         break;
-      
-      case 3: // Product Details
-        if (!formData.label_master_owner.trim()) newErrors.label_master_owner = "Label / Master Owner is required";
-        if (!formData.distributor.trim()) newErrors.distributor = "Distributor is required";
-        if (!formData.release_date) newErrors.release_date = "Release date is required";
-        if (!formData.recording_artist.trim()) newErrors.recording_artist = "Recording artist is required";
-        if (!formData.release_title.trim()) newErrors.release_title = "Release title is required";
-        if (!formData.product_upc.trim()) newErrors.product_upc = "Product UPC is required";
+      case 3:
+        if (!formData.label_master_owner.trim()) newErrors.label_master_owner = "Required";
+        if (!formData.distributor.trim()) newErrors.distributor = "Required";
+        if (!formData.release_date) newErrors.release_date = "Required";
+        if (!formData.recording_artist.trim()) newErrors.recording_artist = "Required";
+        if (!formData.release_title.trim()) newErrors.release_title = "Required";
+        if (!formData.product_upc.trim()) newErrors.product_upc = "Required";
         break;
-      
-      case 4: // Track Details
-        if (!formData.track_title.trim()) newErrors.track_title = "Track title is required";
-        if (!formData.track_artist.trim()) newErrors.track_artist = "Track artist is required";
-        if (!formData.track_isrc.trim()) newErrors.track_isrc = "Track ISRC is required";
-        if (!formData.runtime.trim()) {
-          newErrors.runtime = "Runtime is required";
-        } else if (!/^\d{1,2}:\d{2}$/.test(formData.runtime)) {
-          newErrors.runtime = "Please use MM:SS format";
-        }
+      case 4:
+        if (!formData.track_title.trim()) newErrors.track_title = "Required";
+        if (!formData.track_artist.trim()) newErrors.track_artist = "Required";
+        if (!formData.track_isrc.trim()) newErrors.track_isrc = "Required";
+        if (!formData.runtime.trim()) newErrors.runtime = "Required";
+        else if (!/^\d{1,2}:\d{2}$/.test(formData.runtime)) newErrors.runtime = "Use MM:SS format";
         break;
     }
     
@@ -216,9 +187,7 @@ export default function RequestFormPage() {
       createDraft();
       return;
     }
-    
     if (!validateStep(currentStep)) return;
-    
     setCurrentStep(prev => Math.min(prev + 1, TOTAL_STEPS - 1));
   }
 
@@ -235,30 +204,24 @@ export default function RequestFormPage() {
     
     setIsSubmitting(true);
     try {
-      // Check current status to determine target status
       const { data: currentRequest } = await supabase
         .from("license_requests")
         .select("status")
         .eq("id", requestId)
         .single();
       
-      // If resubmitting from needs_info, go to in_review; otherwise submitted
       const targetStatus = currentRequest?.status === "needs_info" ? "in_review" : "submitted";
       
-      const { error } = await supabase
+      await supabase
         .from("license_requests")
         .update({
           ...formData,
           status: targetStatus as any,
           submitted_at: targetStatus === "submitted" ? new Date().toISOString() : undefined,
-          // Combine first + last name into licensee_legal_name for compatibility
           licensee_legal_name: `${formData.first_name} ${formData.last_name}`.trim(),
-          // Map track_title to song_title for contract generation
           song_title: formData.track_title,
         })
         .eq("id", requestId);
-      
-      if (error) throw error;
       
       setCurrentStep(6);
     } catch (error) {
@@ -272,7 +235,7 @@ export default function RequestFormPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -280,107 +243,93 @@ export default function RequestFormPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b">
-        <div className="container flex items-center justify-between h-14">
+      <header className="border-b border-border/50">
+        <div className="container flex items-center justify-between h-12">
           <div className="flex items-center gap-3">
-            <span className="text-lg font-bold tracking-tight">TRIBES</span>
+            <span className="text-base font-semibold tracking-tight">TRIBES</span>
             <span className="text-sm text-muted-foreground">Rights Licensing</span>
           </div>
           {currentStep > 0 && currentStep < 6 && (
-            <Button variant="ghost" size="sm" onClick={() => navigate("/portal")}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
+            <button 
+              onClick={() => navigate("/portal")}
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
               Exit
-            </Button>
+            </button>
           )}
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="flex-1 container py-8">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-xl mx-auto">
           <WizardProgress currentStep={currentStep} totalSteps={TOTAL_STEPS} />
           
-          <Card className="border-0 shadow-none sm:border sm:shadow-sm">
-            <CardContent className="p-6 sm:p-8">
-              {currentStep === 0 && (
-                <CoverStep onStart={goNext} isLoading={isSaving} />
-              )}
-              
-              {currentStep === 1 && (
-                <AgreementStep
-                  agreementAccounting={formData.agreement_accounting}
-                  agreementTerms={formData.agreement_terms}
-                  onUpdate={update}
-                  errors={errors}
-                />
-              )}
-              
-              {currentStep === 2 && (
-                <YourInfoStep
-                  data={{
-                    first_name: formData.first_name,
-                    last_name: formData.last_name,
-                    organization: formData.organization,
-                    licensee_email: formData.licensee_email,
-                    address_street: formData.address_street,
-                    address_city: formData.address_city,
-                    address_state: formData.address_state,
-                    address_zip: formData.address_zip,
-                    address_country: formData.address_country,
-                  }}
-                  onUpdate={update}
-                  errors={errors}
-                />
-              )}
-              
-              {currentStep === 3 && (
-                <ProductDetailsStep
-                  data={{
-                    label_master_owner: formData.label_master_owner,
-                    distributor: formData.distributor,
-                    release_date: formData.release_date,
-                    recording_artist: formData.recording_artist,
-                    release_title: formData.release_title,
-                    product_upc: formData.product_upc,
-                    additional_product_info: formData.additional_product_info,
-                  }}
-                  onUpdate={update}
-                  errors={errors}
-                />
-              )}
-              
-              {currentStep === 4 && (
-                <TrackDetailsStep
-                  data={{
-                    track_title: formData.track_title,
-                    track_artist: formData.track_artist,
-                    track_isrc: formData.track_isrc,
-                    runtime: formData.runtime,
-                    appears_multiple_times: formData.appears_multiple_times,
-                    times_count: formData.times_count,
-                    additional_track_info: formData.additional_track_info,
-                  }}
-                  onUpdate={update}
-                  errors={errors}
-                />
-              )}
-              
-              {currentStep === 5 && (
-                <ReviewStep data={formData} onEditStep={goToStep} />
-              )}
-              
-              {currentStep === 6 && <ThankYouStep />}
-            </CardContent>
-          </Card>
+          <div className="mt-8">
+            {currentStep === 0 && <CoverStep onStart={goNext} isLoading={isSaving} />}
+            {currentStep === 1 && (
+              <AgreementStep
+                agreementAccounting={formData.agreement_accounting}
+                agreementTerms={formData.agreement_terms}
+                onUpdate={update}
+                errors={errors}
+              />
+            )}
+            {currentStep === 2 && (
+              <YourInfoStep
+                data={{
+                  first_name: formData.first_name,
+                  last_name: formData.last_name,
+                  organization: formData.organization,
+                  licensee_email: formData.licensee_email,
+                  address_street: formData.address_street,
+                  address_city: formData.address_city,
+                  address_state: formData.address_state,
+                  address_zip: formData.address_zip,
+                  address_country: formData.address_country,
+                }}
+                onUpdate={update}
+                errors={errors}
+              />
+            )}
+            {currentStep === 3 && (
+              <ProductDetailsStep
+                data={{
+                  label_master_owner: formData.label_master_owner,
+                  distributor: formData.distributor,
+                  release_date: formData.release_date,
+                  recording_artist: formData.recording_artist,
+                  release_title: formData.release_title,
+                  product_upc: formData.product_upc,
+                  additional_product_info: formData.additional_product_info,
+                }}
+                onUpdate={update}
+                errors={errors}
+              />
+            )}
+            {currentStep === 4 && (
+              <TrackDetailsStep
+                data={{
+                  track_title: formData.track_title,
+                  track_artist: formData.track_artist,
+                  track_isrc: formData.track_isrc,
+                  runtime: formData.runtime,
+                  appears_multiple_times: formData.appears_multiple_times,
+                  times_count: formData.times_count,
+                  additional_track_info: formData.additional_track_info,
+                }}
+                onUpdate={update}
+                errors={errors}
+              />
+            )}
+            {currentStep === 5 && <ReviewStep data={formData} onEditStep={goToStep} />}
+            {currentStep === 6 && <ThankYouStep />}
+          </div>
 
           {/* Navigation */}
           {currentStep >= 1 && currentStep <= 5 && (
-            <div className="flex justify-between mt-6">
-              <Button 
-                variant="ghost" 
-                onClick={goBack}
-                disabled={currentStep === 1}
-              >
+            <div className="flex justify-between mt-8">
+              <Button variant="ghost" onClick={goBack} disabled={currentStep === 1}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back
               </Button>
@@ -395,7 +344,7 @@ export default function RequestFormPage() {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Submitting...
+                      Submitting…
                     </>
                   ) : (
                     <>
@@ -410,8 +359,7 @@ export default function RequestFormPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t py-4">
+      <footer className="border-t border-border/50 py-4">
         <div className="container text-center text-xs text-muted-foreground">
           © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
         </div>

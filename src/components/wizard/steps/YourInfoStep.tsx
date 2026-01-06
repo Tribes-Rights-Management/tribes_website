@@ -32,14 +32,7 @@ const CANADIAN_PROVINCES = [
 ];
 
 const COUNTRIES = [
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Australia",
-  "Germany",
-  "France",
-  "Japan",
-  "Other"
+  "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "Japan", "Other"
 ];
 
 export function YourInfoStep({ data, onUpdate, errors }: YourInfoStepProps) {
@@ -50,160 +43,129 @@ export function YourInfoStep({ data, onUpdate, errors }: YourInfoStepProps) {
   const zipLabel = isCanada ? "Postal Code" : "ZIP Code";
 
   return (
-    <div className="space-y-6 max-w-xl mx-auto">
-      <div className="space-y-2">
-        <h2 className="text-xl font-semibold tracking-tight">Your Info</h2>
-        <p className="text-muted-foreground text-sm">
-          Please provide your contact and address information.
-        </p>
+    <div className="space-y-6">
+      <div>
+        <h2 className="mb-1">Your Info</h2>
+        <p className="text-sm text-muted-foreground">Contact and address information.</p>
       </div>
 
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="first_name">First Name *</Label>
+        <div className="grid grid-cols-2 gap-3">
+          <FieldGroup label="First Name" required error={errors.first_name}>
             <Input 
-              id="first_name"
               value={data.first_name}
               onChange={(e) => onUpdate("first_name", e.target.value)}
               placeholder="John"
             />
-            {errors.first_name && (
-              <p className="text-sm text-destructive">{errors.first_name}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="last_name">Last Name *</Label>
+          </FieldGroup>
+          <FieldGroup label="Last Name" required error={errors.last_name}>
             <Input 
-              id="last_name"
               value={data.last_name}
               onChange={(e) => onUpdate("last_name", e.target.value)}
               placeholder="Doe"
             />
-            {errors.last_name && (
-              <p className="text-sm text-destructive">{errors.last_name}</p>
-            )}
-          </div>
+          </FieldGroup>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="organization">Organization</Label>
+        <FieldGroup label="Organization">
           <Input 
-            id="organization"
             value={data.organization}
             onChange={(e) => onUpdate("organization", e.target.value)}
             placeholder="Company name (optional)"
           />
-        </div>
+        </FieldGroup>
 
-        <div className="space-y-2">
-          <Label htmlFor="licensee_email">Email *</Label>
+        <FieldGroup label="Email" required error={errors.licensee_email}>
           <Input 
-            id="licensee_email"
             type="email"
             value={data.licensee_email}
             onChange={(e) => onUpdate("licensee_email", e.target.value)}
             placeholder="john@example.com"
           />
-          {errors.licensee_email && (
-            <p className="text-sm text-destructive">{errors.licensee_email}</p>
-          )}
-        </div>
+        </FieldGroup>
 
-        <div className="space-y-2">
-          <Label htmlFor="address_country">Country *</Label>
+        <FieldGroup label="Country" required error={errors.address_country}>
           <Select 
             value={data.address_country} 
             onValueChange={(v) => {
               onUpdate("address_country", v);
-              // Clear state when country changes
-              if (v !== data.address_country) {
-                onUpdate("address_state", "");
-              }
+              if (v !== data.address_country) onUpdate("address_state", "");
             }}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select country" />
             </SelectTrigger>
             <SelectContent>
-              {COUNTRIES.map((country) => (
-                <SelectItem key={country} value={country}>{country}</SelectItem>
-              ))}
+              {COUNTRIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
             </SelectContent>
           </Select>
-          {errors.address_country && (
-            <p className="text-sm text-destructive">{errors.address_country}</p>
-          )}
-        </div>
+        </FieldGroup>
 
-        <div className="space-y-2">
-          <Label htmlFor="address_street">Street Address *</Label>
+        <FieldGroup label="Street Address" required error={errors.address_street}>
           <Input 
-            id="address_street"
             value={data.address_street}
             onChange={(e) => onUpdate("address_street", e.target.value)}
             placeholder="123 Main St"
           />
-          {errors.address_street && (
-            <p className="text-sm text-destructive">{errors.address_street}</p>
-          )}
-        </div>
+        </FieldGroup>
 
-        <div className="grid grid-cols-3 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="address_city">City *</Label>
+        <div className="grid grid-cols-3 gap-3">
+          <FieldGroup label="City" required error={errors.address_city}>
             <Input 
-              id="address_city"
               value={data.address_city}
               onChange={(e) => onUpdate("address_city", e.target.value)}
               placeholder="New York"
             />
-            {errors.address_city && (
-              <p className="text-sm text-destructive">{errors.address_city}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="address_state">{stateLabel} *</Label>
+          </FieldGroup>
+          <FieldGroup label={stateLabel} required error={errors.address_state}>
             {stateOptions.length > 0 ? (
-              <Select 
-                value={data.address_state} 
-                onValueChange={(v) => onUpdate("address_state", v)}
-              >
+              <Select value={data.address_state} onValueChange={(v) => onUpdate("address_state", v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
-                  {stateOptions.map((state) => (
-                    <SelectItem key={state} value={state}>{state}</SelectItem>
-                  ))}
+                  {stateOptions.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
                 </SelectContent>
               </Select>
             ) : (
               <Input 
-                id="address_state"
                 value={data.address_state}
                 onChange={(e) => onUpdate("address_state", e.target.value)}
                 placeholder="State/Province"
               />
             )}
-            {errors.address_state && (
-              <p className="text-sm text-destructive">{errors.address_state}</p>
-            )}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="address_zip">{zipLabel} *</Label>
+          </FieldGroup>
+          <FieldGroup label={zipLabel} required error={errors.address_zip}>
             <Input 
-              id="address_zip"
               value={data.address_zip}
               onChange={(e) => onUpdate("address_zip", e.target.value)}
               placeholder={isCanada ? "A1A 1A1" : "10001"}
             />
-            {errors.address_zip && (
-              <p className="text-sm text-destructive">{errors.address_zip}</p>
-            )}
-          </div>
+          </FieldGroup>
         </div>
       </div>
+    </div>
+  );
+}
+
+function FieldGroup({ 
+  label, 
+  required, 
+  error, 
+  children 
+}: { 
+  label: string; 
+  required?: boolean; 
+  error?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-sm">
+        {label} {required && <span className="text-muted-foreground">*</span>}
+      </Label>
+      {children}
+      {error && <p className="text-xs text-destructive">{error}</p>}
     </div>
   );
 }
