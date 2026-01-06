@@ -117,58 +117,109 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px" style={{ backgroundColor: 'rgba(17,18,20,0.08)' }} />
-      </div>
-
-      {/* How It Works */}
-      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24">
+      {/* How Copyright Clearance Works - Full-width dark block */}
+      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24" style={{ backgroundColor: '#111214' }}>
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
-            How It Works
+          <h2 
+            className="text-xs font-medium uppercase tracking-[0.12em] mb-6"
+            style={{ color: 'rgba(255,255,255,0.55)' }}
+          >
+            How Copyright Clearance Works
           </h2>
+          <p 
+            className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px]"
+            style={{ color: 'rgba(255,255,255,0.82)' }}
+          >
+            A structured, review-driven process designed for accuracy, continuity, and long-term defensibility.
+          </p>
           <div className="grid md:grid-cols-2 gap-16 md:gap-24">
             <div className="space-y-12">
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">01</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Submit</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Rights usage details are submitted once, in a structured and complete format to ensure clarity from the outset.
+                <p 
+                  className="text-xs font-medium mb-2"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  01
+                </p>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.82)' }}
+                >
+                  Intake
+                </h3>
+                <p 
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Rights, usage, scope, and context are submitted once—cleanly and completely.
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">02</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Verify</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  We confirm ownership, scope, and applicable rights, resolving any gaps before proceeding.
+                <p 
+                  className="text-xs font-medium mb-2"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  02
+                </p>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.82)' }}
+                >
+                  Verification
+                </h3>
+                <p 
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Ownership, splits, metadata, and authority are reviewed against existing records.
                 </p>
               </div>
             </div>
             <div className="space-y-12">
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">03</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Authorize</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Clearances are formally executed, with agreements signed and payments handled where applicable.
+                <p 
+                  className="text-xs font-medium mb-2"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  03
+                </p>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.82)' }}
+                >
+                  Authorization
+                </h3>
+                <p 
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Terms are confirmed, documented, and executed where applicable.
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium text-muted-foreground mb-2">04</p>
-                <h3 className="text-lg font-medium text-foreground mb-3">Preserve</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  All finalized documents and records are securely stored and remain accessible long-term.
+                <p 
+                  className="text-xs font-medium mb-2"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  04
+                </p>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.82)' }}
+                >
+                  Record
+                </h3>
+                <p 
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Final agreements and identifiers are stored for long-term reference and audit.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
 
       {/* Features & Benefits */}
       <section className="py-24 md:py-32">
