@@ -20,7 +20,7 @@ export default function MarketingPage() {
             
             {/* Subhead - Generous spacing, soft gray */}
             <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
-              An independent publishing administration firm focused on accuracy, continuity, and long-term record integrity.
+              Independent publishing administration focused on accuracy, continuity, and long-term record integrity.
             </p>
             
             {/* Divider */}
@@ -28,7 +28,7 @@ export default function MarketingPage() {
             
             {/* Micro-line */}
             <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
-              Built for creators. Powered by precision.
+              For creators. Powered by precision.
             </p>
             
             {/* Understated link */}
@@ -54,7 +54,7 @@ export default function MarketingPage() {
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Clear copyright administration, global collections, and defensible records.
+                Copyright administration, global collections, defensible records.
               </p>
             </div>
             <div>
@@ -62,7 +62,7 @@ export default function MarketingPage() {
                 Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Structured catalog and licensing management across all rights types and income sources.
+                Catalog and licensing management across rights types and income sources.
               </p>
             </div>
             <div>
@@ -70,7 +70,7 @@ export default function MarketingPage() {
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Professional clearance and documentation for recorded music and media.
+                Clearance and documentation for recorded music and media.
               </p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function MarketingPage() {
                 Publishing Administration
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Register, track, collect, protect, and report—cleanly.
+                Registration, tracking, collection, protection, reporting.
               </p>
             </div>
             <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
@@ -102,7 +102,7 @@ export default function MarketingPage() {
                 Rights Management
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Organized ownership, accurate metadata, audit-ready records.
+                Ownership records, metadata integrity, audit-ready documentation.
               </p>
             </div>
             <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
@@ -110,7 +110,7 @@ export default function MarketingPage() {
                 Licensing
               </h3>
               <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Requests, review, execution, and permanent storage.
+                Request, review, execution, permanent storage.
               </p>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function MarketingPage() {
             className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px]"
             style={{ color: 'rgba(255,255,255,0.82)' }}
           >
-            A structured, review-driven process designed for accuracy, continuity, and long-term defensibility.
+            A review-driven process for accuracy, continuity, and long-term defensibility.
           </p>
           <div className="grid md:grid-cols-2 gap-16 md:gap-24">
             <div className="space-y-12">
@@ -151,7 +151,7 @@ export default function MarketingPage() {
                   className="text-sm leading-relaxed"
                   style={{ color: 'rgba(255,255,255,0.55)' }}
                 >
-                  Rights, usage, scope, and context are submitted once—cleanly and completely.
+                  Rights, usage, scope, and context submitted once.
                 </p>
               </div>
               <div>
@@ -171,7 +171,7 @@ export default function MarketingPage() {
                   className="text-sm leading-relaxed"
                   style={{ color: 'rgba(255,255,255,0.55)' }}
                 >
-                  Ownership, splits, metadata, and authority are reviewed against existing records.
+                  Ownership, splits, metadata, and authority reviewed against records.
                 </p>
               </div>
             </div>
@@ -193,7 +193,7 @@ export default function MarketingPage() {
                   className="text-sm leading-relaxed"
                   style={{ color: 'rgba(255,255,255,0.55)' }}
                 >
-                  Terms are confirmed, documented, and executed where applicable.
+                  Terms confirmed, documented, and executed.
                 </p>
               </div>
               <div>
@@ -213,7 +213,7 @@ export default function MarketingPage() {
                   className="text-sm leading-relaxed"
                   style={{ color: 'rgba(255,255,255,0.55)' }}
                 >
-                  Final agreements and identifiers are stored for long-term reference and audit.
+                  Agreements and identifiers stored for long-term reference.
                 </p>
               </div>
             </div>
@@ -237,7 +237,7 @@ export default function MarketingPage() {
             </p>
             
             <p className="text-base leading-[1.8] text-muted-foreground mb-12 max-w-[640px]">
-              At Tribes, we treat music as a durable financial asset—one that requires structured rights administration, disciplined data stewardship, and continuous financial oversight.
+              At Tribes, we treat music as a durable financial asset—one that requires rights administration, data stewardship, and financial oversight.
             </p>
             
             <p className="text-sm font-medium text-foreground mb-6">
@@ -246,21 +246,21 @@ export default function MarketingPage() {
             
             <div className="space-y-5 mb-12">
               <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Rights and ownership are managed with the same rigor as any investable asset
+                Rights and ownership managed with the same rigor as any investable asset
               </p>
               <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Metadata, splits, and agreements are maintained as permanent financial records
+                Metadata, splits, and agreements maintained as permanent financial records
               </p>
               <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Income streams are tracked, reconciled, and reported with continuity over time
+                Income tracked, reconciled, and reported with continuity
               </p>
               <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Documentation is preserved to support audits, transactions, and future valuation
+                Documentation preserved for audits, transactions, and valuation
               </p>
             </div>
             
             <p className="text-base leading-[1.8] text-muted-foreground max-w-[640px]">
-              For creators and rights holders, this approach delivers clarity, defensibility, and long-term confidence—so the creative work can endure, perform, and compound.
+              For creators and rights holders, this delivers clarity, defensibility, and long-term confidence.
             </p>
           </div>
         </div>
@@ -274,8 +274,7 @@ export default function MarketingPage() {
               Ready to begin?
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              If you already have an account, sign in. Otherwise, request access 
-              and we'll review your submission.
+              Sign in if you have an account. Otherwise, request access and we'll review your submission.
             </p>
             <div className="flex items-center gap-6">
               <Link 

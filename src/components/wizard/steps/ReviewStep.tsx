@@ -80,7 +80,7 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
       <div className="space-y-2">
         <h2 className="text-xl font-semibold tracking-tight">Review & Submit</h2>
         <p className="text-muted-foreground text-sm">
-          Please review your information before submitting.
+          Confirm your information before submission.
         </p>
       </div>
 
@@ -89,7 +89,7 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
           <ReviewField label="Selected Types" value={selectedTypeNames || "None selected"} />
         </ReviewSection>
 
-        <ReviewSection title="Your Info" step={3} onEdit={onEditStep}>
+        <ReviewSection title="Licensee Information" step={3} onEdit={onEditStep}>
           <ReviewField label="Name" value={fullName} />
           {data.organization && <ReviewField label="Organization" value={data.organization} />}
           <ReviewField label="Email" value={data.licensee_email} />
@@ -111,8 +111,8 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
           )}
         </ReviewSection>
 
-        <ReviewSection title="Song Information" step={5} onEdit={onEditStep}>
-          <ReviewField label="Song Title" value={data.track_title} />
+        <ReviewSection title="Track Details" step={5} onEdit={onEditStep}>
+          <ReviewField label="Track Title" value={data.track_title} />
           <ReviewField label="Songwriter(s)" value={data.track_artist} />
           <ReviewField label="Publisher" value={data.track_isrc} />
           <ReviewField label="Runtime" value={data.runtime} />
@@ -129,7 +129,7 @@ export function ReviewStep({ data, onEditStep }: ReviewStepProps) {
       <div className="pt-4 space-y-3">
         <p className="text-sm text-muted-foreground leading-relaxed">
           Your request will be reviewed before any license is issued.
-          You'll have the opportunity to confirm details before execution.
+          You will have an opportunity to confirm details before execution.
         </p>
       </div>
     </div>

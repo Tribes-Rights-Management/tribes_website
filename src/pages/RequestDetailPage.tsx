@@ -3,23 +3,9 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { useToast } from "@/hooks/use-toast";
-import { LicenseRequest, GeneratedDocument, STATUS_DESCRIPTIONS } from "@/types";
+import { LicenseRequest, GeneratedDocument, STATUS_LABELS, STATUS_DESCRIPTIONS } from "@/types";
 import { format } from "date-fns";
 import { LicensePreviewModal } from "@/components/LicensePreviewModal";
-
-const STATUS_LABELS: Record<string, string> = {
-  draft: "Draft",
-  submitted: "Submitted",
-  in_review: "In Review",
-  needs_info: "Needs Info",
-  approved: "Approved",
-  awaiting_signature: "Awaiting Signature",
-  awaiting_payment: "Awaiting Payment",
-  sent_for_signature: "Sent for Signature",
-  executed: "Executed",
-  closed: "Closed",
-  done: "Done",
-};
 
 export default function RequestDetailPage() {
   const { id } = useParams();
@@ -49,7 +35,7 @@ export default function RequestDetailPage() {
       setDocuments(docsRes.data || []);
     } catch (error) {
       console.error("Error fetching request:", error);
-      toast({ title: "Error", description: "Failed to load request", variant: "destructive" });
+      toast({ title: "Error", description: "Unable to load request", variant: "destructive" });
       navigate("/portal");
     } finally {
       setIsLoading(false);
@@ -77,7 +63,7 @@ export default function RequestDetailPage() {
     
     const executedDoc = documents.find(d => d.doc_type === "executed");
     if (!executedDoc) {
-      toast({ title: "Document not available", description: "The executed agreement is not yet available.", variant: "destructive" });
+      toast({ title: "Document unavailable", description: "The executed agreement is not yet available.", variant: "destructive" });
       return;
     }
 
@@ -150,7 +136,7 @@ export default function RequestDetailPage() {
             <p 
               className="text-xs text-muted-foreground font-mono mt-3 cursor-pointer hover:text-foreground transition-colors inline-block"
               onClick={copyLicenseId}
-              title="Click to copy"
+              title="Copy to clipboard"
             >
               {request.license_id} {copied && "· Copied"}
             </p>
@@ -174,7 +160,7 @@ export default function RequestDetailPage() {
                 to={`/portal/request/${request.id}/sign`}
                 className="text-sm text-foreground hover:text-foreground/80 transition-colors"
               >
-                Review and complete license
+                Review and execute
               </Link>
             )}
 
@@ -203,7 +189,7 @@ export default function RequestDetailPage() {
           
           {/* Your Information */}
           <section className="space-y-4">
-            <h2 className="text-sm font-medium text-muted-foreground">Your Information</h2>
+            <h2 className="text-sm font-medium text-muted-foreground">Licensee Information</h2>
             <div className="space-y-3">
               <Field label="Name" value={requesterName} />
               <Field label="Organization" value={request.organization} />
@@ -214,7 +200,7 @@ export default function RequestDetailPage() {
 
           {/* License Information */}
           <section className="space-y-4">
-            <h2 className="text-sm font-medium text-muted-foreground">License Information</h2>
+            <h2 className="text-sm font-medium text-muted-foreground">License Details</h2>
             <div className="space-y-3">
               <Field label="License Type" value={request.license_type} />
               <Field label="Territory" value={request.territory} />
@@ -247,7 +233,7 @@ export default function RequestDetailPage() {
               <Field label="Track Artist" value={request.track_artist} />
               <Field label="ISRC" value={request.track_isrc} />
               <Field label="Runtime" value={request.runtime} />
-              <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "?"})` : "No"} />
+              <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "—"})` : "No"} />
             </div>
             {request.additional_track_info && (
               <p className="text-sm text-muted-foreground pt-2">{request.additional_track_info}</p>
@@ -256,19 +242,19 @@ export default function RequestDetailPage() {
 
           {/* Documents */}
           <section className="space-y-4">
-            <h2 className="text-sm font-medium text-muted-foreground">Documents</h2>
+            <h2 className="text-sm font-medium text-muted-foreground">Documentation</h2>
             {documents.length === 0 && request.status !== "done" ? (
               <p className="text-sm text-muted-foreground">
-                Your executed agreement will appear here once complete.
+                Executed agreement will appear here upon completion.
               </p>
             ) : documents.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No documents available.</p>
+              <p className="text-sm text-muted-foreground">No documents on record.</p>
             ) : (
               <div className="space-y-2">
                 {documents.map(doc => (
                   <div key={doc.id} className="text-sm">
                     <p>
-                      {doc.doc_type === "draft" ? "Draft Contract" : "Executed Agreement"}
+                      {doc.doc_type === "draft" ? "Draft Agreement" : "Executed Agreement"}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {format(new Date(doc.created_at), "MMMM d, yyyy")}

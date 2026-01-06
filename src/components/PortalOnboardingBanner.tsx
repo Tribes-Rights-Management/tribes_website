@@ -25,10 +25,10 @@ export function PortalOnboardingBanner() {
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[14px] text-foreground leading-relaxed mb-1">
-            This system exists to keep your rights, records, and agreements accurate, accessible, and intact over time.
+            This system maintains your rights, records, and agreements with accuracy and continuity.
           </p>
           <p className="text-[13px] text-muted-foreground leading-relaxed">
-            Think of it as long-term recordkeeping for the business of your music.
+            Long-term recordkeeping for the business of your music.
           </p>
         </div>
         <button
