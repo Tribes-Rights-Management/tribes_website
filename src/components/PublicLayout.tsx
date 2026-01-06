@@ -96,6 +96,12 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Dark over hero, light when scrolled. Mobile uses slide-in sheet.
           Logo sizing follows locked rules in src/lib/brand.ts
           ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          MOBILE HEADER — Institutional, Minimal
+          Contains only: TRIBES wordmark (left) + hamburger menu (right)
+          No buttons, pills, or promotional elements. Height: 56px.
+          This pattern is locked as the default mobile navigation style.
+          ═══════════════════════════════════════════════════════════════════════════ */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[120ms] ease-out ${
           isHeaderDark 
@@ -104,136 +110,115 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         }`}
         style={{ 
           paddingTop: "env(safe-area-inset-top)",
-          height: NAV_SIZES.header.mobile,
+          height: 56,
         }}
         data-surface={isHeaderDark ? "dark" : "light"}
       >
         <nav 
-          className="max-w-[1200px] mx-auto h-full flex items-center"
-          style={{
-            paddingLeft: NAV_SIZES.headerPadding.horizontal.mobile,
-            paddingRight: NAV_SIZES.headerPadding.horizontal.mobile,
-          }}
+          className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4 md:px-6 lg:px-8"
         >
-          {/* Mobile Header (≤768px) */}
-          <div className="flex md:hidden items-center justify-between h-full">
-            {/* Logo — Locked sizing from brand.ts */}
+          {/* Mobile Header (≤768px) — Wordmark + Hamburger only */}
+          <div className="flex md:hidden items-center justify-between w-full h-full">
+            {/* TRIBES Wordmark — Strong visual weight, never faint */}
             <Link 
               to="/" 
-              className={`transition-colors duration-[150ms] ${
-                isHeaderDark ? "text-white/[0.88]" : "text-foreground"
+              className={`font-semibold tracking-tight transition-colors duration-[120ms] ${
+                isHeaderDark ? "text-white" : "text-foreground"
               }`}
               style={{
-                fontSize: LOGO_SIZES.header.mobile.fontSize,
-                fontWeight: LOGO_SIZES.header.mobile.fontWeight,
-                letterSpacing: LOGO_SIZES.header.mobile.letterSpacing,
+                fontSize: 18,
+                letterSpacing: "-0.01em",
               }}
             >
               {BRAND.wordmark}
             </Link>
             
-            <div className="flex items-center gap-2">
-              {/* Primary CTA — Neutral, compact button */}
-              <Link 
-                to="/auth?request=true" 
-                className={`text-xs font-medium px-3 rounded transition-colors duration-[150ms] flex items-center border ${
-                  isHeaderDark 
-                    ? "border-white/20 bg-white/10 text-white/[0.82] hover:bg-white/15" 
-                    : "border-border bg-muted text-foreground hover:bg-muted/80"
-                }`}
-                style={{ 
-                  minHeight: NAV_SIZES.tapTarget.min,
-                  height: NAV_SIZES.tapTarget.min,
-                }}
-              >
-                Request Access
-              </Link>
-              
-              {/* Hamburger — Opens sheet */}
-              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <button
-                    className={`flex items-center justify-center transition-colors duration-[150ms] ${
-                      isHeaderDark 
-                        ? "text-white/[0.88] hover:text-white" 
-                        : "text-foreground hover:text-foreground/70"
-                    }`}
-                    style={{ 
-                      minHeight: NAV_SIZES.tapTarget.min,
-                      minWidth: NAV_SIZES.tapTarget.min,
-                    }}
-                    aria-label="Open menu"
-                  >
-                    <Menu className="h-5 w-5" />
-                  </button>
-                </SheetTrigger>
-                
-                {/* Mobile Menu Sheet — Generous spacing, large tap targets */}
-                <SheetContent 
-                  side="right" 
-                  className="w-[280px] bg-background border-l border-border p-0"
+            {/* Hamburger Menu — Opens right-side sheet */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <button
+                  className={`flex items-center justify-center transition-colors duration-[120ms] ${
+                    isHeaderDark 
+                      ? "text-white hover:text-white/80" 
+                      : "text-foreground hover:text-foreground/70"
+                  }`}
+                  style={{ 
+                    minHeight: 44,
+                    minWidth: 44,
+                  }}
+                  aria-label="Open menu"
                 >
-                  <nav className="flex flex-col pt-16 px-6">
-                    <Link 
-                      to="/services" 
-                      className={`text-sm transition-colors flex items-center ${
-                        location.pathname === "/services"
-                          ? "text-foreground"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                      style={{ minHeight: NAV_SIZES.tapTarget.comfortable }}
-                    >
-                      Services
-                    </Link>
-                    <Link 
-                      to="/contact" 
-                      className={`text-sm transition-colors flex items-center ${
-                        location.pathname === "/contact"
-                          ? "text-foreground"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                      style={{ minHeight: NAV_SIZES.tapTarget.comfortable }}
-                    >
-                      Contact
-                    </Link>
-                    
-                    <div className="h-px bg-border my-4" />
-                    
-                    <Link 
-                      to="/auth" 
-                      className={`text-sm transition-colors flex items-center ${
-                        location.pathname === "/auth"
-                          ? "text-foreground"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                      style={{ minHeight: NAV_SIZES.tapTarget.comfortable }}
-                    >
-                      Sign In
-                    </Link>
-                    <Link 
-                      to="/auth?request=true" 
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center"
-                      style={{ minHeight: NAV_SIZES.tapTarget.comfortable }}
-                    >
-                      Request Access
-                    </Link>
-                  </nav>
-                </SheetContent>
-              </Sheet>
-            </div>
+                  <Menu className="h-5 w-5" />
+                </button>
+              </SheetTrigger>
+              
+              {/* Mobile Menu Sheet — Right-side, not full-screen */}
+              <SheetContent 
+                side="right" 
+                className="w-[280px] bg-background border-l border-border p-0"
+              >
+                <nav className="flex flex-col pt-16 px-6">
+                  {/* Primary Navigation */}
+                  <Link 
+                    to="/services" 
+                    className={`text-sm transition-colors duration-[120ms] flex items-center ${
+                      location.pathname === "/services"
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ minHeight: 48 }}
+                  >
+                    Services
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    className={`text-sm transition-colors duration-[120ms] flex items-center ${
+                      location.pathname === "/contact"
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ minHeight: 48 }}
+                  >
+                    Contact
+                  </Link>
+                  
+                  {/* Divider */}
+                  <div className="h-px bg-border my-4" />
+                  
+                  {/* Account Actions — Text-only, no CTA styling */}
+                  <Link 
+                    to="/auth" 
+                    className={`text-sm transition-colors duration-[120ms] flex items-center ${
+                      location.pathname === "/auth"
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                    style={{ minHeight: 48 }}
+                  >
+                    Sign In
+                  </Link>
+                  <Link 
+                    to="/auth?request=true" 
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-[120ms] flex items-center"
+                    style={{ minHeight: 48 }}
+                  >
+                    Request Access
+                  </Link>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
 
           {/* Desktop/Tablet Header (>768px) */}
-          <div className="hidden md:flex items-center justify-between h-full w-full" style={{ paddingLeft: NAV_SIZES.headerPadding.horizontal.desktop - NAV_SIZES.headerPadding.horizontal.mobile, paddingRight: NAV_SIZES.headerPadding.horizontal.desktop - NAV_SIZES.headerPadding.horizontal.mobile }}>
-            {/* Logo — Full name on desktop */}
+          <div className="hidden md:flex items-center justify-between h-full w-full">
+            {/* Logo — Full legal name on desktop */}
             <Link 
               to="/" 
-              className={`transition-opacity duration-[120ms] ease-out focus-ring ${
-                isHeaderDark ? "text-white/[0.88] hover:opacity-88" : "text-foreground hover:opacity-88"
+              className={`font-semibold tracking-tight transition-colors duration-[120ms] ${
+                isHeaderDark ? "text-white hover:text-white/80" : "text-foreground hover:text-foreground/80"
               }`}
               style={{
                 fontSize: LOGO_SIZES.header.desktop.fontSize,
-                fontWeight: LOGO_SIZES.header.desktop.fontWeight,
               }}
             >
               {BRAND.legalName}
@@ -257,9 +242,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               }`} />
               <Link 
                 to="/auth" 
-                className={`text-sm transition-opacity duration-[120ms] ease-out focus-ring ${
+                className={`text-sm transition-colors duration-[120ms] ${
                   isHeaderDark 
-                    ? "text-white/[0.48] hover:opacity-88" 
+                    ? "text-white/60 hover:text-white" 
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
@@ -267,10 +252,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               </Link>
               <Link 
                 to="/auth?request=true" 
-                className={`text-sm transition-opacity duration-[120ms] ease-out focus-ring ${
+                className={`text-sm transition-colors duration-[120ms] ${
                   isHeaderDark 
-                    ? "text-white/[0.48] hover:opacity-88" 
-                    : "text-muted-foreground hover:opacity-88"
+                    ? "text-white/60 hover:text-white" 
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Request Access
