@@ -118,18 +118,16 @@ serve(async (req) => {
     const licenseTypeMap = new Map<string, LicenseType>();
     (licenseTypes || []).forEach((t: LicenseType) => licenseTypeMap.set(t.code, t));
 
-    // Use package_reference or first license ID
-    const packageReference = request.package_reference || 
-      (licenses && licenses.length > 0 ? licenses[0].license_id : null) ||
-      `TRL-${formatDate(new Date(request.submitted_at || request.created_at)).replace(/-/g, "")}-PKG`;
+    // Use package_reference (Package ID) - always present due to NOT NULL constraint
+    const packageId = request.package_reference;
     
     const trackTitle = sanitizeFilename(request.track_title || request.song_title || "Untitled");
     const executionDate = request.executed_at ? new Date(request.executed_at) : 
                           request.signed_at ? new Date(request.signed_at) : new Date();
     const formattedExecutionDate = formatDate(executionDate);
 
-    // Generate filename
-    const filename = `Tribes_License_${packageReference}_${trackTitle}_${formattedExecutionDate}.pdf`;
+    // Generate filename: Tribes_LicensePackage_[PackageID]_[Track_Title]_[YYYY-MM-DD].pdf
+    const filename = `Tribes_LicensePackage_${packageId}_${trackTitle}_${formattedExecutionDate}.pdf`;
 
     // Build licensee info
     const licenseeName = [request.first_name, request.last_name].filter(Boolean).join(" ") || 
@@ -383,7 +381,7 @@ serve(async (req) => {
     <div class="cover-header">
       <h1>TRIBES RIGHTS MANAGEMENT LLC</h1>
       <h2>Music Synchronization License Agreement</h2>
-      <div class="package-ref">Package Reference: ${packageReference}</div>
+      <div class="package-ref">Package ID: ${packageId}</div>
     </div>
 
     <div class="section">
@@ -480,7 +478,7 @@ serve(async (req) => {
         html: htmlContent,
         filename: filename,
         metadata: {
-          packageReference: packageReference,
+          packageId: packageId,
           licenseCount: licenses?.length || 0,
           trackTitle: request.track_title || request.song_title || "Untitled",
           licenseeName: licenseeName,

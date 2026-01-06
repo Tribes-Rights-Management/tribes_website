@@ -165,7 +165,7 @@ export type Database = {
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
           organization: string | null
-          package_reference: string | null
+          package_reference: string
           paid_at: string | null
           pandadoc_document_id: string | null
           payment_status: string | null
@@ -225,7 +225,7 @@ export type Database = {
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
-          package_reference?: string | null
+          package_reference: string
           paid_at?: string | null
           pandadoc_document_id?: string | null
           payment_status?: string | null
@@ -285,7 +285,7 @@ export type Database = {
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
           organization?: string | null
-          package_reference?: string | null
+          package_reference?: string
           paid_at?: string | null
           pandadoc_document_id?: string | null
           payment_status?: string | null
@@ -554,6 +554,7 @@ export type Database = {
     }
     Functions: {
       generate_license_id_v2: { Args: never; Returns: string }
+      generate_package_id: { Args: never; Returns: string }
       get_package_derived_status: {
         Args: { p_package_id: string }
         Returns: Database["public"]["Enums"]["request_status"]
