@@ -281,7 +281,7 @@ export default function AuthPage() {
           <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Request received</h1>
             <p className="text-sm text-muted-foreground mb-8">
-              Status will update once review is complete.
+              We'll update you once review is complete.
             </p>
             <button
               onClick={handleDone}
@@ -328,7 +328,7 @@ export default function AuthPage() {
             <div className="text-center mb-8">
               <h1 className="mb-2">Request Access</h1>
               <p className="text-sm text-muted-foreground">
-                Access to the Tribes portal is granted by review. Requests are evaluated to ensure proper scope and authorization.
+                Access requests are reviewed to ensure the right fit and proper scope.
               </p>
             </div>
 

@@ -20,7 +20,7 @@ export default function MarketingPage() {
             
             {/* Subhead - Generous spacing, soft gray */}
             <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
-              An approval-based publishing administration firm focused on accuracy, continuity, and long-term record integrity.
+              An independent publishing administration firm focused on accuracy, continuity, and long-term record integrity.
             </p>
             
             {/* Divider */}
