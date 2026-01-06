@@ -79,37 +79,37 @@ export default function MarketingPage() {
 
       {/* Divider */}
       <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
+        <div className="h-px" style={{ backgroundColor: 'rgba(17,18,20,0.08)' }} />
       </div>
 
       {/* What We Do */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-12" style={{ color: '#6A6D70' }}>
             What We Do
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 border border-border rounded-lg">
-              <h3 className="text-lg font-medium text-foreground mb-3">
+            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
+              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
                 Publishing Administration
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
                 Register, track, collect, protect, and report—cleanly.
               </p>
             </div>
-            <div className="p-6 border border-border rounded-lg">
-              <h3 className="text-lg font-medium text-foreground mb-3">
+            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
+              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
                 Rights Management
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
                 Organized ownership, accurate metadata, audit-ready records.
               </p>
             </div>
-            <div className="p-6 border border-border rounded-lg">
-              <h3 className="text-lg font-medium text-foreground mb-3">
+            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
+              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
                 Licensing
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
                 Requests, review, execution, and permanent storage.
               </p>
             </div>
@@ -119,7 +119,7 @@ export default function MarketingPage() {
 
       {/* Divider */}
       <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
+        <div className="h-px" style={{ backgroundColor: 'rgba(17,18,20,0.08)' }} />
       </div>
 
       {/* How It Works */}
