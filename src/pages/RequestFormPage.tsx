@@ -365,7 +365,7 @@ export default function RequestFormPage() {
                       Submitting…
                     </>
                   ) : (
-                    "Submit License Request"
+                    "Submit for Review"
                   )}
                 </Button>
               )}

@@ -111,33 +111,33 @@ export interface LicenseRequestFormData {
   reference_link: string;
 }
 
-// Status display
+// Status display — Canonical institutional labels
 export const STATUS_LABELS: Record<RequestStatus, string> = {
   draft: "Draft",
   submitted: "Submitted",
-  in_review: "In Review",
-  needs_info: "Needs Info",
+  in_review: "Under Review",
+  needs_info: "Needs Information",
   approved: "Approved",
   sent_for_signature: "Awaiting Signature",
   awaiting_signature: "Awaiting Signature",
   awaiting_payment: "Awaiting Payment",
   executed: "Executed",
-  closed: "Closed",
-  done: "Done",
+  closed: "Archived",
+  done: "Executed",
 };
 
 export const STATUS_DESCRIPTIONS: Record<RequestStatus, string> = {
   draft: "Request saved as draft",
   submitted: "Submitted for review",
-  in_review: "Under review by our team",
+  in_review: "Under review",
   needs_info: "Additional information required",
   approved: "Approved — agreement pending",
-  sent_for_signature: "Agreement sent for signature",
-  awaiting_signature: "Agreement sent for signature",
+  sent_for_signature: "Awaiting signature",
+  awaiting_signature: "Awaiting signature",
   awaiting_payment: "Awaiting payment",
-  executed: "Signed and complete",
-  closed: "Request closed",
-  done: "Complete",
+  executed: "Executed and recorded",
+  closed: "Archived",
+  done: "Executed and recorded",
 };
 
 // Account status labels
