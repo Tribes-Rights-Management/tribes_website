@@ -124,6 +124,7 @@ export type Database = {
           id: string
           label_master_owner: string | null
           last_name: string | null
+          license_id: string | null
           licensee_email: string | null
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
@@ -172,6 +173,7 @@ export type Database = {
           id?: string
           label_master_owner?: string | null
           last_name?: string | null
+          license_id?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
@@ -220,6 +222,7 @@ export type Database = {
           id?: string
           label_master_owner?: string | null
           last_name?: string | null
+          license_id?: string | null
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null

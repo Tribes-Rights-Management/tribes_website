@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { LicenseRequest } from "@/types";
 import { Plus } from "lucide-react";
 import { format } from "date-fns";
@@ -40,9 +39,17 @@ export default function PortalLicensesPage() {
   // Determine empty state type
   const isFirstTime = requests.length === 0;
 
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="max-w-4xl opacity-0" />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
-      <div className="max-w-4xl">
+      <div className="max-w-4xl animate-content-fade">
         {/* Page Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -53,7 +60,7 @@ export default function PortalLicensesPage() {
           </div>
           <Link
             to="/portal/request/new"
-            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-1.5 h-9 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors active:opacity-80 active:duration-75"
           >
             <Plus className="w-4 h-4" />
             New request
@@ -61,13 +68,7 @@ export default function PortalLicensesPage() {
         </div>
 
         {/* List */}
-        {isLoading ? (
-          <div className="space-y-3">
-            {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full" />
-            ))}
-          </div>
-        ) : isFirstTime ? (
+        {isFirstTime ? (
           <div className="py-16">
             <p className="text-sm font-medium mb-1">No license activity yet</p>
             <p className="text-sm text-muted-foreground">
@@ -98,7 +99,12 @@ export default function PortalLicensesPage() {
                 >
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium truncate">{title}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium truncate">{title}</p>
+                        {request.license_id && (
+                          <span className="text-xs text-muted-foreground font-mono">{request.license_id}</span>
+                        )}
+                      </div>
                       <p className="text-xs text-muted-foreground">{submittedDate}</p>
                     </div>
                     <StatusBadge status={request.status} />

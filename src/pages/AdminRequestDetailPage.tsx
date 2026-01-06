@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, StatusHistory, GeneratedDocument, RequestStatus, STATUS_LABELS } from "@/types";
-import { ArrowLeft, Download, Eye } from "lucide-react";
+import { ArrowLeft, Download, Copy, Check } from "lucide-react";
 import { format } from "date-fns";
 
 interface InternalNote {
@@ -58,6 +58,8 @@ export default function AdminRequestDetailPage() {
   const [newNote, setNewNote] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [isAddingNote, setIsAddingNote] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (id) fetchRequestData(id);
@@ -128,19 +130,46 @@ export default function AdminRequestDetailPage() {
     }
   }
 
-  const shortId = request?.id.slice(0, 8).toUpperCase();
+  async function copyLicenseId() {
+    if (!request?.license_id) return;
+    await navigator.clipboard.writeText(request.license_id);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  async function handleExport() {
+    if (!request) return;
+    setIsExporting(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("export-license-pdf", {
+        body: { requestId: request.id },
+      });
+
+      if (error) throw error;
+
+      const blob = new Blob([data.html], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = data.filename.replace(".pdf", ".html");
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error("Export error:", error);
+      toast({ title: "Error", description: error.message || "Failed to export", variant: "destructive" });
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
   const allowedTransitions = request ? WORKFLOW_TRANSITIONS[request.status] : [];
   const executedDoc = documents.find(d => d.doc_type === "executed");
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex flex-col">
-        <Header isAdminView={isAdminView} onExit={() => navigate("/portal")} />
-        <main className="container flex-1 py-8">
-          <Skeleton className="h-6 w-48 mb-8" />
-          <Skeleton className="h-64 w-full" />
-        </main>
-      </div>
+      <DashboardLayout>
+        <div className="max-w-5xl opacity-0" />
+      </DashboardLayout>
     );
   }
 
@@ -150,245 +179,222 @@ export default function AdminRequestDetailPage() {
   const fullAddress = [request.address_street, request.address_city, request.address_state, request.address_zip, request.address_country].filter(Boolean).join(", ");
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <Header isAdminView={isAdminView} onExit={() => navigate("/portal")} />
+    <DashboardLayout>
+      <div className="max-w-5xl animate-content-fade">
+        {/* Back */}
+        <button
+          onClick={() => navigate("/admin")}
+          className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Dashboard
+        </button>
 
-      <main className="container flex-1 py-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Back */}
-          <button
-            onClick={() => navigate("/admin")}
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            License Queue
-          </button>
+        {/* Title */}
+        <div className="flex items-center gap-3 mb-8">
+          <h1>{request.license_id || "License Request"}</h1>
+          {request.license_id && (
+            <button
+              onClick={copyLicenseId}
+              className="p-1 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="Copy License ID"
+            >
+              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            </button>
+          )}
+        </div>
 
-          {/* Title */}
-          <h1 className="mb-8">Request TRL-{shortId}</h1>
+        {/* Two Column */}
+        <div className="grid lg:grid-cols-[1fr_260px] gap-12">
+          {/* Main */}
+          <div className="space-y-8">
+            <Section title="Summary">
+              <Grid>
+                <Field label="Requester" value={requesterName} />
+                <Field label="Organization" value={request.organization} />
+                <Field label="Email" value={request.licensee_email} />
+                <Field label="Submitted" value={request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—"} />
+              </Grid>
+            </Section>
 
-          {/* Two Column */}
-          <div className="grid lg:grid-cols-[1fr_260px] gap-12">
-            {/* Main */}
-            <div className="space-y-8">
-              <Section title="Summary">
-                <Grid>
-                  <Field label="Requester" value={requesterName} />
-                  <Field label="Organization" value={request.organization} />
-                  <Field label="Email" value={request.licensee_email} />
-                  <Field label="Submitted" value={request.submitted_at ? format(new Date(request.submitted_at), "MMM d, yyyy") : "—"} />
-                </Grid>
-              </Section>
+            <Section title="Agreements">
+              <div className="flex gap-6 text-sm">
+                <span className={request.agreement_terms ? "" : "text-muted-foreground"}>
+                  {request.agreement_terms ? "✓" : "○"} Terms
+                </span>
+                <span className={request.agreement_accounting ? "" : "text-muted-foreground"}>
+                  {request.agreement_accounting ? "✓" : "○"} Accounting
+                </span>
+              </div>
+            </Section>
 
-              <Section title="Agreements">
-                <div className="flex gap-6 text-sm">
-                  <span className={request.agreement_terms ? "" : "text-muted-foreground"}>
-                    {request.agreement_terms ? "✓" : "○"} Terms
-                  </span>
-                  <span className={request.agreement_accounting ? "" : "text-muted-foreground"}>
-                    {request.agreement_accounting ? "✓" : "○"} Accounting
-                  </span>
-                </div>
-              </Section>
+            <Section title="Contact">
+              <Grid>
+                <Field label="First Name" value={request.first_name} />
+                <Field label="Last Name" value={request.last_name} />
+                <Field label="Email" value={request.licensee_email} />
+                <Field label="Organization" value={request.organization} />
+              </Grid>
+              {fullAddress && <p className="text-sm mt-3">{fullAddress}</p>}
+            </Section>
 
-              <Section title="Contact">
-                <Grid>
-                  <Field label="First Name" value={request.first_name} />
-                  <Field label="Last Name" value={request.last_name} />
-                  <Field label="Email" value={request.licensee_email} />
-                  <Field label="Organization" value={request.organization} />
-                </Grid>
-                {fullAddress && <p className="text-sm mt-3">{fullAddress}</p>}
-              </Section>
+            <Section title="Product">
+              <Grid>
+                <Field label="Label / Master Owner" value={request.label_master_owner} />
+                <Field label="Distributor" value={request.distributor} />
+                <Field label="Recording Artist" value={request.recording_artist} />
+                <Field label="Release Title" value={request.release_title} />
+                <Field label="Release Date" value={request.release_date ? format(new Date(request.release_date), "MMM d, yyyy") : null} />
+                <Field label="UPC" value={request.product_upc} />
+              </Grid>
+              {request.additional_product_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_product_info}</p>}
+            </Section>
 
-              <Section title="Product">
-                <Grid>
-                  <Field label="Label / Master Owner" value={request.label_master_owner} />
-                  <Field label="Distributor" value={request.distributor} />
-                  <Field label="Recording Artist" value={request.recording_artist} />
-                  <Field label="Release Title" value={request.release_title} />
-                  <Field label="Release Date" value={request.release_date ? format(new Date(request.release_date), "MMM d, yyyy") : null} />
-                  <Field label="UPC" value={request.product_upc} />
-                </Grid>
-                {request.additional_product_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_product_info}</p>}
-              </Section>
+            <Section title="Track">
+              <Grid>
+                <Field label="Title" value={request.track_title || request.song_title} />
+                <Field label="Artist" value={request.track_artist} />
+                <Field label="ISRC" value={request.track_isrc} />
+                <Field label="Runtime" value={request.runtime} />
+                <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "?"})` : "No"} />
+              </Grid>
+              {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
+            </Section>
 
-              <Section title="Track">
-                <Grid>
-                  <Field label="Title" value={request.track_title || request.song_title} />
-                  <Field label="Artist" value={request.track_artist} />
-                  <Field label="ISRC" value={request.track_isrc} />
-                  <Field label="Runtime" value={request.runtime} />
-                  <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "?"})` : "No"} />
-                </Grid>
-                {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
-              </Section>
-
-              {documents.length > 0 && (
-                <Section title="Documents">
-                  <div className="space-y-2">
-                    {documents.map(doc => (
-                      <a
-                        key={doc.id}
-                        href={doc.storage_path}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
-                      >
-                        <Download className="w-3.5 h-3.5 text-muted-foreground" />
-                        {doc.doc_type === "draft" ? "Draft" : "Executed"} — {format(new Date(doc.created_at), "MMM d")}
-                      </a>
-                    ))}
-                  </div>
-                </Section>
-              )}
-            </div>
-
-            {/* Sidebar */}
-            <div className="space-y-8">
-              {/* Status */}
-              <div>
-                <p className="text-xs font-medium text-muted-foreground mb-3">Status</p>
-                <StatusBadge status={request.status} />
-
-                {isSuperAdmin && allowedTransitions.length > 0 && (
-                  <Select onValueChange={(v) => updateStatus(v as RequestStatus)} disabled={isUpdating}>
-                    <SelectTrigger className="mt-3 h-9">
-                      <SelectValue placeholder="Change…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {allowedTransitions.map(s => (
-                        <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-
-                {isAdminView && <p className="text-xs text-muted-foreground mt-2">View only</p>}
-
-                {/* Actions */}
-                <TooltipProvider>
-                  {isSuperAdmin && request.status === "approved" && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button disabled className="mt-4 w-full h-10 text-sm bg-primary text-primary-foreground rounded-full opacity-40 cursor-not-allowed">
-                          Send Sign + Pay Link
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>Coming soon</TooltipContent>
-                    </Tooltip>
-                  )}
-
-                  {isSuperAdmin && (request.status === "awaiting_signature" || request.status === "awaiting_payment") && (
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button disabled className="mt-4 w-full h-10 text-sm border border-input rounded-full opacity-40 cursor-not-allowed">
-                          Resend Link
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent>Coming soon</TooltipContent>
-                    </Tooltip>
-                  )}
-
-                  {isSuperAdmin && request.status === "done" && executedDoc && (
+            {documents.length > 0 && (
+              <Section title="Documents">
+                <div className="space-y-2">
+                  {documents.map(doc => (
                     <a
-                      href={executedDoc.storage_path}
+                      key={doc.id}
+                      href={doc.storage_path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 w-full h-10 flex items-center justify-center gap-1.5 text-sm bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+                      className="flex items-center gap-2 text-sm hover:text-primary transition-colors"
                     >
-                      <Download className="w-3.5 h-3.5" />
-                      Download Agreement
+                      <Download className="w-3.5 h-3.5 text-muted-foreground" />
+                      {doc.doc_type === "draft" ? "Draft" : "Executed"} — {format(new Date(doc.created_at), "MMM d")}
                     </a>
-                  )}
-                </TooltipProvider>
-              </div>
+                  ))}
+                </div>
+              </Section>
+            )}
+          </div>
 
-              {/* Notes */}
-              <div>
-                <p className="text-xs font-medium text-muted-foreground mb-3">Notes</p>
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Status */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-3">Status</p>
+              <StatusBadge status={request.status} />
 
-                {isSuperAdmin && (
-                  <div className="mb-4">
-                    <Textarea
-                      placeholder="Add note…"
-                      value={newNote}
-                      onChange={(e) => setNewNote(e.target.value)}
-                      rows={2}
-                      className="mb-1.5"
-                    />
-                    <div className="text-right">
-                      <button
-                        onClick={addNote}
-                        disabled={!newNote.trim() || isAddingNote}
-                        className="text-xs text-primary hover:underline disabled:opacity-40 disabled:no-underline"
-                      >
-                        Add
+              {isSuperAdmin && allowedTransitions.length > 0 && (
+                <Select onValueChange={(v) => updateStatus(v as RequestStatus)} disabled={isUpdating}>
+                  <SelectTrigger className="mt-3 h-9">
+                    <SelectValue placeholder="Change…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {allowedTransitions.map(s => (
+                      <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+
+              {isAdminView && <p className="text-xs text-muted-foreground mt-2">View only</p>}
+
+              {/* Actions */}
+              <TooltipProvider>
+                {isSuperAdmin && request.status === "approved" && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button disabled className="mt-4 w-full h-10 text-sm bg-primary text-primary-foreground rounded-md opacity-40 cursor-not-allowed">
+                        Send Sign + Pay Link
                       </button>
-                    </div>
-                  </div>
+                    </TooltipTrigger>
+                    <TooltipContent>Coming soon</TooltipContent>
+                  </Tooltip>
                 )}
 
-                {notes.length > 0 ? (
-                  <div className="space-y-3">
-                    {notes.map(n => (
-                      <div key={n.id} className="text-sm">
-                        <p>{n.note}</p>
-                        <p className="text-xs text-muted-foreground mt-0.5">
-                          {format(new Date(n.created_at), "MMM d, h:mm a")}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-xs text-muted-foreground">No notes yet.</p>
+                {isSuperAdmin && (request.status === "awaiting_signature" || request.status === "awaiting_payment") && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <button disabled className="mt-4 w-full h-10 text-sm border border-input rounded-md opacity-40 cursor-not-allowed">
+                        Resend link
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>Coming soon</TooltipContent>
+                  </Tooltip>
                 )}
 
-                {/* Events */}
-                {history.length > 0 && (
-                  <div className="mt-6 pt-4 space-y-1.5">
-                    {history.slice(0, 8).map(h => (
-                      <p key={h.id} className="text-xs text-muted-foreground">
-                        {format(new Date(h.created_at), "MMM d")} — {h.from_status ? `${STATUS_LABELS[h.from_status]} → ` : ""}{STATUS_LABELS[h.to_status]}
+                {isSuperAdmin && request.status === "done" && (
+                  <button
+                    onClick={handleExport}
+                    disabled={isExporting}
+                    className="mt-4 w-full h-10 flex items-center justify-center gap-1.5 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    {isExporting ? "…" : "Download Agreement"}
+                  </button>
+                )}
+              </TooltipProvider>
+            </div>
+
+            {/* Notes */}
+            <div>
+              <p className="text-xs font-medium text-muted-foreground mb-3">Notes</p>
+
+              {isSuperAdmin && (
+                <div className="mb-4">
+                  <Textarea
+                    placeholder="Add note…"
+                    value={newNote}
+                    onChange={(e) => setNewNote(e.target.value)}
+                    rows={2}
+                    className="mb-1.5"
+                  />
+                  <div className="text-right">
+                    <button
+                      onClick={addNote}
+                      disabled={!newNote.trim() || isAddingNote}
+                      className="text-xs text-primary hover:underline disabled:opacity-40 disabled:no-underline"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {notes.length > 0 ? (
+                <div className="space-y-3">
+                  {notes.map(n => (
+                    <div key={n.id} className="text-sm">
+                      <p>{n.note}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        {format(new Date(n.created_at), "MMM d, h:mm a")}
                       </p>
-                    ))}
-                  </div>
-                )}
-              </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-muted-foreground">No notes yet.</p>
+              )}
+
+              {/* Events */}
+              {history.length > 0 && (
+                <div className="mt-6 pt-4 space-y-1.5">
+                  {history.slice(0, 8).map(h => (
+                    <p key={h.id} className="text-xs text-muted-foreground">
+                      {format(new Date(h.created_at), "MMM d")} — {h.from_status ? `${STATUS_LABELS[h.from_status]} → ` : ""}{STATUS_LABELS[h.to_status]}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
-      </main>
-
-      <footer className="border-t border-border/50 py-4 mt-auto">
-        <div className="container text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
-        </div>
-      </footer>
-    </div>
-  );
-}
-
-function Header({ isAdminView, onExit }: { isAdminView: boolean; onExit: () => void }) {
-  return (
-    <header className="border-b border-border/50">
-      <div className="container flex items-center justify-between h-12">
-        <div className="flex items-center gap-3">
-          <span className="text-base font-semibold tracking-tight">TRIBES</span>
-          <span className="text-muted-foreground/40">|</span>
-          <span className="text-sm text-muted-foreground">Admin</span>
-          {isAdminView && (
-            <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
-              <Eye className="w-3 h-3" />
-              View Only
-            </span>
-          )}
-        </div>
-        <button onClick={onExit} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-          Exit Admin
-        </button>
       </div>
-    </header>
+    </DashboardLayout>
   );
 }
 

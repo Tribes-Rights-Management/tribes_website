@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import {
   AlertDialog,
@@ -103,6 +102,14 @@ export default function AdminAccessRequestsPage() {
     }
   }
 
+  if (isLoading) {
+    return (
+      <DashboardLayout>
+        <div className="max-w-4xl opacity-0" />
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       {/* Approval Confirmation Dialog */}
@@ -137,7 +144,7 @@ export default function AdminAccessRequestsPage() {
         </AlertDialogContent>
       </AlertDialog>
 
-      <div className="max-w-4xl">
+      <div className="max-w-4xl animate-content-fade">
         {/* Page Header */}
         <div className="mb-6">
           <h1 className="mb-1">Access Requests</h1>
@@ -146,13 +153,7 @@ export default function AdminAccessRequestsPage() {
           </p>
         </div>
 
-        {isLoading ? (
-          <div className="space-y-3">
-            {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full" />
-            ))}
-          </div>
-        ) : profiles.length === 0 ? (
+        {profiles.length === 0 ? (
           <div className="py-16">
             <p className="text-sm font-medium mb-1">No access requests</p>
             <p className="text-sm text-muted-foreground">
@@ -188,14 +189,14 @@ export default function AdminAccessRequestsPage() {
                         <button
                           onClick={() => setApprovingProfile(profile)}
                           disabled={processingId === profile.id}
-                          className="h-8 px-3 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+                          className="h-8 px-3 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => setRejectingProfile(profile)}
                           disabled={processingId === profile.id}
-                          className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50"
+                          className="h-8 px-3 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
                         >
                           Reject
                         </button>
@@ -220,14 +221,14 @@ export default function AdminAccessRequestsPage() {
                       <button
                         onClick={() => setApprovingProfile(profile)}
                         disabled={processingId === profile.id}
-                        className="flex-1 h-8 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+                        className="flex-1 h-8 text-xs bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
                       >
                         Approve
                       </button>
                       <button
                         onClick={() => setRejectingProfile(profile)}
                         disabled={processingId === profile.id}
-                        className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50"
+                        className="flex-1 h-8 text-xs border border-border text-muted-foreground rounded-md hover:bg-muted/50 transition-colors disabled:opacity-50 active:opacity-80 active:duration-75"
                       >
                         Reject
                       </button>

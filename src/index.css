@@ -188,19 +188,18 @@
 }
 
 @layer utilities {
-  /* Animation */
-  .animate-fade-in {
-    animation: fadeIn 0.2s ease-out;
+  /* Apple-grade content fade - opacity only, 120-150ms */
+  .animate-content-fade {
+    animation: contentFade 0.14s ease-out forwards;
   }
   
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes contentFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Button active state - brief opacity reduction */
+  .btn-active {
+    @apply active:opacity-80 active:transition-opacity active:duration-75;
   }
 }
