@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
@@ -6,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { AuditLogHeader } from "@/components/admin/AdminGuardrails";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -411,10 +413,24 @@ export default function SettingsPage() {
             </div>
           </section>
 
+          {/* Admin Guidelines - Admin only */}
+          {isAnyAdmin && (
+            <section className="space-y-4">
+              <h2 className="text-sm font-medium text-muted-foreground">Resources</h2>
+              <Link
+                to="/admin/guidelines"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Operating guidelines & incident response
+              </Link>
+            </section>
+          )}
+
           {/* Audit & Compliance Section - Super Admin only */}
           {isSuperAdmin && (
             <section className="space-y-4">
               <h2 className="text-sm font-medium text-muted-foreground">Audit & Compliance</h2>
+              <AuditLogHeader />
               
               {auditLog.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No audit events recorded.</p>
