@@ -2,10 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Apple-grade Music Licensing Portal Design System
-   Clean, restrained, professional - system typography, muted palette */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Apple-grade Design System
+   System typography, spacing-led layout, minimal dividers, calm hierarchy */
 
 @layer base {
   :root {
@@ -13,64 +11,50 @@
     --background: 0 0% 100%;
     --foreground: 0 0% 9%;
     
-    /* Cards and elevated surfaces */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
     
-    /* Popovers */
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
     
-    /* Primary - Deep slate blue for professional feel */
-    --primary: 220 14% 18%;
+    /* Primary - Neutral dark */
+    --primary: 0 0% 9%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary - Soft gray surface */
-    --secondary: 220 13% 95%;
-    --secondary-foreground: 220 14% 18%;
+    /* Secondary - Soft gray */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
     
-    /* Muted - Subtle backgrounds */
-    --muted: 220 13% 96%;
-    --muted-foreground: 220 9% 46%;
+    /* Muted */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
     
-    /* Accent - Subtle blue tint */
-    --accent: 214 32% 91%;
-    --accent-foreground: 220 14% 18%;
+    /* Accent */
+    --accent: 0 0% 96%;
+    --accent-foreground: 0 0% 9%;
     
     /* Destructive */
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
     /* Borders & Inputs */
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 220 14% 18%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 0% 9%;
     
-    --radius: 0.5rem;
+    --radius: 10px;
     
     /* Sidebar */
-    --sidebar-background: 220 13% 97%;
-    --sidebar-foreground: 220 9% 46%;
-    --sidebar-primary: 220 14% 18%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 45%;
+    --sidebar-primary: 0 0% 9%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 13% 93%;
-    --sidebar-accent-foreground: 220 14% 18%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 220 14% 18%;
+    --sidebar-accent: 0 0% 94%;
+    --sidebar-accent-foreground: 0 0% 9%;
+    --sidebar-border: 0 0% 90%;
+    --sidebar-ring: 0 0% 9%;
     
-    /* Status Colors - Muted, professional */
-    --status-draft: 220 9% 46%;
-    --status-submitted: 214 84% 56%;
-    --status-in-review: 262 52% 47%;
-    --status-needs-info: 25 95% 53%;
-    --status-approved: 142 71% 45%;
-    --status-signature: 199 89% 48%;
-    --status-payment: 38 92% 50%;
-    --status-executed: 142 76% 36%;
-    --status-closed: 220 9% 46%;
-    --status-done: 142 76% 36%;
-    
-    /* Custom accents */
+    /* Semantic */
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
@@ -80,41 +64,41 @@
   }
 
   .dark {
-    --background: 224 20% 7%;
+    --background: 0 0% 5%;
     --foreground: 0 0% 95%;
     
-    --card: 224 18% 10%;
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 95%;
     
-    --popover: 224 18% 10%;
+    --popover: 0 0% 8%;
     --popover-foreground: 0 0% 95%;
     
     --primary: 0 0% 100%;
-    --primary-foreground: 224 20% 7%;
+    --primary-foreground: 0 0% 5%;
     
-    --secondary: 220 14% 18%;
+    --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 95%;
     
-    --muted: 220 14% 18%;
-    --muted-foreground: 220 9% 55%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 55%;
     
-    --accent: 220 14% 18%;
+    --accent: 0 0% 15%;
     --accent-foreground: 0 0% 95%;
     
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 220 14% 20%;
-    --input: 220 14% 20%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
     --ring: 0 0% 80%;
     
-    --sidebar-background: 224 18% 10%;
-    --sidebar-foreground: 220 9% 55%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 0 0% 55%;
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 224 20% 7%;
-    --sidebar-accent: 220 14% 18%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 15%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 220 14% 20%;
+    --sidebar-border: 0 0% 18%;
     --sidebar-ring: 0 0% 80%;
   }
 }
@@ -126,150 +110,93 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  
+  h2 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  
+  h3, h4, h5, h6 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
   }
 }
 
 @layer components {
-  /* Status badge variants */
-  .status-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  /* Status chips - outline only, neutral */
+  .status-chip {
+    @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium;
+    @apply border border-border bg-transparent text-muted-foreground;
   }
   
-  .status-draft {
-    @apply bg-muted text-muted-foreground;
+  /* Section spacing */
+  .section-gap {
+    @apply mb-8; /* 32px */
   }
   
-  .status-submitted {
-    background-color: hsl(var(--status-submitted) / 0.1);
-    color: hsl(var(--status-submitted));
+  .subsection-gap {
+    @apply mb-6; /* 24px */
   }
   
-  .status-in-review {
-    background-color: hsl(var(--status-in-review) / 0.1);
-    color: hsl(var(--status-in-review));
+  .row-gap {
+    @apply mb-3; /* 12px */
   }
   
-  .status-needs-info {
-    background-color: hsl(var(--status-needs-info) / 0.1);
-    color: hsl(var(--status-needs-info));
-  }
-  
-  .status-approved {
-    background-color: hsl(var(--status-approved) / 0.1);
-    color: hsl(var(--status-approved));
-  }
-  
-  .status-signature {
-    background-color: hsl(var(--status-signature) / 0.1);
-    color: hsl(var(--status-signature));
-  }
-  
-  .status-executed {
-    background-color: hsl(var(--status-executed) / 0.1);
-    color: hsl(var(--status-executed));
-  }
-  
-  .status-closed {
-    @apply bg-muted text-muted-foreground;
-  }
-  
-  .status-payment {
-    background-color: hsl(var(--status-payment) / 0.1);
-    color: hsl(var(--status-payment));
-  }
-  
-  .status-done {
-    background-color: hsl(var(--status-done) / 0.1);
-    color: hsl(var(--status-done));
-  }
-  
-  /* Form step indicator */
-  .step-indicator {
-    @apply flex items-center justify-center w-8 h-8 rounded-full text-sm font-medium transition-all duration-200;
-  }
-  
-  .step-active {
-    @apply bg-primary text-primary-foreground;
-  }
-  
-  .step-completed {
-    @apply bg-primary/10 text-primary;
-  }
-  
-  .step-pending {
-    @apply bg-muted text-muted-foreground;
-  }
-  
-  /* Card hover effect */
-  .card-interactive {
-    @apply transition-all duration-200 hover:shadow-md hover:border-border/80;
-  }
-  
-  /* Subtle divider */
-  .subtle-divider {
+  /* Hairline divider */
+  .divider {
     @apply h-px bg-border/50;
   }
   
-  /* Timeline styles */
-  .timeline-dot {
-    @apply w-2 h-2 rounded-full bg-border;
+  /* Row density */
+  .row-comfortable {
+    @apply py-4; /* ~16px vertical = 56px total */
   }
   
-  .timeline-dot-active {
-    @apply bg-primary;
+  .row-compact {
+    @apply py-2.5; /* ~10px vertical = 44px total */
   }
   
-  .timeline-line {
-    @apply w-px bg-border flex-1 min-h-[1.5rem];
+  /* Focus ring - subtle but visible */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-1;
+  }
+  
+  /* Hover state - extremely subtle */
+  .hover-subtle {
+    @apply transition-colors hover:bg-muted/40;
+  }
+  
+  /* Label style */
+  .label-muted {
+    @apply text-xs font-medium text-muted-foreground;
   }
 }
 
 @layer utilities {
-  /* Smooth transitions */
-  .transition-smooth {
-    @apply transition-all duration-200 ease-out;
-  }
-  
-  /* Focus ring */
-  .focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
-  }
-  
-  /* Glass effect */
-  .glass {
-    @apply bg-background/80 backdrop-blur-sm;
-  }
-  
-  /* Fade in animation */
+  /* Animation */
   .animate-fade-in {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.2s ease-out;
   }
   
   @keyframes fadeIn {
     from {
       opacity: 0;
       transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Slide up animation */
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out;
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
     }
     to {
       opacity: 1;

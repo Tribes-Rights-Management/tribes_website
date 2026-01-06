@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, StatusHistory, GeneratedDocument, RequestStatus, STATUS_LABELS } from "@/types";
-import { ArrowLeft, Download, Eye, ExternalLink } from "lucide-react";
+import { ArrowLeft, Download, Eye } from "lucide-react";
 import { format } from "date-fns";
 
 interface InternalNote {
@@ -91,20 +91,13 @@ export default function AdminRequestDetailPage() {
     
     setIsUpdating(true);
     try {
-      const { error: updateError } = await supabase
-        .from("license_requests")
-        .update({ status: newStatus })
-        .eq("id", request.id);
-
-      if (updateError) throw updateError;
-
+      await supabase.from("license_requests").update({ status: newStatus }).eq("id", request.id);
       await supabase.from("status_history").insert({
         request_id: request.id,
         from_status: request.status,
         to_status: newStatus,
         actor_user_id: user.id,
       });
-
       toast({ title: "Status updated" });
       fetchRequestData(request.id);
     } catch (error) {
@@ -120,13 +113,11 @@ export default function AdminRequestDetailPage() {
     
     setIsAddingNote(true);
     try {
-      const { error } = await supabase.from("internal_notes").insert({
+      await supabase.from("internal_notes").insert({
         request_id: request.id,
         user_id: user.id,
         note: newNote.trim(),
       });
-
-      if (error) throw error;
       setNewNote("");
       fetchRequestData(request.id);
     } catch (error) {
@@ -145,8 +136,8 @@ export default function AdminRequestDetailPage() {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header isAdminView={isAdminView} onExit={() => navigate("/portal")} />
-        <main className="container flex-1 py-6">
-          <Skeleton className="h-6 w-48 mb-6" />
+        <main className="container flex-1 py-8">
+          <Skeleton className="h-6 w-48 mb-8" />
           <Skeleton className="h-64 w-full" />
         </main>
       </div>
@@ -162,27 +153,24 @@ export default function AdminRequestDetailPage() {
     <div className="min-h-screen bg-background flex flex-col">
       <Header isAdminView={isAdminView} onExit={() => navigate("/portal")} />
 
-      <main className="container flex-1 py-6">
+      <main className="container flex-1 py-8">
         <div className="max-w-5xl mx-auto">
           {/* Back */}
           <button
             onClick={() => navigate("/admin")}
-            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-5"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             License Queue
           </button>
 
           {/* Title */}
-          <h1 className="text-lg font-medium tracking-tight mb-6">
-            Request TRL-{shortId}
-          </h1>
+          <h1 className="mb-8">Request TRL-{shortId}</h1>
 
           {/* Two Column */}
-          <div className="grid lg:grid-cols-[1fr_280px] gap-12">
+          <div className="grid lg:grid-cols-[1fr_260px] gap-12">
             {/* Main */}
-            <div className="space-y-6">
-              {/* Summary */}
+            <div className="space-y-8">
               <Section title="Summary">
                 <Grid>
                   <Field label="Requester" value={requesterName} />
@@ -192,19 +180,17 @@ export default function AdminRequestDetailPage() {
                 </Grid>
               </Section>
 
-              {/* Agreements */}
               <Section title="Agreements">
                 <div className="flex gap-6 text-sm">
-                  <span className={request.agreement_terms ? "text-foreground" : "text-muted-foreground"}>
+                  <span className={request.agreement_terms ? "" : "text-muted-foreground"}>
                     {request.agreement_terms ? "✓" : "○"} Terms
                   </span>
-                  <span className={request.agreement_accounting ? "text-foreground" : "text-muted-foreground"}>
+                  <span className={request.agreement_accounting ? "" : "text-muted-foreground"}>
                     {request.agreement_accounting ? "✓" : "○"} Accounting
                   </span>
                 </div>
               </Section>
 
-              {/* Contact */}
               <Section title="Contact">
                 <Grid>
                   <Field label="First Name" value={request.first_name} />
@@ -212,12 +198,9 @@ export default function AdminRequestDetailPage() {
                   <Field label="Email" value={request.licensee_email} />
                   <Field label="Organization" value={request.organization} />
                 </Grid>
-                {fullAddress && (
-                  <p className="text-sm mt-3">{fullAddress}</p>
-                )}
+                {fullAddress && <p className="text-sm mt-3">{fullAddress}</p>}
               </Section>
 
-              {/* Product */}
               <Section title="Product">
                 <Grid>
                   <Field label="Label / Master Owner" value={request.label_master_owner} />
@@ -227,12 +210,9 @@ export default function AdminRequestDetailPage() {
                   <Field label="Release Date" value={request.release_date ? format(new Date(request.release_date), "MMM d, yyyy") : null} />
                   <Field label="UPC" value={request.product_upc} />
                 </Grid>
-                {request.additional_product_info && (
-                  <p className="text-sm text-muted-foreground mt-3">{request.additional_product_info}</p>
-                )}
+                {request.additional_product_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_product_info}</p>}
               </Section>
 
-              {/* Track */}
               <Section title="Track">
                 <Grid>
                   <Field label="Title" value={request.track_title || request.song_title} />
@@ -241,15 +221,12 @@ export default function AdminRequestDetailPage() {
                   <Field label="Runtime" value={request.runtime} />
                   <Field label="Multiple Uses" value={request.appears_multiple_times ? `Yes (${request.times_count || "?"})` : "No"} />
                 </Grid>
-                {request.additional_track_info && (
-                  <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>
-                )}
+                {request.additional_track_info && <p className="text-sm text-muted-foreground mt-3">{request.additional_track_info}</p>}
               </Section>
 
-              {/* Documents */}
               {documents.length > 0 && (
                 <Section title="Documents">
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     {documents.map(doc => (
                       <a
                         key={doc.id}
@@ -268,35 +245,33 @@ export default function AdminRequestDetailPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Status */}
               <div>
-                <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-2">Status</p>
-                <StatusBadge status={request.status} subtle />
+                <p className="text-xs font-medium text-muted-foreground mb-3">Status</p>
+                <StatusBadge status={request.status} />
 
                 {isSuperAdmin && allowedTransitions.length > 0 && (
                   <Select onValueChange={(v) => updateStatus(v as RequestStatus)} disabled={isUpdating}>
-                    <SelectTrigger className="mt-3 h-8 text-sm border-border/50">
+                    <SelectTrigger className="mt-3 h-9">
                       <SelectValue placeholder="Change…" />
                     </SelectTrigger>
                     <SelectContent>
                       {allowedTransitions.map(s => (
-                        <SelectItem key={s} value={s} className="text-sm">{STATUS_LABELS[s]}</SelectItem>
+                        <SelectItem key={s} value={s}>{STATUS_LABELS[s]}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 )}
 
-                {isAdminView && (
-                  <p className="text-xs text-muted-foreground mt-2">View only</p>
-                )}
+                {isAdminView && <p className="text-xs text-muted-foreground mt-2">View only</p>}
 
-                {/* Actions (Super Admin, no header) */}
+                {/* Actions */}
                 <TooltipProvider>
                   {isSuperAdmin && request.status === "approved" && (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button disabled className="mt-4 w-full h-8 text-sm bg-foreground text-background rounded-full opacity-40 cursor-not-allowed">
+                        <button disabled className="mt-4 w-full h-10 text-sm bg-primary text-primary-foreground rounded-full opacity-40 cursor-not-allowed">
                           Send Sign + Pay Link
                         </button>
                       </TooltipTrigger>
@@ -307,7 +282,7 @@ export default function AdminRequestDetailPage() {
                   {isSuperAdmin && (request.status === "awaiting_signature" || request.status === "awaiting_payment") && (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button disabled className="mt-4 w-full h-8 text-sm border border-border/60 rounded-full opacity-40 cursor-not-allowed">
+                        <button disabled className="mt-4 w-full h-10 text-sm border border-input rounded-full opacity-40 cursor-not-allowed">
                           Resend Link
                         </button>
                       </TooltipTrigger>
@@ -320,7 +295,7 @@ export default function AdminRequestDetailPage() {
                       href={executedDoc.storage_path}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-4 w-full h-8 flex items-center justify-center gap-1.5 text-sm bg-foreground text-background rounded-full hover:opacity-90 transition-opacity"
+                      className="mt-4 w-full h-10 flex items-center justify-center gap-1.5 text-sm bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
                     >
                       <Download className="w-3.5 h-3.5" />
                       Download Agreement
@@ -331,7 +306,7 @@ export default function AdminRequestDetailPage() {
 
               {/* Notes */}
               <div>
-                <p className="text-[11px] uppercase tracking-wide text-muted-foreground mb-3">Notes</p>
+                <p className="text-xs font-medium text-muted-foreground mb-3">Notes</p>
 
                 {isSuperAdmin && (
                   <div className="mb-4">
@@ -340,7 +315,7 @@ export default function AdminRequestDetailPage() {
                       value={newNote}
                       onChange={(e) => setNewNote(e.target.value)}
                       rows={2}
-                      className="text-sm mb-1.5"
+                      className="mb-1.5"
                     />
                     <div className="text-right">
                       <button
@@ -359,7 +334,7 @@ export default function AdminRequestDetailPage() {
                     {notes.map(n => (
                       <div key={n.id} className="text-sm">
                         <p>{n.note}</p>
-                        <p className="text-[11px] text-muted-foreground mt-0.5">
+                        <p className="text-xs text-muted-foreground mt-0.5">
                           {format(new Date(n.created_at), "MMM d, h:mm a")}
                         </p>
                       </div>
@@ -369,11 +344,11 @@ export default function AdminRequestDetailPage() {
                   <p className="text-xs text-muted-foreground">No notes yet.</p>
                 )}
 
-                {/* Events (no header) */}
+                {/* Events */}
                 {history.length > 0 && (
                   <div className="mt-6 pt-4 space-y-1.5">
                     {history.slice(0, 8).map(h => (
-                      <p key={h.id} className="text-[11px] text-muted-foreground">
+                      <p key={h.id} className="text-xs text-muted-foreground">
                         {format(new Date(h.created_at), "MMM d")} — {h.from_status ? `${STATUS_LABELS[h.from_status]} → ` : ""}{STATUS_LABELS[h.to_status]}
                       </p>
                     ))}
@@ -385,8 +360,8 @@ export default function AdminRequestDetailPage() {
         </div>
       </main>
 
-      <footer className="border-t border-border/40 py-4 mt-auto">
-        <div className="container text-center text-xs text-muted-foreground/70">
+      <footer className="border-t border-border/50 py-4 mt-auto">
+        <div className="container text-center text-xs text-muted-foreground">
           © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
         </div>
       </footer>
@@ -396,14 +371,14 @@ export default function AdminRequestDetailPage() {
 
 function Header({ isAdminView, onExit }: { isAdminView: boolean; onExit: () => void }) {
   return (
-    <header className="border-b border-border/40">
+    <header className="border-b border-border/50">
       <div className="container flex items-center justify-between h-12">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <span className="text-base font-semibold tracking-tight">TRIBES</span>
-          <span className="text-muted-foreground/50">|</span>
+          <span className="text-muted-foreground/40">|</span>
           <span className="text-sm text-muted-foreground">Admin</span>
           {isAdminView && (
-            <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted/50 px-2 py-0.5 rounded">
+            <span className="flex items-center gap-1 ml-1.5 text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded">
               <Eye className="w-3 h-3" />
               View Only
             </span>
@@ -420,26 +395,22 @@ function Header({ isAdminView, onExit }: { isAdminView: boolean; onExit: () => v
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section>
-      <h2 className="text-sm font-medium text-muted-foreground mb-3">{title}</h2>
+      <h2 className="text-muted-foreground mb-3">{title}</h2>
       {children}
     </section>
   );
 }
 
 function Grid({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
-      {children}
-    </div>
-  );
+  return <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">{children}</div>;
 }
 
 function Field({ label, value }: { label: string; value?: string | null }) {
   if (!value) return null;
   return (
-    <div className="flex justify-between sm:block text-sm">
-      <span className="text-muted-foreground sm:block">{label}</span>
-      <span className="sm:mt-0.5 sm:block">{value}</span>
+    <div className="text-sm">
+      <span className="text-muted-foreground">{label}</span>
+      <p className="mt-0.5">{value}</p>
     </div>
   );
 }
