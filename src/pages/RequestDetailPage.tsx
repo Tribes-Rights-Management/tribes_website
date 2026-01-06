@@ -4,12 +4,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppLayout } from "@/components/AppLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { LicenseRequest, GeneratedDocument, STATUS_LABELS, STATUS_DESCRIPTIONS } from "@/types";
 import { ArrowLeft, Download, Edit } from "lucide-react";
@@ -107,18 +101,14 @@ export default function RequestDetailPage() {
               </Link>
             )}
 
-            <TooltipProvider>
-              {showSignPayButton && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button disabled className="h-10 px-4 text-sm bg-muted text-muted-foreground rounded-md cursor-not-allowed">
-                      Review, Sign, and Pay
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>Coming soon</TooltipContent>
-                </Tooltip>
-              )}
-            </TooltipProvider>
+            {showSignPayButton && (
+              <Link
+                to={`/portal/request/${request.id}/sign`}
+                className="h-10 px-4 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors inline-flex items-center"
+              >
+                Review, Sign, and Pay
+              </Link>
+            )}
 
             {request.status === "done" && executedDoc && (
               <a
