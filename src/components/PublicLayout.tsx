@@ -32,10 +32,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       const scrollThreshold = window.innerHeight * 0.6;
       setIsScrolled(window.scrollY > scrollThreshold);
 
-      // Detect dark sections by ID
+      // Detect dark sections by ID - only asset-management is dark now
       const darkSections = [
         document.getElementById("asset-management"),
-        document.getElementById("how-it-works"),
       ].filter(Boolean) as HTMLElement[];
       
       const headerHeight = NAV_SIZES.header.mobile;

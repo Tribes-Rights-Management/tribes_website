@@ -152,102 +152,63 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* How Copyright Clearance Works - Full-width dark block */}
-      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24" style={{ backgroundColor: '#111214' }}>
+      {/* Transition: Dark to Light */}
+      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+      {/* How Copyright Clearance Works - Light operational section */}
+      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24 bg-background">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 
-            className="text-xs font-medium uppercase tracking-[0.12em] mb-6"
-            style={{ color: 'rgba(255,255,255,0.55)' }}
-          >
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-6 text-muted-foreground">
             How Copyright Clearance Works
           </h2>
-          <p 
-            className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px]"
-            style={{ color: 'rgba(255,255,255,0.82)' }}
-          >
-            A review-driven process for accuracy, continuity, and long-term defensibility.
+          <p className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px] text-foreground">
+            Each request follows a four-step review before any agreement is finalized.
           </p>
           <div className="grid md:grid-cols-2 gap-16 md:gap-24">
             <div className="space-y-12">
               <div>
-                <p 
-                  className="text-xs font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-xs font-medium mb-2 text-muted-foreground">
                   01
                 </p>
-                <h3 
-                  className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.82)' }}
-                >
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Intake
                 </h3>
-                <p 
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   Rights, usage, scope, and context submitted once.
                 </p>
               </div>
               <div>
-                <p 
-                  className="text-xs font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-xs font-medium mb-2 text-muted-foreground">
                   02
                 </p>
-                <h3 
-                  className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.82)' }}
-                >
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Verification
                 </h3>
-                <p 
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   Ownership, splits, metadata, and authority reviewed against records.
                 </p>
               </div>
             </div>
             <div className="space-y-12">
               <div>
-                <p 
-                  className="text-xs font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-xs font-medium mb-2 text-muted-foreground">
                   03
                 </p>
-                <h3 
-                  className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.82)' }}
-                >
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Authorization
                 </h3>
-                <p 
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   Terms confirmed, documented, and executed.
                 </p>
               </div>
               <div>
-                <p 
-                  className="text-xs font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-xs font-medium mb-2 text-muted-foreground">
                   04
                 </p>
-                <h3 
-                  className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.82)' }}
-                >
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Record
                 </h3>
-                <p 
-                  className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
-                >
+                <p className="text-sm leading-relaxed text-muted-foreground">
                   Agreements and identifiers stored for long-term reference.
                 </p>
               </div>
