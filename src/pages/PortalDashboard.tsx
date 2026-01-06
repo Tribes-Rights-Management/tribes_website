@@ -6,7 +6,7 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { ChevronRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { format } from "date-fns";
 
 type StatusFilter = "all" | RequestStatus;
@@ -63,6 +63,10 @@ export default function PortalDashboard() {
   // Take recent 7 for display
   const displayRequests = filteredRequests.slice(0, 7);
 
+  // Determine empty state type
+  const isFirstTime = requests.length === 0;
+  const isFilteredEmpty = !isFirstTime && displayRequests.length === 0;
+
   return (
     <DashboardLayout>
       <div className="max-w-4xl">
@@ -81,7 +85,7 @@ export default function PortalDashboard() {
           </div>
         ) : (
           <>
-            {/* Status Overview */}
+            {/* Status Overview - Always visible, even when empty */}
             <section className="mb-10">
               <div className="space-y-0">
                 <button
@@ -95,7 +99,6 @@ export default function PortalDashboard() {
                 </button>
                 {STATUS_ORDER.map((status) => {
                   const count = statusCounts[status] || 0;
-                  if (count === 0) return null;
                   return (
                     <button
                       key={status}
@@ -125,14 +128,21 @@ export default function PortalDashboard() {
                 </Link>
               </div>
 
-              {displayRequests.length === 0 ? (
+              {isFirstTime ? (
+                <div className="py-12">
+                  <p className="text-sm font-medium mb-1">No license activity yet</p>
+                  <p className="text-sm text-muted-foreground">
+                    License requests will appear here once submitted.
+                  </p>
+                </div>
+              ) : isFilteredEmpty ? (
                 <div className="py-12">
                   <p className="text-sm text-muted-foreground">
-                    No license requests yet. New requests will appear here.
+                    No recent license requests.
                   </p>
                 </div>
               ) : (
-                <div>
+                <div className="space-y-0">
                   {displayRequests.map((request) => {
                     const title = request.track_title || request.song_title || request.project_title || "Untitled";
                     const submittedDate = request.submitted_at 
@@ -143,7 +153,7 @@ export default function PortalDashboard() {
                       <div
                         key={request.id}
                         onClick={() => navigate(`/portal/request/${request.id}`)}
-                        className="flex items-center justify-between py-3.5 border-b border-border/20 cursor-pointer hover:bg-muted/20 -mx-2 px-2 rounded transition-colors"
+                        className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
@@ -155,12 +165,11 @@ export default function PortalDashboard() {
                       >
                         <div className="flex items-center gap-4 min-w-0 flex-1">
                           <div className="min-w-0 flex-1">
-                            <p className="text-sm truncate">{title}</p>
+                            <p className="text-sm font-medium truncate">{title}</p>
                             <p className="text-xs text-muted-foreground">{submittedDate}</p>
                           </div>
                           <StatusBadge status={request.status} />
                         </div>
-                        <ChevronRight className="w-4 h-4 text-muted-foreground ml-3 flex-shrink-0" />
                       </div>
                     );
                   })}

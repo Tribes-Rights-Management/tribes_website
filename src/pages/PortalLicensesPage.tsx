@@ -5,8 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { ChevronRight, Plus } from "lucide-react";
+import { LicenseRequest } from "@/types";
+import { Plus } from "lucide-react";
 import { format } from "date-fns";
 
 export default function PortalLicensesPage() {
@@ -37,6 +37,9 @@ export default function PortalLicensesPage() {
     }
   }
 
+  // Determine empty state type
+  const isFirstTime = requests.length === 0;
+
   return (
     <DashboardLayout>
       <div className="max-w-4xl">
@@ -64,14 +67,15 @@ export default function PortalLicensesPage() {
               <Skeleton key={i} className="h-14 w-full" />
             ))}
           </div>
-        ) : requests.length === 0 ? (
+        ) : isFirstTime ? (
           <div className="py-16">
+            <p className="text-sm font-medium mb-1">No license activity yet</p>
             <p className="text-sm text-muted-foreground">
-              No license requests yet. New requests will appear here.
+              License requests will appear here once submitted.
             </p>
           </div>
         ) : (
-          <div>
+          <div className="space-y-0">
             {requests.map((request) => {
               const title = request.track_title || request.song_title || request.project_title || "Untitled";
               const submittedDate = request.submitted_at
@@ -82,7 +86,7 @@ export default function PortalLicensesPage() {
                 <div
                   key={request.id}
                   onClick={() => navigate(`/portal/request/${request.id}`)}
-                  className="flex items-center justify-between py-3.5 border-b border-border/20 cursor-pointer hover:bg-muted/20 -mx-2 px-2 rounded transition-colors"
+                  className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -94,12 +98,11 @@ export default function PortalLicensesPage() {
                 >
                   <div className="flex items-center gap-4 min-w-0 flex-1">
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm truncate">{title}</p>
+                      <p className="text-sm font-medium truncate">{title}</p>
                       <p className="text-xs text-muted-foreground">{submittedDate}</p>
                     </div>
                     <StatusBadge status={request.status} />
                   </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground ml-3 flex-shrink-0" />
                 </div>
               );
             })}

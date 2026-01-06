@@ -25,7 +25,7 @@ interface PendingProfile {
 }
 
 export default function AdminAccessRequestsPage() {
-  const { isSuperAdmin, isAdminView } = useAuth();
+  const { isSuperAdmin } = useAuth();
   const { toast } = useToast();
 
   const [profiles, setProfiles] = useState<PendingProfile[]>([]);
@@ -149,7 +149,7 @@ export default function AdminAccessRequestsPage() {
         {isLoading ? (
           <div className="space-y-3">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-16 w-full" />
+              <Skeleton key={i} className="h-14 w-full" />
             ))}
           </div>
         ) : profiles.length === 0 ? (
@@ -160,9 +160,9 @@ export default function AdminAccessRequestsPage() {
             </p>
           </div>
         ) : (
-          <div>
+          <div className="space-y-0">
             {/* Header */}
-            <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 pb-3 text-xs font-medium text-muted-foreground border-b border-border/30">
+            <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
               <span>Name</span>
               <span>Email</span>
               <span>Requested</span>
@@ -171,11 +171,14 @@ export default function AdminAccessRequestsPage() {
 
             {/* Rows */}
             {profiles.map((profile) => (
-              <div key={profile.id} className="py-4 border-b border-border/20">
+              <div
+                key={profile.id}
+                className="h-14 hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors flex items-center"
+              >
                 {/* Desktop */}
-                <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 items-center">
-                  <span className="text-sm">{profile.name || "—"}</span>
-                  <span className="text-sm text-muted-foreground truncate">{profile.email}</span>
+                <div className="hidden md:grid grid-cols-[1.5fr_1.5fr_1fr_140px] gap-4 items-center w-full">
+                  <span className="text-sm font-medium">{profile.name || "—"}</span>
+                  <span className="text-xs text-muted-foreground truncate">{profile.email}</span>
                   <span className="text-xs text-muted-foreground">
                     {format(new Date(profile.created_at), "MMM d, yyyy")}
                   </span>
@@ -204,7 +207,7 @@ export default function AdminAccessRequestsPage() {
                 </div>
 
                 {/* Mobile */}
-                <div className="md:hidden space-y-2">
+                <div className="md:hidden w-full space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-medium">{profile.name || "—"}</span>
                     <span className="text-xs text-muted-foreground">
@@ -213,7 +216,7 @@ export default function AdminAccessRequestsPage() {
                   </div>
                   <p className="text-xs text-muted-foreground">{profile.email}</p>
                   {isSuperAdmin && (
-                    <div className="flex gap-2 pt-2">
+                    <div className="flex gap-2 pt-1">
                       <button
                         onClick={() => setApprovingProfile(profile)}
                         disabled={processingId === profile.id}

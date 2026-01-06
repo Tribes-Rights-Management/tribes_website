@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -14,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { Search, ChevronRight } from "lucide-react";
+import { Search } from "lucide-react";
 import { format } from "date-fns";
 
 const ADMIN_STATUSES: RequestStatus[] = [
@@ -77,6 +76,10 @@ export default function AdminLicensesPage() {
     return acc;
   }, {} as Record<string, number>);
 
+  // Determine empty state type
+  const isFirstTime = requests.length === 0;
+  const isFilteredEmpty = !isFirstTime && filteredRequests.length === 0;
+
   return (
     <DashboardLayout>
       <div className="max-w-5xl">
@@ -122,19 +125,24 @@ export default function AdminLicensesPage() {
               <Skeleton key={i} className="h-14 w-full" />
             ))}
           </div>
-        ) : filteredRequests.length === 0 ? (
+        ) : isFirstTime ? (
           <div className="py-16">
-            <p className="text-sm font-medium mb-1">
-              {searchQuery ? "No results" : "No license requests"}
-            </p>
+            <p className="text-sm font-medium mb-1">No license activity yet</p>
             <p className="text-sm text-muted-foreground">
-              {searchQuery ? "No license requests match your search." : "New requests will appear here."}
+              License requests will appear here once submitted.
+            </p>
+          </div>
+        ) : isFilteredEmpty ? (
+          <div className="py-16">
+            <p className="text-sm font-medium mb-1">No license requests</p>
+            <p className="text-sm text-muted-foreground">
+              {searchQuery ? "No license requests match your search." : "There's nothing to review right now."}
             </p>
           </div>
         ) : (
-          <div>
+          <div className="space-y-0">
             {/* Header */}
-            <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground border-b border-border/30">
+            <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 pb-3 text-xs font-medium text-muted-foreground">
               <span>Submitted</span>
               <span>Requester</span>
               <span>Email</span>
@@ -158,7 +166,7 @@ export default function AdminLicensesPage() {
                 <div
                   key={request.id}
                   onClick={() => navigate(`/admin/licenses/${request.id}`)}
-                  className="py-3.5 cursor-pointer transition-colors border-b border-border/20 hover:bg-muted/20 -mx-2 px-2 rounded"
+                  className="h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring flex items-center"
                   tabIndex={0}
                   role="button"
                   onKeyDown={(e) => {
@@ -169,35 +177,34 @@ export default function AdminLicensesPage() {
                   }}
                 >
                   {/* Desktop */}
-                  <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 items-center">
+                  <div className="hidden md:grid grid-cols-[100px_1.5fr_1fr_1fr_1fr_100px] gap-4 items-center w-full">
                     <span className="text-xs text-muted-foreground">{submittedDate}</span>
                     <div className="min-w-0">
-                      <p className="text-sm truncate">{requesterName}</p>
+                      <p className="text-sm font-medium truncate">{requesterName}</p>
                       {request.organization && (
                         <p className="text-xs text-muted-foreground truncate">{request.organization}</p>
                       )}
                     </div>
-                    <span className="text-sm text-muted-foreground truncate">
+                    <span className="text-xs text-muted-foreground truncate">
                       {request.licensee_email || "—"}
                     </span>
-                    <span className="text-sm truncate">{trackTitle}</span>
-                    <span className="text-sm text-muted-foreground truncate">
+                    <span className="text-sm font-medium truncate">{trackTitle}</span>
+                    <span className="text-xs text-muted-foreground truncate">
                       {request.recording_artist || "—"}
                     </span>
                     <StatusBadge status={request.status} />
                   </div>
 
                   {/* Mobile */}
-                  <div className="md:hidden flex items-center justify-between">
+                  <div className="md:hidden flex items-center justify-between w-full">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <span className="text-sm truncate">{trackTitle}</span>
+                        <span className="text-sm font-medium truncate">{trackTitle}</span>
                         <StatusBadge status={request.status} />
                       </div>
                       <p className="text-xs text-muted-foreground">{requesterName}</p>
                       <p className="text-xs text-muted-foreground">{submittedDate}</p>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                   </div>
                 </div>
               );

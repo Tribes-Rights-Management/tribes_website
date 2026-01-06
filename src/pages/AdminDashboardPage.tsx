@@ -6,7 +6,6 @@ import { DashboardLayout } from "@/components/DashboardLayout";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LicenseRequest, RequestStatus, STATUS_LABELS } from "@/types";
-import { ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 
 type StatusFilter = "all" | RequestStatus;
@@ -80,6 +79,10 @@ export default function AdminDashboardPage() {
   // Take recent 7 for display
   const displayRequests = filteredRequests.slice(0, 7);
 
+  // Determine empty state type
+  const isFirstTime = requests.length === 0;
+  const isFilteredEmpty = !isFirstTime && displayRequests.length === 0;
+
   return (
     <DashboardLayout>
       <div className="max-w-4xl">
@@ -98,7 +101,7 @@ export default function AdminDashboardPage() {
           </div>
         ) : (
           <>
-            {/* Status Overview */}
+            {/* Status Overview - Always visible with 0 values */}
             <section className="mb-10">
               <div className="space-y-0">
                 {STATUS_ORDER.map((status) => {
@@ -123,14 +126,22 @@ export default function AdminDashboardPage() {
             <section className="mb-10">
               <h2 className="text-sm font-medium mb-4">Recent license requests</h2>
 
-              {displayRequests.length === 0 ? (
+              {isFirstTime ? (
                 <div className="py-12">
+                  <p className="text-sm font-medium mb-1">No license activity yet</p>
                   <p className="text-sm text-muted-foreground">
-                    No license requests yet. New requests will appear here.
+                    License requests will appear here once submitted.
+                  </p>
+                </div>
+              ) : isFilteredEmpty ? (
+                <div className="py-12">
+                  <p className="text-sm font-medium mb-1">No license requests</p>
+                  <p className="text-sm text-muted-foreground">
+                    There's nothing to review right now.
                   </p>
                 </div>
               ) : (
-                <div>
+                <div className="space-y-0">
                   {displayRequests.map((request) => {
                     const requesterName = [request.first_name, request.last_name].filter(Boolean).join(" ") || request.licensee_legal_name || "Unknown";
                     const trackTitle = request.track_title || request.song_title || "Untitled";
@@ -142,7 +153,7 @@ export default function AdminDashboardPage() {
                       <div
                         key={request.id}
                         onClick={() => navigate(`/admin/licenses/${request.id}`)}
-                        className="flex items-center justify-between py-3.5 border-b border-border/20 cursor-pointer hover:bg-muted/20 -mx-2 px-2 rounded transition-colors"
+                        className="flex items-center justify-between h-14 cursor-pointer hover:bg-muted/[0.03] -mx-2 px-2 rounded-md transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
@@ -155,12 +166,11 @@ export default function AdminDashboardPage() {
                         <div className="flex items-center gap-6 min-w-0 flex-1">
                           <span className="text-xs text-muted-foreground w-20 flex-shrink-0">{submittedDate}</span>
                           <div className="min-w-0 flex-1">
-                            <p className="text-sm truncate">{trackTitle}</p>
+                            <p className="text-sm font-medium truncate">{trackTitle}</p>
                             <p className="text-xs text-muted-foreground truncate">{requesterName}</p>
                           </div>
                           <StatusBadge status={request.status} />
                         </div>
-                        <ChevronRight className="w-4 h-4 text-muted-foreground ml-3 flex-shrink-0" />
                       </div>
                     );
                   })}
