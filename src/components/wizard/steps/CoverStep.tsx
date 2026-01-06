@@ -14,7 +14,7 @@ export function CoverStep({ onStart, isLoading }: CoverStepProps) {
           New License Request
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          Complete all fields for review and processing.
+          Submit your details. We'll review everything before it's finalized.
         </p>
       </div>
       

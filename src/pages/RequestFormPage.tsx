@@ -377,7 +377,7 @@ export default function RequestFormPage() {
       <footer className="border-t border-border/50 py-4">
         <div className="container text-center">
           <p className="text-xs text-muted-foreground mb-2">
-            Each license issued through Tribes is reviewed and recorded for long-term reference.
+            All submissions are reviewed before agreements are finalized.
           </p>
           <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.

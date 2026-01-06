@@ -11,7 +11,7 @@ export function ThankYouStep() {
           Request Submitted
         </h1>
         <p className="text-muted-foreground leading-relaxed">
-          You will be notified when review is complete.
+          We'll review your details and follow up if anything is needed.
         </p>
       </div>
 
