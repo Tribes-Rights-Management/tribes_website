@@ -77,41 +77,76 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px" style={{ backgroundColor: 'rgba(17,18,20,0.08)' }} />
-      </div>
-
-      {/* What We Do */}
-      <section className="py-24 md:py-32">
+      {/* Music as an Asset - Full-width dark section */}
+      <section id="asset-management" className="py-24 md:py-32" style={{ backgroundColor: '#111214' }}>
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-12" style={{ color: '#6A6D70' }}>
-            What We Do
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
-              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
-                Publishing Administration
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Registration, tracking, collection, protection, reporting.
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* Left Column */}
+            <div>
+              <p 
+                className="text-xs font-medium uppercase tracking-[0.12em] mb-8"
+                style={{ color: 'rgba(255,255,255,0.55)' }}
+              >
+                Music as an Asset
+              </p>
+              <h2 
+                className="text-[28px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em] mb-8"
+                style={{ color: 'rgba(255,255,255,0.88)' }}
+              >
+                Managing music with the discipline of long-term capital.
+              </h2>
+              <p 
+                className="text-base leading-[1.8]"
+                style={{ color: 'rgba(255,255,255,0.64)' }}
+              >
+                At Tribes, publishing administration is not clerical work. It is asset management—rights, data, income, and documentation treated with institutional rigor. Our systems are designed to protect value, preserve continuity, and support long-term financial clarity across the life of a catalog.
               </p>
             </div>
-            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
-              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
-                Rights Management
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Ownership records, metadata integrity, audit-ready documentation.
-              </p>
-            </div>
-            <div className="p-8 bg-white rounded-lg" style={{ border: '1px solid #E6E7E9' }}>
-              <h3 className="text-lg font-medium mb-3" style={{ color: '#111214' }}>
-                Licensing
-              </h3>
-              <p className="text-sm leading-relaxed" style={{ color: '#5F6368' }}>
-                Request, review, execution, permanent storage.
-              </p>
+            
+            {/* Right Column - Three stacked blocks */}
+            <div className="space-y-12 lg:pt-12">
+              <div>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                >
+                  Rights & Ownership
+                </h3>
+                <p 
+                  className="text-sm leading-[1.7]"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Structured ownership records, verified splits, and authoritative metadata maintained as permanent reference.
+                </p>
+              </div>
+              <div>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                >
+                  Financial Integrity
+                </h3>
+                <p 
+                  className="text-sm leading-[1.7]"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Accurate collections, defensible reporting, and continuity across accounting periods, partners, and platforms.
+                </p>
+              </div>
+              <div>
+                <h3 
+                  className="text-lg font-medium mb-3"
+                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                >
+                  Data & Documentation
+                </h3>
+                <p 
+                  className="text-sm leading-[1.7]"
+                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                >
+                  Clear lineage of agreements, licenses, and identifiers organized for audit, diligence, and long-term access.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -217,51 +252,6 @@ export default function MarketingPage() {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Music as an Asset Class */}
-      <section className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-12" style={{ color: '#6A6D70' }}>
-            Music as an Asset Class
-          </h2>
-          
-          <div className="max-w-[720px]">
-            <p className="text-lg md:text-xl font-medium leading-[1.5] text-foreground mb-2">
-              Publishing administration is not clerical work.
-            </p>
-            <p className="text-lg md:text-xl font-medium leading-[1.5] text-foreground mb-10">
-              It is long-term asset management.
-            </p>
-            
-            <p className="text-base leading-[1.8] text-muted-foreground mb-12 max-w-[640px]">
-              At Tribes, we treat music as a durable financial asset—one that requires rights administration, data stewardship, and financial oversight.
-            </p>
-            
-            <p className="text-sm font-medium text-foreground mb-6">
-              That means:
-            </p>
-            
-            <div className="space-y-5 mb-12">
-              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Rights and ownership managed with the same rigor as any investable asset
-              </p>
-              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Metadata, splits, and agreements maintained as permanent financial records
-              </p>
-              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Income tracked, reconciled, and reported with continuity
-              </p>
-              <p className="text-sm leading-[1.7] text-muted-foreground pl-4 border-l border-border">
-                Documentation preserved for audits, transactions, and valuation
-              </p>
-            </div>
-            
-            <p className="text-base leading-[1.8] text-muted-foreground max-w-[640px]">
-              Records remain accessible. Ownership stays documented. Agreements stay enforceable.
-            </p>
           </div>
         </div>
       </section>
