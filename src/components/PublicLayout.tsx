@@ -147,8 +147,36 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     Close
                   </button>
                   
-                  {/* Primary Navigation — higher contrast, tighter vertical rhythm */}
+                  {/* Primary Navigation */}
                   <div>
+                    <Link 
+                      to="/inquire" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                        location.pathname === "/inquire"
+                          ? "text-foreground"
+                          : "text-foreground/80 hover:text-foreground"
+                      }`}
+                      style={{ 
+                        minHeight: 46,
+                        letterSpacing: "0.005em",
+                      }}
+                    >
+                      Work with Tribes
+                    </Link>
+                    <Link 
+                      to="/license-request" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                        location.pathname === "/license-request"
+                          ? "text-foreground"
+                          : "text-foreground/80 hover:text-foreground"
+                      }`}
+                      style={{ 
+                        minHeight: 46,
+                        letterSpacing: "0.005em",
+                      }}
+                    >
+                      Request a License
+                    </Link>
                     <Link 
                       to="/services" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
@@ -179,10 +207,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     </Link>
                   </div>
                   
-                  {/* Deliberate gap before access actions */}
+                  {/* Deliberate gap before utility actions */}
                   <div className="h-10" />
                   
-                  {/* Access Actions — same size, lighter tone */}
+                  {/* Utility — Client Sign In only */}
                   <div>
                     <Link 
                       to="/auth" 
@@ -196,17 +224,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                         letterSpacing: "0.005em",
                       }}
                     >
-                      Sign In
-                    </Link>
-                    <Link 
-                      to="/auth?request=true" 
-                      className="text-[15px] text-foreground/55 hover:text-foreground/75 transition-colors duration-150 flex items-center"
-                      style={{ 
-                        minHeight: 46,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      Request Access
+                      Client Sign In
                     </Link>
                   </div>
                   
@@ -259,6 +277,18 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             
             <div className="flex items-center gap-6">
               <Link 
+                to="/inquire" 
+                className={`text-sm ${navLinkClass("/inquire")}`}
+              >
+                Work with Tribes
+              </Link>
+              <Link 
+                to="/license-request" 
+                className={`text-sm ${navLinkClass("/license-request")}`}
+              >
+                Request a License
+              </Link>
+              <Link 
                 to="/services" 
                 className={`text-sm ${navLinkClass("/services")}`}
               >
@@ -281,17 +311,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                Sign In
-              </Link>
-              <Link 
-                to="/auth?request=true" 
-                className={`text-sm transition-colors duration-150 ${
-                  isHeaderDark 
-                    ? "text-white/60 hover:text-white" 
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                Request Access
+                Client Sign In
               </Link>
             </div>
           </div>
@@ -309,51 +329,82 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         className="bg-[#111214]"
         data-surface="dark"
       >
-        {/* Primary Access Block */}
+        {/* Two-Path Entry Block */}
         <div className="pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-            <div className="max-w-lg">
-              {/* Headline — Large, confident */}
-              <h2 
-                className="text-white font-medium tracking-tight mb-4"
-                style={{ 
-                  fontSize: "clamp(24px, 3.5vw, 32px)",
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.02em",
-                }}
-              >
-                Access the platform.
-              </h2>
-              
-              {/* Supporting copy */}
-              <p 
-                className="text-white/45 mb-10"
-                style={{ 
-                  fontSize: 15,
-                  lineHeight: 1.7,
-                }}
-              >
-                Approved clients receive a secure login for submissions, documentation, and clearance status.
-              </p>
-              
-              {/* Actions — Clear hierarchy */}
-              <div className="flex flex-wrap items-center gap-4 md:gap-5">
-                {/* Primary — Solid button, visually dominant */}
+            <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
+              {/* Path 1: Work with Tribes */}
+              <div>
+                <h2 
+                  className="text-white font-medium tracking-tight mb-4"
+                  style={{ 
+                    fontSize: "clamp(22px, 3vw, 28px)",
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Work with Tribes
+                </h2>
+                <p 
+                  className="text-white/45 mb-8"
+                  style={{ 
+                    fontSize: 15,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Publishing administration, rights management, and long-term catalog support.
+                </p>
                 <Link 
-                  to="/auth?request=true"
+                  to="/inquire"
                   className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
                   style={{ minHeight: 48 }}
                 >
-                  Request Access
+                  Inquire for Services
                 </Link>
-                
-                {/* Secondary — Text link */}
+              </div>
+              
+              {/* Path 2: Licensing Requests */}
+              <div>
+                <h2 
+                  className="text-white font-medium tracking-tight mb-4"
+                  style={{ 
+                    fontSize: "clamp(22px, 3vw, 28px)",
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Licensing Requests
+                </h2>
+                <p 
+                  className="text-white/45 mb-8"
+                  style={{ 
+                    fontSize: 15,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  For commercial, broadcast, or ministry use of music we administer.
+                </p>
                 <Link 
-                  to="/auth"
-                  className="inline-flex items-center justify-center px-3 py-3 text-[15px] text-white/40 transition-colors duration-150 hover:text-white/60"
+                  to="/license-request"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-white/20 text-white font-medium text-[15px] rounded transition-all duration-150 hover:border-white/40 hover:bg-white/5"
                   style={{ minHeight: 48 }}
                 >
-                  Sign In
+                  Request a License
+                </Link>
+              </div>
+            </div>
+            
+            {/* Client Portal — Utility position */}
+            <div className="mt-16 pt-10 border-t border-white/10">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <p className="text-white/35 text-sm">
+                  Existing client?
+                </p>
+                <Link 
+                  to="/auth"
+                  className="text-sm text-white/50 hover:text-white/70 transition-colors duration-150"
+                >
+                  Client Sign In
                 </Link>
               </div>
             </div>

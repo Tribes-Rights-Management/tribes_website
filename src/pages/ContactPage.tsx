@@ -146,16 +146,24 @@ export default function ContactPage() {
                   </a>
                 </div>
                 <div className="pt-8 border-t border-border">
-                  <p className="text-sm font-medium text-foreground mb-3">Request Access</p>
+                  <p className="text-sm font-medium text-foreground mb-3">Services & Licensing</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    Access is granted by review. Submit a request and we will follow up.
+                    Interested in working with us or need to license music?
                   </p>
-                  <Link 
-                    to="/auth?request=true" 
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-                  >
-                    Request Access
-                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Link 
+                      to="/inquire" 
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                    >
+                      Inquire for Services
+                    </Link>
+                    <Link 
+                      to="/license-request" 
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                    >
+                      Request a License
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

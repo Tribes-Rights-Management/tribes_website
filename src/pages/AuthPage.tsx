@@ -319,16 +319,16 @@ export default function AuthPage() {
     );
   }
 
-  // Request access form
+  // Request portal access form
   if (viewState === "request_form") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <main className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
-              <h1 className="mb-2">Request Access</h1>
+              <h1 className="mb-2">Request Client Portal Access</h1>
               <p className="text-sm text-muted-foreground">
-                Access requests are reviewed to ensure the right fit and proper scope.
+                For existing or approved relationships only.
               </p>
             </div>
 
@@ -472,7 +472,7 @@ export default function AuthPage() {
                 disabled={isSubmitting}
                 className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
-                {isSubmitting ? "…" : "Request Access"}
+                {isSubmitting ? "…" : "Request Portal Access"}
               </button>
             </form>
 
@@ -499,8 +499,8 @@ export default function AuthPage() {
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="mb-2">Tribes Rights Licensing</h1>
-            <p className="text-sm text-muted-foreground">Log in to get started.</p>
+            <h1 className="mb-2">Client Sign In</h1>
+            <p className="text-sm text-muted-foreground">Access your client portal.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -525,14 +525,18 @@ export default function AuthPage() {
           </form>
 
           <p className="text-center text-sm text-muted-foreground mt-6">
-            Don't have access?{" "}
+            Need portal access?{" "}
             <button
               type="button"
               onClick={() => setViewState("request_form")}
               className="text-foreground hover:underline"
             >
-              Request access.
+              Request access
             </button>
+          </p>
+          
+          <p className="text-center text-xs text-muted-foreground/60 mt-4">
+            For existing or approved relationships only.
           </p>
         </div>
       </main>
