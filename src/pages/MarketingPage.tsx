@@ -217,44 +217,7 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Transition: Content to CTA */}
-      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-      {/* Final CTA */}
-      <section className="py-24 md:py-32 bg-[#F6F7F8]">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[480px]">
-            <h2 className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-6">
-              Access the platform.
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              Sign in if you have an account. Otherwise, request access and we'll review your submission.
-            </p>
-            <div className="flex items-center gap-6">
-              <Link 
-                to="/auth" 
-                className="text-sm font-medium text-foreground hover:text-foreground/70 transition-colors duration-[120ms]"
-              >
-                Sign In
-              </Link>
-              <Link 
-                to="/auth?request=true" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-[120ms]"
-              >
-                Request Access
-              </Link>
-            </div>
-            <div className="mt-10 pt-6 border-t border-border/50">
-              <Link 
-                to="/how-licensing-works" 
-                className="text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-[120ms]"
-              >
-                Learn how licensing works
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA section removed — canonical access section lives in PublicLayout footer */}
     </PublicLayout>
   );
 }
