@@ -187,7 +187,7 @@ export default function ContactPage() {
                   disabled={isSubmitting}
                   className="w-full h-12 bg-foreground text-background text-[14px] font-medium rounded-md hover:bg-foreground/90 transition-all duration-150 disabled:bg-muted disabled:text-muted-foreground/60 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Sending…" : "Send Message"}
+                  {isSubmitting ? "Sending…" : "Send"}
                 </button>
               </div>
             </form>

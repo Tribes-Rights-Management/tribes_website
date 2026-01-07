@@ -345,7 +345,7 @@ export default function AuthPage() {
                     aria-label="First name"
                   />
                   <p className="text-xs text-muted-foreground mt-1.5">
-                    Your legal first name.
+                    As it appears on documents.
                   </p>
                 </div>
                 <div>
@@ -359,7 +359,7 @@ export default function AuthPage() {
                     aria-label="Last name"
                   />
                   <p className="text-xs text-muted-foreground mt-1.5">
-                    Your legal last name.
+                    As it appears on documents.
                   </p>
                 </div>
               </div>
@@ -375,7 +375,7 @@ export default function AuthPage() {
                   aria-label="Company"
                 />
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  If you are an individual creator, enter your artist name or personal name.
+                  Individuals may use an artist or professional name.
                 </p>
               </div>
 
@@ -393,7 +393,7 @@ export default function AuthPage() {
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  Used to ensure licenses are issued correctly by territory.
+                  Used for territory-specific licensing.
                 </p>
               </div>
 
@@ -408,7 +408,7 @@ export default function AuthPage() {
                   aria-label="Email"
                 />
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  This will be used as your login email.
+                  Used for account access.
                 </p>
               </div>
 
@@ -444,13 +444,13 @@ export default function AuthPage() {
                   </Popover>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  This helps us apply the correct licensing structure.
+                  Determines licensing structure.
                 </p>
               </div>
 
               <div>
                 <Textarea
-                  placeholder="Briefly describe who you are, how you work with music, and the type of usage you expect."
+                  placeholder="Who you are, how you work with music, and typical usage."
                   value={companyDescription}
                   onChange={(e) => setCompanyDescription(e.target.value)}
                   required
@@ -459,12 +459,12 @@ export default function AuthPage() {
                   aria-label="Tell us about your company"
                 />
                 <p className="text-xs text-muted-foreground mt-1.5">
-                  This does not need to be perfect. Clear context helps us review your request accurately.
+                  Reviewed as part of account approval.
                 </p>
               </div>
 
-              <p className="text-sm text-muted-foreground">
-                You don't need to be a legal expert to submit a request—only clear about how the music will be used.
+              <p className="text-xs text-muted-foreground/60">
+                Describe usage clearly. Legal expertise not required.
               </p>
 
               <button
@@ -472,7 +472,7 @@ export default function AuthPage() {
                 disabled={isSubmitting}
                 className="w-full h-10 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
-                {isSubmitting ? "…" : "Request Portal Access"}
+                {isSubmitting ? "…" : "Request Access"}
               </button>
             </form>
 
