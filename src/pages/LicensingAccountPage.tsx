@@ -288,7 +288,7 @@ export default function LicensingAccountPage() {
               </div>
 
               <div>
-                <label className="text-sm text-muted-foreground mb-2 block">
+                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
                   Describe your intended licensing use
                 </label>
                 <Textarea
@@ -304,23 +304,23 @@ export default function LicensingAccountPage() {
 
               {/* Required consent */}
               <div className="pt-3">
-                <div className="flex items-start gap-3">
+                <div className="flex items-center gap-2.5">
                   <Checkbox
                     id="terms"
                     checked={agreeToTerms}
                     onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                     disabled={isSubmitting}
                     aria-label="Agree to terms"
-                    className="mt-[3px] shrink-0"
+                    className="shrink-0"
                   />
                   <label 
                     htmlFor="terms" 
-                    className="text-sm text-muted-foreground leading-[1.6] cursor-pointer"
+                    className="text-[13px] text-muted-foreground/70 leading-normal cursor-pointer"
                   >
                     I agree to the{" "}
                     <Link 
                       to="/privacy" 
-                      className="text-muted-foreground/70 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/60 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Privacy Policy
@@ -328,7 +328,7 @@ export default function LicensingAccountPage() {
                     {" "}and{" "}
                     <Link 
                       to="/terms" 
-                      className="text-muted-foreground/70 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/60 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Terms of Use
@@ -337,11 +337,11 @@ export default function LicensingAccountPage() {
                 </div>
               </div>
 
-              <div className="pt-4 flex flex-col items-center">
+              <div className="pt-5 flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting || !agreeToTerms}
-                  className="w-full max-w-[85%] h-11 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full max-w-[320px] h-[42px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting…" : "Request Account Review"}
                 </button>
