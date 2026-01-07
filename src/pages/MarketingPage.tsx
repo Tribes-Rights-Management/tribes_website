@@ -15,7 +15,7 @@ export default function MarketingPage() {
             
             {/* H1 - Institutional weight, refined letter-spacing */}
             <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-12">
-              Publishing administration, built for precision.
+              Rights management, built to last.
             </h1>
             
             {/* Subhead - Generous spacing, soft gray */}
