@@ -170,35 +170,34 @@ export default function ServicesPage() {
         <div className="h-px bg-border" />
       </div>
 
-      {/* CTA */}
+      {/* CTA — Single primary action */}
       <section className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[560px]">
             {/* Primary: Licensing Access */}
-            <div>
-              <h2 className="text-[24px] md:text-[28px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-4">
-                License Music
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                For commercial, broadcast, or ministry use of music we administer.
-              </p>
-              <p className="text-sm text-muted-foreground/70 mb-6">
-                Account approval required before submitting license requests.
-              </p>
-              <Link 
-                to="/licensing" 
-                className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
-              >
-                Request Licensing Access
-              </Link>
-            </div>
-            {/* Secondary: Service Inquiry */}
-            <div>
-              <h2 className="text-[24px] md:text-[28px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground/80 mb-4">
-                Representation & Administration
-              </h2>
-              <p className="text-muted-foreground/80 leading-relaxed mb-6">
-                Interested in long-term publishing administration, rights management, or catalog stewardship?
+            <h2 className="text-[24px] md:text-[28px] font-semibold leading-[1.2] tracking-[-0.02em] text-foreground mb-4">
+              License Music We Administer
+            </h2>
+            <p className="text-muted-foreground leading-relaxed mb-3">
+              For commercial, broadcast, or ministry use of music we administer.
+            </p>
+            <p className="text-sm text-muted-foreground/60 mb-8">
+              Account approval required before submitting license requests.
+            </p>
+            
+            {/* Primary CTA — Solid black button */}
+            <Link 
+              to="/licensing" 
+              className="inline-flex items-center justify-center px-6 py-3 bg-foreground text-background font-medium text-[15px] rounded transition-all duration-150 hover:bg-foreground/90"
+              style={{ minHeight: 48 }}
+            >
+              Request an Account
+            </Link>
+            
+            {/* Secondary: Service Inquiry — Text link */}
+            <div className="mt-10 pt-8 border-t border-border">
+              <p className="text-sm text-muted-foreground mb-3">
+                Looking for publishing administration or rights management?
               </p>
               <Link 
                 to="/inquire" 
