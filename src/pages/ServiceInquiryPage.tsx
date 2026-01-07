@@ -270,11 +270,21 @@ export default function ServiceInquiryPage() {
               </div>
             </form>
 
-            <p className="text-[13px] text-muted-foreground/60 mt-6 text-center">
-              <Link to="/licensing" className="text-muted-foreground hover:text-foreground transition-colors">
-                Request Licensing Access
-              </Link>
-            </p>
+            <div className="flex flex-col gap-2 mt-6 text-center">
+              <p className="text-[13px] text-muted-foreground/60">
+                <Link to="/licensing" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Request Licensing Access
+                </Link>
+              </p>
+              <p className="text-[12px] text-muted-foreground/40">
+                <Link 
+                  to="/how-publishing-administration-works" 
+                  className="text-muted-foreground/40 hover:text-muted-foreground transition-colors underline underline-offset-2"
+                >
+                  How publishing administration works
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
