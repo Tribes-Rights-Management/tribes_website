@@ -120,11 +120,11 @@ export default function ContactPage() {
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-12">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <div className="max-w-[520px]">
-            <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
+          <div className="max-w-[560px]">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
               Contact
             </h1>
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
               General inquiries and questions.
             </p>
           </div>
