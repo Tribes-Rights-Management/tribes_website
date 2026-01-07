@@ -148,14 +148,17 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     Close
                   </button>
                   
-                  {/* Primary Navigation */}
+                  {/* ═══════════════════════════════════════════════════════════
+                      PRIMARY NAVIGATION — Three Canonical Access Options
+                      Same language everywhere. No variations.
+                      ═══════════════════════════════════════════════════════════ */}
                   <div>
                     <Link 
                       to="/licensing" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/licensing"
                           ? "text-foreground"
-                          : "text-foreground/80 hover:text-foreground"
+                          : "text-foreground/70 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
@@ -168,8 +171,8 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       to="/inquire" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/inquire"
-                          ? "text-foreground/70"
-                          : "text-foreground/55 hover:text-foreground/75"
+                          ? "text-foreground"
+                          : "text-foreground/70 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
@@ -178,6 +181,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     >
                       Inquire About Services
                     </Link>
+                  </div>
+                  
+                  {/* Deliberate gap before utility section */}
+                  <div className="h-8" />
+                  
+                  {/* Secondary Navigation */}
+                  <div>
                     <Link 
                       to="/services" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
@@ -208,17 +218,17 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     </Link>
                   </div>
                   
-                  {/* Deliberate gap before utility actions */}
+                  {/* Deliberate gap before Client Sign In */}
                   <div className="h-10" />
                   
-                  {/* Utility — Client Sign In only */}
+                  {/* Client Sign In — Subtle emphasis via higher contrast */}
                   <div>
                     <Link 
                       to="/auth" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/auth"
-                          ? "text-foreground/70"
-                          : "text-foreground/55 hover:text-foreground/75"
+                          ? "text-foreground"
+                          : "text-foreground/85 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
@@ -277,9 +287,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
             </Link>
             
             <div className="flex items-center gap-6">
+              {/* ═══════════════════════════════════════════════════════════════════
+                  DESKTOP NAVIGATION — Three Canonical Access Options
+                  Same language, order, and styling everywhere.
+                  ═══════════════════════════════════════════════════════════════════ */}
               <Link 
                 to="/licensing" 
-                className={`text-sm font-medium ${navLinkClass("/licensing")}`}
+                className={`text-sm ${navLinkClass("/licensing")}`}
               >
                 Request Licensing Access
               </Link>
@@ -302,14 +316,15 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 Contact
               </Link>
               <span className={`w-px h-4 transition-colors duration-150 ${
-                isHeaderDark ? "bg-white/10" : "bg-border"
+                isHeaderDark ? "bg-white/15" : "bg-border"
               }`} />
+              {/* Client Sign In — Subtle emphasis via slightly higher contrast */}
               <Link 
                 to="/auth" 
                 className={`text-sm transition-colors duration-150 ${
                   isHeaderDark 
-                    ? "text-white/60 hover:text-white" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-[#EDEDED] hover:text-white" 
+                    : "text-foreground/90 hover:text-foreground"
                 }`}
               >
                 Client Sign In
@@ -337,43 +352,36 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 ACCESS PATHWAYS — Institutional Decision Surface
                 Two equal text-based pathways. No buttons. No visual hierarchy.
                 ═══════════════════════════════════════════════════════════════════ */}
-            <div className="pt-20 pb-16 md:pt-28 md:pb-20">
+            <div className="pt-16 pb-12 md:pt-20 md:pb-16">
               <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
                 <div className="max-w-[560px]">
-                  {/* Section Label */}
-                  <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/55 mb-12">
+                {/* ═══════════════════════════════════════════════════════════════════
+                    ACCESS BLOCK — Mirrors Navigation Exactly
+                    Same language, order, and styling as navigation.
+                    All items are text links. No buttons. No explanatory copy.
+                    ═══════════════════════════════════════════════════════════════════ */}
+                  <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-[#8C8C8C] mb-8">
                     Access
                   </p>
                   
-                  {/* Pathway 1: Request Licensing Access */}
-                  <div className="mb-10">
-                    <h2 className="text-xl font-medium text-white/92 mb-2">
-                      Request Licensing Access
-                    </h2>
-                    <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
-                      For commercial, broadcast, or ministry use of music we administer.
-                    </p>
+                  <div className="flex flex-col gap-4">
                     <Link 
                       to="/licensing"
-                      className="text-sm text-white/70 hover:text-white/90 transition-colors duration-150 underline underline-offset-4 decoration-white/30 hover:decoration-white/50"
+                      className="text-[15px] text-[#B5B5B5] hover:text-white transition-colors duration-150"
                     >
-                      Request an account
+                      Request Licensing Access
                     </Link>
-                  </div>
-                  
-                  {/* Pathway 2: Inquire About Services */}
-                  <div>
-                    <h2 className="text-xl font-medium text-white/92 mb-2">
-                      Inquire About Services
-                    </h2>
-                    <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
-                      For publishing administration, rights management, or long-term catalog support.
-                    </p>
                     <Link 
                       to="/inquire"
-                      className="text-sm text-white/70 hover:text-white/90 transition-colors duration-150 underline underline-offset-4 decoration-white/30 hover:decoration-white/50"
+                      className="text-[15px] text-[#B5B5B5] hover:text-white transition-colors duration-150"
                     >
-                      Submit an inquiry
+                      Inquire About Services
+                    </Link>
+                    <Link 
+                      to="/auth"
+                      className="text-[15px] text-[#EDEDED] hover:text-white transition-colors duration-150"
+                    >
+                      Client Sign In
                     </Link>
                   </div>
                 </div>
