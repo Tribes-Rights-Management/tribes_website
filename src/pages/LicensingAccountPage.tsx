@@ -208,7 +208,7 @@ export default function LicensingAccountPage() {
           <div className="max-w-[640px]">
             <div className="flex items-start gap-3 mb-6">
               <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground">
-                Request Licensing Access
+                Request an Account
               </h1>
               <TooltipProvider delayDuration={200}>
                 <Tooltip>
@@ -235,7 +235,7 @@ export default function LicensingAccountPage() {
               Licensing requests at Tribes are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
             </p>
             <p className="text-sm text-muted-foreground/70 leading-relaxed">
-              Before a license can be requested, we review and approve the requesting party. This does not initiate a license or imply approval.
+              Submitting this form does not initiate a license request or imply approval.
             </p>
           </div>
         </div>
