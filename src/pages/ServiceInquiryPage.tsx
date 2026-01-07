@@ -131,199 +131,156 @@ export default function ServiceInquiryPage() {
 
       {/* Form */}
       <section className="pb-24 md:pb-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-[1fr,320px] gap-16 lg:gap-24">
-            {/* Form Column */}
-            <div className="max-w-[520px]">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Full name"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    required
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[520px]">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                type="text"
+                placeholder="Full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Full name"
+                className="w-full"
+              />
+
+              <Input
+                type="text"
+                placeholder="Company / Organization"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Company or organization"
+                className="w-full"
+              />
+
+              <Input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Email address"
+                className="w-full"
+              />
+
+              <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Select your location" className="w-full">
+                  <SelectValue placeholder="Country or territory" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COUNTRIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select value={roleType} onValueChange={setRoleType} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Role or relationship to rights" className="w-full">
+                  <SelectValue placeholder="Role / Relationship to Rights" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="songwriter_creator">Songwriter / Creator</SelectItem>
+                  <SelectItem value="publisher_rights_holder">Publisher / Rights Holder</SelectItem>
+                  <SelectItem value="brand_agency">Brand / Agency</SelectItem>
+                  <SelectItem value="media_company">Media Company</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <div className="pt-1">
+                <label className="text-[13px] text-muted-foreground/70 mb-2 block">
+                  Describe your catalog or scope
+                </label>
+                <Textarea
+                  placeholder="Example: size of catalog, type of rights, geographic scope."
+                  value={catalogDescription}
+                  onChange={(e) => setCatalogDescription(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  rows={4}
+                  aria-label="Catalog or scope description"
+                  className="w-full"
+                />
+              </div>
+
+              <div className="pt-1">
+                <label className="text-[13px] text-muted-foreground/70 mb-2 block">
+                  What are you looking for from Tribes?
+                </label>
+                <Textarea
+                  placeholder="Example: administration, licensing support, catalog oversight."
+                  value={lookingFor}
+                  onChange={(e) => setLookingFor(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  rows={4}
+                  aria-label="What are you looking for from Tribes"
+                  className="w-full"
+                />
+              </div>
+
+              {/* Consent */}
+              <div className="pt-2">
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="terms"
+                    checked={agreeToTerms}
+                    onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                     disabled={isSubmitting}
-                    aria-label="Full name"
-                    className="w-full"
+                    aria-label="Agree to terms"
+                    className="shrink-0 mt-0.5"
                   />
-                </div>
-
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Company / Organization"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    aria-label="Company or organization"
-                    className="w-full"
-                  />
-                </div>
-
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Email address"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    aria-label="Email address"
-                    className="w-full"
-                  />
-                </div>
-
-                <div>
-                  <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                    <SelectTrigger aria-label="Select your location" className="w-full">
-                      <SelectValue placeholder="Country or territory" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COUNTRIES.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <Select value={roleType} onValueChange={setRoleType} disabled={isSubmitting}>
-                    <SelectTrigger aria-label="Role or relationship to rights" className="w-full">
-                      <SelectValue placeholder="Role / Relationship to Rights" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="songwriter_creator">Songwriter / Creator</SelectItem>
-                      <SelectItem value="publisher_rights_holder">Publisher / Rights Holder</SelectItem>
-                      <SelectItem value="brand_agency">Brand / Agency</SelectItem>
-                      <SelectItem value="media_company">Media Company</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div>
-                  <label className="text-[13px] text-muted-foreground/70 mb-2 block">
-                    Describe your catalog or scope
-                  </label>
-                  <Textarea
-                    placeholder="Example: size of catalog, type of rights, geographic scope."
-                    value={catalogDescription}
-                    onChange={(e) => setCatalogDescription(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    rows={4}
-                    aria-label="Catalog or scope description"
-                    className="w-full"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[13px] text-muted-foreground/70 mb-2 block">
-                    What are you looking for from Tribes?
-                  </label>
-                  <Textarea
-                    placeholder="Example: administration, licensing support, catalog oversight."
-                    value={lookingFor}
-                    onChange={(e) => setLookingFor(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    rows={4}
-                    aria-label="What are you looking for from Tribes"
-                    className="w-full"
-                  />
-                </div>
-
-                {/* Consent */}
-                <div className="pt-2">
-                  <div className="flex items-start gap-3">
-                    <Checkbox
-                      id="terms"
-                      checked={agreeToTerms}
-                      onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
-                      disabled={isSubmitting}
-                      aria-label="Agree to terms"
-                      className="shrink-0 mt-0.5"
-                    />
-                    <label 
-                      htmlFor="terms" 
-                      className="text-[13px] text-muted-foreground/60 leading-relaxed cursor-pointer"
+                  <label 
+                    htmlFor="terms" 
+                    className="text-[13px] text-muted-foreground/60 leading-relaxed cursor-pointer"
+                  >
+                    I agree to the{" "}
+                    <Link 
+                      to="/privacy" 
+                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
+                      target="_blank"
                     >
-                      I agree to the{" "}
-                      <Link 
-                        to="/privacy" 
-                        className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
-                        target="_blank"
-                      >
-                        Privacy Policy
-                      </Link>
-                      {" "}and{" "}
-                      <Link 
-                        to="/terms" 
-                        className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
-                        target="_blank"
-                      >
-                        Terms of Use
-                      </Link>.
-                    </label>
-                  </div>
-                </div>
-
-                <div className="pt-6 flex justify-center lg:justify-start">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting || !agreeToTerms}
-                    className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Submitting…" : "Submit Inquiry"}
-                  </button>
-                </div>
-              </form>
-            </div>
-
-            {/* Sidebar — Desktop only */}
-            <div className="hidden lg:block">
-              <div className="sticky top-32">
-                <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/50 mb-6">
-                  About this form
-                </p>
-                <div className="space-y-6 text-muted-foreground">
-                  <div>
-                    <p className="text-sm font-medium text-foreground/80 mb-1">Long-term relationships</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground/70">
-                      We work with clients who value accuracy and structured rights management.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground/80 mb-1">Catalog stewardship</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground/70">
-                      Publishing administration, rights oversight, and documentation.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground/80 mb-1">Not a license request</p>
-                    <p className="text-sm leading-relaxed text-muted-foreground/70">
-                      This inquiry is about representation—not transactional licensing.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-10 pt-6 border-t border-border/50">
-                  <p className="text-sm text-muted-foreground/50 leading-relaxed">
-                    Need to license music we administer?
-                  </p>
-                  <Link 
-                    to="/licensing" 
-                    className="text-sm text-muted-foreground/70 hover:text-foreground transition-colors underline underline-offset-4 mt-1 inline-block"
-                  >
-                    Request Licensing Access
-                  </Link>
+                      Privacy Policy
+                    </Link>
+                    {" "}and{" "}
+                    <Link 
+                      to="/terms" 
+                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
+                      target="_blank"
+                    >
+                      Terms of Use
+                    </Link>.
+                  </label>
                 </div>
               </div>
-            </div>
+
+              <div className="pt-5 flex justify-center">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`w-full max-w-[280px] h-[44px] text-sm font-medium rounded-md transition-all duration-150 ${
+                    agreeToTerms && !isSubmitting
+                      ? "bg-foreground text-background hover:bg-foreground/90 active:bg-foreground/85"
+                      : "bg-muted-foreground/20 text-muted-foreground/50 cursor-not-allowed"
+                  }`}
+                >
+                  {isSubmitting ? "Submitting…" : "Submit Inquiry"}
+                </button>
+              </div>
+            </form>
+
+            <p className="text-sm text-muted-foreground/60 mt-8 text-center">
+              Need to license music we administer?{" "}
+              <Link to="/licensing" className="text-muted-foreground hover:text-foreground transition-colors">
+                Request Licensing Access
+              </Link>
+            </p>
           </div>
         </div>
       </section>
