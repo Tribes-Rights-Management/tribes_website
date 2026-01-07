@@ -4,7 +4,8 @@ export default function TermsPage() {
   return (
     <PublicLayout>
       <article className="py-16 md:py-24">
-        <div className="max-w-[560px] mx-auto px-6 md:px-8">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[560px]">
           {/* Page Title */}
           <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground mb-3">
             Terms of Use
@@ -206,6 +207,7 @@ export default function TermsPage() {
               </div>
             </section>
 
+          </div>
           </div>
         </div>
       </article>
