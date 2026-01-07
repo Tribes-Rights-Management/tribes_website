@@ -114,11 +114,11 @@ export default function LicensingAccountPage() {
   // Submitted successfully
   if (viewState === "submitted") {
     return (
-      <PublicLayout>
-        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-[480px]">
-              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+      <PublicLayout footerVariant="minimal">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="max-w-[560px]">
+              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Request submitted
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -140,11 +140,11 @@ export default function LicensingAccountPage() {
   // Already pending
   if (viewState === "pending") {
     return (
-      <PublicLayout>
-        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-[480px]">
-              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+      <PublicLayout footerVariant="minimal">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="max-w-[560px]">
+              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Pending review
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -166,11 +166,11 @@ export default function LicensingAccountPage() {
   // Account already exists
   if (viewState === "exists") {
     return (
-      <PublicLayout>
-        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-[480px]">
-              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+      <PublicLayout footerVariant="minimal">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="max-w-[560px]">
+              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Account exists
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
