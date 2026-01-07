@@ -232,7 +232,7 @@ export default function MarketingPage() {
                   Submit
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Tell us what you want to use and how. One form, one song per request.
+                  Tell us what you want to use and how. The details you provide become the foundation of the agreement.
                 </p>
               </div>
               <div>
@@ -243,7 +243,7 @@ export default function MarketingPage() {
                   Review
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  We check ownership, splits, and usage details before moving forward.
+                  We verify ownership, splits, and usage details—so the agreement reflects the correct terms from the start.
                 </p>
               </div>
             </div>
@@ -256,7 +256,7 @@ export default function MarketingPage() {
                   Execute
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Sign and pay (if applicable) in one step. The license becomes binding.
+                  Sign and pay (if applicable) in one step. Once executed, the license becomes a binding reference.
                 </p>
               </div>
               <div>
@@ -267,7 +267,7 @@ export default function MarketingPage() {
                   Record
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Your agreement is stored permanently—a reference you can return to years from now. Download it anytime.
+                  Your agreement is stored as a permanent record—retrievable whenever you need it, years from now.
                 </p>
               </div>
             </div>
