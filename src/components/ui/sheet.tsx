@@ -14,7 +14,8 @@ const SheetPortal = SheetPrimitive.Portal;
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SHEET OVERLAY — Institutional Standard
-   Subtle dim (6-8% opacity), no blur, calm and non-interruptive.
+   Subtle solid backdrop (10% opacity), no blur, defines dismiss zone clearly.
+   Clicking overlay closes the panel intentionally.
    ═══════════════════════════════════════════════════════════════════════════ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
@@ -22,7 +23,7 @@ const SheetOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <SheetPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/[0.06] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200",
+      "fixed inset-0 z-50 bg-black/[0.10] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200 cursor-pointer",
       className,
     )}
     {...props}

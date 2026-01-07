@@ -161,8 +161,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 style={{
                   boxShadow: "-4px 0 20px rgba(0,0,0,0.08)",
                 }}
-                onPointerDownOutside={(e) => e.preventDefault()}
-                onInteractOutside={(e) => e.preventDefault()}
+                onEscapeKeyDown={() => setMobileMenuOpen(false)}
               >
                 <nav 
                   className="flex flex-col h-full justify-between"
