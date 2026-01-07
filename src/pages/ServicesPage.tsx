@@ -193,7 +193,7 @@ export default function ServicesPage() {
                 to="/inquire" 
                 className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
               >
-                Start an inquiry
+                Inquire
               </Link>
             </div>
           </div>

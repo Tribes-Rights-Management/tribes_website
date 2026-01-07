@@ -51,7 +51,7 @@ export default function MarketingPage() {
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Get your copyrights registered, royalties collected, and records organized—so you always know what's yours.
+                Copyrights registered, royalties collected, records organized.
               </p>
             </div>
             <div>
@@ -59,7 +59,7 @@ export default function MarketingPage() {
                 Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Manage your catalog with clear ownership records, structured licensing, and reliable income tracking.
+                Clear ownership records, structured licensing, reliable income tracking.
               </p>
             </div>
             <div>
@@ -67,7 +67,7 @@ export default function MarketingPage() {
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Clear music for your projects with proper documentation and records that hold up.
+                Proper documentation and records for cleared music usage.
               </p>
             </div>
           </div>
