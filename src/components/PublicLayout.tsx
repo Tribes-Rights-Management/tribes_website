@@ -413,8 +413,9 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
         
         {/* ═══════════════════════════════════════════════════════════════════════
             ADMINISTRATIVE FOOTER — Uses canonical LegalRow component
+            Firmer baseline alignment, conclusive resting point
             ═══════════════════════════════════════════════════════════════════════ */}
-        <div className={`${footerVariant === "minimal" ? "pt-10 pb-8 md:pt-12 md:pb-10" : "pt-12 pb-10 md:pt-16 md:pb-12"}`}>
+        <div className={`${footerVariant === "minimal" ? "pt-10 pb-10 md:pt-12 md:pb-12" : "pt-14 pb-12 md:pt-20 md:pb-14 border-t border-white/[0.06]"}`}>
           <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
             <LegalRow variant="dark" showBrand={true} />
           </div>
