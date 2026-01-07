@@ -13,6 +13,9 @@ export const BRAND = {
   /** Primary wordmark text */
   wordmark: "TRIBES",
   
+  /** Primary slogan - LOCKED, do not modify */
+  slogan: "Publishing administration, built for precision.",
+  
   /** Full legal entity name */
   legalName: "Tribes Rights Management",
   
