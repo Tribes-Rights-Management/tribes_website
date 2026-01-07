@@ -4,10 +4,10 @@ export default function TermsPage() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[720px]">
-            <h1 className="text-[40px] md:text-[56px] font-semibold leading-[1.05] tracking-[-0.03em] text-foreground mb-6">
+      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[560px]">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
               Terms of Use
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -19,8 +19,8 @@ export default function TermsPage() {
 
       {/* Content */}
       <section className="pb-24 md:pb-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[640px] space-y-12">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[560px] space-y-12">
             
             {/* Introduction */}
             <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
