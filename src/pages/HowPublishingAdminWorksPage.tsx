@@ -6,7 +6,7 @@ export default function HowPublishingAdminWorksPage() {
       <article className="py-16 md:py-24">
         <div className="max-w-[560px] mx-auto px-6 md:px-8">
           {/* Page Title */}
-          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground text-center mb-10">
+          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground mb-10">
             How Administration Works
           </h1>
 
