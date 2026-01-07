@@ -203,11 +203,11 @@ export default function MarketingPage() {
       <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
       {/* Philosophical Anchor — Category Reframe */}
-      <section className="py-16 md:py-20 bg-background">
+      <section className="py-20 md:py-24 bg-background">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
-          <div className="max-w-[640px]">
-            <p className="text-base md:text-lg text-foreground/75 leading-relaxed">
-              The difference between administration and stewardship is whether records survive the people who made them.
+          <div className="max-w-[580px]">
+            <p className="text-[18px] md:text-[20px] text-foreground/80 leading-[1.7] tracking-[-0.005em]">
+              Over time, the difference between administration and stewardship is whether records survive the people who made them.
             </p>
           </div>
         </div>
