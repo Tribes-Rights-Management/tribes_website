@@ -67,7 +67,6 @@ export default function LicensingAccountPage() {
     setIsSubmitting(true);
 
     try {
-      // Parse full name into first/last for backend compatibility
       const nameParts = fullName.trim().split(/\s+/);
       const firstName = nameParts[0] || "";
       const lastName = nameParts.slice(1).join(" ") || "";
@@ -119,14 +118,11 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
-              <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Request submitted
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                Your request has been submitted for review.
-              </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                If approved, you will receive an email with access instructions.
+                If approved, you'll receive an email with access instructions.
               </p>
               <Link 
                 to="/" 
@@ -148,11 +144,11 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
-              <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Pending review
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                A request for this email is already under review. You'll receive an email once it's approved.
+                A request for this email is already under review.
               </p>
               <Link 
                 to="/" 
@@ -174,11 +170,11 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
-              <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Account exists
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                An account with this email already exists. You can sign in to access the licensing portal.
+                An account with this email already exists.
               </p>
               <Link 
                 to="/auth" 
@@ -195,28 +191,25 @@ export default function LicensingAccountPage() {
 
   return (
     <PublicLayout footerVariant="minimal">
-      {/* Hero — consistent offset from fixed nav */}
-      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
+      {/* Header */}
+      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <div className="max-w-[640px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+          <div className="max-w-[560px]">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
               Request an Account
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-2">
-              Licensing requests are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
-            </p>
-            <p className="text-sm text-muted-foreground/60 leading-relaxed">
-              Submitting this form does not initiate a license request or imply approval.
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              Licensing requests require an approved account.
             </p>
           </div>
         </div>
       </section>
 
       {/* Form */}
-      <section className="pb-20 md:pb-28">
+      <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Input
                   type="text"
@@ -226,6 +219,7 @@ export default function LicensingAccountPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Full name"
+                  className="w-full"
                 />
               </div>
 
@@ -238,7 +232,11 @@ export default function LicensingAccountPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Company or organization"
+                  className="w-full"
                 />
+                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
+                  If you're an individual creator, enter your artist or professional name.
+                </p>
               </div>
 
               <div>
@@ -250,18 +248,16 @@ export default function LicensingAccountPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Email address"
+                  className="w-full"
                 />
-                <p className="text-[11px] text-muted-foreground/50 mt-1 leading-none">
+                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
                   Used for account access.
                 </p>
               </div>
 
               <div>
-                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
-                  Select your location
-                </label>
                 <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Select your location">
+                  <SelectTrigger aria-label="Select your location" className="w-full">
                     <SelectValue placeholder="Country or territory" />
                   </SelectTrigger>
                   <SelectContent>
@@ -276,7 +272,7 @@ export default function LicensingAccountPage() {
 
               <div>
                 <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Organization type">
+                  <SelectTrigger aria-label="Organization type" className="w-full">
                     <SelectValue placeholder="Organization type" />
                   </SelectTrigger>
                   <SelectContent>
@@ -291,7 +287,7 @@ export default function LicensingAccountPage() {
               </div>
 
               <div>
-                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
+                <label className="text-[13px] text-muted-foreground/70 mb-2 block">
                   Describe your intended licensing use
                 </label>
                 <Textarea
@@ -302,28 +298,32 @@ export default function LicensingAccountPage() {
                   disabled={isSubmitting}
                   rows={4}
                   aria-label="Intended use"
+                  className="w-full"
                 />
+                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
+                  This does not need to be perfect.
+                </p>
               </div>
 
-              {/* Required consent */}
-              <div className="pt-3">
-                <div className="flex items-center gap-2.5">
+              {/* Consent */}
+              <div className="pt-2">
+                <div className="flex items-start gap-3">
                   <Checkbox
                     id="terms"
                     checked={agreeToTerms}
                     onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                     disabled={isSubmitting}
                     aria-label="Agree to terms"
-                    className="shrink-0"
+                    className="shrink-0 mt-0.5"
                   />
                   <label 
                     htmlFor="terms" 
-                    className="text-[13px] text-muted-foreground/70 leading-normal cursor-pointer"
+                    className="text-[13px] text-muted-foreground/60 leading-relaxed cursor-pointer"
                   >
                     I agree to the{" "}
                     <Link 
                       to="/privacy" 
-                      className="text-muted-foreground/60 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Privacy Policy
@@ -331,7 +331,7 @@ export default function LicensingAccountPage() {
                     {" "}and{" "}
                     <Link 
                       to="/terms" 
-                      className="text-muted-foreground/60 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Terms of Use
@@ -340,20 +340,20 @@ export default function LicensingAccountPage() {
                 </div>
               </div>
 
-              <div className="pt-5 flex justify-center">
+              <div className="pt-6 flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting || !agreeToTerms}
-                  className="w-full max-w-[320px] h-[42px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting…" : "Request Account Review"}
                 </button>
               </div>
             </form>
 
-            <p className="text-sm text-muted-foreground mt-8 text-center">
+            <p className="text-sm text-muted-foreground/60 mt-10 text-center">
               Already have an account?{" "}
-              <Link to="/auth" className="text-foreground hover:underline">
+              <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
                 Sign in
               </Link>
             </p>
