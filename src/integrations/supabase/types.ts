@@ -74,6 +74,54 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_submissions: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          ip_hash: string | null
+          location: string
+          message: string
+          source_page: string
+          status: Database["public"]["Enums"]["contact_status"]
+          updated_at: string
+          updated_by: string | null
+          user_id: string | null
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          ip_hash?: string | null
+          location: string
+          message: string
+          source_page?: string
+          status?: Database["public"]["Enums"]["contact_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          ip_hash?: string | null
+          location?: string
+          message?: string
+          source_page?: string
+          status?: Database["public"]["Enums"]["contact_status"]
+          updated_at?: string
+          updated_by?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       generated_documents: {
         Row: {
           created_at: string
@@ -637,6 +685,10 @@ export type Database = {
     }
     Functions: {
       can_export_package: { Args: { p_package_id: string }; Returns: boolean }
+      check_contact_rate_limit: {
+        Args: { p_ip_hash: string }
+        Returns: boolean
+      }
       generate_license_id_v2: { Args: never; Returns: string }
       generate_package_id: { Args: never; Returns: string }
       get_package_derived_status: {
@@ -735,6 +787,7 @@ export type Database = {
     Enums: {
       account_status: "pending" | "active" | "rejected"
       app_role: "super_admin" | "admin_view" | "user"
+      contact_status: "new" | "in_review" | "responded" | "archived"
       doc_type: "draft" | "executed"
       entity_type:
         | "individual"
@@ -894,6 +947,7 @@ export const Constants = {
     Enums: {
       account_status: ["pending", "active", "rejected"],
       app_role: ["super_admin", "admin_view", "user"],
+      contact_status: ["new", "in_review", "responded", "archived"],
       doc_type: ["draft", "executed"],
       entity_type: ["individual", "corporation", "llc", "partnership", "other"],
       file_type: ["brief", "cue_sheet", "reference", "other"],
