@@ -117,8 +117,8 @@ export default function ContactPage() {
 
   return (
     <PublicLayout footerVariant="minimal">
-      {/* Header */}
-      <section className="pt-20 pb-6 md:pt-24 md:pb-8">
+      {/* Header — consistent offset from fixed nav */}
+      <section className="pt-24 pb-6 md:pt-28 md:pb-8">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
             <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
@@ -161,9 +161,12 @@ export default function ContactPage() {
               </div>
 
               <div>
+                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
+                  Select your location
+                </label>
                 <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Location">
-                    <SelectValue placeholder="Select country or territory" />
+                  <SelectTrigger aria-label="Select your location">
+                    <SelectValue placeholder="Country or territory" />
                   </SelectTrigger>
                   <SelectContent>
                     {COUNTRIES.map((c) => (
