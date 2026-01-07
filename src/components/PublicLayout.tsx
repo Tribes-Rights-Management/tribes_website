@@ -96,30 +96,32 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Contains only: TRIBES wordmark (left) + hamburger menu (right)
           No buttons, pills, or promotional elements. Height: 56px.
           This pattern is locked as the default mobile navigation style.
+          MOBILE: Always dark, no scroll-based style changes.
+          DESKTOP: Switches based on scroll position.
           ═══════════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[120ms] ease-out ${
-          isHeaderDark 
-            ? "bg-[#111214] border-b border-white/[0.08]" 
-            : "bg-background border-b border-border/50"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-[120ms] ease-out 
+          bg-[#111214] border-b border-white/[0.08]
+          ${isHeaderDark 
+            ? "md:bg-[#111214] md:border-white/[0.08]" 
+            : "md:bg-background md:border-border/50"
+          }`}
         style={{ 
           paddingTop: "env(safe-area-inset-top)",
           height: 56,
         }}
-        data-surface={isHeaderDark ? "dark" : "light"}
+        data-surface-mobile="dark"
+        data-surface-desktop={isHeaderDark ? "dark" : "light"}
       >
         <nav 
           className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4 md:px-6 lg:px-8"
         >
-          {/* Mobile Header (≤768px) — Wordmark + Hamburger only */}
+          {/* Mobile Header (≤768px) — Wordmark + Hamburger only, ALWAYS dark */}
           <div className="flex md:hidden items-center justify-between w-full h-full">
-            {/* TRIBES Wordmark — Strong visual weight, never faint */}
+            {/* TRIBES Wordmark — Always white on mobile */}
             <Link 
               to="/" 
-              className={`font-semibold tracking-tight transition-colors duration-[120ms] ${
-                isHeaderDark ? "text-white" : "text-foreground"
-              }`}
+              className="font-semibold tracking-tight transition-colors duration-[120ms] text-white"
               style={{
                 fontSize: 18,
                 letterSpacing: "-0.01em",
@@ -132,11 +134,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <button
-                  className={`flex items-center justify-center transition-colors duration-[120ms] ${
-                    isHeaderDark 
-                      ? "text-white hover:text-white/80" 
-                      : "text-foreground hover:text-foreground/70"
-                  }`}
+                  className="flex items-center justify-center transition-colors duration-[120ms] text-white hover:text-white/80"
                   style={{ 
                     minHeight: 44,
                     minWidth: 44,
@@ -287,7 +285,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   letterSpacing: "-0.02em",
                 }}
               >
-                Access the platform.
+                Request access.
               </h2>
               
               {/* Supporting copy */}
@@ -298,7 +296,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   lineHeight: 1.5,
                 }}
               >
-                Sign in if you have an account. Otherwise, request access and we'll review your submission.
+                Tribes is a professional publishing administration platform. Access is reviewed before accounts are activated.
               </p>
               
               {/* Actions */}
