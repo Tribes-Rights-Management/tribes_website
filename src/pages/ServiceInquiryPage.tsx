@@ -94,15 +94,15 @@ export default function ServiceInquiryPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
-              <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-3">
+              <h1 className="text-foreground mb-3">
                 Inquiry received
               </h1>
-              <p className="text-base text-muted-foreground leading-relaxed mb-6">
+              <p className="text-muted-foreground leading-relaxed mb-6">
                 Our team reviews all inquiries and will follow up if there is a potential fit.
               </p>
               <Link 
                 to="/" 
-                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+                className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
               >
                 Return to home
               </Link>
@@ -119,10 +119,10 @@ export default function ServiceInquiryPage() {
       <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
+            <h1 className="text-foreground mb-2">
               Inquire About Services
             </h1>
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               For representation, administration, or strategic engagement.
             </p>
           </div>

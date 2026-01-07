@@ -135,6 +135,22 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLOBAL TYPOGRAPHY SCALE — LOCKED
+   
+   This typography system is authoritative and must not drift.
+   No page-specific overrides. Mercury/JPMorgan reference standard.
+   
+   H1: 32px (mobile) / 40px (desktop), Semibold, -0.015em tracking
+   H2: 20px globally, Medium weight, subordinate to H1
+   Body: 16px, Regular, 1.65 line-height for long-form reading
+   Meta: 13px for helper text, labels
+   
+   SPACING:
+   - H1 margin-bottom: 12px (tight coupling to intro)
+   - H2 margin-bottom: 16px
+   - Paragraph gap: 1rem (not stacked whitespace)
+   ═══════════════════════════════════════════════════════════════════════════════ */
 @layer base {
   * {
     @apply border-border;
@@ -143,29 +159,50 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
+  /* H1 — Primary page heading. Locked globally. */
   h1 {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: 600;
-    line-height: 1.25;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+  }
+  
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 40px;
+    }
+  }
+  
+  /* H2 — Section titles. Fixed size, clearly subordinate. */
+  h2 {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
     letter-spacing: -0.01em;
   }
   
-  h2 {
-    font-size: 16px;
-    font-weight: 600;
+  /* H3-H6 — Subsection headings */
+  h3 {
+    font-size: 17px;
+    font-weight: 500;
     line-height: 1.35;
   }
   
-  h3, h4, h5, h6 {
+  h4, h5, h6 {
     font-size: 14px;
     font-weight: 500;
     line-height: 1.4;
+  }
+  
+  /* Paragraph rhythm — use gap between siblings, not stacked margins */
+  p + p {
+    margin-top: 1rem;
   }
 }
 
