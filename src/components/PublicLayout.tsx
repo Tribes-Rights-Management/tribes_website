@@ -303,43 +303,35 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       <main>{children}</main>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          FOOTER — Single Canonical Access CTA + Utility Footer
-          Dark background creates rhythm break from light content sections.
-          One decision point. No duplication. Institutional tone.
+          TERMINAL ZONE — Unified Access CTA + Footer
+          Single continuous dark section. No dividers. Definitive end of page.
           ═══════════════════════════════════════════════════════════════════════════ */}
       <footer 
         className="bg-[#111214]"
         data-surface="dark"
       >
-        {/* Primary Access Section — The single canonical CTA */}
-        <div className="py-16 md:py-24 lg:py-28">
+        {/* Primary Access Block */}
+        <div className="pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-lg">
-              {/* Eyebrow */}
-              <p 
-                className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/40 mb-5"
-              >
-                Access
-              </p>
-              
-              {/* Headline */}
+              {/* Headline — Large, confident */}
               <h2 
                 className="text-white font-medium tracking-tight mb-4"
                 style={{ 
-                  fontSize: "clamp(22px, 3vw, 28px)",
-                  lineHeight: 1.2,
-                  letterSpacing: "-0.015em",
+                  fontSize: "clamp(24px, 3.5vw, 32px)",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.02em",
                 }}
               >
-                Request access to Tribes.
+                Access the platform.
               </h2>
               
               {/* Supporting copy */}
               <p 
-                className="text-white/50 mb-8"
+                className="text-white/45 mb-10"
                 style={{ 
                   fontSize: 15,
-                  lineHeight: 1.65,
+                  lineHeight: 1.7,
                 }}
               >
                 Approved clients receive a secure login for submissions, documentation, and clearance status.
@@ -347,11 +339,11 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               
               {/* Actions — Clear hierarchy */}
               <div className="flex flex-wrap items-center gap-4 md:gap-5">
-                {/* Primary — Solid button */}
+                {/* Primary — Solid button, visually dominant */}
                 <Link 
                   to="/auth?request=true"
-                  className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#111214] font-medium text-sm rounded transition-all duration-150 hover:bg-white/90"
-                  style={{ minHeight: 44 }}
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
+                  style={{ minHeight: 48 }}
                 >
                   Request Access
                 </Link>
@@ -359,20 +351,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 {/* Secondary — Text link */}
                 <Link 
                   to="/auth"
-                  className="inline-flex items-center justify-center px-2 py-2.5 text-sm text-white/50 transition-colors duration-150 hover:text-white/70"
-                  style={{ minHeight: 44 }}
+                  className="inline-flex items-center justify-center px-3 py-3 text-[15px] text-white/40 transition-colors duration-150 hover:text-white/60"
+                  style={{ minHeight: 48 }}
                 >
                   Sign In
-                </Link>
-              </div>
-              
-              {/* Tertiary link */}
-              <div className="mt-8">
-                <Link 
-                  to="/how-licensing-works"
-                  className="text-[13px] text-white/35 transition-colors duration-150 hover:text-white/50"
-                >
-                  Learn how licensing works
                 </Link>
               </div>
             </div>
@@ -380,39 +362,48 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         </div>
         
         {/* ═══════════════════════════════════════════════════════════════════════
-            UTILITY FOOTER — Minimal, mobile-first, no social icons
+            ADMINISTRATIVE FOOTER — Tertiary, quiet, no visual competition
+            Generous spacing separates from CTA. Feels like an end-cap, not a section.
             ═══════════════════════════════════════════════════════════════════════ */}
-        <div className="border-t border-white/[0.05] py-8 md:py-10">
+        <div className="pt-12 pb-10 md:pt-16 md:pb-12">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-            {/* Mobile: Stacked layout */}
-            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-              {/* Left: Brand + Copyright */}
-              <div className="flex flex-col gap-2">
-                <p className="text-[13px] font-medium text-white/50 tracking-tight">
+            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+              {/* Left: Brand + Copyright — quietest elements */}
+              <div className="flex flex-col gap-1.5">
+                <p 
+                  className="text-white/25 tracking-tight"
+                  style={{ fontSize: 12 }}
+                >
                   {BRAND.wordmark}
                 </p>
-                <p className="text-[12px] text-white/30 leading-relaxed">
+                <p 
+                  className="text-white/20 leading-relaxed"
+                  style={{ fontSize: 11 }}
+                >
                   {copyrightText}
                 </p>
               </div>
               
-              {/* Right: Legal links — Large tap targets on mobile */}
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+              {/* Right: Legal/nav links — administrative, low contrast */}
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
                 <Link 
                   to="/privacy" 
-                  className="text-[13px] text-white/35 transition-colors duration-150 hover:text-white/55 py-2"
+                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+                  style={{ fontSize: 12 }}
                 >
-                  Privacy Policy
+                  Privacy
                 </Link>
                 <Link 
                   to="/terms" 
-                  className="text-[13px] text-white/35 transition-colors duration-150 hover:text-white/55 py-2"
+                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+                  style={{ fontSize: 12 }}
                 >
-                  Terms of Use
+                  Terms
                 </Link>
                 <Link 
                   to="/contact" 
-                  className="text-[13px] text-white/35 transition-colors duration-150 hover:text-white/55 py-2"
+                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+                  style={{ fontSize: 12 }}
                 >
                   Contact
                 </Link>
