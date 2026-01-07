@@ -122,7 +122,7 @@ export default function LicensingAccountPage() {
                 Request submitted
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                If approved, you will receive an email with access instructions.
+                We'll review your request and send access instructions if approved.
               </p>
               <Link 
                 to="/" 
@@ -145,7 +145,7 @@ export default function LicensingAccountPage() {
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
               <h1 className="text-foreground mb-3">
-                Pending review
+                Already pending
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 A request for this email is already under review.
@@ -199,7 +199,7 @@ export default function LicensingAccountPage() {
               Request Licensing Access
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              Licensing requests require an approved account.
+              Account approval required before submitting license requests.
             </p>
           </div>
         </div>
@@ -231,7 +231,7 @@ export default function LicensingAccountPage() {
                   aria-label="Company or organization"
                 />
                 <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
-                  If you're an individual creator, enter your artist or professional name.
+                  Individual creator? Use your artist or professional name.
                 </p>
               </div>
 
@@ -279,7 +279,7 @@ export default function LicensingAccountPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  Describe your intended licensing use
+                  How do you plan to use licensed music?
                 </label>
                 <Textarea
                   placeholder="Example: advertising, broadcast, livestream, film, venue playback."
@@ -291,7 +291,7 @@ export default function LicensingAccountPage() {
                   aria-label="Intended use"
                 />
                 <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
-                  This does not need to be perfect.
+                  Doesn't need to be perfect—just give us a sense of your use case.
                 </p>
               </div>
 
