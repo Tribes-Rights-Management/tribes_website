@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Info } from "lucide-react";
 import { PublicLayout } from "@/components/PublicLayout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
@@ -199,9 +206,31 @@ export default function LicensingAccountPage() {
       <section className="pt-32 pb-16 md:pt-40 md:pb-20">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
-            <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
-              Request a Licensing Account
-            </h1>
+            <div className="flex items-start gap-3 mb-6">
+              <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground">
+                Request Licensing Access
+              </h1>
+              <TooltipProvider delayDuration={200}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button 
+                      type="button"
+                      className="mt-3 text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors"
+                      aria-label="Why is approval required?"
+                    >
+                      <Info className="h-4 w-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent 
+                    side="bottom" 
+                    align="start"
+                    className="max-w-[280px] text-xs leading-relaxed"
+                  >
+                    Licensing requests are submitted through approved accounts to ensure authority, accuracy, and permanent records. This protects both rights holders and licensees.
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4">
               Licensing requests at Tribes are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
             </p>
