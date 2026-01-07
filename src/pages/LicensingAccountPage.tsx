@@ -116,7 +116,7 @@ export default function LicensingAccountPage() {
   if (viewState === "submitted") {
     return (
       <PublicLayout>
-        <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
@@ -145,7 +145,7 @@ export default function LicensingAccountPage() {
   if (viewState === "pending") {
     return (
       <PublicLayout>
-        <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
@@ -171,7 +171,7 @@ export default function LicensingAccountPage() {
   if (viewState === "exists") {
     return (
       <PublicLayout>
-        <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
@@ -195,8 +195,8 @@ export default function LicensingAccountPage() {
 
   return (
     <PublicLayout footerVariant="minimal">
-      {/* Hero */}
-      <section className="pt-24 pb-8 md:pt-32 md:pb-10">
+      {/* Hero — consistent offset from fixed nav */}
+      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
             <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
@@ -257,9 +257,12 @@ export default function LicensingAccountPage() {
               </div>
 
               <div>
+                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
+                  Select your location
+                </label>
                 <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Country">
-                    <SelectValue placeholder="Country" />
+                  <SelectTrigger aria-label="Select your location">
+                    <SelectValue placeholder="Country or territory" />
                   </SelectTrigger>
                   <SelectContent>
                     {COUNTRIES.map((c) => (
