@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { getCopyrightLine } from "@/lib/copyright";
+import { Footer } from "@/components/Footer";
 import { usePolicyAcknowledgment } from "@/hooks/usePolicyAcknowledgment";
 import { PolicyAcknowledgmentScreen } from "@/components/admin/PolicyAcknowledgmentScreen";
 
@@ -84,15 +84,7 @@ function UnauthorizedPage() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="py-6 text-center">
-      <p className="text-xs text-muted-foreground">
-        {getCopyrightLine()}
-      </p>
-    </footer>
-  );
-}
+// Footer now uses canonical component imported above
 
 export function ProtectedRoute({ 
   children, 

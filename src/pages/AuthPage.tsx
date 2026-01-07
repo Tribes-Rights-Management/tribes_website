@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getCopyrightLine } from "@/lib/copyright";
+import { Footer } from "@/components/Footer";
 import { useAuth } from "@/contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -541,12 +541,4 @@ export default function AuthPage() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="py-6 text-center">
-      <p className="text-xs text-muted-foreground">
-        {getCopyrightLine()}
-      </p>
-    </footer>
-  );
-}
+// Footer is now imported from canonical component

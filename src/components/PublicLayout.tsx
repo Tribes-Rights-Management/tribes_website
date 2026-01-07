@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useState, useEffect } from "react";
-import { getCopyrightLine } from "@/lib/copyright";
 import { Menu } from "lucide-react";
 import { BRAND, LOGO_SIZES, NAV_SIZES } from "@/lib/brand";
+import { LegalRow } from "@/components/LegalRow";
 import {
   Sheet,
   SheetContent,
@@ -15,7 +15,6 @@ interface PublicLayoutProps {
 
 export function PublicLayout({ children }: PublicLayoutProps) {
   const location = useLocation();
-  const copyrightText = getCopyrightLine();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
   
@@ -362,53 +361,11 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         </div>
         
         {/* ═══════════════════════════════════════════════════════════════════════
-            ADMINISTRATIVE FOOTER — Tertiary, quiet, no visual competition
-            Generous spacing separates from CTA. Feels like an end-cap, not a section.
+            ADMINISTRATIVE FOOTER — Uses canonical LegalRow component
             ═══════════════════════════════════════════════════════════════════════ */}
         <div className="pt-12 pb-10 md:pt-16 md:pb-12">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-            <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-              {/* Left: Brand + Copyright — quietest elements */}
-              <div className="flex flex-col gap-1.5">
-                <p 
-                  className="text-white/25 tracking-tight"
-                  style={{ fontSize: 12 }}
-                >
-                  {BRAND.wordmark}
-                </p>
-                <p 
-                  className="text-white/20 leading-relaxed"
-                  style={{ fontSize: 11 }}
-                >
-                  {copyrightText}
-                </p>
-              </div>
-              
-              {/* Right: Legal/nav links — administrative, low contrast */}
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-                <Link 
-                  to="/privacy" 
-                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
-                  style={{ fontSize: 12 }}
-                >
-                  Privacy
-                </Link>
-                <Link 
-                  to="/terms" 
-                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
-                  style={{ fontSize: 12 }}
-                >
-                  Terms
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
-                  style={{ fontSize: 12 }}
-                >
-                  Contact
-                </Link>
-              </div>
-            </div>
+            <LegalRow variant="dark" showBrand={true} />
           </div>
         </div>
       </footer>
