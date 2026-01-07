@@ -11,9 +11,10 @@ import {
 
 interface PublicLayoutProps {
   children: ReactNode;
+  footerVariant?: "full" | "minimal";
 }
 
-export function PublicLayout({ children }: PublicLayoutProps) {
+export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutProps) {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
@@ -324,106 +325,111 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       {/* ═══════════════════════════════════════════════════════════════════════════
           TERMINAL ZONE — Unified Access CTA + Footer
           Single continuous dark section. No dividers. Definitive end of page.
+          "minimal" variant: only legal row, no CTAs
           ═══════════════════════════════════════════════════════════════════════════ */}
       <footer 
         className="bg-[#111214]"
         data-surface="dark"
       >
-        {/* Two-Path Entry Block */}
-        <div className="pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
-          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-            <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
-              {/* Path 1: Request Licensing Access (Primary) */}
-              <div>
-                <h2 
-                  className="text-white font-medium tracking-tight mb-4"
-                  style={{ 
-                    fontSize: "clamp(22px, 3vw, 28px)",
-                    lineHeight: 1.2,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  Request Licensing Access
-                </h2>
-                <p 
-                  className="text-white/45 mb-4"
-                  style={{ 
-                    fontSize: 15,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  For commercial, broadcast, or ministry use of music we administer.
-                </p>
-                <p 
-                  className="text-white/35 mb-8"
-                  style={{ 
-                    fontSize: 13,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Account approval required before submitting license requests.
-                </p>
-                <Link 
-                  to="/licensing"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
-                  style={{ minHeight: 48 }}
-                >
-                  Request Licensing Access
-                </Link>
-              </div>
-              
-              {/* Path 2: Inquire About Services (Secondary) */}
-              <div>
-                <h2 
-                  className="text-white/80 font-medium tracking-tight mb-4"
-                  style={{ 
-                    fontSize: "clamp(20px, 2.5vw, 24px)",
-                    lineHeight: 1.2,
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  Inquire About Services
-                </h2>
-                <p 
-                  className="text-white/40 mb-8"
-                  style={{ 
-                    fontSize: 14,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  Publishing administration, rights management, and long-term catalog support for rights holders and creators.
-                </p>
-                <Link 
-                  to="/inquire"
-                  className="inline-flex items-center justify-center px-5 py-2.5 border border-white/15 text-white/70 text-[14px] rounded transition-all duration-150 hover:border-white/30 hover:text-white/90"
-                  style={{ minHeight: 44 }}
-                >
-                  Inquire About Services
-                </Link>
+        {footerVariant === "full" && (
+          <>
+            {/* Two-Path Entry Block */}
+            <div className="pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
+              <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+                <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
+                  {/* Path 1: Request Licensing Access (Primary) */}
+                  <div>
+                    <h2 
+                      className="text-white font-medium tracking-tight mb-4"
+                      style={{ 
+                        fontSize: "clamp(22px, 3vw, 28px)",
+                        lineHeight: 1.2,
+                        letterSpacing: "-0.02em",
+                      }}
+                    >
+                      Request Licensing Access
+                    </h2>
+                    <p 
+                      className="text-white/45 mb-4"
+                      style={{ 
+                        fontSize: 15,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      For commercial, broadcast, or ministry use of music we administer.
+                    </p>
+                    <p 
+                      className="text-white/35 mb-8"
+                      style={{ 
+                        fontSize: 13,
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      Account approval required before submitting license requests.
+                    </p>
+                    <Link 
+                      to="/licensing"
+                      className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
+                      style={{ minHeight: 48 }}
+                    >
+                      Request Licensing Access
+                    </Link>
+                  </div>
+                  
+                  {/* Path 2: Inquire About Services (Secondary) */}
+                  <div>
+                    <h2 
+                      className="text-white/80 font-medium tracking-tight mb-4"
+                      style={{ 
+                        fontSize: "clamp(20px, 2.5vw, 24px)",
+                        lineHeight: 1.2,
+                        letterSpacing: "-0.01em",
+                      }}
+                    >
+                      Inquire About Services
+                    </h2>
+                    <p 
+                      className="text-white/40 mb-8"
+                      style={{ 
+                        fontSize: 14,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      Publishing administration, rights management, and long-term catalog support for rights holders and creators.
+                    </p>
+                    <Link 
+                      to="/inquire"
+                      className="inline-flex items-center justify-center px-5 py-2.5 border border-white/15 text-white/70 text-[14px] rounded transition-all duration-150 hover:border-white/30 hover:text-white/90"
+                      style={{ minHeight: 44 }}
+                    >
+                      Inquire About Services
+                    </Link>
+                  </div>
+                </div>
+                
+                {/* Client Portal — Utility position */}
+                <div className="mt-16 pt-10 border-t border-white/10">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <p className="text-white/35 text-sm">
+                      Existing client?
+                    </p>
+                    <Link 
+                      to="/auth"
+                      className="text-sm text-white/50 hover:text-white/70 transition-colors duration-150"
+                    >
+                      Client Sign In
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            {/* Client Portal — Utility position */}
-            <div className="mt-16 pt-10 border-t border-white/10">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <p className="text-white/35 text-sm">
-                  Existing client?
-                </p>
-                <Link 
-                  to="/auth"
-                  className="text-sm text-white/50 hover:text-white/70 transition-colors duration-150"
-                >
-                  Client Sign In
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+          </>
+        )}
         
         {/* ═══════════════════════════════════════════════════════════════════════
             ADMINISTRATIVE FOOTER — Uses canonical LegalRow component
             ═══════════════════════════════════════════════════════════════════════ */}
-        <div className="pt-12 pb-10 md:pt-16 md:pb-12">
+        <div className={`${footerVariant === "minimal" ? "pt-10 pb-8 md:pt-12 md:pb-10" : "pt-12 pb-10 md:pt-16 md:pb-12"}`}>
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <LegalRow variant="dark" showBrand={true} />
           </div>

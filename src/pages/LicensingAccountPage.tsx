@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Info } from "lucide-react";
 import { PublicLayout } from "@/components/PublicLayout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,12 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
@@ -201,58 +194,28 @@ export default function LicensingAccountPage() {
   }
 
   return (
-    <PublicLayout>
+    <PublicLayout footerVariant="minimal">
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+      <section className="pt-24 pb-8 md:pt-32 md:pb-10">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
-            <div className="flex items-start gap-3 mb-6">
-              <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground">
-                Request an Account
-              </h1>
-              <TooltipProvider delayDuration={200}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button 
-                      type="button"
-                      className="mt-3 text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors"
-                      aria-label="Why is approval required?"
-                    >
-                      <Info className="h-4 w-4" />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent 
-                    side="bottom" 
-                    align="start"
-                    className="max-w-[280px] text-xs leading-relaxed"
-                  >
-                    Licensing requests are submitted through approved accounts to ensure authority, accuracy, and permanent records. This protects both rights holders and licensees.
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4">
-              Licensing requests at Tribes are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+              Request an Account
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed mb-2">
+              Licensing requests are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
             </p>
-            <p className="text-sm text-muted-foreground/70 leading-relaxed">
+            <p className="text-sm text-muted-foreground/60 leading-relaxed">
               Submitting this form does not initiate a license request or imply approval.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
-
       {/* Form */}
-      <section className="py-16 md:py-24">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+      <section className="pb-20 md:pb-28">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
-            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
-              Account Request
-            </h2>
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <Input
@@ -325,6 +288,9 @@ export default function LicensingAccountPage() {
               </div>
 
               <div>
+                <label className="text-sm text-muted-foreground mb-1.5 block">
+                  Describe your intended licensing use
+                </label>
                 <Textarea
                   placeholder="Example: advertising, broadcast, livestream, film, venue playback."
                   value={intendedUse}
@@ -334,20 +300,18 @@ export default function LicensingAccountPage() {
                   rows={4}
                   aria-label="Intended use"
                 />
-                <p className="text-xs text-muted-foreground mt-1.5">
-                  Describe your intended licensing use.
-                </p>
               </div>
 
               {/* Required consent */}
-              <div className="pt-4">
-                <div className="flex items-start gap-3">
+              <div className="pt-3">
+                <div className="flex items-start gap-2.5">
                   <Checkbox
                     id="terms"
                     checked={agreeToTerms}
                     onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                     disabled={isSubmitting}
                     aria-label="Agree to terms"
+                    className="mt-0.5"
                   />
                   <label 
                     htmlFor="terms" 
@@ -356,7 +320,7 @@ export default function LicensingAccountPage() {
                     I agree to the{" "}
                     <Link 
                       to="/privacy" 
-                      className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                      className="text-muted-foreground/80 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Privacy Policy
@@ -364,7 +328,7 @@ export default function LicensingAccountPage() {
                     {" "}and{" "}
                     <Link 
                       to="/terms" 
-                      className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                      className="text-muted-foreground/80 underline underline-offset-4 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Terms of Use
@@ -373,18 +337,18 @@ export default function LicensingAccountPage() {
                 </div>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-4 flex flex-col items-center">
                 <button
                   type="submit"
                   disabled={isSubmitting || !agreeToTerms}
-                  className="h-10 px-6 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full max-w-[85%] h-9 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Submitting…" : "Request Account Review"}
                 </button>
               </div>
             </form>
 
-            <p className="text-sm text-muted-foreground mt-8">
+            <p className="text-sm text-muted-foreground mt-8 text-center">
               Already have an account?{" "}
               <Link to="/auth" className="text-foreground hover:underline">
                 Sign in
