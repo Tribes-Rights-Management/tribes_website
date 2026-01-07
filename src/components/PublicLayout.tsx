@@ -157,9 +157,9 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-full sm:w-[360px] lg:w-[420px] bg-background border-l border-border/10 p-0 [&>button]:hidden focus:outline-none"
+                className="w-full sm:w-[360px] lg:w-[420px] bg-background border-l border-foreground/[0.08] p-0 [&>button]:hidden focus:outline-none"
                 style={{
-                  boxShadow: "-4px 0 24px rgba(0,0,0,0.08)",
+                  boxShadow: "-8px 0 40px rgba(0,0,0,0.12)",
                 }}
               >
                 <nav 
@@ -171,11 +171,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     paddingRight: 32,
                   }}
                 >
-                  {/* Close — quiet, top-right */}
+                  {/* Close — discoverable but restrained */}
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 self-end mb-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
-                    style={{ letterSpacing: "0.01em" }}
+                    className="text-[14px] font-medium text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors duration-150 self-end mb-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/30"
+                    style={{ 
+                      letterSpacing: "0.01em",
+                      minHeight: 44,
+                      minWidth: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      marginRight: -8,
+                    }}
                   >
                     Close
                   </button>
@@ -281,8 +289,11 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     </Link>
                   </div>
                   
-                  {/* Divider */}
-                  <div className="h-px bg-border/20 my-8" />
+                  {/* Divider — subtle separation */}
+                  <div 
+                    className="h-px bg-foreground/[0.08]" 
+                    style={{ marginTop: 24, marginBottom: 24 }}
+                  />
                   
                   {/* Legal Links — Secondary */}
                   <div className="flex flex-col" style={{ gap: 12 }}>
