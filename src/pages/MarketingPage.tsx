@@ -1,53 +1,56 @@
+import { Link } from "react-router-dom";
 import { PublicLayout } from "@/components/PublicLayout";
 
 export default function MarketingPage() {
   return (
     <PublicLayout>
-      {/* ═══════════════════════════════════════════════════════════════════════════
-          1. HERO — What this is
-          Mobile: Compressed, no decorative elements, no mid-page CTAs
-          ═══════════════════════════════════════════════════════════════════════════ */}
-      <section className="bg-[#111214] pt-28 pb-20 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
+      {/* Hero - Near-black (#111214) */}
+      <section className="bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[720px]">
-            {/* Logo — Hidden on mobile (already in header) */}
-            <p className="hidden md:block text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
+            {/* Logo */}
+            <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
               TRIBES
             </p>
             
-            {/* H1 */}
-            <h1 className="text-[32px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-6 md:mb-12">
+            {/* H1 - Institutional weight, refined letter-spacing */}
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-12">
               Rights management, built to last.
             </h1>
             
-            {/* Subhead — Compact on mobile */}
-            <p className="text-base md:text-xl text-[#C9C9CC] leading-[1.6] md:leading-[1.7] max-w-[560px]">
+            {/* Subhead - Generous spacing, soft gray */}
+            <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
               Independent publishing administration focused on accuracy, continuity, and long-term record integrity.
             </p>
             
-            {/* Decorative elements — Desktop only */}
-            <div className="hidden md:block">
-              <div className="w-16 h-px bg-white/10 mb-8 mt-16" />
-              <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em]">
-                Publishing administration, built for precision.
-              </p>
-            </div>
+            {/* Divider */}
+            <div className="w-16 h-px bg-white/10 mb-8" />
+            
+            {/* Micro-line */}
+            <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
+              Publishing administration, built for precision.
+            </p>
+            
+            {/* Understated link */}
+            <a 
+              href="#how-it-works" 
+              className="text-xs text-[#C9C9CC]/40 hover:text-[#C9C9CC]/70 transition-colors"
+            >
+              How it works
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════
-          2. WHO IT'S FOR — Compressed on mobile
-          Mobile: Tighter spacing, single column
-          ═══════════════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-32">
+      {/* Who It's For */}
+      <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8 md:mb-12">
+          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
             Who It's For
           </h2>
-          <div className="grid md:grid-cols-3 gap-8 md:gap-16">
+          <div className="grid md:grid-cols-3 gap-12 md:gap-16">
             <div>
-              <h3 className="text-base md:text-lg font-medium text-foreground mb-2 md:mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-3">
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -55,7 +58,7 @@ export default function MarketingPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-base md:text-lg font-medium text-foreground mb-2 md:mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-3">
                 Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -63,7 +66,7 @@ export default function MarketingPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-base md:text-lg font-medium text-foreground mb-2 md:mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-3">
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -74,37 +77,34 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════
-          3. WHAT IT DOES — Asset management framing (compressed on mobile)
-          Mobile: Headline + single paragraph only, no sub-blocks
-          ═══════════════════════════════════════════════════════════════════════════ */}
-      <section id="asset-management" className="py-16 md:py-32" style={{ backgroundColor: '#111214' }}>
+      {/* Music as an Asset - Full-width dark section */}
+      <section id="asset-management" className="py-24 md:py-32" style={{ backgroundColor: '#111214' }}>
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-24">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Left Column */}
             <div>
               <p 
-                className="text-xs font-medium uppercase tracking-[0.12em] mb-6 md:mb-8"
+                className="text-xs font-medium uppercase tracking-[0.12em] mb-8"
                 style={{ color: 'rgba(255,255,255,0.55)' }}
               >
                 Music as an Asset
               </p>
               <h2 
-                className="text-[24px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em] mb-5 md:mb-8"
+                className="text-[28px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em] mb-8"
                 style={{ color: 'rgba(255,255,255,0.88)' }}
               >
                 Managing music with the discipline of long-term capital.
               </h2>
               <p 
-                className="text-[15px] md:text-base leading-[1.7] md:leading-[1.8]"
+                className="text-base leading-[1.8]"
                 style={{ color: 'rgba(255,255,255,0.64)' }}
               >
-                Publishing administration treated with institutional rigor—rights, data, income, and documentation designed to protect value and preserve continuity.
+                At Tribes, publishing administration is not clerical work. It is asset management—rights, data, income, and documentation treated with institutional rigor. Our systems are designed to protect value, preserve continuity, and support long-term financial clarity across the life of a catalog.
               </p>
             </div>
             
-            {/* Right Column - Desktop only sub-blocks */}
-            <div className="hidden lg:block space-y-12 lg:pt-12">
+            {/* Right Column - Three stacked blocks */}
+            <div className="space-y-12 lg:pt-12">
               <div>
                 <h3 
                   className="text-lg font-medium mb-3"
@@ -152,25 +152,25 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════════════
-          4. HOW COPYRIGHT CLEARANCE WORKS — Procedural, factual
-          Mobile: Compact spacing, no decorative dividers
-          ═══════════════════════════════════════════════════════════════════════════ */}
-      <section id="how-it-works" className="py-16 md:py-32 scroll-mt-24 bg-background">
+      {/* Transition: Dark to Light */}
+      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+      {/* How Copyright Clearance Works - Light operational section */}
+      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24 bg-background">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-5 md:mb-6 text-muted-foreground">
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-6 text-muted-foreground">
             How Copyright Clearance Works
           </h2>
-          <p className="text-base md:text-xl leading-relaxed mb-10 md:mb-16 max-w-[640px] text-foreground">
+          <p className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px] text-foreground">
             Each request follows a four-step review before any agreement is finalized.
           </p>
-          <div className="grid md:grid-cols-2 gap-8 md:gap-24">
-            <div className="space-y-8 md:space-y-12">
+          <div className="grid md:grid-cols-2 gap-16 md:gap-24">
+            <div className="space-y-12">
               <div>
                 <p className="text-xs font-medium mb-2 text-muted-foreground">
                   01
                 </p>
-                <h3 className="text-base md:text-lg font-medium mb-2 md:mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Intake
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -181,7 +181,7 @@ export default function MarketingPage() {
                 <p className="text-xs font-medium mb-2 text-muted-foreground">
                   02
                 </p>
-                <h3 className="text-base md:text-lg font-medium mb-2 md:mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Verification
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -189,12 +189,12 @@ export default function MarketingPage() {
                 </p>
               </div>
             </div>
-            <div className="space-y-8 md:space-y-12">
+            <div className="space-y-12">
               <div>
                 <p className="text-xs font-medium mb-2 text-muted-foreground">
                   03
                 </p>
-                <h3 className="text-base md:text-lg font-medium mb-2 md:mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Authorization
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -205,7 +205,7 @@ export default function MarketingPage() {
                 <p className="text-xs font-medium mb-2 text-muted-foreground">
                   04
                 </p>
-                <h3 className="text-base md:text-lg font-medium mb-2 md:mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-3 text-foreground">
                   Record
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -217,7 +217,8 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* 5. Final CTA is in PublicLayout footer — no duplicate here */}
+      {/* Subtle boundary before footer CTA */}
+      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
     </PublicLayout>
   );
 }
