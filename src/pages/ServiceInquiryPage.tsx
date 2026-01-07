@@ -192,10 +192,10 @@ export default function ServiceInquiryPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  Tell us about your catalog or scope
+                  Catalog or scope
                 </label>
                 <Textarea
-                  placeholder="Size of catalog, type of rights, geographic scope, etc."
+                  placeholder="Size, type of rights, geographic reach, etc."
                   value={catalogDescription}
                   onChange={(e) => setCatalogDescription(e.target.value)}
                   required
@@ -207,16 +207,16 @@ export default function ServiceInquiryPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  What are you looking for?
+                  What you're looking for
                 </label>
                 <Textarea
-                  placeholder="Administration, licensing support, catalog oversight, etc."
+                  placeholder="Administration, licensing, catalog oversight, etc."
                   value={lookingFor}
                   onChange={(e) => setLookingFor(e.target.value)}
                   required
                   disabled={isSubmitting}
                   rows={3}
-                  aria-label="What are you looking for"
+                  aria-label="What you're looking for"
                 />
               </div>
 

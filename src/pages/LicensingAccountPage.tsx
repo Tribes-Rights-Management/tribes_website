@@ -231,7 +231,7 @@ export default function LicensingAccountPage() {
                   aria-label="Company or organization"
                 />
                 <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
-                  Individual creator? Use your artist or professional name.
+                  Individuals may use an artist or professional name.
                 </p>
               </div>
 
@@ -279,10 +279,10 @@ export default function LicensingAccountPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  How do you plan to use licensed music?
+                  Intended use
                 </label>
                 <Textarea
-                  placeholder="Example: advertising, broadcast, livestream, film, venue playback."
+                  placeholder="Advertising, broadcast, livestream, film, venue playback, etc."
                   value={intendedUse}
                   onChange={(e) => setIntendedUse(e.target.value)}
                   required
@@ -291,7 +291,7 @@ export default function LicensingAccountPage() {
                   aria-label="Intended use"
                 />
                 <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
-                  Doesn't need to be perfect—just give us a sense of your use case.
+                  Reviewed as part of account approval.
                 </p>
               </div>
 
