@@ -69,7 +69,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* ═══════════════════════════════════════════════════════════════════════════
           HEADER — Apple-grade Mobile Navigation
           Mobile: Always dark, backdrop blur, 60px height, wordmark + hamburger only
@@ -335,7 +335,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
       </header>
 
       {/* Main Content */}
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
           TERMINAL ZONE — Unified Access CTA + Footer
