@@ -164,9 +164,9 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                       Work with Tribes
                     </Link>
                     <Link 
-                      to="/license-request" 
+                      to="/licensing" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
-                        location.pathname === "/license-request"
+                        location.pathname === "/licensing"
                           ? "text-foreground"
                           : "text-foreground/80 hover:text-foreground"
                       }`}
@@ -175,7 +175,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                         letterSpacing: "0.005em",
                       }}
                     >
-                      Request a License
+                      Create a Licensing Account
                     </Link>
                     <Link 
                       to="/services" 
@@ -283,10 +283,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 Work with Tribes
               </Link>
               <Link 
-                to="/license-request" 
-                className={`text-sm ${navLinkClass("/license-request")}`}
+                to="/licensing" 
+                className={`text-sm ${navLinkClass("/licensing")}`}
               >
-                Request a License
+                Create Licensing Account
               </Link>
               <Link 
                 to="/services" 
@@ -363,7 +363,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 </Link>
               </div>
               
-              {/* Path 2: Licensing Requests */}
+              {/* Path 2: Licensing */}
               <div>
                 <h2 
                   className="text-white font-medium tracking-tight mb-4"
@@ -373,10 +373,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     letterSpacing: "-0.02em",
                   }}
                 >
-                  Licensing Requests
+                  Request a License
                 </h2>
                 <p 
-                  className="text-white/45 mb-8"
+                  className="text-white/45 mb-4"
                   style={{ 
                     fontSize: 15,
                     lineHeight: 1.7,
@@ -384,12 +384,21 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 >
                   For commercial, broadcast, or ministry use of music we administer.
                 </p>
+                <p 
+                  className="text-white/35 mb-8"
+                  style={{ 
+                    fontSize: 13,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Approval required before submitting requests.
+                </p>
                 <Link 
-                  to="/license-request"
+                  to="/licensing"
                   className="inline-flex items-center justify-center px-6 py-3 border border-white/20 text-white font-medium text-[15px] rounded transition-all duration-150 hover:border-white/40 hover:bg-white/5"
                   style={{ minHeight: 48 }}
                 >
-                  Request a License
+                  Create a Licensing Account
                 </Link>
               </div>
             </div>

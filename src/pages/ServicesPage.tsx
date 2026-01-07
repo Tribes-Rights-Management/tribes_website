@@ -190,16 +190,19 @@ export default function ServicesPage() {
             </div>
             <div>
               <h2 className="text-[24px] md:text-[28px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-4">
-                Request a License
+                License Music
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
+              <p className="text-muted-foreground leading-relaxed mb-4">
                 Need to license music we administer for commercial, broadcast, or ministry use?
               </p>
+              <p className="text-sm text-muted-foreground/70 mb-6">
+                Approval required before submitting requests.
+              </p>
               <Link 
-                to="/license-request" 
+                to="/licensing" 
                 className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
               >
-                Submit a License Request
+                Create a Licensing Account
               </Link>
             </div>
           </div>

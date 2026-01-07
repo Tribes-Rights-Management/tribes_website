@@ -147,22 +147,32 @@ export default function ContactPage() {
                 </div>
                 <div className="pt-8 border-t border-border">
                   <p className="text-sm font-medium text-foreground mb-3">Services & Licensing</p>
-                  <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                    Interested in working with us or need to license music?
-                  </p>
-                  <div className="flex flex-col gap-2">
-                    <Link 
-                      to="/inquire" 
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-                    >
-                      Inquire for Services
-                    </Link>
-                    <Link 
-                      to="/license-request" 
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-                    >
-                      Request a License
-                    </Link>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        Interested in publishing administration?
+                      </p>
+                      <Link 
+                        to="/inquire" 
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                      >
+                        Inquire for Services
+                      </Link>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        Need to license music we administer?
+                      </p>
+                      <Link 
+                        to="/licensing" 
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                      >
+                        Create a Licensing Account
+                      </Link>
+                      <p className="text-xs text-muted-foreground/60 mt-1">
+                        Approval required before submitting requests.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
