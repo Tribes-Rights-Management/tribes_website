@@ -14,12 +14,12 @@ export default function MarketingPage() {
             </p>
             
             {/* H1 - Institutional weight, refined letter-spacing */}
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-6">
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-8">
               Rights management, built to last.
             </h1>
             
-            {/* Secondary supporting line - Lower visual priority */}
-            <p className="text-lg md:text-xl lg:text-2xl font-normal text-white/60 leading-[1.4] tracking-[-0.01em] mb-16">
+            {/* Secondary supporting line - Quiet, subordinate */}
+            <p className="text-base md:text-lg font-light text-white/45 leading-[1.5] tracking-[0.01em] mb-16">
               Publishing administration, built for precision.
             </p>
             
