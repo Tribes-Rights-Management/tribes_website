@@ -173,25 +173,33 @@ export default function ServicesPage() {
       {/* CTA */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[480px]">
-            <h2 className="text-[24px] md:text-[32px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-6">
-              Request access.
-            </h2>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              Access is reviewed on a case-by-case basis. Submit a request to get started.
-            </p>
-            <div className="flex items-center gap-6">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16">
+            <div>
+              <h2 className="text-[24px] md:text-[28px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-4">
+                Work with Tribes
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Interested in publishing administration, rights management, or long-term catalog support?
+              </p>
               <Link 
-                to="/auth?request=true" 
+                to="/inquire" 
                 className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
               >
-                Request Access
+                Inquire for Services
               </Link>
+            </div>
+            <div>
+              <h2 className="text-[24px] md:text-[28px] font-medium leading-[1.3] tracking-[-0.02em] text-foreground mb-4">
+                Request a License
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Need to license music we administer for commercial, broadcast, or ministry use?
+              </p>
               <Link 
-                to="/contact" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                to="/license-request" 
+                className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
               >
-                Contact
+                Submit a License Request
               </Link>
             </div>
           </div>
