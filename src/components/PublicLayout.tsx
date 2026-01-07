@@ -18,7 +18,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
   const copyrightText = getCopyrightLine();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
-  const [isFooterDark, setIsFooterDark] = useState(false);
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -47,12 +47,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       });
       setIsOverDarkSection(isHeaderOverAnyDark);
       
-      // Check if footer is over any dark section
-      const isFooterOverAnyDark = darkSections.some(section => {
-        const rect = section.getBoundingClientRect();
-        return rect.bottom >= viewportHeight - 100 && rect.top < viewportHeight;
-      });
-      setIsFooterDark(isFooterOverAnyDark);
+      // Footer is now always dark, no contextual switching needed
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -271,56 +266,98 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       <main>{children}</main>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          FOOTER — Context-Aware Surface Switching
-          Automatically adapts to dark content sections with subtle crossfade.
+          FOOTER — Institutional CTA Section
+          Dark, full-width section with strong visual separation.
+          Functions as the platform access gateway, not a sales CTA.
           ═══════════════════════════════════════════════════════════════════════════ */}
       <footer 
-        className={`py-8 transition-colors duration-[120ms] ease-out ${
-          isFooterDark 
-            ? "bg-[#111214] border-t border-white/[0.08]" 
-            : "bg-background border-t border-border"
-        }`}
-        data-surface={isFooterDark ? "dark" : "light"}
+        className="bg-[#111214]"
+        data-surface="dark"
       >
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <p 
-            className={`tracking-[0.02em] mb-4 transition-colors duration-[120ms] ease-out ${
-              isFooterDark ? "text-white/[0.48]" : "text-muted-foreground/60"
-            }`}
-            style={{ fontSize: LOGO_SIZES.footer.fontSize }}
-          >
-            Built for creators. Powered by precision.
-          </p>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <p 
-              className={`transition-colors duration-[120ms] ease-out ${
-                isFooterDark ? "text-white/[0.64]" : "text-muted-foreground"
-              }`}
-              style={{ fontSize: LOGO_SIZES.footer.fontSize }}
-            >
-              {copyrightText}
-            </p>
-            <div className="flex items-center gap-6">
-              <Link 
-                to="/privacy" 
-                className={`text-xs transition-opacity duration-[120ms] ease-out focus-ring ${
-                  isFooterDark 
-                    ? "text-white/[0.48] hover:opacity-88" 
-                    : "text-muted-foreground hover:opacity-88"
-                }`}
+        {/* Primary CTA Section */}
+        <div className="py-16 md:py-24 lg:py-32 border-b border-white/[0.08]">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+            <div className="max-w-xl">
+              {/* Headline */}
+              <h2 
+                className="text-white font-semibold tracking-tight mb-4"
+                style={{ 
+                  fontSize: "clamp(28px, 4vw, 40px)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.02em",
+                }}
               >
-                Privacy Policy
-              </Link>
-              <Link 
-                to="/terms" 
-                className={`text-xs transition-opacity duration-[120ms] ease-out focus-ring ${
-                  isFooterDark 
-                    ? "text-white/[0.48] hover:opacity-88" 
-                    : "text-muted-foreground hover:opacity-88"
-                }`}
+                Access the platform.
+              </h2>
+              
+              {/* Supporting copy */}
+              <p 
+                className="text-white/60 mb-8 md:mb-10"
+                style={{ 
+                  fontSize: "clamp(15px, 1.5vw, 17px)",
+                  lineHeight: 1.5,
+                }}
               >
-                Terms of Use
-              </Link>
+                Sign in if you have an account. Otherwise, request access and we'll review your submission.
+              </p>
+              
+              {/* Actions */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+                {/* Primary CTA — High-contrast solid fill */}
+                <Link 
+                  to="/auth?request=true"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-sm rounded-lg transition-all duration-[120ms] ease-out hover:bg-white/90 focus-ring"
+                  style={{ minHeight: 48 }}
+                >
+                  Request Access
+                </Link>
+                
+                {/* Secondary action — Text style */}
+                <Link 
+                  to="/auth"
+                  className="inline-flex items-center justify-center px-2 py-3 text-white/70 font-medium text-sm transition-colors duration-[120ms] ease-out hover:text-white focus-ring"
+                  style={{ minHeight: 48 }}
+                >
+                  Sign In
+                </Link>
+              </div>
+              
+              {/* Tertiary link — Low emphasis */}
+              <div className="mt-8 md:mt-10">
+                <Link 
+                  to="/how-licensing-works"
+                  className="text-sm text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
+                >
+                  Learn how licensing works
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Legal Footer — Subdued */}
+        <div className="py-6 md:py-8">
+          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <p 
+                className="text-white/40 text-xs"
+              >
+                {copyrightText}
+              </p>
+              <div className="flex items-center gap-6">
+                <Link 
+                  to="/privacy" 
+                  className="text-xs text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
+                >
+                  Privacy Policy
+                </Link>
+                <Link 
+                  to="/terms" 
+                  className="text-xs text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
+                >
+                  Terms of Use
+                </Link>
+              </div>
             </div>
           </div>
         </div>
