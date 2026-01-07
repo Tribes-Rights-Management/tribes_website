@@ -39,15 +39,37 @@ export default function MarketingPage() {
         </div>
       </section>
 
+      {/* Proof of Thought — Structural Differentiation */}
+      <section className="py-16 md:py-20 bg-background border-b border-border/30">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+          <div className="max-w-[560px]">
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground/70 mb-6">
+              How We Build
+            </p>
+            <div className="space-y-2">
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Permanent ownership records
+              </p>
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Deterministic splits and metadata
+              </p>
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Documentation designed to withstand audits, disputes, and time
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Who It's For */}
       <section className="py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
-          <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground mb-10">
             Who It's For
           </h2>
           <div className="grid md:grid-cols-3 gap-12 md:gap-16">
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-2">
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -55,7 +77,7 @@ export default function MarketingPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-2">
                 Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -63,7 +85,7 @@ export default function MarketingPage() {
               </p>
             </div>
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-3">
+              <h3 className="text-lg font-medium text-foreground mb-2">
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
@@ -152,22 +174,33 @@ export default function MarketingPage() {
       {/* Transition: Dark to Light */}
       <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
-      {/* How Copyright Clearance Works - Light operational section */}
-      <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24 bg-background">
+      {/* Philosophical Anchor — Category Reframe */}
+      <section className="py-16 md:py-20 bg-background">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
-          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-6 text-muted-foreground">
+          <div className="max-w-[640px]">
+            <p className="text-base md:text-lg text-foreground/75 leading-relaxed">
+              The difference between administration and stewardship is whether records survive the people who made them.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* How Licensing Works - Increased density for cognitive focus */}
+      <section id="how-it-works" className="py-20 md:py-24 scroll-mt-24 bg-background border-t border-border/40">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+          <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-4 text-muted-foreground">
             How Licensing Works
           </h2>
-          <p className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px] text-foreground">
+          <p className="text-lg md:text-xl leading-relaxed mb-12 max-w-[640px] text-foreground">
             Every request is reviewed before any agreement is issued.
           </p>
-          <div className="grid md:grid-cols-2 gap-16 md:gap-24">
-            <div className="space-y-12">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20">
+            <div className="space-y-8">
               <div>
-                <p className="text-xs font-medium mb-2 text-muted-foreground">
+                <p className="text-xs font-medium mb-1.5 text-muted-foreground">
                   01
                 </p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-2 text-foreground">
                   Submit
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -175,10 +208,10 @@ export default function MarketingPage() {
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium mb-2 text-muted-foreground">
+                <p className="text-xs font-medium mb-1.5 text-muted-foreground">
                   02
                 </p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-2 text-foreground">
                   Review
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -186,12 +219,12 @@ export default function MarketingPage() {
                 </p>
               </div>
             </div>
-            <div className="space-y-12">
+            <div className="space-y-8">
               <div>
-                <p className="text-xs font-medium mb-2 text-muted-foreground">
+                <p className="text-xs font-medium mb-1.5 text-muted-foreground">
                   03
                 </p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-2 text-foreground">
                   Execute
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -199,10 +232,10 @@ export default function MarketingPage() {
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium mb-2 text-muted-foreground">
+                <p className="text-xs font-medium mb-1.5 text-muted-foreground">
                   04
                 </p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">
+                <h3 className="text-lg font-medium mb-2 text-foreground">
                   Record
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
@@ -214,8 +247,8 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Subtle boundary before footer CTA */}
-      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+      {/* Footer transition — Clear visual separation */}
+      <div className="h-px bg-border/60" />
     </PublicLayout>
   );
 }
