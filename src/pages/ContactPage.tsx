@@ -68,7 +68,7 @@ export default function ContactPage() {
               Contact
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[560px]">
-              Inquiries about services, access, or licensing.
+              General inquiries and questions.
             </p>
           </div>
         </div>
@@ -146,19 +146,8 @@ export default function ContactPage() {
                   </a>
                 </div>
                 <div className="pt-8 border-t border-border">
-                  <p className="text-sm font-medium text-foreground mb-3">Services & Licensing</p>
+                  <p className="text-sm font-medium text-foreground mb-4">Looking for something specific?</p>
                   <div className="space-y-4">
-                    <div>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
-                        Interested in publishing administration?
-                      </p>
-                      <Link 
-                        to="/inquire" 
-                        className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-                      >
-                        Inquire for Services
-                      </Link>
-                    </div>
                     <div>
                       <p className="text-sm text-muted-foreground leading-relaxed mb-2">
                         Need to license music we administer?
@@ -167,11 +156,22 @@ export default function ContactPage() {
                         to="/licensing" 
                         className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
                       >
-                        Create a Licensing Account
+                        Request Licensing Access
                       </Link>
                       <p className="text-xs text-muted-foreground/60 mt-1">
-                        Approval required before submitting requests.
+                        Account approval required.
                       </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-2">
+                        Exploring representation or administration?
+                      </p>
+                      <Link 
+                        to="/inquire" 
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                      >
+                        Inquire About Services
+                      </Link>
                     </div>
                   </div>
                 </div>
