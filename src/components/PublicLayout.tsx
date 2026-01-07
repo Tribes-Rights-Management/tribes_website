@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, useRef, useCallback } from "react";
 import { Menu } from "lucide-react";
 import { BRAND, LOGO_SIZES, NAV_SIZES } from "@/lib/brand";
 import { LegalRow } from "@/components/LegalRow";
+import FocusTrap from "focus-trap-react";
 import {
   Sheet,
   SheetContent,
@@ -20,6 +21,17 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const firstNavLinkRef = useRef<HTMLAnchorElement>(null);
+  
+  // Return focus to trigger when menu closes
+  const handleMenuClose = useCallback(() => {
+    setMobileMenuOpen(false);
+    // Small delay to ensure DOM updates before focusing
+    setTimeout(() => {
+      menuTriggerRef.current?.focus();
+    }, 10);
+  }, []);
 
   /* ═══════════════════════════════════════════════════════════════════════════
      CONTEXTUAL SURFACE SWITCHING
@@ -133,9 +145,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
             </Link>
             
             {/* Hamburger Menu — All breakpoints */}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <Sheet open={mobileMenuOpen} onOpenChange={(open) => {
+              if (!open) handleMenuClose();
+              else setMobileMenuOpen(true);
+            }}>
               <SheetTrigger asChild>
                 <button
+                  ref={menuTriggerRef}
                   className={`flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
                     isHeaderDark ? "text-white/65 hover:text-white/85" : "lg:text-foreground/60 lg:hover:text-foreground/80 text-white/65 hover:text-white/85"
                   }`}
@@ -145,6 +161,8 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     marginRight: -10,
                   }}
                   aria-label="Open menu"
+                  aria-expanded={mobileMenuOpen}
+                  aria-haspopup="dialog"
                 >
                   <Menu className="h-[18px] w-[18px]" />
                 </button>
@@ -161,7 +179,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 style={{
                   boxShadow: "-4px 0 20px rgba(0,0,0,0.08)",
                 }}
-                onEscapeKeyDown={() => setMobileMenuOpen(false)}
+                onEscapeKeyDown={handleMenuClose}
               >
                 <nav 
                   className="flex flex-col h-full justify-between"
@@ -176,7 +194,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   <div>
                     {/* Close — aligned right, restrained, accessible */}
                     <button
-                      onClick={() => setMobileMenuOpen(false)}
+                      onClick={handleMenuClose}
                       className="text-[13px] font-medium text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors duration-150 mb-8 rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       style={{ 
                         letterSpacing: "0.01em",
