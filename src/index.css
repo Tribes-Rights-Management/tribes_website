@@ -204,12 +204,41 @@
   }
   
   /* ═══════════════════════════════════════════════════════════════════════════
-     INTERACTION STATES — INSTITUTIONAL RESTRAINT
-     Links: opacity shift only (10-12%)
-     Buttons: subtle background shift (±4-6%)
-     Focus: 1px solid, 2px offset
-     Disabled: opacity only
-     Transitions: 120-150ms ease-out
+     GLOBAL INTERACTION STATE SYSTEM — LOCKED
+     
+     This interaction system is authoritative and must not drift.
+     Motion exists only to clarify state—not to delight.
+     
+     TRANSITIONS:
+     - Duration: 120-150ms (short, predictable)
+     - Easing: ease-out only (no spring, bounce, overshoot)
+     
+     BUTTONS:
+     - Hover: brightness(0.94) for light buttons, brightness(1.06) for dark
+     - Focus: 1px solid ring, 2px offset, neutral color
+     - Active: instant opacity reduction (0.85)
+     - Disabled: opacity 50%, cursor not-allowed
+     
+     LINKS:
+     - Hover: underline appears/strengthens
+     - Focus: visible outline
+     - No color shifting
+     
+     FORM INPUTS:
+     - Hover: border darkens subtly
+     - Focus: 1px ring, no glow, high contrast
+     - Disabled: muted background, opacity 50%
+     - Error: restrained red border only
+     
+     CHECKBOXES/TOGGLES:
+     - Hover: subtle border emphasis
+     - Focus: visible outline
+     - Checked: no animation, instant state change
+     
+     PROHIBITIONS:
+     - No scale, bounce, wobble, or glow
+     - No hover animations that move elements
+     - No hidden focus states
      ═══════════════════════════════════════════════════════════════════════════ */
   
   /* Focus ring - visible, 1px solid, 2px offset */
@@ -218,49 +247,75 @@
   }
   
   .focus-ring:focus-visible {
-    outline: 1px solid rgba(0, 0, 0, 0.4);
+    outline: 1px solid hsl(0 0% 9% / 0.4);
     outline-offset: 2px;
   }
   
   .dark .focus-ring:focus-visible,
   [data-dark="true"] .focus-ring:focus-visible {
-    outline-color: rgba(255, 255, 255, 0.4);
+    outline-color: hsl(0 0% 100% / 0.4);
   }
   
-  /* Hover state - opacity shift only */
+  /* Hover state - subtle opacity shift only */
   .hover-subtle {
-    @apply transition-opacity duration-[120ms] ease-out;
+    @apply transition-opacity duration-150 ease-out;
   }
   
   .hover-subtle:hover {
     opacity: 0.88;
   }
   
-  /* Button hover - subtle background shift */
+  /* Button hover - subtle brightness shift */
   .btn-hover {
-    @apply transition-all duration-[120ms] ease-out;
+    @apply transition-[filter,opacity] duration-150 ease-out;
   }
   
   .btn-hover:hover {
-    filter: brightness(0.96);
+    filter: brightness(0.94);
   }
   
   .btn-hover:active {
     opacity: 0.85;
   }
   
-  /* Link hover - opacity shift only, no underline */
+  /* Link hover - underline emphasis */
   .link-hover {
-    @apply transition-opacity duration-[120ms] ease-out no-underline;
+    @apply transition-[text-decoration-color,opacity] duration-150 ease-out;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
   }
   
   .link-hover:hover {
-    opacity: 0.88;
+    text-decoration-color: currentColor;
   }
   
-  /* Disabled state - opacity only */
+  /* Link simple - opacity shift only (for navigation) */
+  .link-simple {
+    @apply transition-opacity duration-150 ease-out;
+  }
+  
+  .link-simple:hover {
+    opacity: 0.75;
+  }
+  
+  /* Disabled state - opacity only, no events */
   .state-disabled {
-    @apply opacity-50 pointer-events-none;
+    @apply opacity-50 pointer-events-none cursor-not-allowed;
+  }
+  
+  /* Input focus - border emphasis, no ring glow */
+  .input-focus {
+    @apply transition-[border-color] duration-150 ease-out;
+  }
+  
+  .input-focus:hover:not(:disabled):not(:focus) {
+    border-color: hsl(0 0% 70%);
+  }
+  
+  .input-focus:focus {
+    border-color: hsl(0 0% 50%);
+    outline: none;
   }
   
   /* Label style */
@@ -270,9 +325,9 @@
 }
 
 @layer utilities {
-  /* Apple-grade content fade - opacity only, 120-150ms */
+  /* Content fade - opacity only, 150ms */
   .animate-content-fade {
-    animation: contentFade 0.12s ease-out forwards;
+    animation: contentFade 0.15s ease-out forwards;
   }
   
   @keyframes contentFade {
@@ -280,14 +335,19 @@
     to { opacity: 1; }
   }
   
-  /* Button active state - brief opacity reduction */
+  /* Button active state - brief opacity reduction, instant feedback */
   .btn-active {
     @apply active:opacity-85 active:transition-opacity active:duration-75;
   }
   
-  /* Global focus visible override for dark surfaces */
+  /* Global focus visible for dark surfaces */
   [data-surface="dark"] *:focus-visible {
-    outline: 1px solid rgba(255, 255, 255, 0.4) !important;
+    outline: 1px solid hsl(0 0% 100% / 0.4) !important;
     outline-offset: 2px;
+  }
+  
+  /* Global transition utility - locked duration */
+  .transition-interaction {
+    @apply transition-all duration-150 ease-out;
   }
 }
