@@ -94,15 +94,15 @@ export default function ServiceInquiryPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
-              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+              <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-3">
                 Inquiry received
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                Our team reviews all inquiries and will follow up if there's a potential fit.
+              <p className="text-base text-muted-foreground leading-relaxed mb-6">
+                Our team reviews all inquiries and will follow up if there is a potential fit.
               </p>
               <Link 
                 to="/" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
               >
                 Return to home
               </Link>
@@ -119,10 +119,10 @@ export default function ServiceInquiryPage() {
       <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-2">
+            <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
               Inquire About Services
             </h1>
-            <p className="text-[15px] md:text-base text-muted-foreground leading-relaxed">
+            <p className="text-base text-muted-foreground leading-relaxed">
               For representation, administration, or strategic engagement.
             </p>
           </div>
