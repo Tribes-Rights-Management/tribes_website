@@ -48,6 +48,13 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
         {/* Right: Legal links */}
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
           <Link 
+            to="/our-approach" 
+            className="text-[#B5B5B5] transition-colors duration-150 hover:text-white py-1"
+            style={{ fontSize: 12 }}
+          >
+            Our Approach
+          </Link>
+          <Link 
             to="/privacy" 
             className="text-[#B5B5B5] transition-colors duration-150 hover:text-white py-1"
             style={{ fontSize: 12 }}
@@ -83,6 +90,12 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
       
       {/* Right: Legal links */}
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+        <Link 
+          to="/our-approach" 
+          className="text-xs text-muted-foreground/60 transition-colors duration-150 hover:text-muted-foreground"
+        >
+          Our Approach
+        </Link>
         <Link 
           to="/privacy" 
           className="text-xs text-muted-foreground/60 transition-colors duration-150 hover:text-muted-foreground"
