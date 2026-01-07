@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
 import { z } from "zod";
 
@@ -50,12 +51,43 @@ export default function ContactPage() {
     }
 
     setIsSubmitting(true);
-    
-    // Simulate submission delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitted(true);
-    setIsSubmitting(false);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("submit-contact", {
+        body: {
+          full_name: name.trim(),
+          email: email.trim().toLowerCase(),
+          location: location.trim(),
+          message: message.trim(),
+          source_page: "contact",
+        },
+      });
+
+      if (error) {
+        throw new Error(error.message || "Failed to submit");
+      }
+
+      if (data?.error) {
+        toast({
+          title: "Unable to submit",
+          description: data.error,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      setIsSubmitted(true);
+    } catch (error: any) {
+      console.error("Submit error:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   if (isSubmitted) {
@@ -68,7 +100,7 @@ export default function ContactPage() {
                 Message received
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Thank you for reaching out. We'll respond as soon as possible.
+                We'll review and respond if there's a fit.
               </p>
               <Link 
                 to="/" 
