@@ -333,58 +333,47 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
       >
         {footerVariant === "full" && (
           <>
-            {/* Primary Access Block — Canonical alignment */}
+            {/* ═══════════════════════════════════════════════════════════════════
+                ACCESS PATHWAYS — Institutional Decision Surface
+                Two equal text-based pathways. No buttons. No visual hierarchy.
+                ═══════════════════════════════════════════════════════════════════ */}
             <div className="pt-20 pb-16 md:pt-28 md:pb-20">
               <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
                 <div className="max-w-[560px]">
                   {/* Section Label */}
-                  <p className="text-xs font-medium uppercase tracking-[0.1em] text-white/55 mb-6">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/55 mb-12">
                     Access
                   </p>
                   
-                  {/* Primary: Request Licensing Access */}
-                  <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-white/92 mb-4">
-                    Request Licensing Access
-                  </h2>
-                  <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
-                    For commercial, broadcast, or ministry use of music we administer.
-                  </p>
-                  <p className="text-sm leading-[1.6] text-white/55 mb-8">
-                    Account approval required before submitting license requests.
-                  </p>
-                  
-                  {/* Primary CTA — Black button (standard) */}
-                  <Link 
-                    to="/licensing"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-foreground text-background font-medium text-[15px] rounded transition-all duration-150 hover:bg-foreground/90"
-                    style={{ minHeight: 48 }}
-                  >
-                    Request an Account
-                  </Link>
-                  
-                  {/* Secondary: Services Inquiry — Text link */}
-                  <div className="mt-10 pt-8 border-t border-white/15">
-                    <p className="text-sm text-white/60 mb-3">
-                      Looking for publishing administration or rights management?
+                  {/* Pathway 1: Request Licensing Access */}
+                  <div className="mb-10">
+                    <h2 className="text-xl font-medium text-white/92 mb-2">
+                      Request Licensing Access
+                    </h2>
+                    <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
+                      For commercial, broadcast, or ministry use of music we administer.
                     </p>
                     <Link 
-                      to="/inquire"
-                      className="text-sm text-white/70 hover:text-white/85 transition-colors duration-150 underline underline-offset-4 decoration-white/25 hover:decoration-white/45"
+                      to="/licensing"
+                      className="text-sm text-white/70 hover:text-white/90 transition-colors duration-150 underline underline-offset-4 decoration-white/30 hover:decoration-white/50"
                     >
-                      Inquire About Services
+                      Request an account
                     </Link>
                   </div>
                   
-                  {/* Tertiary: Client Sign In */}
-                  <div className="mt-8 flex items-center gap-3">
-                    <p className="text-sm text-white/50">
-                      Existing client?
+                  {/* Pathway 2: Inquire About Services */}
+                  <div>
+                    <h2 className="text-xl font-medium text-white/92 mb-2">
+                      Inquire About Services
+                    </h2>
+                    <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
+                      For publishing administration, rights management, or long-term catalog support.
                     </p>
                     <Link 
-                      to="/auth"
-                      className="text-sm text-white/60 hover:text-white/80 transition-colors duration-150"
+                      to="/inquire"
+                      className="text-sm text-white/70 hover:text-white/90 transition-colors duration-150 underline underline-offset-4 decoration-white/30 hover:decoration-white/50"
                     >
-                      Sign In
+                      Submit an inquiry
                     </Link>
                   </div>
                 </div>
