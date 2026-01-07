@@ -123,84 +123,85 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               
               {/* ═══════════════════════════════════════════════════════════════════
                   MOBILE MENU — Institutional Control Surface
-                  No close button. Closes via overlay tap or hamburger re-tap.
-                  Neutral typography, generous spacing, calm and authoritative.
+                  Typography: 16px regular/medium only. No bold, no mixed sizes.
+                  Spacing: 28-32px between groups. Generous top/bottom padding.
+                  Animation: 200ms ease-out slide. Closes via overlay or hamburger.
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-[280px] bg-background border-l border-border/30 p-0 shadow-xl [&>button]:hidden"
+                className="w-[280px] bg-background border-l border-border/20 p-0 [&>button]:hidden focus:outline-none"
                 style={{
-                  boxShadow: "-4px 0 24px rgba(0,0,0,0.08)",
+                  boxShadow: "-4px 0 20px rgba(0,0,0,0.06)",
                 }}
               >
-                <nav className="flex flex-col pt-12 pb-8 px-5 h-full">
-                  {/* Primary Navigation */}
-                  <div className="space-y-1">
+                <nav className="flex flex-col pt-14 pb-10 px-6 h-full">
+                  {/* Primary Navigation — 16px, regular weight */}
+                  <div className="space-y-0">
                     <Link 
                       to="/services" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                      className={`text-[16px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/services"
-                          ? "text-foreground font-medium"
-                          : "text-foreground/70 hover:text-foreground"
+                          ? "text-foreground"
+                          : "text-foreground/65 hover:text-foreground"
                       }`}
-                      style={{ minHeight: 48 }}
+                      style={{ minHeight: 52 }}
                     >
                       Services
                     </Link>
                     <Link 
                       to="/contact" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                      className={`text-[16px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/contact"
-                          ? "text-foreground font-medium"
-                          : "text-foreground/70 hover:text-foreground"
+                          ? "text-foreground"
+                          : "text-foreground/65 hover:text-foreground"
                       }`}
-                      style={{ minHeight: 48 }}
+                      style={{ minHeight: 52 }}
                     >
                       Contact
                     </Link>
                   </div>
                   
-                  {/* Divider */}
-                  <div className="h-px bg-border/50 my-4" />
+                  {/* Spacer — Use space, not lines */}
+                  <div className="h-7" />
                   
-                  {/* Account Actions */}
-                  <div className="space-y-1">
+                  {/* Account Actions — 16px, regular weight */}
+                  <div className="space-y-0">
                     <Link 
                       to="/auth" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                      className={`text-[16px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/auth"
-                          ? "text-foreground font-medium"
-                          : "text-foreground/70 hover:text-foreground"
+                          ? "text-foreground"
+                          : "text-foreground/65 hover:text-foreground"
                       }`}
-                      style={{ minHeight: 48 }}
+                      style={{ minHeight: 52 }}
                     >
                       Sign In
                     </Link>
                     <Link 
                       to="/auth?request=true" 
-                      className="text-[15px] text-foreground/70 hover:text-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
-                      style={{ minHeight: 48 }}
+                      className="text-[16px] text-foreground/65 hover:text-foreground transition-colors duration-150 flex items-center"
+                      style={{ minHeight: 52 }}
                     >
                       Request Access
                     </Link>
                   </div>
                   
-                  {/* Divider */}
-                  <div className="h-px bg-border/50 my-4" />
+                  {/* Spacer — Generous breathing room */}
+                  <div className="flex-1 min-h-8" />
                   
-                  {/* Legal Links — Secondary text */}
-                  <div className="space-y-0">
+                  {/* Legal Links — 14px, secondary text, bottom-aligned */}
+                  <div className="space-y-0 pt-6 border-t border-border/30">
                     <Link 
                       to="/privacy" 
-                      className="text-[13px] text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
-                      style={{ minHeight: 40 }}
+                      className="text-[14px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center"
+                      style={{ minHeight: 44 }}
                     >
                       Privacy Policy
                     </Link>
                     <Link 
                       to="/terms" 
-                      className="text-[13px] text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
-                      style={{ minHeight: 40 }}
+                      className="text-[14px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center"
+                      style={{ minHeight: 44 }}
                     >
                       Terms of Use
                     </Link>
