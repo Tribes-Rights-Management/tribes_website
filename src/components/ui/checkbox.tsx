@@ -4,6 +4,15 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHECKBOX INTERACTION STATES — LOCKED
+   
+   Hover: subtle border emphasis
+   Focus: visible outline for keyboard users
+   Checked: instant state change, no animation, high contrast
+   Disabled: muted, state still recognizable
+   Transition: 150ms ease-out (border only)
+   ═══════════════════════════════════════════════════════════════════════════ */
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
@@ -11,7 +20,12 @@ const Checkbox = React.forwardRef<
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
-      "peer h-[15px] w-[15px] shrink-0 rounded-[3px] border border-muted-foreground/50 ring-offset-background transition-colors data-[state=checked]:bg-foreground data-[state=checked]:border-foreground data-[state=checked]:text-background focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
+      "peer h-[15px] w-[15px] shrink-0 rounded-[3px] border border-muted-foreground/50 ring-offset-background",
+      "transition-[border-color] duration-150 ease-out",
+      "hover:border-muted-foreground/70",
+      "data-[state=checked]:bg-foreground data-[state=checked]:border-foreground data-[state=checked]:text-background",
+      "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-muted-foreground/50",
       className,
     )}
     {...props}

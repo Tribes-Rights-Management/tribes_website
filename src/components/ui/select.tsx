@@ -10,6 +10,15 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELECT TRIGGER INTERACTION STATES — LOCKED
+   
+   Hover: border darkens subtly
+   Focus: border emphasis, no ring glow
+   Disabled: muted, opacity 50%
+   Chevron: neutral, never emphasized
+   Transition: 150ms ease-out
+   ═══════════════════════════════════════════════════════════════════════════ */
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
@@ -18,9 +27,11 @@ const SelectTrigger = React.forwardRef<
     ref={ref}
     className={cn(
       "flex h-11 w-full items-center justify-between rounded-md border border-input bg-muted/30 px-5 py-2.5 text-sm",
+      "transition-[border-color] duration-150 ease-out",
       "placeholder:text-muted-foreground/60",
-      "focus:outline-none focus:border-foreground/30",
-      "disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      "hover:border-muted-foreground/30",
+      "focus:outline-none focus:border-muted-foreground/50",
+      "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-input [&>span]:line-clamp-1",
       className,
     )}
     {...props}
@@ -108,7 +119,10 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground",
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
+      "transition-colors duration-150 ease-out",
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      "focus:bg-accent/50",
       className,
     )}
     {...props}
