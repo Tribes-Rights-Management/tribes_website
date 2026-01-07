@@ -334,7 +334,7 @@ export default function LicensingAccountPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full md:w-auto md:px-8 h-12 text-[14px] font-medium rounded-md transition-all duration-150 ${
+                  className={`w-full h-12 text-[14px] font-medium rounded-md transition-all duration-150 ${
                     agreeToTerms && !isSubmitting
                       ? "bg-foreground text-background hover:bg-foreground/90"
                       : "bg-muted text-muted-foreground/60 cursor-not-allowed"
