@@ -31,14 +31,14 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
         <div className="flex flex-col gap-1.5">
           {showBrand && (
             <p 
-              className="text-white/25 tracking-tight"
+              className="text-white/50 tracking-tight"
               style={{ fontSize: 12 }}
             >
               {BRAND.wordmark}
             </p>
           )}
           <p 
-            className="text-white/20 leading-relaxed"
+            className="text-white/40 leading-relaxed"
             style={{ fontSize: 11 }}
           >
             {copyrightText}
@@ -49,21 +49,21 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
           <Link 
             to="/privacy" 
-            className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+            className="text-white/50 transition-colors duration-150 hover:text-white/70 py-1"
             style={{ fontSize: 12 }}
           >
             Privacy
           </Link>
           <Link 
             to="/terms" 
-            className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+            className="text-white/50 transition-colors duration-150 hover:text-white/70 py-1"
             style={{ fontSize: 12 }}
           >
             Terms
           </Link>
           <Link 
             to="/contact" 
-            className="text-white/20 transition-colors duration-150 hover:text-white/35 py-1"
+            className="text-white/50 transition-colors duration-150 hover:text-white/70 py-1"
             style={{ fontSize: 12 }}
           >
             Contact
