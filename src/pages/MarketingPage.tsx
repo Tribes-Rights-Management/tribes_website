@@ -27,14 +27,14 @@ export default function MarketingPage() {
             <div className="w-16 h-px bg-white/10 mb-8" />
             
             {/* Micro-line */}
-            <p className="text-xs font-light text-[#C9C9CC]/50 tracking-[0.05em] mb-20">
+            <p className="text-xs font-light text-white/50 tracking-[0.05em] mb-20">
               Publishing administration, built for precision.
             </p>
             
             {/* Understated link */}
             <a 
               href="#how-it-works" 
-              className="text-xs text-[#C9C9CC]/40 hover:text-[#C9C9CC]/70 transition-colors"
+              className="text-xs text-white/55 hover:text-white/75 transition-colors underline underline-offset-4 decoration-white/20"
             >
               How it works
             </a>
@@ -85,19 +85,19 @@ export default function MarketingPage() {
             <div>
               <p 
                 className="text-xs font-medium uppercase tracking-[0.12em] mb-8"
-                style={{ color: 'rgba(255,255,255,0.55)' }}
+                style={{ color: 'rgba(255,255,255,0.60)' }}
               >
                 Music as an Asset
               </p>
               <h2 
                 className="text-[28px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em] mb-8"
-                style={{ color: 'rgba(255,255,255,0.88)' }}
+                style={{ color: 'rgba(255,255,255,0.92)' }}
               >
                 Managing music with the discipline of long-term capital.
               </h2>
               <p 
                 className="text-base leading-[1.8]"
-                style={{ color: 'rgba(255,255,255,0.64)' }}
+                style={{ color: 'rgba(255,255,255,0.72)' }}
               >
                 At Tribes, publishing administration is not clerical work. It is asset management—rights, data, income, and documentation treated with institutional rigor. Our systems are designed to protect value, preserve continuity, and support long-term financial clarity across the life of a catalog.
               </p>
@@ -108,13 +108,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                  style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
                   Rights & Ownership
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                  style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
                   Structured ownership records, verified splits, and authoritative metadata maintained as permanent reference.
                 </p>
@@ -122,13 +122,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                  style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
                   Financial Integrity
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                  style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
                   Accurate collections, defensible reporting, and continuity across accounting periods, partners, and platforms.
                 </p>
@@ -136,13 +136,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-lg font-medium mb-3"
-                  style={{ color: 'rgba(255,255,255,0.88)' }}
+                  style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
                   Data & Documentation
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.55)' }}
+                  style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
                   Clear lineage of agreements, licenses, and identifiers organized for audit, diligence, and long-term access.
                 </p>

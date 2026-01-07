@@ -2,6 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLOBAL COLOR CONTRAST SYSTEM — LOCKED
+   
+   This color system is authoritative and must not drift.
+   All text must pass WCAG AA contrast minimums.
+   
+   LIGHT MODE (default):
+   - Primary text: foreground (HSL 0 0% 9%) — near-black
+   - Secondary text: muted-foreground (HSL 0 0% 45%) — readable gray
+   - Background: background (HSL 0 0% 100%) — white
+   
+   DARK SECTIONS (#111214):
+   - Primary text: white/92 — Headlines, critical copy
+   - Secondary text: white/70-72 — Descriptions, body copy
+   - Tertiary text: white/55-65 — Labels, meta, supporting copy
+   - Meta/Footer text: white/50-60 — Copyright, legal links
+   - Links: white/60 default → white/80 hover
+   - Dividers: white/15
+   
+   PROHIBITIONS:
+   - No text below white/50 on dark backgrounds
+   - No arbitrary gray values — use semantic tokens
+   - No opacity-based text that reduces readability
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 /* Apple-grade Design System
    System typography, spacing-led layout, minimal dividers, calm hierarchy */
 

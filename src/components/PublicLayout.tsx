@@ -338,18 +338,18 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
               <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
                 <div className="max-w-[560px]">
                   {/* Section Label */}
-                  <p className="text-xs font-medium uppercase tracking-[0.1em] text-white/40 mb-6">
+                  <p className="text-xs font-medium uppercase tracking-[0.1em] text-white/55 mb-6">
                     Access
                   </p>
                   
                   {/* Primary: Request Licensing Access */}
-                  <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-white/90 mb-4">
+                  <h2 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-white/92 mb-4">
                     Request Licensing Access
                   </h2>
-                  <p className="text-[15px] leading-[1.7] text-white/60 mb-3">
+                  <p className="text-[15px] leading-[1.7] text-white/70 mb-3">
                     For commercial, broadcast, or ministry use of music we administer.
                   </p>
-                  <p className="text-sm leading-[1.6] text-white/45 mb-8">
+                  <p className="text-sm leading-[1.6] text-white/55 mb-8">
                     Account approval required before submitting license requests.
                   </p>
                   
@@ -363,13 +363,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   </Link>
                   
                   {/* Secondary: Services Inquiry — Text link */}
-                  <div className="mt-10 pt-8 border-t border-white/10">
-                    <p className="text-sm text-white/50 mb-3">
+                  <div className="mt-10 pt-8 border-t border-white/15">
+                    <p className="text-sm text-white/60 mb-3">
                       Looking for publishing administration or rights management?
                     </p>
                     <Link 
                       to="/inquire"
-                      className="text-sm text-white/60 hover:text-white/80 transition-colors duration-150 underline underline-offset-4 decoration-white/20 hover:decoration-white/40"
+                      className="text-sm text-white/70 hover:text-white/85 transition-colors duration-150 underline underline-offset-4 decoration-white/25 hover:decoration-white/45"
                     >
                       Inquire About Services
                     </Link>
@@ -377,12 +377,12 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   
                   {/* Tertiary: Client Sign In */}
                   <div className="mt-8 flex items-center gap-3">
-                    <p className="text-sm text-white/35">
+                    <p className="text-sm text-white/50">
                       Existing client?
                     </p>
                     <Link 
                       to="/auth"
-                      className="text-sm text-white/50 hover:text-white/70 transition-colors duration-150"
+                      className="text-sm text-white/60 hover:text-white/80 transition-colors duration-150"
                     >
                       Sign In
                     </Link>
