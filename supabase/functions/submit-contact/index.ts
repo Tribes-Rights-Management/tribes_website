@@ -74,10 +74,11 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Get IP for rate limiting
+    // Get IP and User-Agent for rate limiting and analytics
     const clientIP = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
                      req.headers.get("x-real-ip") || 
                      "unknown";
+    const userAgent = req.headers.get("user-agent") || null;
     const ipHash = await hashIP(clientIP);
 
     // Check rate limit
@@ -110,6 +111,7 @@ Deno.serve(async (req) => {
         source_page,
         user_id: userId,
         ip_hash: ipHash,
+        user_agent: userAgent,
       })
       .select()
       .single();
@@ -122,9 +124,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    // TODO: Send admin notification email here
-    // This would integrate with a transactional email service
-    console.log("New contact submission:", submission.id);
+    // Log new submission for admin notification
+    console.log("New contact submission:", {
+      id: submission.id,
+      name: full_name.trim(),
+      email: email.trim().toLowerCase(),
+      location: location.trim(),
+      message_preview: message.trim().substring(0, 200),
+      timestamp: new Date().toISOString(),
+    });
 
     return new Response(
       JSON.stringify({ success: true, id: submission.id }),

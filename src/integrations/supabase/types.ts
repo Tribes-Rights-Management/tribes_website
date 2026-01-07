@@ -88,6 +88,7 @@ export type Database = {
           status: Database["public"]["Enums"]["contact_status"]
           updated_at: string
           updated_by: string | null
+          user_agent: string | null
           user_id: string | null
         }
         Insert: {
@@ -103,6 +104,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["contact_status"]
           updated_at?: string
           updated_by?: string | null
+          user_agent?: string | null
           user_id?: string | null
         }
         Update: {
@@ -118,6 +120,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["contact_status"]
           updated_at?: string
           updated_by?: string | null
+          user_agent?: string | null
           user_id?: string | null
         }
         Relationships: []
@@ -787,7 +790,13 @@ export type Database = {
     Enums: {
       account_status: "pending" | "active" | "rejected"
       app_role: "super_admin" | "admin_view" | "user"
-      contact_status: "new" | "in_review" | "responded" | "archived"
+      contact_status:
+        | "new"
+        | "in_review"
+        | "responded"
+        | "archived"
+        | "follow_up_required"
+        | "closed"
       doc_type: "draft" | "executed"
       entity_type:
         | "individual"
@@ -947,7 +956,14 @@ export const Constants = {
     Enums: {
       account_status: ["pending", "active", "rejected"],
       app_role: ["super_admin", "admin_view", "user"],
-      contact_status: ["new", "in_review", "responded", "archived"],
+      contact_status: [
+        "new",
+        "in_review",
+        "responded",
+        "archived",
+        "follow_up_required",
+        "closed",
+      ],
       doc_type: ["draft", "executed"],
       entity_type: ["individual", "corporation", "llc", "partnership", "other"],
       file_type: ["brief", "cue_sheet", "reference", "other"],
