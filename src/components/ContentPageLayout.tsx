@@ -26,7 +26,7 @@ export function ContentPageLayout({ children, footerVariant = "full" }: ContentP
   return (
     <PublicLayout footerVariant={footerVariant}>
       <article 
-        className="pt-[calc(64px+env(safe-area-inset-top)+24px)] pb-16 md:pt-[calc(64px+40px)] md:pb-24"
+        className="pt-[calc(64px+env(safe-area-inset-top)+48px)] pb-16 md:pt-[calc(64px+40px)] md:pb-24"
       >
         <div className="max-w-[1120px] mx-auto px-6 md:px-10 lg:px-16">
           <div className="max-w-[560px]">
