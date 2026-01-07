@@ -209,19 +209,17 @@ export default function LicensingAccountPage() {
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  aria-label="Full name"
-                  className="w-full"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                type="text"
+                placeholder="Full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Full name"
+                className="w-full"
+              />
 
               <div>
                 <Input
@@ -255,38 +253,34 @@ export default function LicensingAccountPage() {
                 </p>
               </div>
 
-              <div>
-                <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Select your location" className="w-full">
-                    <SelectValue placeholder="Country or territory" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Select your location" className="w-full">
+                  <SelectValue placeholder="Country or territory" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COUNTRIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-              <div>
-                <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Organization type" className="w-full">
-                    <SelectValue placeholder="Organization type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="commercial_brand">Commercial / Brand</SelectItem>
-                    <SelectItem value="broadcast_media">Broadcast / Media</SelectItem>
-                    <SelectItem value="church_ministry">Church / Ministry</SelectItem>
-                    <SelectItem value="agency">Agency</SelectItem>
-                    <SelectItem value="independent_creator">Independent Creator</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Organization type" className="w-full">
+                  <SelectValue placeholder="Organization type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="commercial_brand">Commercial / Brand</SelectItem>
+                  <SelectItem value="broadcast_media">Broadcast / Media</SelectItem>
+                  <SelectItem value="church_ministry">Church / Ministry</SelectItem>
+                  <SelectItem value="agency">Agency</SelectItem>
+                  <SelectItem value="independent_creator">Independent Creator</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
 
-              <div>
+              <div className="pt-1">
                 <label className="text-[13px] text-muted-foreground/70 mb-2 block">
                   Describe your intended licensing use
                 </label>
@@ -340,18 +334,22 @@ export default function LicensingAccountPage() {
                 </div>
               </div>
 
-              <div className="pt-6 flex justify-center">
+              <div className="pt-5 flex justify-center">
                 <button
                   type="submit"
-                  disabled={isSubmitting || !agreeToTerms}
-                  className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
+                  className={`w-full max-w-[280px] h-[44px] text-sm font-medium rounded-md transition-all duration-150 ${
+                    agreeToTerms && !isSubmitting
+                      ? "bg-foreground text-background hover:bg-foreground/90 active:bg-foreground/85"
+                      : "bg-muted-foreground/20 text-muted-foreground/50 cursor-not-allowed"
+                  }`}
                 >
                   {isSubmitting ? "Submitting…" : "Request Account Review"}
                 </button>
               </div>
             </form>
 
-            <p className="text-sm text-muted-foreground/60 mt-10 text-center">
+            <p className="text-sm text-muted-foreground/60 mt-8 text-center">
               Already have an account?{" "}
               <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
                 Sign in
