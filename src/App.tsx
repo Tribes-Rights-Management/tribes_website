@@ -9,7 +9,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import MarketingPage from "./pages/MarketingPage";
 import ServicesPage from "./pages/ServicesPage";
 import ServiceInquiryPage from "./pages/ServiceInquiryPage";
-import LicenseRequestPage from "./pages/LicenseRequestPage";
+import LicensingAccountPage from "./pages/LicensingAccountPage";
 import ContactPage from "./pages/ContactPage";
 import HowLicensingWorksPage from "./pages/HowLicensingWorksPage";
 import PrivacyPage from "./pages/PrivacyPage";
@@ -59,7 +59,7 @@ function AppRoutes() {
       } />
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/inquire" element={<ServiceInquiryPage />} />
-      <Route path="/license-request" element={<LicenseRequestPage />} />
+      <Route path="/licensing" element={<LicensingAccountPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
