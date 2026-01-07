@@ -31,13 +31,18 @@ export default {
         "6": "48px",
         "8": "64px",
       },
-      // Typography
+      /* ═══════════════════════════════════════════════════════════════════
+         TYPOGRAPHY SCALE — LOCKED
+         H1: 32/40px, H2: 20px, Body: 16px, Meta: 13-14px
+         ═══════════════════════════════════════════════════════════════════ */
       fontSize: {
-        "xs": ["12px", { lineHeight: "1.4", fontWeight: "400" }],
+        "xs": ["13px", { lineHeight: "1.45", fontWeight: "400" }],
         "sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
-        "base": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
-        "lg": ["16px", { lineHeight: "1.35", fontWeight: "600" }],
-        "xl": ["24px", { lineHeight: "1.25", fontWeight: "600" }],
+        "base": ["16px", { lineHeight: "1.65", fontWeight: "400" }],
+        "lg": ["17px", { lineHeight: "1.4", fontWeight: "500" }],
+        "xl": ["20px", { lineHeight: "1.3", fontWeight: "500" }],
+        "2xl": ["32px", { lineHeight: "1.15", fontWeight: "600" }],
+        "3xl": ["40px", { lineHeight: "1.15", fontWeight: "600" }],
       },
       colors: {
         border: "hsl(var(--border))",
