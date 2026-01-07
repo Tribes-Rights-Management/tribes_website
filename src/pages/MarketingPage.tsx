@@ -14,13 +14,13 @@ export default function MarketingPage() {
             </p>
             
             {/* H1 - Institutional weight, refined letter-spacing */}
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-12">
+            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-6">
               Rights management, built to last.
             </h1>
             
-            {/* Subhead - Generous spacing, soft gray */}
-            <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
-              Publishing administration for songwriters and rights holders who want clarity, continuity, and records they can rely on.
+            {/* Secondary supporting line - Lower visual priority */}
+            <p className="text-lg md:text-xl lg:text-2xl font-normal text-white/60 leading-[1.4] tracking-[-0.01em] mb-16">
+              Publishing administration, built for precision.
             </p>
             
             {/* Divider */}
