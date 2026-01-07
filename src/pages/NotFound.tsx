@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { getCopyrightLine } from "@/lib/copyright";
+import { Footer } from "@/components/Footer";
 
 export default function NotFound() {
   const navigate = useNavigate();
@@ -20,11 +20,7 @@ export default function NotFound() {
           </button>
         </div>
       </main>
-      <footer className="py-6 text-center">
-        <p className="text-xs text-muted-foreground">
-          {getCopyrightLine()}
-        </p>
-      </footer>
+      <Footer variant="minimal" />
     </div>
   );
 }

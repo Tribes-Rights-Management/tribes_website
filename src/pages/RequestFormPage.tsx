@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { WizardFormData, DEFAULT_WIZARD_FORM } from "@/types";
 import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { Footer } from "@/components/Footer";
 
 import { WizardProgress } from "@/components/wizard/WizardProgress";
 import { CoverStep } from "@/components/wizard/steps/CoverStep";
@@ -376,13 +377,11 @@ export default function RequestFormPage() {
 
       <footer className="border-t border-border/50 py-4">
         <div className="container text-center">
-          <p className="text-xs text-muted-foreground mb-2">
+          <p className="text-xs text-muted-foreground mb-3">
             All submissions are reviewed before agreements are finalized.
           </p>
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Tribes Rights Management LLC. All rights reserved.
-          </p>
         </div>
+        <Footer variant="minimal" className="pt-0" />
       </footer>
     </div>
   );

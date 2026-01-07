@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails";
 import { AccountMenu } from "@/components/AccountMenu";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
-import { getCopyrightLine } from "@/lib/copyright";
+import { LegalRow } from "@/components/LegalRow";
 
 
 interface DashboardLayoutProps {
@@ -21,7 +21,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   }, []);
 
   const isActive = (path: string) => location.pathname === path;
-  const copyrightText = getCopyrightLine();
 
   const navItems = isAnyAdmin
     ? [
@@ -101,9 +100,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         </main>
 
         <footer className="px-8 py-4 border-t border-border/40">
-          <p className="text-xs text-muted-foreground">
-            {copyrightText}
-          </p>
+          <LegalRow variant="light" showBrand={false} />
           {isAnyAdmin && <AdminFooterNote />}
         </footer>
       </div>
