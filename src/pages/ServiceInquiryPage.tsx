@@ -81,7 +81,6 @@ export default function ServiceInquiryPage() {
     setIsSubmitting(true);
     
     // Simulate submission delay
-    // NOTE: This does NOT create any user account or grant access
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     setIsSubmitted(true);
@@ -91,16 +90,13 @@ export default function ServiceInquiryPage() {
   // Post-submission confirmation
   if (isSubmitted) {
     return (
-      <PublicLayout>
-        <section className="pt-32 pb-24 md:pt-40 md:pb-32 lg:pt-48 lg:pb-40">
+      <PublicLayout footerVariant="minimal">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-[520px]">
-              <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+            <div className="max-w-[480px]">
+              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Inquiry received
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-4">
-                Thank you for reaching out.
-              </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Our team reviews all inquiries and will follow up if there's a potential fit.
               </p>
@@ -118,38 +114,28 @@ export default function ServiceInquiryPage() {
   }
 
   return (
-    <PublicLayout>
-      {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20">
+    <PublicLayout footerVariant="minimal">
+      {/* Header */}
+      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[640px]">
-            <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+          <div className="max-w-[600px]">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
               Inquire About Services
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4">
-              Tribes works with a limited number of clients where long-term stewardship, precision, and accountability matter.
-            </p>
-            <p className="text-sm text-muted-foreground/70 leading-relaxed">
-              This inquiry is for representation, administration, or strategic engagement. Licensing requests are handled separately.
+            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+              For representation, administration, or strategic engagement.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-        <div className="h-px bg-border" />
-      </div>
-
       {/* Form */}
-      <section className="py-16 md:py-24">
+      <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid md:grid-cols-2 gap-16 md:gap-24">
-            <div>
-              <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
-                Service Inquiry
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid lg:grid-cols-[1fr,320px] gap-16 lg:gap-24">
+            {/* Form Column */}
+            <div className="max-w-[520px]">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <Input
                     type="text"
@@ -159,6 +145,7 @@ export default function ServiceInquiryPage() {
                     required
                     disabled={isSubmitting}
                     aria-label="Full name"
+                    className="w-full"
                   />
                 </div>
 
@@ -171,6 +158,7 @@ export default function ServiceInquiryPage() {
                     required
                     disabled={isSubmitting}
                     aria-label="Company or organization"
+                    className="w-full"
                   />
                 </div>
 
@@ -183,13 +171,14 @@ export default function ServiceInquiryPage() {
                     required
                     disabled={isSubmitting}
                     aria-label="Email address"
+                    className="w-full"
                   />
                 </div>
 
                 <div>
                   <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                    <SelectTrigger aria-label="Country">
-                      <SelectValue placeholder="Country" />
+                    <SelectTrigger aria-label="Select your location" className="w-full">
+                      <SelectValue placeholder="Country or territory" />
                     </SelectTrigger>
                     <SelectContent>
                       {COUNTRIES.map((c) => (
@@ -203,7 +192,7 @@ export default function ServiceInquiryPage() {
 
                 <div>
                   <Select value={roleType} onValueChange={setRoleType} disabled={isSubmitting}>
-                    <SelectTrigger aria-label="Role or relationship to rights">
+                    <SelectTrigger aria-label="Role or relationship to rights" className="w-full">
                       <SelectValue placeholder="Role / Relationship to Rights" />
                     </SelectTrigger>
                     <SelectContent>
@@ -217,37 +206,39 @@ export default function ServiceInquiryPage() {
                 </div>
 
                 <div>
+                  <label className="text-[13px] text-muted-foreground/70 mb-2 block">
+                    Describe your catalog or scope
+                  </label>
                   <Textarea
-                    placeholder="Example: size of catalog, type of rights, geographic scope, or nature of use."
+                    placeholder="Example: size of catalog, type of rights, geographic scope."
                     value={catalogDescription}
                     onChange={(e) => setCatalogDescription(e.target.value)}
                     required
                     disabled={isSubmitting}
                     rows={4}
                     aria-label="Catalog or scope description"
+                    className="w-full"
                   />
-                  <p className="text-xs text-muted-foreground mt-1.5">
-                    Describe your catalog or scope.
-                  </p>
                 </div>
 
                 <div>
+                  <label className="text-[13px] text-muted-foreground/70 mb-2 block">
+                    What are you looking for from Tribes?
+                  </label>
                   <Textarea
-                    placeholder="Example: administration, licensing support, catalog oversight, or long-term representation."
+                    placeholder="Example: administration, licensing support, catalog oversight."
                     value={lookingFor}
                     onChange={(e) => setLookingFor(e.target.value)}
                     required
                     disabled={isSubmitting}
                     rows={4}
                     aria-label="What are you looking for from Tribes"
+                    className="w-full"
                   />
-                  <p className="text-xs text-muted-foreground mt-1.5">
-                    What are you looking for from Tribes?
-                  </p>
                 </div>
 
-                {/* Required consent */}
-                <div className="pt-4">
+                {/* Consent */}
+                <div className="pt-2">
                   <div className="flex items-start gap-3">
                     <Checkbox
                       id="terms"
@@ -255,15 +246,16 @@ export default function ServiceInquiryPage() {
                       onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
                       disabled={isSubmitting}
                       aria-label="Agree to terms"
+                      className="shrink-0 mt-0.5"
                     />
                     <label 
                       htmlFor="terms" 
-                      className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
+                      className="text-[13px] text-muted-foreground/60 leading-relaxed cursor-pointer"
                     >
                       I agree to the{" "}
                       <Link 
                         to="/privacy" 
-                        className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                        className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
                         target="_blank"
                       >
                         Privacy Policy
@@ -271,7 +263,7 @@ export default function ServiceInquiryPage() {
                       {" "}and{" "}
                       <Link 
                         to="/terms" 
-                        className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                        className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
                         target="_blank"
                       >
                         Terms of Use
@@ -280,11 +272,11 @@ export default function ServiceInquiryPage() {
                   </div>
                 </div>
 
-                <div className="pt-2">
+                <div className="pt-6 flex justify-center lg:justify-start">
                   <button
                     type="submit"
                     disabled={isSubmitting || !agreeToTerms}
-                    className="h-10 px-6 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? "Submitting…" : "Submit Inquiry"}
                   </button>
@@ -292,41 +284,44 @@ export default function ServiceInquiryPage() {
               </form>
             </div>
 
-            <div>
-              <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
-                What This Is For
-              </h2>
-              <div className="space-y-8 text-muted-foreground">
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Long-term relationships</p>
-                  <p className="text-sm leading-relaxed">
-                    We work with clients who value accuracy, continuity, and structured rights management over time.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Catalog stewardship</p>
-                  <p className="text-sm leading-relaxed">
-                    Publishing administration, rights oversight, and defensible documentation for those who take their catalogs seriously.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Not a license request</p>
-                  <p className="text-sm leading-relaxed">
-                    This inquiry is about representation and administration—not transactional licensing. License requests are handled through approved accounts.
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-12 pt-8 border-t border-border">
-                <p className="text-sm text-muted-foreground/70 leading-relaxed">
-                  Need to license music we administer?
+            {/* Sidebar — Desktop only */}
+            <div className="hidden lg:block">
+              <div className="sticky top-32">
+                <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground/50 mb-6">
+                  About this form
                 </p>
-                <Link 
-                  to="/licensing" 
-                  className="text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4 mt-2 inline-block"
-                >
-                  Request Licensing Access
-                </Link>
+                <div className="space-y-6 text-muted-foreground">
+                  <div>
+                    <p className="text-sm font-medium text-foreground/80 mb-1">Long-term relationships</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground/70">
+                      We work with clients who value accuracy and structured rights management.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground/80 mb-1">Catalog stewardship</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground/70">
+                      Publishing administration, rights oversight, and documentation.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground/80 mb-1">Not a license request</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground/70">
+                      This inquiry is about representation—not transactional licensing.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-10 pt-6 border-t border-border/50">
+                  <p className="text-sm text-muted-foreground/50 leading-relaxed">
+                    Need to license music we administer?
+                  </p>
+                  <Link 
+                    to="/licensing" 
+                    className="text-sm text-muted-foreground/70 hover:text-foreground transition-colors underline underline-offset-4 mt-1 inline-block"
+                  >
+                    Request Licensing Access
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

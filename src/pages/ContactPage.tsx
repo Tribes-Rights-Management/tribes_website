@@ -93,10 +93,10 @@ export default function ContactPage() {
   if (isSubmitted) {
     return (
       <PublicLayout footerVariant="minimal">
-        <section className="pt-24 pb-24 md:pt-32 md:pb-32">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
-              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
+              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Message received
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -117,8 +117,8 @@ export default function ContactPage() {
 
   return (
     <PublicLayout footerVariant="minimal">
-      {/* Header — consistent offset from fixed nav */}
-      <section className="pt-24 pb-6 md:pt-28 md:pb-8">
+      {/* Header */}
+      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
             <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
@@ -131,11 +131,11 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section className="pb-20 md:pb-28">
+      {/* Form */}
+      <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Input
                   type="text"
@@ -145,6 +145,7 @@ export default function ContactPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Name"
+                  className="w-full"
                 />
               </div>
 
@@ -157,15 +158,13 @@ export default function ContactPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Email"
+                  className="w-full"
                 />
               </div>
 
               <div>
-                <label className="text-[13px] text-muted-foreground/80 mb-1.5 block">
-                  Select your location
-                </label>
                 <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Select your location">
+                  <SelectTrigger aria-label="Select your location" className="w-full">
                     <SelectValue placeholder="Country or territory" />
                   </SelectTrigger>
                   <SelectContent>
@@ -187,14 +186,15 @@ export default function ContactPage() {
                   disabled={isSubmitting}
                   rows={5}
                   aria-label="Message"
+                  className="w-full"
                 />
               </div>
 
-              <div className="pt-2">
+              <div className="pt-4 flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="h-[42px] px-8 bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
                   {isSubmitting ? "Sending…" : "Send Message"}
                 </button>
