@@ -35,9 +35,21 @@ interface AuditLogEntry {
 }
 
 const COMPANY_TYPE_LABELS: Record<string, string> = {
+  // Legacy types
   indie_church: "Indie / Church",
   commercial: "Commercial",
   broadcast: "Broadcast",
+  // New licensing account types
+  licensing_commercial_brand: "Commercial / Brand",
+  licensing_broadcast_media: "Broadcast / Media",
+  licensing_church_ministry: "Church / Ministry",
+  licensing_agency: "Agency",
+  licensing_independent_creator: "Independent Creator",
+  licensing_other: "Other",
+  // Fallback for old format
+  licensing_commercial: "Commercial",
+  licensing_broadcast: "Broadcast",
+  licensing_ministry: "Ministry",
 };
 
 const ACTION_LABELS: Record<string, string> = {
