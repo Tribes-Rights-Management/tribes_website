@@ -151,24 +151,24 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
               </SheetTrigger>
               
               {/* ═══════════════════════════════════════════════════════════════════
-                  MENU DRAWER — Premium Institutional Surface
-                  Order: Client Sign In, Services, Request Licensing Access,
-                         Inquire About Services, Contact, divider, Privacy, Terms
+                  MENU DRAWER — Contained Institutional Panel
+                  Desktop: 380px width, solid background, subtle edge separation.
+                  Mobile: Full width for thumb-friendly navigation.
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-full sm:w-[360px] lg:w-[420px] bg-background border-l border-foreground/[0.08] p-0 [&>button]:hidden focus:outline-none"
+                className="w-full sm:w-[340px] lg:w-[380px] bg-background border-l border-foreground/10 p-0 [&>button]:hidden focus:outline-none"
                 style={{
-                  boxShadow: "-8px 0 40px rgba(0,0,0,0.12)",
+                  boxShadow: "-6px 0 24px rgba(0,0,0,0.10)",
                 }}
               >
                 <nav 
                   className="flex flex-col h-full"
                   style={{
-                    paddingTop: 40,
-                    paddingBottom: 32,
-                    paddingLeft: 32,
-                    paddingRight: 32,
+                    paddingTop: 36,
+                    paddingBottom: 28,
+                    paddingLeft: 28,
+                    paddingRight: 28,
                   }}
                 >
                   {/* Close — discoverable but restrained */}
