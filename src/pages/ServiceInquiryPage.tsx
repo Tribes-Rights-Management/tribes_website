@@ -265,13 +265,12 @@ export default function ServiceInquiryPage() {
                       : "bg-muted text-muted-foreground/60 cursor-not-allowed"
                   }`}
                 >
-                  {isSubmitting ? "Submitting…" : "Submit Inquiry"}
+                  {isSubmitting ? "Submitting…" : "Submit Request"}
                 </button>
               </div>
             </form>
 
             <p className="text-[13px] text-muted-foreground/60 mt-6 text-center">
-              Need to license music we administer?{" "}
               <Link to="/licensing" className="text-muted-foreground hover:text-foreground transition-colors">
                 Request Licensing Access
               </Link>

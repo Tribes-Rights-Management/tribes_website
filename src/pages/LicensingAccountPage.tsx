@@ -180,7 +180,7 @@ export default function LicensingAccountPage() {
                 to="/auth" 
                 className="text-[13px] font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
               >
-                Sign in to your account
+                Client Sign In
               </Link>
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function LicensingAccountPage() {
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
             <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
-              Request an Account
+              Request Licensing Access
             </h1>
             <p className="text-base text-muted-foreground leading-relaxed">
               Licensing requests require an approved account.
@@ -340,15 +340,14 @@ export default function LicensingAccountPage() {
                       : "bg-muted text-muted-foreground/60 cursor-not-allowed"
                   }`}
                 >
-                  {isSubmitting ? "Submitting…" : "Request Account Review"}
+                  {isSubmitting ? "Submitting…" : "Submit Request"}
                 </button>
               </div>
             </form>
 
             <p className="text-[13px] text-muted-foreground/60 mt-6 text-center">
-              Already have an account?{" "}
               <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
-                Sign in
+                Client Sign In
               </Link>
             </p>
           </div>
