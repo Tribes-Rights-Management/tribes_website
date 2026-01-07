@@ -150,20 +150,6 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   {/* Primary Navigation */}
                   <div>
                     <Link 
-                      to="/inquire" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
-                        location.pathname === "/inquire"
-                          ? "text-foreground"
-                          : "text-foreground/80 hover:text-foreground"
-                      }`}
-                      style={{ 
-                        minHeight: 46,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      Work with Tribes
-                    </Link>
-                    <Link 
                       to="/licensing" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/licensing"
@@ -175,14 +161,28 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                         letterSpacing: "0.005em",
                       }}
                     >
-                      Create a Licensing Account
+                      Request Licensing Access
+                    </Link>
+                    <Link 
+                      to="/inquire" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                        location.pathname === "/inquire"
+                          ? "text-foreground/70"
+                          : "text-foreground/55 hover:text-foreground/75"
+                      }`}
+                      style={{ 
+                        minHeight: 46,
+                        letterSpacing: "0.005em",
+                      }}
+                    >
+                      Inquire About Services
                     </Link>
                     <Link 
                       to="/services" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/services"
-                          ? "text-foreground"
-                          : "text-foreground/80 hover:text-foreground"
+                          ? "text-foreground/70"
+                          : "text-foreground/55 hover:text-foreground/75"
                       }`}
                       style={{ 
                         minHeight: 46,
@@ -195,8 +195,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                       to="/contact" 
                       className={`text-[15px] transition-colors duration-150 flex items-center ${
                         location.pathname === "/contact"
-                          ? "text-foreground"
-                          : "text-foreground/80 hover:text-foreground"
+                          ? "text-foreground/70"
+                          : "text-foreground/55 hover:text-foreground/75"
                       }`}
                       style={{ 
                         minHeight: 46,
@@ -277,16 +277,16 @@ export function PublicLayout({ children }: PublicLayoutProps) {
             
             <div className="flex items-center gap-6">
               <Link 
+                to="/licensing" 
+                className={`text-sm font-medium ${navLinkClass("/licensing")}`}
+              >
+                Request Licensing Access
+              </Link>
+              <Link 
                 to="/inquire" 
                 className={`text-sm ${navLinkClass("/inquire")}`}
               >
-                Work with Tribes
-              </Link>
-              <Link 
-                to="/licensing" 
-                className={`text-sm ${navLinkClass("/licensing")}`}
-              >
-                Create Licensing Account
+                Inquire About Services
               </Link>
               <Link 
                 to="/services" 
@@ -333,7 +333,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         <div className="pt-20 pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-24">
-              {/* Path 1: Work with Tribes */}
+              {/* Path 1: Request Licensing Access (Primary) */}
               <div>
                 <h2 
                   className="text-white font-medium tracking-tight mb-4"
@@ -343,37 +343,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     letterSpacing: "-0.02em",
                   }}
                 >
-                  Work with Tribes
-                </h2>
-                <p 
-                  className="text-white/45 mb-8"
-                  style={{ 
-                    fontSize: 15,
-                    lineHeight: 1.7,
-                  }}
-                >
-                  Publishing administration, rights management, and long-term catalog support.
-                </p>
-                <Link 
-                  to="/inquire"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
-                  style={{ minHeight: 48 }}
-                >
-                  Inquire for Services
-                </Link>
-              </div>
-              
-              {/* Path 2: Licensing */}
-              <div>
-                <h2 
-                  className="text-white font-medium tracking-tight mb-4"
-                  style={{ 
-                    fontSize: "clamp(22px, 3vw, 28px)",
-                    lineHeight: 1.2,
-                    letterSpacing: "-0.02em",
-                  }}
-                >
-                  Request a License
+                  Request Licensing Access
                 </h2>
                 <p 
                   className="text-white/45 mb-4"
@@ -391,14 +361,44 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                     lineHeight: 1.6,
                   }}
                 >
-                  Approval required before submitting requests.
+                  Account approval required before submitting license requests.
                 </p>
                 <Link 
                   to="/licensing"
-                  className="inline-flex items-center justify-center px-6 py-3 border border-white/20 text-white font-medium text-[15px] rounded transition-all duration-150 hover:border-white/40 hover:bg-white/5"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-[15px] rounded transition-all duration-150 hover:bg-white/90"
                   style={{ minHeight: 48 }}
                 >
-                  Create a Licensing Account
+                  Request Licensing Access
+                </Link>
+              </div>
+              
+              {/* Path 2: Inquire About Services (Secondary) */}
+              <div>
+                <h2 
+                  className="text-white/80 font-medium tracking-tight mb-4"
+                  style={{ 
+                    fontSize: "clamp(20px, 2.5vw, 24px)",
+                    lineHeight: 1.2,
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Inquire About Services
+                </h2>
+                <p 
+                  className="text-white/40 mb-8"
+                  style={{ 
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                  }}
+                >
+                  Publishing administration, rights management, and long-term catalog support for rights holders and creators.
+                </p>
+                <Link 
+                  to="/inquire"
+                  className="inline-flex items-center justify-center px-5 py-2.5 border border-white/15 text-white/70 text-[14px] rounded transition-all duration-150 hover:border-white/30 hover:text-white/90"
+                  style={{ minHeight: 44 }}
+                >
+                  Inquire About Services
                 </Link>
               </div>
             </div>
