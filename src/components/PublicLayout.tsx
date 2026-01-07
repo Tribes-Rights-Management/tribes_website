@@ -100,12 +100,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
               ═══════════════════════════════════════════════════════════════════════ */}
           <Link 
             to="/" 
-            className={`font-semibold tracking-tight transition-colors duration-150 ${
+            className={`font-medium tracking-tight transition-colors duration-150 ${
               isHeaderDark ? "text-white hover:text-white/80" : "lg:text-foreground lg:hover:text-foreground/80 text-white hover:text-white/80"
             }`}
             style={{
-              fontSize: 17,
-              letterSpacing: "-0.01em",
+              fontSize: 15,
+              letterSpacing: "-0.005em",
+              lineHeight: 1.4,
             }}
           >
             <span className="lg:hidden">{BRAND.wordmark}</span>
@@ -113,19 +114,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
           </Link>
           
           <div className="flex items-center" style={{ gap: 24 }}>
-            {/* Client Sign In — Desktop only, restrained typography */}
+            {/* Client Sign In — Desktop only, quiet typography */}
             <Link 
               to="/auth" 
               className={`hidden lg:block transition-opacity duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
                 location.pathname === "/auth"
-                  ? isHeaderDark ? "text-white/[0.95]" : "text-foreground/95"
-                  : isHeaderDark ? "text-white/[0.78] hover:text-white/[0.95]" : "text-foreground/70 hover:text-foreground/90"
+                  ? isHeaderDark ? "text-white/90" : "text-foreground/90"
+                  : isHeaderDark ? "text-white/65 hover:text-white/85" : "text-foreground/60 hover:text-foreground/80"
               }`}
               style={{
-                fontSize: "0.8125rem",
-                fontWeight: 500,
-                letterSpacing: "0.02em",
-                lineHeight: 1,
+                fontSize: 14,
+                fontWeight: 450,
+                letterSpacing: "0.005em",
+                lineHeight: 1.5,
               }}
             >
               Client Sign In
@@ -136,7 +137,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
               <SheetTrigger asChild>
                 <button
                   className={`flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
-                    isHeaderDark ? "text-white/80 hover:text-white" : "lg:text-foreground/70 lg:hover:text-foreground text-white/80 hover:text-white"
+                    isHeaderDark ? "text-white/65 hover:text-white/85" : "lg:text-foreground/60 lg:hover:text-foreground/80 text-white/65 hover:text-white/85"
                   }`}
                   style={{ 
                     height: 44,
@@ -145,7 +146,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   }}
                   aria-label="Open menu"
                 >
-                  <Menu className="h-[20px] w-[20px]" />
+                  <Menu className="h-[18px] w-[18px]" />
                 </button>
               </SheetTrigger>
               
