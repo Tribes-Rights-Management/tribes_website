@@ -6,12 +6,12 @@ export default function TermsPage() {
       <article className="py-16 md:py-24">
         <div className="max-w-[560px] mx-auto px-6 md:px-8">
           {/* Page Title */}
-          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground text-center mb-3">
+          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground mb-3">
             Terms of Use
           </h1>
           
           {/* Meta Line */}
-          <p className="text-[13px] text-muted-foreground/60 text-center mb-10">
+          <p className="text-[13px] text-muted-foreground/60 mb-10">
             Last Updated: January 6, 2026
           </p>
 
