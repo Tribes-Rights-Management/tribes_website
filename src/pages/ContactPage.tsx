@@ -100,7 +100,7 @@ export default function ContactPage() {
                 Message received
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                We will review and respond if there is a fit.
+                We'll review and respond if there's a fit.
               </p>
               <Link 
                 to="/" 
@@ -125,7 +125,7 @@ export default function ContactPage() {
               Contact
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              General inquiries and questions.
+              Questions or general inquiries.
             </p>
           </div>
         </div>

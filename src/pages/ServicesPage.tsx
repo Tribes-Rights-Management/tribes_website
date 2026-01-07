@@ -12,7 +12,7 @@ export default function ServicesPage() {
               Services
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              Rights administration with accuracy, continuity, and long-term record integrity.
+              Publishing administration built for accuracy, continuity, and long-term clarity.
             </p>
           </div>
         </div>
@@ -28,27 +28,27 @@ export default function ServicesPage() {
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
             <h2 className="text-foreground mb-4">
-              Music as an Asset Class
+              Music as an Asset
             </h2>
             <div className="text-muted-foreground leading-relaxed space-y-4">
               <p>
-                Publishing administration is not clerical work. It is long-term asset management.
+                Publishing administration isn't clerical work. It's long-term asset management.
               </p>
               <p>
-                At Tribes, we treat music as a durable financial asset—one that requires structured 
-                rights administration, disciplined data stewardship, and continuous financial oversight.
+                At Tribes, we treat music as a durable financial asset—one that requires clear ownership, 
+                structured rights administration, and continuity over time.
               </p>
               <div>
                 <p className="text-foreground font-medium mb-3">That means:</p>
                 <ul className="space-y-2 text-[15px]">
-                  <li>Rights and ownership are managed with the same rigor as any investable asset</li>
-                  <li>Metadata, splits, and agreements are maintained as permanent financial records</li>
-                  <li>Income streams are tracked, reconciled, and reported with continuity over time</li>
-                  <li>Documentation is preserved to support audits, transactions, and future valuation</li>
+                  <li>Clear ownership records that hold up over time</li>
+                  <li>Permanent agreements and splits you can always reference</li>
+                  <li>Consistent income tracking and reporting</li>
+                  <li>Documentation preserved for audits, transactions, or valuation</li>
                 </ul>
               </div>
               <p>
-                Records remain accessible. Ownership stays documented. Agreements stay enforceable.
+                Your records stay accessible. Your ownership stays documented. Your agreements stay enforceable.
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@ export default function ServicesPage() {
               Publishing Administration
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Rights registration, ownership tracking, collections, and reporting.
+              We register your works, track ownership, collect royalties, and report earnings—so you know where your money comes from.
             </p>
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function ServicesPage() {
               Rights Management
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Structured ownership records, metadata integrity, and ongoing maintenance.
+              We maintain structured ownership records and metadata so your rights are always documented and defensible.
             </p>
           </div>
         </div>
@@ -106,13 +106,13 @@ export default function ServicesPage() {
               Licensing
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-3">
-              Review, authorization, execution, and permanent recordkeeping.
+              We review, authorize, and issue licenses—with every agreement recorded for long-term reference.
             </p>
             <Link 
               to="/how-licensing-works" 
               className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
             >
-              Learn how licensing works at Tribes
+              Learn how licensing works
             </Link>
           </div>
         </div>
@@ -131,7 +131,7 @@ export default function ServicesPage() {
               Financial Oversight
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Income reconciliation, reporting continuity, and defensible records.
+              We reconcile income, produce clear reports, and keep records you can rely on.
             </p>
           </div>
         </div>
@@ -150,7 +150,7 @@ export default function ServicesPage() {
               Documentation & Records
             </h2>
             <p className="text-muted-foreground leading-relaxed">
-              Executed agreements, identifiers, and long-term access.
+              Executed agreements, identifiers, and audit trails—accessible when you need them.
             </p>
           </div>
         </div>
@@ -171,13 +171,13 @@ export default function ServicesPage() {
                 Request Licensing Access
               </h2>
               <p className="text-base text-muted-foreground leading-relaxed mb-3">
-                For commercial, broadcast, or ministry use of music we administer.
+                For licensing music we administer. Requires account approval.
               </p>
               <Link 
                 to="/licensing" 
                 className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
               >
-                Request Licensing Access
+                Request access
               </Link>
             </div>
             
@@ -187,13 +187,13 @@ export default function ServicesPage() {
                 Inquire About Services
               </h2>
               <p className="text-base text-muted-foreground leading-relaxed mb-3">
-                For publishing administration, rights management, or long-term catalog support.
+                For publishing administration, rights management, or catalog support.
               </p>
               <Link 
                 to="/inquire" 
                 className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
               >
-                Inquire About Services
+                Start an inquiry
               </Link>
             </div>
           </div>

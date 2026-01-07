@@ -20,7 +20,7 @@ export default function MarketingPage() {
             
             {/* Subhead - Generous spacing, soft gray */}
             <p className="text-lg md:text-xl text-[#C9C9CC] leading-[1.7] mb-16 max-w-[560px]">
-              Independent publishing administration focused on accuracy, continuity, and long-term record integrity.
+              Publishing administration for songwriters and rights holders who want clarity, continuity, and records they can rely on.
             </p>
             
             {/* Divider */}
@@ -28,7 +28,7 @@ export default function MarketingPage() {
             
             {/* Micro-line */}
             <p className="text-xs font-light text-white/50 tracking-[0.05em] mb-20">
-              Publishing administration, built for precision.
+              Accurate. Documented. Built for the long term.
             </p>
             
             {/* Understated link */}
@@ -54,7 +54,7 @@ export default function MarketingPage() {
                 Songwriters & Producers
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Copyright administration, global collections, defensible records.
+                Get your copyrights registered, royalties collected, and records organized—so you always know what's yours.
               </p>
             </div>
             <div>
@@ -62,7 +62,7 @@ export default function MarketingPage() {
                 Rights Holders
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Catalog and licensing management across rights types and income sources.
+                Manage your catalog with clear ownership records, structured licensing, and reliable income tracking.
               </p>
             </div>
             <div>
@@ -70,7 +70,7 @@ export default function MarketingPage() {
                 Commercial & Broadcast
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Clearance and documentation for recorded music and media.
+                Clear music for your projects with proper documentation and records that hold up.
               </p>
             </div>
           </div>
@@ -93,13 +93,13 @@ export default function MarketingPage() {
                 className="text-[28px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em] mb-8"
                 style={{ color: 'rgba(255,255,255,0.92)' }}
               >
-                Managing music with the discipline of long-term capital.
+                Your catalog is a long-term asset. We treat it that way.
               </h2>
               <p 
                 className="text-base leading-[1.8]"
                 style={{ color: 'rgba(255,255,255,0.72)' }}
               >
-                At Tribes, publishing administration is not clerical work. It is asset management—rights, data, income, and documentation treated with institutional rigor. Our systems are designed to protect value, preserve continuity, and support long-term financial clarity across the life of a catalog.
+                Publishing administration isn't paperwork—it's asset management. We handle rights, data, income, and documentation with the same rigor you'd expect from any serious financial steward. The goal is simple: protect what you've built, keep it organized, and make sure it holds up over time.
               </p>
             </div>
             
@@ -110,13 +110,13 @@ export default function MarketingPage() {
                   className="text-lg font-medium mb-3"
                   style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
-                  Rights & Ownership
+                  Clear Ownership
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
                   style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
-                  Structured ownership records, verified splits, and authoritative metadata maintained as permanent reference.
+                  Structured records of who owns what—splits, metadata, and agreements maintained as permanent reference.
                 </p>
               </div>
               <div>
@@ -124,13 +124,13 @@ export default function MarketingPage() {
                   className="text-lg font-medium mb-3"
                   style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
-                  Financial Integrity
+                  Reliable Financials
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
                   style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
-                  Accurate collections, defensible reporting, and continuity across accounting periods, partners, and platforms.
+                  Accurate collections, clear reporting, and records that stay consistent over time.
                 </p>
               </div>
               <div>
@@ -138,13 +138,13 @@ export default function MarketingPage() {
                   className="text-lg font-medium mb-3"
                   style={{ color: 'rgba(255,255,255,0.92)' }}
                 >
-                  Data & Documentation
+                  Lasting Documentation
                 </h3>
                 <p 
                   className="text-sm leading-[1.7]"
                   style={{ color: 'rgba(255,255,255,0.65)' }}
                 >
-                  Clear lineage of agreements, licenses, and identifiers organized for audit, diligence, and long-term access.
+                  Agreements, licenses, and identifiers organized for audits, transactions, or whenever you need them.
                 </p>
               </div>
             </div>
@@ -159,10 +159,10 @@ export default function MarketingPage() {
       <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24 bg-background">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-6 text-muted-foreground">
-            How Copyright Clearance Works
+            How Licensing Works
           </h2>
           <p className="text-lg md:text-xl leading-relaxed mb-16 max-w-[640px] text-foreground">
-            Each request follows a four-step review before any agreement is finalized.
+            Every request is reviewed before any agreement is issued.
           </p>
           <div className="grid md:grid-cols-2 gap-16 md:gap-24">
             <div className="space-y-12">
@@ -171,10 +171,10 @@ export default function MarketingPage() {
                   01
                 </p>
                 <h3 className="text-lg font-medium mb-3 text-foreground">
-                  Intake
+                  Submit
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Rights, usage, scope, and context submitted once.
+                  Tell us what you want to use and how. One form, one song per request.
                 </p>
               </div>
               <div>
@@ -182,10 +182,10 @@ export default function MarketingPage() {
                   02
                 </p>
                 <h3 className="text-lg font-medium mb-3 text-foreground">
-                  Verification
+                  Review
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Ownership, splits, metadata, and authority reviewed against records.
+                  We check ownership, splits, and usage details before moving forward.
                 </p>
               </div>
             </div>
@@ -195,10 +195,10 @@ export default function MarketingPage() {
                   03
                 </p>
                 <h3 className="text-lg font-medium mb-3 text-foreground">
-                  Authorization
+                  Execute
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Terms confirmed, documented, and executed.
+                  Sign and pay (if applicable) in one step. The license becomes binding.
                 </p>
               </div>
               <div>
@@ -209,7 +209,7 @@ export default function MarketingPage() {
                   Record
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Agreements and identifiers stored for long-term reference.
+                  Your agreement is stored permanently. Download it anytime.
                 </p>
               </div>
             </div>

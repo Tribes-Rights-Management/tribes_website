@@ -98,7 +98,7 @@ export default function ServiceInquiryPage() {
                 Inquiry received
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Our team reviews all inquiries and will follow up if there is a potential fit.
+                We'll review your inquiry and follow up if there's a fit.
               </p>
               <Link 
                 to="/" 
@@ -123,7 +123,7 @@ export default function ServiceInquiryPage() {
               Inquire About Services
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              For representation, administration, or strategic engagement.
+              For publishing administration, rights management, or catalog support.
             </p>
           </div>
         </div>
@@ -178,8 +178,8 @@ export default function ServiceInquiryPage() {
               </Select>
 
               <Select value={roleType} onValueChange={setRoleType} disabled={isSubmitting}>
-                <SelectTrigger aria-label="Role or relationship to rights">
-                  <SelectValue placeholder="Role / Relationship to Rights" />
+                <SelectTrigger aria-label="Your role">
+                  <SelectValue placeholder="Your role" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="songwriter_creator">Songwriter / Creator</SelectItem>
@@ -192,10 +192,10 @@ export default function ServiceInquiryPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  Describe your catalog or scope
+                  Tell us about your catalog or scope
                 </label>
                 <Textarea
-                  placeholder="Example: size of catalog, type of rights, geographic scope."
+                  placeholder="Size of catalog, type of rights, geographic scope, etc."
                   value={catalogDescription}
                   onChange={(e) => setCatalogDescription(e.target.value)}
                   required
@@ -207,16 +207,16 @@ export default function ServiceInquiryPage() {
 
               <div className="pt-2">
                 <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
-                  What are you looking for from Tribes?
+                  What are you looking for?
                 </label>
                 <Textarea
-                  placeholder="Example: administration, licensing support, catalog oversight."
+                  placeholder="Administration, licensing support, catalog oversight, etc."
                   value={lookingFor}
                   onChange={(e) => setLookingFor(e.target.value)}
                   required
                   disabled={isSubmitting}
                   rows={3}
-                  aria-label="What are you looking for from Tribes"
+                  aria-label="What are you looking for"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function ServiceInquiryPage() {
                       : "bg-muted text-muted-foreground/60 cursor-not-allowed"
                   }`}
                 >
-                  {isSubmitting ? "Submitting…" : "Submit Request"}
+                  {isSubmitting ? "Submitting…" : "Submit Inquiry"}
                 </button>
               </div>
             </form>
