@@ -43,20 +43,20 @@ export default function MarketingPage() {
       <section className="pt-12 pb-16 md:pt-14 md:pb-20 bg-background border-b border-border/30 hidden md:block">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
           <div className="max-w-[560px]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-7">
               Built for permanence
             </p>
-            <p className="text-[17px] text-foreground/70 leading-[1.7] mb-4">
+            <p className="text-[19px] text-foreground/80 leading-[1.65] mb-8">
               Most publishing problems don't come from bad intent—they come from records that weren't built to hold up over time.
             </p>
-            <div className="space-y-3">
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+            <div className="space-y-2.5 pt-1 border-t border-border/20">
+              <p className="text-[15px] font-medium text-foreground/70 leading-snug pt-4">
                 Permanent ownership records
               </p>
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+              <p className="text-[15px] font-medium text-foreground/70 leading-snug">
                 Deterministic splits and metadata
               </p>
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+              <p className="text-[15px] font-medium text-foreground/70 leading-snug">
                 Documentation designed to withstand audits, disputes, and time
               </p>
             </div>
@@ -100,23 +100,23 @@ export default function MarketingPage() {
       </section>
 
       {/* Built for Permanence — Mobile Only (appears after Who It's For) */}
-      <section className="pt-10 pb-14 bg-background border-b border-border/30 md:hidden">
+      <section className="pt-8 pb-12 bg-background border-b border-border/30 md:hidden">
         <div className="max-w-[1400px] mx-auto px-6">
-          <div className="max-w-[560px]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-6">
+          <div className="max-w-[320px]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-5">
               Built for permanence
             </p>
-            <p className="text-[17px] text-foreground/70 leading-[1.7] mb-4">
+            <p className="text-[17px] text-foreground/80 leading-[1.6] mb-6">
               Most publishing problems don't come from bad intent—they come from records that weren't built to hold up over time.
             </p>
-            <div className="space-y-3">
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+            <div className="space-y-2 pt-1 border-t border-border/20">
+              <p className="text-[14px] font-medium text-foreground/70 leading-snug pt-3">
                 Permanent ownership records
               </p>
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+              <p className="text-[14px] font-medium text-foreground/70 leading-snug">
                 Deterministic splits and metadata
               </p>
-              <p className="text-[17px] font-medium text-foreground/90 leading-snug">
+              <p className="text-[14px] font-medium text-foreground/70 leading-snug">
                 Documentation designed to withstand audits, disputes, and time
               </p>
             </div>
@@ -267,7 +267,7 @@ export default function MarketingPage() {
                   Record
                 </h3>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  Your agreement is stored permanently. Download it anytime.
+                  Your agreement is stored permanently—a reference you can return to years from now. Download it anytime.
                 </p>
               </div>
             </div>
