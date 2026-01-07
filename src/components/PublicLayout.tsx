@@ -161,6 +161,8 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 style={{
                   boxShadow: "-4px 0 20px rgba(0,0,0,0.08)",
                 }}
+                onPointerDownOutside={(e) => e.preventDefault()}
+                onInteractOutside={(e) => e.preventDefault()}
               >
                 <nav 
                   className="flex flex-col h-full justify-between"
@@ -173,14 +175,14 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 >
                   {/* Top Section: Close + Primary Nav */}
                   <div>
-                    {/* Close — aligned right, restrained */}
+                    {/* Close — aligned right, restrained, accessible */}
                     <button
                       onClick={() => setMobileMenuOpen(false)}
-                      className="text-[13px] font-medium text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors duration-150 mb-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
+                      className="text-[13px] font-medium text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors duration-150 mb-8 rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                       style={{ 
                         letterSpacing: "0.01em",
-                        minHeight: 40,
-                        minWidth: 40,
+                        minHeight: 44,
+                        minWidth: 44,
                         display: "flex",
                         alignItems: "center",
                         marginLeft: "auto",
@@ -193,20 +195,24 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     {/* ═══════════════════════════════════════════════════════════
                         PRIMARY NAVIGATION — Consistent vertical rhythm
                         Client Sign In leads (slightly stronger weight)
+                        44px min-height for accessible click targets
                         ═══════════════════════════════════════════════════════════ */}
-                    <div className="flex flex-col" style={{ gap: 6 }}>
+                    <div className="flex flex-col" style={{ gap: 4 }}>
                       <Link 
                         to="/auth" 
-                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                           location.pathname === "/auth"
                             ? "text-foreground"
                             : "text-foreground/90 hover:text-foreground"
                         }`}
                         style={{ 
-                          minHeight: 44,
+                          minHeight: 48,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           fontSize: 15,
                           fontWeight: 600,
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           letterSpacing: "0.005em",
                         }}
                       >
@@ -216,16 +222,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       </Link>
                       <Link 
                         to="/services" 
-                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                           location.pathname === "/services"
                             ? "text-foreground"
                             : "text-foreground/75 hover:text-foreground/95"
                         }`}
                         style={{ 
-                          minHeight: 44,
+                          minHeight: 48,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           fontSize: 15,
                           fontWeight: 500,
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           letterSpacing: "0.005em",
                         }}
                       >
@@ -235,16 +244,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       </Link>
                       <Link 
                         to="/licensing" 
-                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                           location.pathname === "/licensing"
                             ? "text-foreground"
                             : "text-foreground/75 hover:text-foreground/95"
                         }`}
                         style={{ 
-                          minHeight: 44,
+                          minHeight: 48,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           fontSize: 15,
                           fontWeight: 500,
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           letterSpacing: "0.005em",
                         }}
                       >
@@ -254,16 +266,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       </Link>
                       <Link 
                         to="/inquire" 
-                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                           location.pathname === "/inquire"
                             ? "text-foreground"
                             : "text-foreground/75 hover:text-foreground/95"
                         }`}
                         style={{ 
-                          minHeight: 44,
+                          minHeight: 48,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           fontSize: 15,
                           fontWeight: 500,
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           letterSpacing: "0.005em",
                         }}
                       >
@@ -273,16 +288,19 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       </Link>
                       <Link 
                         to="/contact" 
-                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                           location.pathname === "/contact"
                             ? "text-foreground"
                             : "text-foreground/75 hover:text-foreground/95"
                         }`}
                         style={{ 
-                          minHeight: 44,
+                          minHeight: 48,
+                          paddingTop: 2,
+                          paddingBottom: 2,
                           fontSize: 15,
                           fontWeight: 500,
-                          lineHeight: 1.4,
+                          lineHeight: 1.5,
                           letterSpacing: "0.005em",
                         }}
                       >
@@ -302,12 +320,13 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     />
                     
                     {/* Legal Links — Receded but accessible */}
-                    <div className="flex flex-col" style={{ gap: 4 }}>
+                    <div className="flex flex-col" style={{ gap: 2 }}>
                       <Link 
                         to="/privacy" 
-                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/15 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                         style={{ 
-                          minHeight: 32,
+                          minHeight: 36,
                           letterSpacing: "0.01em",
                         }}
                       >
@@ -317,9 +336,10 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       </Link>
                       <Link 
                         to="/terms" 
-                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/15 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                         style={{ 
-                          minHeight: 32,
+                          minHeight: 36,
                           letterSpacing: "0.01em",
                         }}
                       >
