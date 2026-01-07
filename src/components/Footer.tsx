@@ -23,13 +23,13 @@ interface FooterProps {
 }
 
 export function Footer({ variant = "minimal", className = "" }: FooterProps) {
-  // Minimal: centered copyright only (auth screens)
+  // Minimal: copyright + Privacy/Terms only (account request screens)
   if (variant === "minimal") {
     return (
-      <footer className={`py-6 text-center ${className}`}>
-        <p className="text-xs text-muted-foreground">
-          {getCopyrightLine()}
-        </p>
+      <footer className={`py-8 ${className}`}>
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <LegalRow variant="light" showBrand={false} />
+        </div>
       </footer>
     );
   }
