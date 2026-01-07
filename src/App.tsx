@@ -14,6 +14,7 @@ import ServiceInquiryPage from "./pages/ServiceInquiryPage";
 import LicensingAccountPage from "./pages/LicensingAccountPage";
 import ContactPage from "./pages/ContactPage";
 import HowLicensingWorksPage from "./pages/HowLicensingWorksPage";
+import HowPublishingAdminWorksPage from "./pages/HowPublishingAdminWorksPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import AuthPage from "./pages/AuthPage";
@@ -66,6 +67,7 @@ function AppRoutes() {
       <Route path="/licensing" element={<LicensingAccountPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
+      <Route path="/how-publishing-administration-works" element={<HowPublishingAdminWorksPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
       

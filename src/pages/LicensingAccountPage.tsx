@@ -345,11 +345,21 @@ export default function LicensingAccountPage() {
               </div>
             </form>
 
-            <p className="text-[13px] text-muted-foreground/60 mt-6 text-center md:text-left">
-              <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
-                Client Sign In
-              </Link>
-            </p>
+            <div className="flex flex-col gap-2 mt-6 text-center md:text-left">
+              <p className="text-[13px] text-muted-foreground/60">
+                <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Client Sign In
+                </Link>
+              </p>
+              <p className="text-[12px] text-muted-foreground/40">
+                <Link 
+                  to="/how-publishing-administration-works" 
+                  className="text-muted-foreground/40 hover:text-muted-foreground transition-colors underline underline-offset-2"
+                >
+                  How publishing administration works
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </section>
