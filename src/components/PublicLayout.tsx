@@ -264,96 +264,90 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       <main>{children}</main>
 
       {/* ═══════════════════════════════════════════════════════════════════════════
-          FOOTER — Institutional CTA Section
-          Dark, full-width section with strong visual separation.
-          Functions as the platform access gateway, not a sales CTA.
+          FOOTER — Single Canonical Access Section + Minimal Legal Footer
+          One intentional decision point. No duplication. Institutional tone.
           ═══════════════════════════════════════════════════════════════════════════ */}
       <footer 
         className="bg-[#111214]"
         data-surface="dark"
       >
-        {/* Primary CTA Section */}
-        <div className="py-16 md:py-24 lg:py-32 border-b border-white/[0.08]">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-xl">
+        {/* Primary Access Section — The single canonical CTA */}
+        <div className="py-20 md:py-28 lg:py-32">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="max-w-md">
               {/* Headline */}
               <h2 
-                className="text-white font-semibold tracking-tight mb-4"
+                className="text-white font-medium tracking-tight mb-4"
                 style={{ 
-                  fontSize: "clamp(28px, 4vw, 40px)",
-                  lineHeight: 1.1,
+                  fontSize: "clamp(24px, 3.5vw, 32px)",
+                  lineHeight: 1.15,
                   letterSpacing: "-0.02em",
                 }}
               >
                 Request access.
               </h2>
               
-              {/* Supporting copy */}
+              {/* Supporting copy — Two lines max */}
               <p 
-                className="text-white/60 mb-8 md:mb-10"
+                className="text-white/55 mb-8"
                 style={{ 
-                  fontSize: "clamp(15px, 1.5vw, 17px)",
-                  lineHeight: 1.5,
+                  fontSize: 15,
+                  lineHeight: 1.6,
                 }}
               >
                 Tribes is a professional publishing administration platform. Access is reviewed before accounts are activated.
               </p>
               
-              {/* Actions */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                {/* Primary CTA — High-contrast solid fill */}
+              {/* Actions — Clear hierarchy */}
+              <div className="flex items-center gap-6">
+                {/* Primary — Solid button */}
                 <Link 
                   to="/auth?request=true"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-white text-[#111214] font-medium text-sm rounded-lg transition-all duration-[120ms] ease-out hover:bg-white/90 focus-ring"
-                  style={{ minHeight: 48 }}
+                  className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#111214] font-medium text-sm rounded transition-all duration-[120ms] ease-out hover:bg-white/90"
                 >
                   Request Access
                 </Link>
                 
-                {/* Secondary action — Text style */}
+                {/* Secondary — Text link */}
                 <Link 
                   to="/auth"
-                  className="inline-flex items-center justify-center px-2 py-3 text-white/70 font-medium text-sm transition-colors duration-[120ms] ease-out hover:text-white focus-ring"
-                  style={{ minHeight: 48 }}
+                  className="text-sm text-white/50 transition-colors duration-[120ms] ease-out hover:text-white/70"
                 >
                   Sign In
-                </Link>
-              </div>
-              
-              {/* Tertiary link — Low emphasis */}
-              <div className="mt-8 md:mt-10">
-                <Link 
-                  to="/how-licensing-works"
-                  className="text-sm text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
-                >
-                  Learn how licensing works
                 </Link>
               </div>
             </div>
           </div>
         </div>
         
-        {/* Legal Footer — Subdued */}
-        <div className="py-6 md:py-8">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <p 
-                className="text-white/40 text-xs"
-              >
+        {/* Legal Footer — Minimal, quiet, compliant */}
+        <div className="border-t border-white/[0.06] py-6 md:py-8">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              {/* Copyright */}
+              <p className="text-[13px] text-white/35 leading-relaxed">
                 {copyrightText}
               </p>
-              <div className="flex items-center gap-6">
+              
+              {/* Legal links — Understated */}
+              <div className="flex items-center gap-5">
                 <Link 
                   to="/privacy" 
-                  className="text-xs text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
+                  className="text-[13px] text-white/35 transition-colors duration-[120ms] hover:text-white/50"
                 >
-                  Privacy Policy
+                  Privacy
                 </Link>
                 <Link 
                   to="/terms" 
-                  className="text-xs text-white/40 transition-colors duration-[120ms] ease-out hover:text-white/60 focus-ring"
+                  className="text-[13px] text-white/35 transition-colors duration-[120ms] hover:text-white/50"
                 >
-                  Terms of Use
+                  Terms
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="text-[13px] text-white/35 transition-colors duration-[120ms] hover:text-white/50"
+                >
+                  Contact
                 </Link>
               </div>
             </div>
