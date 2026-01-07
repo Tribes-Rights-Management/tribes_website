@@ -83,53 +83,76 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
         className={`fixed top-0 left-0 right-0 z-50
           bg-[#111214] border-b border-white/[0.08]
           ${isHeaderDark 
-            ? "md:bg-[#111214] md:border-white/[0.08]" 
-            : "md:bg-background md:border-border/50"
+            ? "lg:bg-[#111214] lg:border-white/[0.08]" 
+            : "lg:bg-background lg:border-border/50"
           }`}
         style={{ 
           paddingTop: "env(safe-area-inset-top)",
-          height: 60,
+          height: 64,
         }}
       >
         <nav 
-          className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-4 md:px-6 lg:px-8"
+          className="max-w-[1200px] mx-auto h-full flex items-center justify-between"
+          style={{ paddingLeft: 24, paddingRight: 24 }}
         >
           {/* ═══════════════════════════════════════════════════════════════════════
-              MOBILE HEADER (≤768px) — Wordmark + Hamburger Only
-              No CTAs, no buttons. Clean system UI bar aesthetic.
+              UNIFIED HEADER — Minimal Navigation (All Breakpoints)
+              Wordmark left, Client Sign In + Hamburger right
               ═══════════════════════════════════════════════════════════════════════ */}
-          <div className="flex md:hidden items-center justify-between w-full h-full">
+          <Link 
+            to="/" 
+            className={`font-semibold tracking-tight transition-colors duration-150 ${
+              isHeaderDark ? "text-white hover:text-white/80" : "lg:text-foreground lg:hover:text-foreground/80 text-white hover:text-white/80"
+            }`}
+            style={{
+              fontSize: 17,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            <span className="lg:hidden">{BRAND.wordmark}</span>
+            <span className="hidden lg:inline">{BRAND.legalName}</span>
+          </Link>
+          
+          <div className="flex items-center gap-5">
+            {/* Client Sign In — Desktop only, restrained typography */}
             <Link 
-              to="/" 
-              className="font-semibold tracking-tight text-white"
+              to="/auth" 
+              className={`hidden lg:block transition-opacity duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
+                location.pathname === "/auth"
+                  ? isHeaderDark ? "text-white/[0.95]" : "text-foreground/95"
+                  : isHeaderDark ? "text-white/[0.78] hover:text-white/[0.95]" : "text-foreground/70 hover:text-foreground/90"
+              }`}
               style={{
-                fontSize: 17,
-                letterSpacing: "-0.01em",
+                fontSize: "0.8125rem",
+                fontWeight: 500,
+                letterSpacing: "0.02em",
               }}
             >
-              {BRAND.wordmark}
+              Client Sign In
             </Link>
             
+            {/* Hamburger Menu — All breakpoints */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <button
-                  className="flex items-center justify-center text-white/80 hover:text-white transition-colors duration-150"
+                  className={`flex items-center justify-center transition-colors duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
+                    isHeaderDark ? "text-white/80 hover:text-white" : "lg:text-foreground/70 lg:hover:text-foreground text-white/80 hover:text-white"
+                  }`}
                   style={{ 
                     height: 44,
                     width: 44,
-                    marginRight: -8,
+                    marginRight: -10,
                   }}
                   aria-label="Open menu"
                 >
-                  <Menu className="h-[22px] w-[22px]" />
+                  <Menu className="h-[20px] w-[20px]" />
                 </button>
               </SheetTrigger>
               
               {/* ═══════════════════════════════════════════════════════════════════
-                  MOBILE MENU — Institutional Control Surface
-                  Typography: 16px regular/medium only. No bold, no mixed sizes.
-                  Spacing: 28-32px between groups. Generous top/bottom padding.
-                  Animation: 200ms ease-out slide. Closes via overlay or hamburger.
+                  MENU DRAWER — Institutional Control Surface
+                  Order: Services, Request Licensing Access, Inquire About Services,
+                         Contact, divider, Privacy Policy, Terms of Use
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
@@ -142,26 +165,41 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                   {/* Close — quiet, top-right */}
                   <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 self-end mb-10"
+                    className="text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 self-end mb-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
                     style={{ letterSpacing: "0.01em" }}
                   >
                     Close
                   </button>
                   
                   {/* ═══════════════════════════════════════════════════════════
-                      PRIMARY NAVIGATION — Three Canonical Access Options
-                      Same language everywhere. No variations.
+                      PRIMARY NAVIGATION
                       ═══════════════════════════════════════════════════════════ */}
                   <div>
                     <Link 
+                      to="/services" 
+                      className={`transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        location.pathname === "/services"
+                          ? "text-foreground"
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                      style={{ 
+                        minHeight: 46,
+                        fontSize: "0.9375rem",
+                        letterSpacing: "0.005em",
+                      }}
+                    >
+                      Services
+                    </Link>
+                    <Link 
                       to="/licensing" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                      className={`transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
                         location.pathname === "/licensing"
                           ? "text-foreground"
                           : "text-foreground/70 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
+                        fontSize: "0.9375rem",
                         letterSpacing: "0.005em",
                       }}
                     >
@@ -169,48 +207,29 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     </Link>
                     <Link 
                       to="/inquire" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                      className={`transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
                         location.pathname === "/inquire"
                           ? "text-foreground"
                           : "text-foreground/70 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
+                        fontSize: "0.9375rem",
                         letterSpacing: "0.005em",
                       }}
                     >
                       Inquire About Services
                     </Link>
-                  </div>
-                  
-                  {/* Deliberate gap before utility section */}
-                  <div className="h-8" />
-                  
-                  {/* Secondary Navigation */}
-                  <div>
-                    <Link 
-                      to="/services" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
-                        location.pathname === "/services"
-                          ? "text-foreground/70"
-                          : "text-foreground/55 hover:text-foreground/75"
-                      }`}
-                      style={{ 
-                        minHeight: 46,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      Services
-                    </Link>
                     <Link 
                       to="/contact" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
+                      className={`transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
                         location.pathname === "/contact"
-                          ? "text-foreground/70"
-                          : "text-foreground/55 hover:text-foreground/75"
+                          ? "text-foreground"
+                          : "text-foreground/70 hover:text-foreground"
                       }`}
                       style={{ 
                         minHeight: 46,
+                        fontSize: "0.9375rem",
                         letterSpacing: "0.005em",
                       }}
                     >
@@ -218,35 +237,14 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     </Link>
                   </div>
                   
-                  {/* Deliberate gap before Client Sign In */}
-                  <div className="h-10" />
+                  {/* Divider */}
+                  <div className="h-px bg-border/30 my-6" />
                   
-                  {/* Client Sign In — Subtle emphasis via higher contrast */}
+                  {/* Legal Links */}
                   <div>
                     <Link 
-                      to="/auth" 
-                      className={`text-[15px] transition-colors duration-150 flex items-center ${
-                        location.pathname === "/auth"
-                          ? "text-foreground"
-                          : "text-foreground/85 hover:text-foreground"
-                      }`}
-                      style={{ 
-                        minHeight: 46,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      Client Sign In
-                    </Link>
-                  </div>
-                  
-                  {/* Flexible spacer pushes legal to bottom */}
-                  <div className="flex-1 min-h-12" />
-                  
-                  {/* Legal Links — smaller, quieter, clear separation */}
-                  <div className="pt-8">
-                    <Link 
                       to="/privacy" 
-                      className="text-[13px] text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors duration-150 flex items-center"
+                      className="text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
                       style={{ 
                         minHeight: 40,
                         letterSpacing: "0.01em",
@@ -256,7 +254,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     </Link>
                     <Link 
                       to="/terms" 
-                      className="text-[13px] text-muted-foreground/40 hover:text-muted-foreground/60 transition-colors duration-150 flex items-center"
+                      className="text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
                       style={{ 
                         minHeight: 40,
                         letterSpacing: "0.01em",
@@ -265,71 +263,31 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                       Terms of Use
                     </Link>
                   </div>
+                  
+                  {/* Flexible spacer pushes Client Sign In to bottom on mobile */}
+                  <div className="flex-1 min-h-8 lg:hidden" />
+                  
+                  {/* Client Sign In — Mobile only (already in header on desktop) */}
+                  <div className="lg:hidden pt-6">
+                    <Link 
+                      to="/auth" 
+                      className={`transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                        location.pathname === "/auth"
+                          ? "text-foreground"
+                          : "text-foreground/85 hover:text-foreground"
+                      }`}
+                      style={{ 
+                        minHeight: 46,
+                        fontSize: "0.9375rem",
+                        letterSpacing: "0.005em",
+                      }}
+                    >
+                      Client Sign In
+                    </Link>
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════════════════════
-              DESKTOP HEADER (>768px) — Full navigation
-              ═══════════════════════════════════════════════════════════════════════ */}
-          <div className="hidden md:flex items-center justify-between h-full w-full">
-            <Link 
-              to="/" 
-              className={`font-semibold tracking-tight transition-colors duration-150 ${
-                isHeaderDark ? "text-white hover:text-white/80" : "text-foreground hover:text-foreground/80"
-              }`}
-              style={{
-                fontSize: LOGO_SIZES.header.desktop.fontSize,
-              }}
-            >
-              {BRAND.legalName}
-            </Link>
-            
-            <div className="flex items-center gap-6">
-              {/* ═══════════════════════════════════════════════════════════════════
-                  DESKTOP NAVIGATION — Three Canonical Access Options
-                  Same language, order, and styling everywhere.
-                  ═══════════════════════════════════════════════════════════════════ */}
-              <Link 
-                to="/licensing" 
-                className={`text-sm ${navLinkClass("/licensing")}`}
-              >
-                Request Licensing Access
-              </Link>
-              <Link 
-                to="/inquire" 
-                className={`text-sm ${navLinkClass("/inquire")}`}
-              >
-                Inquire About Services
-              </Link>
-              <Link 
-                to="/services" 
-                className={`text-sm ${navLinkClass("/services")}`}
-              >
-                Services
-              </Link>
-              <Link 
-                to="/contact" 
-                className={`text-sm ${navLinkClass("/contact")}`}
-              >
-                Contact
-              </Link>
-              <span className={`w-px h-4 transition-colors duration-150 ${
-                isHeaderDark ? "bg-white/15" : "bg-border"
-              }`} />
-              {/* Client Sign In — Subtle emphasis via slightly higher contrast */}
-              <Link 
-                to="/auth" 
-                className={`text-sm transition-colors duration-150 ${
-                  isHeaderDark 
-                    ? "text-[#EDEDED] hover:text-white" 
-                    : "text-foreground/90 hover:text-foreground"
-                }`}
-              >
-                Client Sign In
-              </Link>
-            </div>
           </div>
         </nav>
       </header>
