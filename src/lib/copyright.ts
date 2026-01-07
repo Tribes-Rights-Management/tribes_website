@@ -12,11 +12,9 @@
  * - Admin export layouts
  * - Any other location requiring a copyright notice
  * 
- * RULES:
- * - Start year is always 2025 (company founding year)
- * - Uses en dash (–) for year ranges, not hyphen (-)
- * - If current year is 2025: "© 2025 Tribes Rights Management LLC"
- * - If current year > 2025: "© 2025–{currentYear} Tribes Rights Management LLC"
+ * FORMAT:
+ * - Single current year only (no ranges)
+ * - Example: "© 2026 Tribes Rights Management LLC. All rights reserved."
  * 
  * USAGE:
  * - UI components: getCopyrightLine() uses client Date
@@ -26,30 +24,27 @@
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
-/** Company founding year - the start of all copyright ranges */
-export const COPYRIGHT_START_YEAR = 2025;
-
 /** Legal entity name for copyright notices */
 export const COPYRIGHT_ENTITY = "Tribes Rights Management LLC";
 
 /**
- * Generates the full copyright line with dynamic year range.
+ * Generates the full copyright line with dynamic current year.
  * 
  * @param currentYear - Optional override for current year (use for server-side generation)
  * @param includeRightsReserved - Whether to include "All rights reserved." suffix
- * @returns Formatted copyright string with en dash for year ranges
+ * @returns Formatted copyright string with current year only
  * 
  * @example
  * // Client-side (uses system date)
- * getCopyrightLine() // "© 2025–2026 Tribes Rights Management LLC. All rights reserved."
+ * getCopyrightLine() // "© 2026 Tribes Rights Management LLC. All rights reserved."
  * 
  * @example
  * // Server-side (explicit year)
- * getCopyrightLine(2027) // "© 2025–2027 Tribes Rights Management LLC. All rights reserved."
+ * getCopyrightLine(2027) // "© 2027 Tribes Rights Management LLC. All rights reserved."
  * 
  * @example
  * // Without "All rights reserved"
- * getCopyrightLine(undefined, false) // "© 2025–2026 Tribes Rights Management LLC"
+ * getCopyrightLine(undefined, false) // "© 2026 Tribes Rights Management LLC"
  */
 export function getCopyrightLine(
   currentYear?: number,
@@ -57,11 +52,7 @@ export function getCopyrightLine(
 ): string {
   const year = currentYear ?? new Date().getFullYear();
   
-  const yearRange = year > COPYRIGHT_START_YEAR 
-    ? `${COPYRIGHT_START_YEAR}–${year}` // en dash (–), not hyphen (-)
-    : `${COPYRIGHT_START_YEAR}`;
-  
-  const base = `© ${yearRange} ${COPYRIGHT_ENTITY}`;
+  const base = `© ${year} ${COPYRIGHT_ENTITY}`;
   
   return includeRightsReserved 
     ? `${base}. All rights reserved.`
@@ -69,15 +60,12 @@ export function getCopyrightLine(
 }
 
 /**
- * Generates just the year range portion for custom formatting.
+ * Generates just the year portion for custom formatting.
  * 
  * @param currentYear - Optional override for current year
- * @returns Year range string (e.g., "2025" or "2025–2027")
+ * @returns Current year string (e.g., "2026")
  */
-export function getCopyrightYearRange(currentYear?: number): string {
+export function getCopyrightYear(currentYear?: number): string {
   const year = currentYear ?? new Date().getFullYear();
-  
-  return year > COPYRIGHT_START_YEAR 
-    ? `${COPYRIGHT_START_YEAR}–${year}`
-    : `${COPYRIGHT_START_YEAR}`;
+  return `${year}`;
 }
