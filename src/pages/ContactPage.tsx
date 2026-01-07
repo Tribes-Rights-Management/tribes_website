@@ -135,51 +135,45 @@ export default function ContactPage() {
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Input
-                  type="text"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  aria-label="Name"
-                  className="w-full"
-                />
-              </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <Input
+                type="text"
+                placeholder="Full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Name"
+                className="w-full"
+              />
 
-              <div>
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={isSubmitting}
-                  aria-label="Email"
-                  className="w-full"
-                />
-              </div>
+              <Input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={isSubmitting}
+                aria-label="Email"
+                className="w-full"
+              />
 
-              <div>
-                <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
-                  <SelectTrigger aria-label="Select your location" className="w-full">
-                    <SelectValue placeholder="Country or territory" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {COUNTRIES.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        {c}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
+                <SelectTrigger aria-label="Select your location" className="w-full">
+                  <SelectValue placeholder="Country or territory" />
+                </SelectTrigger>
+                <SelectContent>
+                  {COUNTRIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
-              <div>
+              <div className="pt-1">
                 <Textarea
-                  placeholder="Message"
+                  placeholder="Your message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   required
@@ -190,11 +184,11 @@ export default function ContactPage() {
                 />
               </div>
 
-              <div className="pt-4 flex justify-center">
+              <div className="pt-5 flex justify-center">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full max-w-[280px] h-[44px] bg-primary text-primary-foreground text-sm font-medium rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  className="w-full max-w-[280px] h-[44px] bg-foreground text-background text-sm font-medium rounded-md hover:bg-foreground/90 active:bg-foreground/85 transition-all duration-150 disabled:bg-muted-foreground/20 disabled:text-muted-foreground/50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending…" : "Send Message"}
                 </button>
