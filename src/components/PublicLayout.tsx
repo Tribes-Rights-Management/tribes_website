@@ -151,176 +151,183 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
               </SheetTrigger>
               
               {/* ═══════════════════════════════════════════════════════════════════
-                  MENU DRAWER — Contained Institutional Panel
-                  Desktop: 380px width, solid background, subtle edge separation.
-                  Mobile: Full width for thumb-friendly navigation.
+                  MENU DRAWER — Precision Institutional Panel
+                  Desktop: 380px, aligned to content grid, clear hierarchy.
+                  Mobile: Full width for accessibility.
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-full sm:w-[340px] lg:w-[380px] bg-background border-l border-foreground/10 p-0 [&>button]:hidden focus:outline-none"
+                className="w-full sm:w-[340px] lg:w-[380px] bg-background border-l border-foreground/[0.06] p-0 [&>button]:hidden focus:outline-none"
                 style={{
-                  boxShadow: "-6px 0 24px rgba(0,0,0,0.10)",
+                  boxShadow: "-4px 0 20px rgba(0,0,0,0.08)",
                 }}
               >
                 <nav 
-                  className="flex flex-col h-full"
+                  className="flex flex-col h-full justify-between"
                   style={{
-                    paddingTop: 36,
-                    paddingBottom: 28,
-                    paddingLeft: 28,
-                    paddingRight: 28,
+                    paddingTop: 32,
+                    paddingBottom: 32,
+                    paddingLeft: 32,
+                    paddingRight: 32,
                   }}
                 >
-                  {/* Close — discoverable but restrained */}
-                  <button
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-[14px] font-medium text-muted-foreground/60 hover:text-muted-foreground/90 transition-colors duration-150 self-end mb-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/30"
-                    style={{ 
-                      letterSpacing: "0.01em",
-                      minHeight: 44,
-                      minWidth: 44,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "flex-end",
-                      marginRight: -8,
-                    }}
-                  >
-                    Close
-                  </button>
-                  
-                  {/* ═══════════════════════════════════════════════════════════
-                      PRIMARY NAVIGATION — Client Sign In first (primary action)
-                      ═══════════════════════════════════════════════════════════ */}
-                  <div className="flex flex-col" style={{ gap: 16 }}>
-                    <Link 
-                      to="/auth" 
-                      className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
-                        location.pathname === "/auth"
-                          ? "text-foreground"
-                          : "text-foreground/90 hover:text-foreground"
-                      }`}
+                  {/* Top Section: Close + Primary Nav */}
+                  <div>
+                    {/* Close — aligned right, restrained */}
+                    <button
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-[13px] font-medium text-muted-foreground/50 hover:text-muted-foreground/80 transition-colors duration-150 mb-8 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
                       style={{ 
+                        letterSpacing: "0.01em",
                         minHeight: 40,
-                        fontSize: 16,
-                        fontWeight: 600,
-                        lineHeight: 1.4,
-                        letterSpacing: "0.005em",
+                        minWidth: 40,
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "auto",
+                        marginRight: -8,
                       }}
                     >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Client Sign In
-                      </span>
-                    </Link>
-                    <Link 
-                      to="/services" 
-                      className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
-                        location.pathname === "/services"
-                          ? "text-foreground"
-                          : "text-foreground/70 hover:text-foreground/90"
-                      }`}
-                      style={{ 
-                        minHeight: 40,
-                        fontSize: 16,
-                        fontWeight: 500,
-                        lineHeight: 1.4,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Services
-                      </span>
-                    </Link>
-                    <Link 
-                      to="/licensing" 
-                      className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
-                        location.pathname === "/licensing"
-                          ? "text-foreground"
-                          : "text-foreground/70 hover:text-foreground/90"
-                      }`}
-                      style={{ 
-                        minHeight: 40,
-                        fontSize: 16,
-                        fontWeight: 500,
-                        lineHeight: 1.4,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Request Licensing Access
-                      </span>
-                    </Link>
-                    <Link 
-                      to="/inquire" 
-                      className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
-                        location.pathname === "/inquire"
-                          ? "text-foreground"
-                          : "text-foreground/70 hover:text-foreground/90"
-                      }`}
-                      style={{ 
-                        minHeight: 40,
-                        fontSize: 16,
-                        fontWeight: 500,
-                        lineHeight: 1.4,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Inquire About Services
-                      </span>
-                    </Link>
-                    <Link 
-                      to="/contact" 
-                      className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
-                        location.pathname === "/contact"
-                          ? "text-foreground"
-                          : "text-foreground/70 hover:text-foreground/90"
-                      }`}
-                      style={{ 
-                        minHeight: 40,
-                        fontSize: 16,
-                        fontWeight: 500,
-                        lineHeight: 1.4,
-                        letterSpacing: "0.005em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Contact
-                      </span>
-                    </Link>
+                      Close
+                    </button>
+                    
+                    {/* ═══════════════════════════════════════════════════════════
+                        PRIMARY NAVIGATION — Consistent vertical rhythm
+                        Client Sign In leads (slightly stronger weight)
+                        ═══════════════════════════════════════════════════════════ */}
+                    <div className="flex flex-col" style={{ gap: 6 }}>
+                      <Link 
+                        to="/auth" 
+                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                          location.pathname === "/auth"
+                            ? "text-foreground"
+                            : "text-foreground/90 hover:text-foreground"
+                        }`}
+                        style={{ 
+                          minHeight: 44,
+                          fontSize: 15,
+                          fontWeight: 600,
+                          lineHeight: 1.4,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Client Sign In
+                        </span>
+                      </Link>
+                      <Link 
+                        to="/services" 
+                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                          location.pathname === "/services"
+                            ? "text-foreground"
+                            : "text-foreground/75 hover:text-foreground/95"
+                        }`}
+                        style={{ 
+                          minHeight: 44,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: 1.4,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Services
+                        </span>
+                      </Link>
+                      <Link 
+                        to="/licensing" 
+                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                          location.pathname === "/licensing"
+                            ? "text-foreground"
+                            : "text-foreground/75 hover:text-foreground/95"
+                        }`}
+                        style={{ 
+                          minHeight: 44,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: 1.4,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Request Licensing Access
+                        </span>
+                      </Link>
+                      <Link 
+                        to="/inquire" 
+                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                          location.pathname === "/inquire"
+                            ? "text-foreground"
+                            : "text-foreground/75 hover:text-foreground/95"
+                        }`}
+                        style={{ 
+                          minHeight: 44,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: 1.4,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Inquire About Services
+                        </span>
+                      </Link>
+                      <Link 
+                        to="/contact" 
+                        className={`group transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20 ${
+                          location.pathname === "/contact"
+                            ? "text-foreground"
+                            : "text-foreground/75 hover:text-foreground/95"
+                        }`}
+                        style={{ 
+                          minHeight: 44,
+                          fontSize: 15,
+                          fontWeight: 500,
+                          lineHeight: 1.4,
+                          letterSpacing: "0.005em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Contact
+                        </span>
+                      </Link>
+                    </div>
                   </div>
                   
-                  {/* Divider — subtle separation */}
-                  <div 
-                    className="h-px bg-foreground/[0.08]" 
-                    style={{ marginTop: 24, marginBottom: 24 }}
-                  />
-                  
-                  {/* Legal Links — Secondary */}
-                  <div className="flex flex-col" style={{ gap: 12 }}>
-                    <Link 
-                      to="/privacy" 
-                      className="group text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
-                      style={{ 
-                        minHeight: 36,
-                        letterSpacing: "0.01em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Privacy Policy
-                      </span>
-                    </Link>
-                    <Link 
-                      to="/terms" 
-                      className="group text-[13px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
-                      style={{ 
-                        minHeight: 36,
-                        letterSpacing: "0.01em",
-                      }}
-                    >
-                      <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                        Terms of Use
-                      </span>
-                    </Link>
+                  {/* Bottom Section: Legal Links — Clearly Secondary */}
+                  <div>
+                    {/* Divider — subtle, increased spacing above */}
+                    <div 
+                      className="h-px bg-foreground/[0.06]" 
+                      style={{ marginBottom: 20 }}
+                    />
+                    
+                    {/* Legal Links — Receded but accessible */}
+                    <div className="flex flex-col" style={{ gap: 4 }}>
+                      <Link 
+                        to="/privacy" 
+                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
+                        style={{ 
+                          minHeight: 32,
+                          letterSpacing: "0.01em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Privacy Policy
+                        </span>
+                      </Link>
+                      <Link 
+                        to="/terms" 
+                        className="group text-[12px] text-muted-foreground/45 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground/20"
+                        style={{ 
+                          minHeight: 32,
+                          letterSpacing: "0.01em",
+                        }}
+                      >
+                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                          Terms of Use
+                        </span>
+                      </Link>
+                    </div>
                   </div>
                 </nav>
               </SheetContent>
