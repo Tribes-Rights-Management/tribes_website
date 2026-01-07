@@ -6,13 +6,13 @@ export default function HowPublishingAdminWorksPage() {
       <article className="py-16 md:py-24">
         <div className="max-w-[560px] mx-auto px-6 md:px-8">
           {/* Page Title */}
-          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground mb-10">
-            How Publishing Administration Works
+          <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.15] tracking-[-0.01em] text-foreground mb-6">
+            How Administration Works
           </h1>
 
           {/* Intro */}
           <p className="text-base leading-[1.65] text-muted-foreground mb-16">
-            This page outlines the general process Tribes uses for publishing administration and licensing. Specific terms may vary by engagement.
+            This page outlines how Tribes administers rights, licenses, and records—from initial intake through permanent documentation.
           </p>
 
           {/* Before Engagement */}
