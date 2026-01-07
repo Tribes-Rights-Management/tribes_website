@@ -192,13 +192,13 @@ export default function LicensingAccountPage() {
   return (
     <PublicLayout footerVariant="minimal">
       {/* Header */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
+      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-2">
               Request an Account
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-[15px] md:text-base text-muted-foreground leading-relaxed">
               Licensing requests require an approved account.
             </p>
           </div>
@@ -208,8 +208,8 @@ export default function LicensingAccountPage() {
       {/* Form */}
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="max-w-[560px]">
+            <form onSubmit={handleSubmit} className="space-y-3">
               <Input
                 type="text"
                 placeholder="Full name"
@@ -218,7 +218,6 @@ export default function LicensingAccountPage() {
                 required
                 disabled={isSubmitting}
                 aria-label="Full name"
-                className="w-full"
               />
 
               <div>
@@ -230,9 +229,8 @@ export default function LicensingAccountPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Company or organization"
-                  className="w-full"
                 />
-                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
+                <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
                   If you're an individual creator, enter your artist or professional name.
                 </p>
               </div>
@@ -246,15 +244,14 @@ export default function LicensingAccountPage() {
                   required
                   disabled={isSubmitting}
                   aria-label="Email address"
-                  className="w-full"
                 />
-                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
+                <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
                   Used for account access.
                 </p>
               </div>
 
               <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                <SelectTrigger aria-label="Select your location" className="w-full">
+                <SelectTrigger aria-label="Select your location">
                   <SelectValue placeholder="Country or territory" />
                 </SelectTrigger>
                 <SelectContent>
@@ -267,7 +264,7 @@ export default function LicensingAccountPage() {
               </Select>
 
               <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
-                <SelectTrigger aria-label="Organization type" className="w-full">
+                <SelectTrigger aria-label="Organization type">
                   <SelectValue placeholder="Organization type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -280,8 +277,8 @@ export default function LicensingAccountPage() {
                 </SelectContent>
               </Select>
 
-              <div className="pt-1">
-                <label className="text-[13px] text-muted-foreground/70 mb-2 block">
+              <div className="pt-2">
+                <label className="text-[12px] text-muted-foreground/70 mb-1.5 block">
                   Describe your intended licensing use
                 </label>
                 <Textarea
@@ -290,18 +287,17 @@ export default function LicensingAccountPage() {
                   onChange={(e) => setIntendedUse(e.target.value)}
                   required
                   disabled={isSubmitting}
-                  rows={4}
+                  rows={3}
                   aria-label="Intended use"
-                  className="w-full"
                 />
-                <p className="text-[11px] text-muted-foreground/40 mt-1.5 leading-snug">
+                <p className="text-[11px] text-muted-foreground/50 mt-1 leading-snug">
                   This does not need to be perfect.
                 </p>
               </div>
 
               {/* Consent */}
-              <div className="pt-2">
-                <div className="flex items-start gap-3">
+              <div className="pt-3">
+                <div className="flex items-start gap-2.5">
                   <Checkbox
                     id="terms"
                     checked={agreeToTerms}
@@ -312,12 +308,12 @@ export default function LicensingAccountPage() {
                   />
                   <label 
                     htmlFor="terms" 
-                    className="text-[13px] text-muted-foreground/60 leading-relaxed cursor-pointer"
+                    className="text-[12px] text-muted-foreground/60 leading-relaxed cursor-pointer"
                   >
                     I agree to the{" "}
                     <Link 
                       to="/privacy" 
-                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/60 underline underline-offset-2 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Privacy Policy
@@ -325,7 +321,7 @@ export default function LicensingAccountPage() {
                     {" "}and{" "}
                     <Link 
                       to="/terms" 
-                      className="text-muted-foreground/50 underline underline-offset-4 hover:text-foreground transition-colors"
+                      className="text-muted-foreground/60 underline underline-offset-2 hover:text-foreground transition-colors"
                       target="_blank"
                     >
                       Terms of Use
@@ -334,14 +330,14 @@ export default function LicensingAccountPage() {
                 </div>
               </div>
 
-              <div className="pt-5 flex justify-center">
+              <div className="pt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full max-w-[280px] h-[44px] text-sm font-medium rounded-md transition-all duration-150 ${
+                  className={`w-full h-12 text-[14px] font-medium rounded-md transition-all duration-150 ${
                     agreeToTerms && !isSubmitting
-                      ? "bg-foreground text-background hover:bg-foreground/90 active:bg-foreground/85"
-                      : "bg-muted-foreground/20 text-muted-foreground/50 cursor-not-allowed"
+                      ? "bg-foreground text-background hover:bg-foreground/90"
+                      : "bg-muted text-muted-foreground/60 cursor-not-allowed"
                   }`}
                 >
                   {isSubmitting ? "Submitting…" : "Request Account Review"}
@@ -349,7 +345,7 @@ export default function LicensingAccountPage() {
               </div>
             </form>
 
-            <p className="text-sm text-muted-foreground/60 mt-8 text-center">
+            <p className="text-[13px] text-muted-foreground/60 mt-6 text-center">
               Already have an account?{" "}
               <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
                 Sign in

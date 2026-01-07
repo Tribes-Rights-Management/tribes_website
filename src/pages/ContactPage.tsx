@@ -118,13 +118,13 @@ export default function ContactPage() {
   return (
     <PublicLayout footerVariant="minimal">
       {/* Header */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
+      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
+            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-2">
               Contact
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+            <p className="text-[15px] md:text-base text-muted-foreground leading-relaxed">
               General inquiries and questions.
             </p>
           </div>
@@ -134,8 +134,8 @@ export default function ContactPage() {
       {/* Form */}
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <div className="max-w-[520px]">
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="max-w-[560px]">
+            <form onSubmit={handleSubmit} className="space-y-3">
               <Input
                 type="text"
                 placeholder="Full name"
@@ -144,7 +144,6 @@ export default function ContactPage() {
                 required
                 disabled={isSubmitting}
                 aria-label="Name"
-                className="w-full"
               />
 
               <Input
@@ -155,11 +154,10 @@ export default function ContactPage() {
                 required
                 disabled={isSubmitting}
                 aria-label="Email"
-                className="w-full"
               />
 
               <Select value={location} onValueChange={setLocation} disabled={isSubmitting}>
-                <SelectTrigger aria-label="Select your location" className="w-full">
+                <SelectTrigger aria-label="Select your location">
                   <SelectValue placeholder="Country or territory" />
                 </SelectTrigger>
                 <SelectContent>
@@ -171,24 +169,23 @@ export default function ContactPage() {
                 </SelectContent>
               </Select>
 
-              <div className="pt-1">
+              <div className="pt-2">
                 <Textarea
                   placeholder="Your message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   required
                   disabled={isSubmitting}
-                  rows={5}
+                  rows={4}
                   aria-label="Message"
-                  className="w-full"
                 />
               </div>
 
-              <div className="pt-5 flex justify-center">
+              <div className="pt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full max-w-[280px] h-[44px] bg-foreground text-background text-sm font-medium rounded-md hover:bg-foreground/90 active:bg-foreground/85 transition-all duration-150 disabled:bg-muted-foreground/20 disabled:text-muted-foreground/50 disabled:cursor-not-allowed"
+                  className="w-full h-12 bg-foreground text-background text-[14px] font-medium rounded-md hover:bg-foreground/90 transition-all duration-150 disabled:bg-muted disabled:text-muted-foreground/60 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? "Sending…" : "Send Message"}
                 </button>
