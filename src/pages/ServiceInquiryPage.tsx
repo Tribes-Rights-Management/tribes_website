@@ -91,10 +91,10 @@ export default function ServiceInquiryPage() {
   if (isSubmitted) {
     return (
       <PublicLayout footerVariant="minimal">
-        <section className="pt-28 pb-24 md:pt-36 md:pb-32 lg:pt-44 lg:pb-40">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-            <div className="max-w-[480px]">
-              <h1 className="text-[28px] md:text-[36px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+        <section className="pt-28 pb-24 md:pt-36 md:pb-32">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+            <div className="max-w-[560px]">
+              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
                 Inquiry received
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -117,8 +117,8 @@ export default function ServiceInquiryPage() {
     <PublicLayout footerVariant="minimal">
       {/* Header */}
       <section className="pt-28 pb-10 md:pt-36 md:pb-12">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="max-w-[600px]">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
+          <div className="max-w-[560px]">
             <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
               Inquire About Services
             </h1>
