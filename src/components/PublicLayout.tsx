@@ -75,12 +75,16 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           Mobile: Always dark, backdrop blur, 60px height, wordmark + hamburger only
           Desktop: Contextual surface switching based on scroll position
           ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* ═══════════════════════════════════════════════════════════════════════════
+          MOBILE HEADER: Solid background, no blur/transparency, passive sticky.
+          DESKTOP HEADER: Contextual surface switching based on scroll position.
+          ═══════════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-150 ease-out
-          bg-[#111214]/95 backdrop-blur-md border-b border-white/[0.06]
+        className={`fixed top-0 left-0 right-0 z-50
+          bg-[#111214] border-b border-white/[0.08]
           ${isHeaderDark 
-            ? "md:bg-[#111214]/95 md:backdrop-blur-md md:border-white/[0.06]" 
-            : "md:bg-background/95 md:backdrop-blur-md md:border-border/40"
+            ? "md:bg-[#111214] md:border-white/[0.08]" 
+            : "md:bg-background md:border-border/50"
           }`}
         style={{ 
           paddingTop: "env(safe-area-inset-top)",
@@ -129,12 +133,19 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-[280px] bg-background border-l border-border/20 p-0 [&>button]:hidden focus:outline-none"
+                className="w-[280px] bg-background border-l border-border/10 p-0 [&>button]:hidden focus:outline-none"
                 style={{
-                  boxShadow: "-4px 0 20px rgba(0,0,0,0.06)",
+                  boxShadow: "-2px 0 12px rgba(0,0,0,0.04)",
                 }}
               >
-                <nav className="flex flex-col pt-14 pb-10 px-6 h-full">
+                <nav className="flex flex-col pt-6 pb-10 px-6 h-full">
+                  {/* Close text link — replaces X icon per institutional spec */}
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[13px] text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-150 self-end mb-8"
+                  >
+                    Close
+                  </button>
                   {/* Primary Navigation — 16px, regular weight */}
                   <div className="space-y-0">
                     <Link 
@@ -189,8 +200,8 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   {/* Spacer — Generous breathing room */}
                   <div className="flex-1 min-h-8" />
                   
-                  {/* Legal Links — 14px, secondary text, bottom-aligned */}
-                  <div className="space-y-0 pt-6 border-t border-border/30">
+                  {/* Legal Links — 14px, secondary text, spacing divider only (no border rule) */}
+                  <div className="space-y-0 pt-6">
                     <Link 
                       to="/privacy" 
                       className="text-[14px] text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors duration-150 flex items-center"
