@@ -280,15 +280,18 @@ export function PublicLayout({ children }: PublicLayoutProps) {
         className="bg-[#111214]"
         data-surface="dark"
       >
-        {/* ═══════════════════════════════════════════════════════════════════
-            5. FINAL ACCESS DECISION — Single canonical CTA (EXACT STRUCTURE)
-            No eyebrow. Headline + copy + "Request Access" button + "Sign In" text link only.
-            No additional links or buttons.
-            ═══════════════════════════════════════════════════════════════════ */}
-        <div className="py-14 md:py-24 lg:py-28">
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
+        {/* Primary Access Section — The single canonical CTA */}
+        <div className="py-16 md:py-24 lg:py-28">
+          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-lg">
-              {/* Headline — Exact spec */}
+              {/* Eyebrow */}
+              <p 
+                className="text-[11px] font-medium uppercase tracking-[0.12em] text-white/40 mb-5"
+              >
+                Access
+              </p>
+              
+              {/* Headline */}
               <h2 
                 className="text-white font-medium tracking-tight mb-4"
                 style={{ 
@@ -297,10 +300,10 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   letterSpacing: "-0.015em",
                 }}
               >
-                Access the platform.
+                Request access to Tribes.
               </h2>
               
-              {/* Supporting copy — Exact spec */}
+              {/* Supporting copy */}
               <p 
                 className="text-white/50 mb-8"
                 style={{ 
@@ -308,12 +311,12 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   lineHeight: 1.65,
                 }}
               >
-                Sign in if you have an account. Otherwise, request access and we'll review your submission.
+                Approved clients receive a secure login for submissions, documentation, and clearance status.
               </p>
               
-              {/* Actions — Primary button + Secondary text link ONLY */}
+              {/* Actions — Clear hierarchy */}
               <div className="flex flex-wrap items-center gap-4 md:gap-5">
-                {/* Primary — "Request Access" is the ONLY button-style CTA */}
+                {/* Primary — Solid button */}
                 <Link 
                   to="/auth?request=true"
                   className="inline-flex items-center justify-center px-5 py-2.5 bg-white text-[#111214] font-medium text-sm rounded transition-all duration-150 hover:bg-white/90"
@@ -322,7 +325,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                   Request Access
                 </Link>
                 
-                {/* Secondary — "Sign In" must never be styled as a button */}
+                {/* Secondary — Text link */}
                 <Link 
                   to="/auth"
                   className="inline-flex items-center justify-center px-2 py-2.5 text-sm text-white/50 transition-colors duration-150 hover:text-white/70"
@@ -332,7 +335,15 @@ export function PublicLayout({ children }: PublicLayoutProps) {
                 </Link>
               </div>
               
-              {/* No additional links or buttons */}
+              {/* Tertiary link */}
+              <div className="mt-8">
+                <Link 
+                  to="/how-licensing-works"
+                  className="text-[13px] text-white/35 transition-colors duration-150 hover:text-white/50"
+                >
+                  Learn how licensing works
+                </Link>
+              </div>
             </div>
           </div>
         </div>
