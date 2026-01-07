@@ -59,7 +59,7 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
             className="text-[#B5B5B5] transition-colors duration-150 hover:text-white py-1"
             style={{ fontSize: 12 }}
           >
-            How It Works
+            How Publishing Administration Works
           </Link>
           <Link 
             to="/privacy" 
@@ -107,7 +107,7 @@ export function LegalRow({ variant = "light", showBrand = true }: LegalRowProps)
           to="/how-publishing-administration-works" 
           className="text-xs text-muted-foreground/60 transition-colors duration-150 hover:text-muted-foreground"
         >
-          How It Works
+          How Publishing Administration Works
         </Link>
         <Link
           to="/privacy" 
