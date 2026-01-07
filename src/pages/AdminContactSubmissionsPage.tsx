@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -29,7 +30,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
 
-type ContactStatus = "new" | "in_review" | "responded" | "archived";
+type ContactStatus = "new" | "in_review" | "follow_up_required" | "closed";
 
 interface ContactSubmission {
   id: string;
@@ -44,11 +45,18 @@ interface ContactSubmission {
   updated_at: string;
 }
 
+const statusLabels: Record<ContactStatus, string> = {
+  new: "New",
+  in_review: "In Review",
+  follow_up_required: "Follow-up Required",
+  closed: "Closed",
+};
+
 const statusColors: Record<ContactStatus, string> = {
-  new: "bg-blue-100 text-blue-800 border-blue-200",
-  in_review: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  responded: "bg-green-100 text-green-800 border-green-200",
-  archived: "bg-gray-100 text-gray-600 border-gray-200",
+  new: "bg-blue-50 text-blue-700 border-blue-200",
+  in_review: "bg-amber-50 text-amber-700 border-amber-200",
+  follow_up_required: "bg-orange-50 text-orange-700 border-orange-200",
+  closed: "bg-muted text-muted-foreground border-border",
 };
 
 export default function AdminContactSubmissionsPage() {
@@ -69,7 +77,7 @@ export default function AdminContactSubmissionsPage() {
         .order("created_at", { ascending: false });
 
       if (statusFilter !== "all") {
-        query = query.eq("status", statusFilter as any);
+        query = query.eq("status", statusFilter as ContactStatus);
       }
 
       if (searchQuery) {
@@ -87,7 +95,7 @@ export default function AdminContactSubmissionsPage() {
       const { error } = await supabase
         .from("contact_submissions")
         .update({ 
-          status: status as any, 
+          status, 
           admin_notes, 
           updated_by: (await supabase.auth.getUser()).data.user?.id 
         })
@@ -96,7 +104,7 @@ export default function AdminContactSubmissionsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contact-submissions"] });
-      toast({ title: "Submission updated" });
+      toast({ title: "Record updated" });
       setSelectedSubmission(null);
     },
     onError: () => {
@@ -119,36 +127,41 @@ export default function AdminContactSubmissionsPage() {
     });
   };
 
+  const handleCopyEmail = async (email: string) => {
+    await navigator.clipboard.writeText(email);
+    toast({ title: "Email copied" });
+  };
+
   const newCount = submissions?.filter(s => s.status === "new").length || 0;
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Contact Submissions</h1>
+          <h1 className="text-2xl font-semibold text-foreground">Contact Intake</h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Review and respond to contact form submissions
+            Review and triage inbound contact submissions
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-3">
           <Input
-            placeholder="Search by name or email..."
+            placeholder="Search name or email…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="max-w-xs"
           />
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="new">New ({newCount})</SelectItem>
+              <SelectItem value="new">New{newCount > 0 ? ` (${newCount})` : ""}</SelectItem>
               <SelectItem value="in_review">In Review</SelectItem>
-              <SelectItem value="responded">Responded</SelectItem>
-              <SelectItem value="archived">Archived</SelectItem>
+              <SelectItem value="follow_up_required">Follow-up Required</SelectItem>
+              <SelectItem value="closed">Closed</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -158,24 +171,23 @@ export default function AdminContactSubmissionsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Date</TableHead>
+                <TableHead className="w-[120px]">Date</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
                 <TableHead>Location</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Source</TableHead>
+                <TableHead className="w-[160px]">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                    Loading...
+                  <TableCell colSpan={5} className="text-center py-12 text-muted-foreground">
+                    Loading…
                   </TableCell>
                 </TableRow>
               ) : submissions?.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={5} className="text-center py-12 text-muted-foreground">
                     No submissions found
                   </TableCell>
                 </TableRow>
@@ -183,10 +195,10 @@ export default function AdminContactSubmissionsPage() {
                 submissions?.map((submission) => (
                   <TableRow
                     key={submission.id}
-                    className="cursor-pointer hover:bg-muted/50"
+                    className="cursor-pointer hover:bg-muted/50 transition-colors"
                     onClick={() => handleOpenDetail(submission)}
                   >
-                    <TableCell className="text-sm">
+                    <TableCell className="text-sm text-muted-foreground">
                       {format(new Date(submission.created_at), "MMM d, yyyy")}
                     </TableCell>
                     <TableCell className="font-medium">{submission.full_name}</TableCell>
@@ -194,11 +206,8 @@ export default function AdminContactSubmissionsPage() {
                     <TableCell className="text-muted-foreground">{submission.location}</TableCell>
                     <TableCell>
                       <Badge variant="outline" className={statusColors[submission.status]}>
-                        {submission.status.replace("_", " ")}
+                        {statusLabels[submission.status]}
                       </Badge>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
-                      {submission.source_page}
                     </TableCell>
                   </TableRow>
                 ))
@@ -215,37 +224,55 @@ export default function AdminContactSubmissionsPage() {
             <DialogTitle>Submission Details</DialogTitle>
           </DialogHeader>
           {selectedSubmission && (
-            <div className="space-y-4">
+            <div className="space-y-5">
+              {/* Info Grid */}
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-muted-foreground">Name</p>
+                  <p className="text-muted-foreground mb-0.5">Name</p>
                   <p className="font-medium">{selectedSubmission.full_name}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Email</p>
-                  <a href={`mailto:${selectedSubmission.email}`} className="font-medium text-primary hover:underline">
-                    {selectedSubmission.email}
-                  </a>
+                  <p className="text-muted-foreground mb-0.5">Email</p>
+                  <div className="flex items-center gap-2">
+                    <a 
+                      href={`mailto:${selectedSubmission.email}`} 
+                      className="font-medium text-primary hover:underline"
+                    >
+                      {selectedSubmission.email}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCopyEmail(selectedSubmission.email);
+                      }}
+                      className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Copy
+                    </button>
+                  </div>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Location</p>
+                  <p className="text-muted-foreground mb-0.5">Location</p>
                   <p className="font-medium">{selectedSubmission.location}</p>
                 </div>
                 <div>
-                  <p className="text-muted-foreground">Submitted</p>
+                  <p className="text-muted-foreground mb-0.5">Submitted</p>
                   <p className="font-medium">
                     {format(new Date(selectedSubmission.created_at), "MMM d, yyyy 'at' h:mm a")}
                   </p>
                 </div>
               </div>
 
+              {/* Message */}
               <div>
-                <p className="text-muted-foreground text-sm mb-1">Message</p>
-                <div className="bg-muted/50 rounded-md p-3 text-sm whitespace-pre-wrap">
+                <p className="text-sm text-muted-foreground mb-1.5">Message</p>
+                <div className="bg-muted/50 rounded-md p-3 text-sm leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto">
                   {selectedSubmission.message}
                 </div>
               </div>
 
+              {/* Status */}
               <div>
                 <label className="text-sm text-muted-foreground mb-1.5 block">Status</label>
                 <Select value={newStatus} onValueChange={(v) => setNewStatus(v as ContactStatus)}>
@@ -255,36 +282,37 @@ export default function AdminContactSubmissionsPage() {
                   <SelectContent>
                     <SelectItem value="new">New</SelectItem>
                     <SelectItem value="in_review">In Review</SelectItem>
-                    <SelectItem value="responded">Responded</SelectItem>
-                    <SelectItem value="archived">Archived</SelectItem>
+                    <SelectItem value="follow_up_required">Follow-up Required</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
+              {/* Admin Notes */}
               <div>
                 <label className="text-sm text-muted-foreground mb-1.5 block">Admin Notes</label>
                 <Textarea
                   value={adminNotes}
                   onChange={(e) => setAdminNotes(e.target.value)}
-                  placeholder="Internal notes about this submission..."
+                  placeholder="Internal notes…"
                   rows={3}
                 />
               </div>
 
-              <div className="flex justify-end gap-3 pt-2">
-                <button
+              {/* Actions */}
+              <div className="flex justify-end gap-3 pt-2 border-t">
+                <Button
+                  variant="ghost"
                   onClick={() => setSelectedSubmission(null)}
-                  className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleSave}
                   disabled={updateMutation.isPending}
-                  className="px-4 py-2 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
-                  {updateMutation.isPending ? "Saving..." : "Save Changes"}
-                </button>
+                  {updateMutation.isPending ? "Saving…" : "Save Changes"}
+                </Button>
               </div>
             </div>
           )}
