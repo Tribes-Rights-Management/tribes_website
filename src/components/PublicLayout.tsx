@@ -1,13 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { ReactNode, useState, useEffect } from "react";
 import { getCopyrightLine } from "@/lib/copyright";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { BRAND, LOGO_SIZES, NAV_SIZES } from "@/lib/brand";
 import {
   Sheet,
   SheetContent,
   SheetTrigger,
-  SheetClose,
 } from "@/components/ui/sheet";
 
 interface PublicLayoutProps {
@@ -123,93 +122,89 @@ export function PublicLayout({ children }: PublicLayoutProps) {
               </SheetTrigger>
               
               {/* ═══════════════════════════════════════════════════════════════════
-                  MOBILE MENU DRAWER — Full-height right-side sheet
-                  White background, soft shadow, dimmed backdrop at 45%
+                  MOBILE MENU — Institutional Control Surface
+                  No close button. Closes via overlay tap or hamburger re-tap.
+                  Neutral typography, generous spacing, calm and authoritative.
                   ═══════════════════════════════════════════════════════════════════ */}
               <SheetContent 
                 side="right" 
-                className="w-[300px] bg-white border-l-0 p-0 shadow-2xl"
+                className="w-[280px] bg-background border-l border-border/30 p-0 shadow-xl [&>button]:hidden"
                 style={{
-                  boxShadow: "-8px 0 32px rgba(0,0,0,0.12)",
+                  boxShadow: "-4px 0 24px rgba(0,0,0,0.08)",
                 }}
               >
-                {/* Close button — Top right, large tap target */}
-                <SheetClose asChild>
-                  <button
-                    className="absolute top-4 right-4 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors duration-150"
-                    style={{ height: 44, width: 44 }}
-                    aria-label="Close menu"
-                  >
-                    <X className="h-5 w-5" />
-                  </button>
-                </SheetClose>
-
-                <nav className="flex flex-col pt-20 pb-8 px-6 h-full">
-                  {/* Primary Navigation — Large tap targets */}
-                  <Link 
-                    to="/services" 
-                    className={`text-[15px] font-medium transition-colors duration-150 flex items-center ${
-                      location.pathname === "/services"
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={{ minHeight: 52 }}
-                  >
-                    Services
-                  </Link>
-                  <Link 
-                    to="/contact" 
-                    className={`text-[15px] font-medium transition-colors duration-150 flex items-center ${
-                      location.pathname === "/contact"
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={{ minHeight: 52 }}
-                  >
-                    Contact
-                  </Link>
+                <nav className="flex flex-col pt-12 pb-8 px-5 h-full">
+                  {/* Primary Navigation */}
+                  <div className="space-y-1">
+                    <Link 
+                      to="/services" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                        location.pathname === "/services"
+                          ? "text-foreground font-medium"
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                      style={{ minHeight: 48 }}
+                    >
+                      Services
+                    </Link>
+                    <Link 
+                      to="/contact" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                        location.pathname === "/contact"
+                          ? "text-foreground font-medium"
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                      style={{ minHeight: 48 }}
+                    >
+                      Contact
+                    </Link>
+                  </div>
                   
                   {/* Divider */}
-                  <div className="h-px bg-border/60 my-3" />
+                  <div className="h-px bg-border/50 my-4" />
                   
                   {/* Account Actions */}
-                  <Link 
-                    to="/auth" 
-                    className={`text-[15px] font-medium transition-colors duration-150 flex items-center ${
-                      location.pathname === "/auth"
-                        ? "text-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                    style={{ minHeight: 52 }}
-                  >
-                    Sign In
-                  </Link>
-                  <Link 
-                    to="/auth?request=true" 
-                    className="text-[15px] font-medium text-foreground hover:text-foreground/80 transition-colors duration-150 flex items-center"
-                    style={{ minHeight: 52 }}
-                  >
-                    Request Access
-                  </Link>
+                  <div className="space-y-1">
+                    <Link 
+                      to="/auth" 
+                      className={`text-[15px] transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2 ${
+                        location.pathname === "/auth"
+                          ? "text-foreground font-medium"
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                      style={{ minHeight: 48 }}
+                    >
+                      Sign In
+                    </Link>
+                    <Link 
+                      to="/auth?request=true" 
+                      className="text-[15px] text-foreground/70 hover:text-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
+                      style={{ minHeight: 48 }}
+                    >
+                      Request Access
+                    </Link>
+                  </div>
                   
                   {/* Divider */}
-                  <div className="h-px bg-border/60 my-3" />
+                  <div className="h-px bg-border/50 my-4" />
                   
-                  {/* Legal Links */}
-                  <Link 
-                    to="/privacy" 
-                    className="text-[13px] text-muted-foreground/70 hover:text-muted-foreground transition-colors duration-150 flex items-center"
-                    style={{ minHeight: 44 }}
-                  >
-                    Privacy Policy
-                  </Link>
-                  <Link 
-                    to="/terms" 
-                    className="text-[13px] text-muted-foreground/70 hover:text-muted-foreground transition-colors duration-150 flex items-center"
-                    style={{ minHeight: 44 }}
-                  >
-                    Terms of Use
-                  </Link>
+                  {/* Legal Links — Secondary text */}
+                  <div className="space-y-0">
+                    <Link 
+                      to="/privacy" 
+                      className="text-[13px] text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
+                      style={{ minHeight: 40 }}
+                    >
+                      Privacy Policy
+                    </Link>
+                    <Link 
+                      to="/terms" 
+                      className="text-[13px] text-muted-foreground/60 hover:text-muted-foreground transition-colors duration-150 flex items-center rounded-sm px-2 -mx-2"
+                      style={{ minHeight: 40 }}
+                    >
+                      Terms of Use
+                    </Link>
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>
