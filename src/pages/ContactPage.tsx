@@ -132,7 +132,7 @@ export default function ContactPage() {
       </section>
 
       {/* Form */}
-      <section className="pb-24 md:pb-32">
+      <section className="pb-16 md:pb-20">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
             <form onSubmit={handleSubmit} className="space-y-3">
