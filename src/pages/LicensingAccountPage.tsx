@@ -118,15 +118,15 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
-              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+              <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-3">
                 Request submitted
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                If approved, you'll receive an email with access instructions.
+              <p className="text-base text-muted-foreground leading-relaxed mb-6">
+                If approved, you will receive an email with access instructions.
               </p>
               <Link 
                 to="/" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
               >
                 Return to home
               </Link>
@@ -144,15 +144,15 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
-              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+              <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-3">
                 Pending review
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-8">
+              <p className="text-base text-muted-foreground leading-relaxed mb-6">
                 A request for this email is already under review.
               </p>
               <Link 
                 to="/" 
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-[13px] text-muted-foreground hover:text-foreground transition-colors"
               >
                 Return to home
               </Link>
@@ -170,15 +170,15 @@ export default function LicensingAccountPage() {
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
-              <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-4">
+              <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-3">
                 Account exists
               </h1>
-              <p className="text-muted-foreground leading-relaxed mb-8">
+              <p className="text-base text-muted-foreground leading-relaxed mb-6">
                 An account with this email already exists.
               </p>
               <Link 
                 to="/auth" 
-                className="text-sm font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
+                className="text-[13px] font-medium text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors"
               >
                 Sign in to your account
               </Link>
@@ -195,10 +195,10 @@ export default function LicensingAccountPage() {
       <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-2">
+            <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
               Request an Account
             </h1>
-            <p className="text-[15px] md:text-base text-muted-foreground leading-relaxed">
+            <p className="text-base text-muted-foreground leading-relaxed">
               Licensing requests require an approved account.
             </p>
           </div>

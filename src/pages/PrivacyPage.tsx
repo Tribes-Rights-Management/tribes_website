@@ -4,13 +4,13 @@ export default function PrivacyPage() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
+      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
+            <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
               Privacy Policy
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[13px] text-muted-foreground">
               Last Updated: January 6, 2026
             </p>
           </div>
@@ -56,8 +56,8 @@ export default function PrivacyPage() {
 
             {/* Collection of Information */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Collection of Information</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">Collection of Information</h2>
+              <p className="text-base text-muted-foreground leading-relaxed">
                 The information we collect from you varies depending on the way you use our 
                 Services. When you browse our public website to learn more about us ("Website 
                 Visitor"), the information we collect differs from the information collected if 
@@ -160,7 +160,7 @@ export default function PrivacyPage() {
 
             {/* Use of Information */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Use of Information</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Use of Information</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
                 <p>
                   Information is collected and maintained to support accurate rights administration, 
@@ -184,7 +184,7 @@ export default function PrivacyPage() {
 
             {/* Disclosure of Information */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Disclosure of Information</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Disclosure of Information</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
                 <p>We disclose personal information:</p>
                 <ul className="space-y-1 ml-4">
@@ -206,7 +206,7 @@ export default function PrivacyPage() {
 
             {/* Analytics */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Analytics</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Analytics</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
                 <p>
                   We use analytics services to understand how our Platform is accessed and used, 
@@ -254,7 +254,7 @@ export default function PrivacyPage() {
 
             {/* International Data Transfers */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">International Data Transfers</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">International Data Transfers</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 We operate in the United States and may transfer data to jurisdictions that may 
                 not offer equivalent data protections. Where required, we rely on approved transfer 
@@ -265,7 +265,7 @@ export default function PrivacyPage() {
 
             {/* Data Privacy Framework */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Data Privacy Framework</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Data Privacy Framework</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 The Company participates in the EU-U.S., UK, and Swiss Data Privacy Frameworks 
                 and complies with their principles. For disputes, mediation may be available 
@@ -275,7 +275,7 @@ export default function PrivacyPage() {
 
             {/* Data Retention */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Data Retention</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Data Retention</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
                 <p>
                   We retain personal information as long as necessary to fulfill the purposes 
@@ -293,7 +293,7 @@ export default function PrivacyPage() {
 
             {/* Your Privacy Rights and Choices */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Your Privacy Rights and Choices</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">Your Privacy Rights and Choices</h2>
               <div className="text-sm text-muted-foreground leading-relaxed space-y-3">
                 <p>
                   Depending on your jurisdiction, you may have rights to access, correct, or 
@@ -330,7 +330,7 @@ export default function PrivacyPage() {
 
             {/* California Privacy Rights */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">California Privacy Rights</h2>
+              <h2 className="text-xl font-medium text-foreground mb-3">California Privacy Rights</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 California residents are afforded rights under the CCPA/CPRA, including access, 
                 deletion, and correction rights. We do not sell personal information or knowingly 
@@ -340,16 +340,16 @@ export default function PrivacyPage() {
 
             {/* Do Not Track */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Do Not Track</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">Do Not Track</h2>
+              <p className="text-base text-muted-foreground leading-relaxed">
                 The Platform does not respond to Do Not Track signals.
               </p>
             </div>
 
             {/* Contact Us */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">Contact Us</h2>
-              <div className="text-sm text-muted-foreground leading-relaxed space-y-1">
+              <h2 className="text-xl font-medium text-foreground mb-3">Contact Us</h2>
+              <div className="text-base text-muted-foreground leading-relaxed space-y-1">
                 <p>Tribes Rights Management LLC</p>
                 <p>ATTN: Legal Department</p>
                 <p>3839 McKinney Ave, Suite 155 #2374</p>

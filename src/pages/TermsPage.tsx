@@ -4,13 +4,13 @@ export default function TermsPage() {
   return (
     <PublicLayout>
       {/* Hero */}
-      <section className="pt-28 pb-10 md:pt-36 md:pb-12">
+      <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
           <div className="max-w-[560px]">
-            <h1 className="text-[28px] md:text-[36px] lg:text-[42px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-3">
+            <h1 className="text-[32px] md:text-[40px] font-medium leading-tight text-foreground mb-2">
               Terms of Use
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-[13px] text-muted-foreground">
               Last Updated: January 6, 2026
             </p>
           </div>
@@ -20,10 +20,10 @@ export default function TermsPage() {
       {/* Content */}
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <div className="max-w-[560px] space-y-12">
+          <div className="max-w-[560px] space-y-10">
             
             {/* Introduction */}
-            <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+            <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
               <p>
                 These Terms of Use ("Terms") are a legal agreement between you and Tribes Rights 
                 Management LLC ("Company," "we," "us") governing your access to and use of the 
@@ -49,8 +49,8 @@ export default function TermsPage() {
 
             {/* 1. Definitions */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">1. Definitions</h2>
-              <ul className="space-y-2 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">1. Definitions</h2>
+              <ul className="space-y-2 text-base text-muted-foreground leading-relaxed">
                 <li>"Company" means Tribes Rights Management LLC.</li>
                 <li>"User" or "you" means any individual or entity accessing or using the Services, including any entity on whose behalf you act.</li>
                 <li>"General User" means a User accessing only public portions of the Services.</li>
@@ -62,8 +62,8 @@ export default function TermsPage() {
 
             {/* 2. Eligibility and Authority */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">2. Eligibility and Authority</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">2. Eligibility and Authority</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>The Services are intended for business and professional use only. You represent and warrant that:</p>
                 <ul className="space-y-2 ml-4">
                   <li>— You are at least 18 years of age.</li>
@@ -75,8 +75,8 @@ export default function TermsPage() {
 
             {/* 3. License to Use the Services */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">3. License to Use the Services</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">3. License to Use the Services</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   Subject to compliance with these Terms, Company grants you a limited, non-exclusive, 
                   non-transferable, revocable license to access and use the Services solely for their 
@@ -89,8 +89,8 @@ export default function TermsPage() {
 
             {/* 4. Access to Non-Public Portions */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">4. Access to Non-Public Portions</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">4. Access to Non-Public Portions</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   You may not access non-public portions of the Services (the Portal) unless you are a Registered 
                   User expressly authorized by Company.
@@ -104,8 +104,8 @@ export default function TermsPage() {
 
             {/* 5. Authentication and Account Security */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">5. Authentication and Account Security</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">5. Authentication and Account Security</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   Access to non-public portions may be provided through passwordless authentication, 
                   including secure login links, tokens, or similar mechanisms.
@@ -126,8 +126,8 @@ export default function TermsPage() {
 
             {/* 6. Licensing Workflow and Executed Agreements */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">6. Licensing Workflow and Executed Agreements</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">6. Licensing Workflow and Executed Agreements</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>The Portal enables Users to submit license requests for review and approval.</p>
                 <p>You acknowledge and agree that:</p>
                 <ul className="space-y-2 ml-4">
@@ -146,8 +146,8 @@ export default function TermsPage() {
 
             {/* 7. Electronic Communications and Records */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">7. Electronic Communications and Records</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">7. Electronic Communications and Records</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   By using the Services, you consent to receive communications electronically and 
                   agree that electronic records, signatures, and documents have the same legal 
@@ -159,8 +159,8 @@ export default function TermsPage() {
 
             {/* 8. User Submissions */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">8. User Submissions</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">8. User Submissions</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>You are solely responsible for information and materials you submit.</p>
                 <p>You represent that submitted materials:</p>
                 <ul className="space-y-2 ml-4">
@@ -177,8 +177,8 @@ export default function TermsPage() {
 
             {/* 9. Privacy */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">9. Privacy</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">9. Privacy</h2>
+              <p className="text-base text-muted-foreground leading-relaxed">
                 Your use of the Platform is subject to the Privacy Policy, which is incorporated 
                 by reference and governs data collection, use, and retention.
               </p>
@@ -186,8 +186,8 @@ export default function TermsPage() {
 
             {/* 10. Intellectual Property */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">10. Intellectual Property</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">10. Intellectual Property</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   The Services and all Materials are owned by Company or its licensors and are 
                   protected by intellectual property laws.
@@ -201,12 +201,12 @@ export default function TermsPage() {
 
             {/* 11. Disclaimers */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">11. Disclaimers</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                <p className="uppercase">
+              <h2 className="text-xl font-medium text-foreground mb-3">11. Disclaimers</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
+                <p className="uppercase text-sm">
                   The Services are provided "as is" and "as available."
                 </p>
-                <p className="uppercase">
+                <p className="uppercase text-sm">
                   Company disclaims all warranties, express or implied, including merchantability, 
                   fitness for a particular purpose, and non-infringement.
                 </p>
@@ -216,13 +216,13 @@ export default function TermsPage() {
 
             {/* 12. Limitation of Liability */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">12. Limitation of Liability</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
-                <p className="uppercase">
+              <h2 className="text-xl font-medium text-foreground mb-3">12. Limitation of Liability</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
+                <p className="uppercase text-sm">
                   To the maximum extent permitted by law, Company shall not be liable for indirect, 
                   incidental, consequential, special, or punitive damages.
                 </p>
-                <p className="uppercase">
+                <p className="uppercase text-sm">
                   Company's total aggregate liability shall not exceed ten U.S. dollars ($10.00).
                 </p>
                 <p>Your sole remedy is to discontinue use of the Services.</p>
@@ -231,8 +231,8 @@ export default function TermsPage() {
 
             {/* 13. Indemnification */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">13. Indemnification</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">13. Indemnification</h2>
+              <p className="text-base text-muted-foreground leading-relaxed">
                 You agree to indemnify and hold harmless Company and its affiliates from claims 
                 arising from your breach of these Terms, misuse of the Services, or violation 
                 of law or third-party rights.
@@ -241,8 +241,8 @@ export default function TermsPage() {
 
             {/* 14. Termination */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">14. Termination</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">14. Termination</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>Company may suspend or terminate access at any time. Termination does not affect:</p>
                 <ul className="space-y-2 ml-4">
                   <li>— Executed licenses</li>
@@ -255,8 +255,8 @@ export default function TermsPage() {
 
             {/* 15. Governing Law and Dispute Resolution */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">15. Governing Law and Dispute Resolution</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">15. Governing Law and Dispute Resolution</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>
                   These Terms are governed by the laws of the State of Texas, without regard to 
                   conflict-of-laws principles.
@@ -270,8 +270,8 @@ export default function TermsPage() {
 
             {/* 16. Miscellaneous */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">16. Miscellaneous</h2>
-              <div className="space-y-4 text-sm text-muted-foreground leading-relaxed">
+              <h2 className="text-xl font-medium text-foreground mb-3">16. Miscellaneous</h2>
+              <div className="space-y-3 text-base text-muted-foreground leading-relaxed">
                 <p>These Terms constitute the entire agreement regarding use of the Services.</p>
                 <p>Company may assign these Terms without restriction.</p>
                 <p>Headings are for convenience only.</p>
@@ -281,8 +281,8 @@ export default function TermsPage() {
 
             {/* 17. Contact Information */}
             <div>
-              <h2 className="text-lg font-medium text-foreground mb-4">17. Contact Information</h2>
-              <div className="text-sm text-muted-foreground leading-relaxed space-y-1">
+              <h2 className="text-xl font-medium text-foreground mb-3">17. Contact Information</h2>
+              <div className="text-base text-muted-foreground leading-relaxed space-y-1">
                 <p>Tribes Rights Management LLC</p>
                 <p>ATTN: Legal Department</p>
                 <p>3839 McKinney Ave, Suite 155 #2374</p>
