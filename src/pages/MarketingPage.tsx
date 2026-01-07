@@ -39,14 +39,17 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Proof of Thought — Structural Differentiation */}
-      <section className="py-16 md:py-20 bg-background border-b border-border/30">
+      {/* Built for Permanence — Structural Differentiation (Desktop: after hero, Mobile: after Who It's For) */}
+      <section className="py-14 md:py-16 bg-background border-b border-border/30 hidden md:block">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
           <div className="max-w-[560px]">
-            <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground/70 mb-6">
-              How We Build
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground/70 mb-5">
+              Built for permanence
             </p>
-            <div className="space-y-2">
+            <p className="text-sm text-foreground/70 leading-relaxed mb-5">
+              Most publishing problems don't come from bad intent—they come from records that weren't built to hold up over time.
+            </p>
+            <div className="space-y-1.5">
               <p className="text-[15px] text-foreground/85 leading-snug">
                 Permanent ownership records
               </p>
@@ -90,6 +93,31 @@ export default function MarketingPage() {
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 Clear music rights for your projects with proper authorization, documentation, and records that hold up.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Built for Permanence — Mobile Only (appears after Who It's For) */}
+      <section className="py-14 bg-background border-b border-border/30 md:hidden">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="max-w-[560px]">
+            <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground/70 mb-5">
+              Built for permanence
+            </p>
+            <p className="text-sm text-foreground/70 leading-relaxed mb-5">
+              Most publishing problems don't come from bad intent—they come from records that weren't built to hold up over time.
+            </p>
+            <div className="space-y-1.5">
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Permanent ownership records
+              </p>
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Deterministic splits and metadata
+              </p>
+              <p className="text-[15px] text-foreground/85 leading-snug">
+                Documentation designed to withstand audits, disputes, and time
               </p>
             </div>
           </div>
