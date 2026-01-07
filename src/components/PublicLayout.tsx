@@ -374,7 +374,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                 Two equal text-based pathways. No buttons. No visual hierarchy.
                 ═══════════════════════════════════════════════════════════════════ */}
             <div className="pt-16 pb-12 md:pt-20 md:pb-16">
-              <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
+              <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
                 <div className="max-w-[560px]">
                 {/* ═══════════════════════════════════════════════════════════════════
                     ACCESS BLOCK — Mirrors Navigation Exactly
@@ -415,7 +415,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
             ADMINISTRATIVE FOOTER — Uses canonical LegalRow component
             ═══════════════════════════════════════════════════════════════════════ */}
         <div className={`${footerVariant === "minimal" ? "pt-10 pb-8 md:pt-12 md:pb-10" : "pt-12 pb-10 md:pt-16 md:pb-12"}`}>
-          <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
+          <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
             <LegalRow variant="dark" showBrand={true} />
           </div>
         </div>
