@@ -295,23 +295,50 @@ export function AccessApproveModal({
   isProcessing = false,
   userName 
 }: AccessApproveModalProps) {
+  const [confirmed, setConfirmed] = useState(false);
+
+  const handleClose = () => {
+    setConfirmed(false);
+    onClose();
+  };
+
+  const handleConfirm = () => {
+    onConfirm();
+    setConfirmed(false);
+  };
+
   return (
-    <AlertDialog open={open} onOpenChange={onClose}>
+    <AlertDialog open={open} onOpenChange={handleClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Approve access</AlertDialogTitle>
+          <AlertDialogTitle>Approve account access</AlertDialogTitle>
           <AlertDialogDescription className="space-y-3">
             <p>
-              This will grant {userName || "this user"} access to Tribes Rights Licensing.
+              This will grant {userName || "this user"} access to submit license requests.
             </p>
-            <p>
-              A login email will be sent and the user will be able to submit license requests.
+            <p className="text-foreground/70 bg-muted/30 px-3 py-2 rounded text-[13px]">
+              Approving this account enables license requests. This does not establish a client relationship or imply license approval.
             </p>
           </AlertDialogDescription>
         </AlertDialogHeader>
+        
+        <div className="flex items-start gap-3 py-2">
+          <Checkbox 
+            id="confirm-access-approval" 
+            checked={confirmed}
+            onCheckedChange={(checked) => setConfirmed(checked === true)}
+          />
+          <label 
+            htmlFor="confirm-access-approval" 
+            className="text-[13px] text-foreground leading-relaxed cursor-pointer"
+          >
+            I understand this grants licensing access only.
+          </label>
+        </div>
+
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isProcessing}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm} disabled={isProcessing}>
+          <AlertDialogAction onClick={handleConfirm} disabled={!confirmed || isProcessing}>
             {isProcessing ? "Processing…" : "Approve access"}
           </AlertDialogAction>
         </AlertDialogFooter>

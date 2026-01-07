@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PublicLayout } from "@/components/PublicLayout";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -10,38 +11,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
-import { Info } from "lucide-react";
 import { z } from "zod";
 
 const licensingAccountSchema = z.object({
-  firstName: z.string().trim().min(1, "First name is required").max(100),
-  lastName: z.string().trim().min(1, "Last name is required").max(100),
+  fullName: z.string().trim().min(1, "Full name is required").max(200),
   company: z.string().trim().min(1, "Company or organization is required").max(200),
-  country: z.string().min(1, "Country is required"),
   email: z.string().trim().email("Please enter a valid email address").max(255),
-  companyType: z.string().min(1, "Usage type is required"),
-  licensingNeeds: z.string().trim().min(1, "Please describe your licensing needs").max(2000),
+  country: z.string().min(1, "Country is required"),
+  organizationType: z.string().min(1, "Organization type is required"),
+  intendedUse: z.string().trim().min(1, "Please describe your intended use").max(2000),
+  agreeToTerms: z.literal(true, {
+    errorMap: () => ({ message: "You must agree to the Privacy Policy and Terms of Use" }),
+  }),
 });
 
 type ViewState = "form" | "pending" | "submitted" | "exists";
 
 export default function LicensingAccountPage() {
   const [viewState, setViewState] = useState<ViewState>("form");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [company, setCompany] = useState("");
-  const [country, setCountry] = useState("");
   const [email, setEmail] = useState("");
-  const [companyType, setCompanyType] = useState("");
-  const [licensingNeeds, setLicensingNeeds] = useState("");
+  const [country, setCountry] = useState("");
+  const [organizationType, setOrganizationType] = useState("");
+  const [intendedUse, setIntendedUse] = useState("");
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -49,18 +46,18 @@ export default function LicensingAccountPage() {
     e.preventDefault();
 
     const result = licensingAccountSchema.safeParse({
-      firstName,
-      lastName,
+      fullName,
       company,
-      country,
       email,
-      companyType,
-      licensingNeeds,
+      country,
+      organizationType,
+      intendedUse,
+      agreeToTerms,
     });
 
     if (!result.success) {
       toast({
-        title: "Please complete all fields",
+        title: "Please complete all required fields",
         description: result.error.errors[0].message,
         variant: "destructive",
       });
@@ -70,15 +67,20 @@ export default function LicensingAccountPage() {
     setIsSubmitting(true);
 
     try {
+      // Parse full name into first/last for backend compatibility
+      const nameParts = fullName.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+
       const { data, error } = await supabase.functions.invoke("auth-check", {
         body: {
           email: email.trim().toLowerCase(),
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
+          firstName: firstName,
+          lastName: lastName,
           company: company.trim(),
           country,
-          companyType: `licensing_${companyType}`, // Prefix to distinguish licensing accounts
-          companyDescription: licensingNeeds.trim(),
+          companyType: `licensing_${organizationType}`,
+          companyDescription: intendedUse.trim(),
           isRequestAccess: true,
         },
       });
@@ -118,13 +120,13 @@ export default function LicensingAccountPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
-                Request received
+                Request submitted
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Your licensing account request has been submitted for review.
+                Your request has been submitted for review.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Once approved, you'll receive an email with instructions to sign in and begin submitting license requests.
+                If approved, you will receive an email with access instructions.
               </p>
               <Link 
                 to="/" 
@@ -147,7 +149,7 @@ export default function LicensingAccountPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
             <div className="max-w-[480px]">
               <h1 className="text-[32px] md:text-[40px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
-                Pending approval
+                Pending review
               </h1>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 A request for this email is already under review. You'll receive an email once it's approved.
@@ -198,10 +200,13 @@ export default function LicensingAccountPage() {
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
           <div className="max-w-[640px]">
             <h1 className="text-[32px] md:text-[40px] lg:text-[48px] font-semibold leading-[1.1] tracking-[-0.02em] text-foreground mb-6">
-              Create a Licensing Account
+              Request a Licensing Account
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-              For commercial, broadcast, or ministry use of music administered by Tribes.
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-4">
+              Licensing requests at Tribes are submitted through approved accounts to ensure accuracy, authorization, and permanent records.
+            </p>
+            <p className="text-sm text-muted-foreground/70 leading-relaxed">
+              Before a license can be requested, we review and approve the requesting party. This does not initiate a license or imply approval.
             </p>
           </div>
         </div>
@@ -215,185 +220,147 @@ export default function LicensingAccountPage() {
       {/* Form */}
       <section className="py-16 md:py-24">
         <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid md:grid-cols-2 gap-16 md:gap-24">
-            <div>
-              <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
-                Account Request
-              </h2>
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Input
-                      type="text"
-                      placeholder="First name"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      required
-                      disabled={isSubmitting}
-                      aria-label="First name"
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      type="text"
-                      placeholder="Last name"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      required
-                      disabled={isSubmitting}
-                      aria-label="Last name"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Input
-                    type="text"
-                    placeholder="Company or organization"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    aria-label="Company"
-                  />
-                </div>
-
-                <div>
-                  <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-                    <SelectTrigger aria-label="Country">
-                      <SelectValue placeholder="Country" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {COUNTRIES.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          {c}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-muted-foreground mt-1.5">
-                    Used to ensure licenses are issued correctly by territory.
-                  </p>
-                </div>
-
-                <div>
-                  <Input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    aria-label="Email"
-                  />
-                  <p className="text-xs text-muted-foreground mt-1.5">
-                    This will be your login email once approved.
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <Select value={companyType} onValueChange={setCompanyType} disabled={isSubmitting}>
-                      <SelectTrigger aria-label="Usage type" className="flex-1">
-                        <SelectValue placeholder="Primary usage type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="commercial">Commercial</SelectItem>
-                        <SelectItem value="broadcast">Broadcast (Film / TV / Ads)</SelectItem>
-                        <SelectItem value="ministry">Church / Ministry</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <button 
-                          type="button"
-                          className="text-muted-foreground hover:text-foreground transition-colors p-1"
-                          aria-label="Usage type definitions"
-                        >
-                          <Info className="w-4 h-4" />
-                        </button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-72 text-xs" align="end">
-                        <div className="space-y-2">
-                          <p><strong className="text-foreground">Commercial</strong> — Labels, publishers, brands, agencies</p>
-                          <p><strong className="text-foreground">Broadcast</strong> — Film, TV, games, advertising, trailers</p>
-                          <p><strong className="text-foreground">Church / Ministry</strong> — Religious organizations, worship services</p>
-                          <p><strong className="text-foreground">Other</strong> — Podcasts, social media, personal projects</p>
-                        </div>
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    This helps us apply the correct licensing structure.
-                  </p>
-                </div>
-
-                <div>
-                  <Textarea
-                    placeholder="Briefly describe the types of projects and licensing needs you anticipate."
-                    value={licensingNeeds}
-                    onChange={(e) => setLicensingNeeds(e.target.value)}
-                    required
-                    disabled={isSubmitting}
-                    rows={4}
-                    aria-label="Licensing needs"
-                  />
-                </div>
-
-                <button
-                  type="submit"
+          <div className="max-w-[520px]">
+            <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
+              Account Request
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Full name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
                   disabled={isSubmitting}
-                  className="h-10 px-6 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50"
-                >
-                  {isSubmitting ? "Submitting…" : "Request Account"}
-                </button>
-              </form>
+                  aria-label="Full name"
+                />
+              </div>
 
-              <p className="text-sm text-muted-foreground mt-6">
-                Already have an account?{" "}
-                <Link to="/auth" className="text-foreground hover:underline">
-                  Sign in
-                </Link>
-              </p>
-            </div>
+              <div>
+                <Input
+                  type="text"
+                  placeholder="Company / Organization"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  aria-label="Company or organization"
+                />
+              </div>
 
-            <div>
-              <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-8">
-                Why Approval Is Required
-              </h2>
-              <div className="space-y-8 text-muted-foreground">
-                <p className="text-sm leading-relaxed">
-                  Licensing requests are submitted through approved accounts to ensure accurate documentation and proper authorization.
+              <div>
+                <Input
+                  type="email"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  aria-label="Email address"
+                />
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  Used for account access.
                 </p>
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Identity verification</p>
-                  <p className="text-sm leading-relaxed">
-                    We verify the legitimacy of each account before granting access to licensing requests.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">Proper documentation</p>
-                  <p className="text-sm leading-relaxed">
-                    Approved accounts ensure licenses are issued with accurate legal and contact information.
-                  </p>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground mb-2">What happens next</p>
-                  <p className="text-sm leading-relaxed">
-                    Once approved, you'll receive an email with sign-in instructions. You can then submit license requests through your portal.
-                  </p>
-                </div>
-                <div className="pt-8 border-t border-border">
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    This account is for licensing music we administer. If you're interested in publishing administration services, 
-                    <Link to="/inquire" className="text-foreground hover:underline ml-1">
-                      submit a service inquiry
+              </div>
+
+              <div>
+                <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
+                  <SelectTrigger aria-label="Country">
+                    <SelectValue placeholder="Country" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {COUNTRIES.map((c) => (
+                      <SelectItem key={c} value={c}>
+                        {c}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
+                  <SelectTrigger aria-label="Organization type">
+                    <SelectValue placeholder="Organization type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="commercial_brand">Commercial / Brand</SelectItem>
+                    <SelectItem value="broadcast_media">Broadcast / Media</SelectItem>
+                    <SelectItem value="church_ministry">Church / Ministry</SelectItem>
+                    <SelectItem value="agency">Agency</SelectItem>
+                    <SelectItem value="independent_creator">Independent Creator</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div>
+                <Textarea
+                  placeholder="Example: advertising, broadcast, livestream, film, venue playback."
+                  value={intendedUse}
+                  onChange={(e) => setIntendedUse(e.target.value)}
+                  required
+                  disabled={isSubmitting}
+                  rows={4}
+                  aria-label="Intended use"
+                />
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  Describe your intended licensing use.
+                </p>
+              </div>
+
+              {/* Required consent */}
+              <div className="pt-4">
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="terms"
+                    checked={agreeToTerms}
+                    onCheckedChange={(checked) => setAgreeToTerms(checked === true)}
+                    disabled={isSubmitting}
+                    aria-label="Agree to terms"
+                  />
+                  <label 
+                    htmlFor="terms" 
+                    className="text-sm text-muted-foreground leading-relaxed cursor-pointer"
+                  >
+                    I agree to the{" "}
+                    <Link 
+                      to="/privacy" 
+                      className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                      target="_blank"
+                    >
+                      Privacy Policy
+                    </Link>
+                    {" "}and{" "}
+                    <Link 
+                      to="/terms" 
+                      className="text-foreground underline underline-offset-4 hover:text-muted-foreground"
+                      target="_blank"
+                    >
+                      Terms of Use
                     </Link>.
-                  </p>
+                  </label>
                 </div>
               </div>
-            </div>
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !agreeToTerms}
+                  className="h-10 px-6 bg-primary text-primary-foreground text-sm rounded-md hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "Submitting…" : "Request Account Review"}
+                </button>
+              </div>
+            </form>
+
+            <p className="text-sm text-muted-foreground mt-8">
+              Already have an account?{" "}
+              <Link to="/auth" className="text-foreground hover:underline">
+                Sign in
+              </Link>
+            </p>
           </div>
         </div>
       </section>
