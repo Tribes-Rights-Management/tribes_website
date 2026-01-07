@@ -217,7 +217,8 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* CTA section removed — canonical access section lives in PublicLayout footer */}
+      {/* Subtle boundary before footer CTA */}
+      <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
     </PublicLayout>
   );
 }
