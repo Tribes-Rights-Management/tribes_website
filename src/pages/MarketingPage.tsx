@@ -6,8 +6,8 @@ export default function MarketingPage() {
     <PublicLayout>
       {/* Hero - Near-black (#111214) */}
       <section className="bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
-          <div className="max-w-[720px]">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+          <div className="max-w-[640px]">
             {/* Logo */}
             <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
               TRIBES
@@ -41,7 +41,7 @@ export default function MarketingPage() {
 
       {/* Who It's For */}
       <section className="py-24 md:py-32">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
           <h2 className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-12">
             Who It's For
           </h2>
@@ -76,7 +76,7 @@ export default function MarketingPage() {
 
       {/* Music as an Asset - Full-width dark section */}
       <section id="asset-management" className="py-24 md:py-32" style={{ backgroundColor: '#111214' }}>
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Left Column */}
             <div>
@@ -154,7 +154,7 @@ export default function MarketingPage() {
 
       {/* How Copyright Clearance Works - Light operational section */}
       <section id="how-it-works" className="py-24 md:py-32 scroll-mt-24 bg-background">
-        <div className="max-w-[1200px] mx-auto px-6 md:px-8 lg:px-14">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
           <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-6 text-muted-foreground">
             How Licensing Works
           </h2>

@@ -92,7 +92,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
         }}
       >
         <nav 
-          className="max-w-[1200px] mx-auto h-full flex items-center justify-between px-6 md:px-8 lg:px-14"
+          className="max-w-[1400px] mx-auto h-full flex items-center justify-between px-6 md:px-10 lg:px-20"
         >
           {/* ═══════════════════════════════════════════════════════════════════════
               UNIFIED HEADER — Minimal Navigation (All Breakpoints)
