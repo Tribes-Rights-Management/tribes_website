@@ -15,7 +15,7 @@ export default function MarketingPage() {
             
             {/* H1 - Institutional weight, refined letter-spacing */}
             <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-12">
-              Rights management, built to last.
+              Publishing administration, built for precision.
             </h1>
             
             {/* Subhead - Generous spacing, soft gray */}
@@ -26,10 +26,7 @@ export default function MarketingPage() {
             {/* Divider */}
             <div className="w-16 h-px bg-white/10 mb-8" />
             
-            {/* Micro-line */}
-            <p className="text-xs font-light text-white/50 tracking-[0.05em] mb-20">
-              Accurate. Documented. Built for the long term.
-            </p>
+            {/* Micro-line removed - slogan is definitive, no secondary taglines */}
             
             {/* Understated link */}
             <a 
