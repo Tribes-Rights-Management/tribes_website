@@ -29,12 +29,12 @@ export default function MarketingPage() {
             {/* Micro-line removed - slogan is definitive, no secondary taglines */}
             
             {/* Understated link */}
-            <a 
-              href="#how-it-works" 
+            <Link 
+              to="/our-approach" 
               className="text-xs text-white/55 hover:text-white/75 transition-colors underline underline-offset-4 decoration-white/20"
             >
-              How it works
-            </a>
+              Our approach
+            </Link>
           </div>
         </div>
       </section>
