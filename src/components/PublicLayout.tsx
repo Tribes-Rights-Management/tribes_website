@@ -6,9 +6,11 @@ import { Footer } from "@/components/Footer";
 
 interface PublicLayoutProps {
   children: ReactNode;
+  hideMobileNav?: boolean;
+  disableFooterLinks?: boolean;
 }
 
-export function PublicLayout({ children }: PublicLayoutProps) {
+export function PublicLayout({ children, hideMobileNav = false, disableFooterLinks = false }: PublicLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerDark, setHeaderDark] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
@@ -117,106 +119,112 @@ export function PublicLayout({ children }: PublicLayoutProps) {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden p-2 -mr-2 ${textColor}`}
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {!hideMobileNav && (
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`md:hidden p-2 -mr-2 ${textColor}`}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu - Right slide-in drawer */}
-        {/* Backdrop */}
-        <div 
-          className={`fixed inset-0 bg-black/70 z-40 md:hidden transition-opacity duration-250 ease-out ${
-            mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
-          onClick={() => setMobileMenuOpen(false)}
-          aria-hidden="true"
-        />
-        
-        {/* Drawer */}
-        <nav 
-          className={`fixed top-0 right-0 h-screen w-[80%] max-w-[320px] bg-black z-50 md:hidden flex flex-col transition-transform duration-250 ease-out ${
-            mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          aria-label="Mobile navigation"
-        >
-          {/* Close button */}
-          <div className="flex justify-end p-5">
-            <button
+        {!hideMobileNav && (
+          <>
+            {/* Backdrop */}
+            <div 
+              className={`fixed inset-0 bg-black/70 z-40 md:hidden transition-opacity duration-250 ease-out ${
+                mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-white/60 hover:text-white transition-opacity"
-              aria-label="Close menu"
+              aria-hidden="true"
+            />
+            
+            {/* Drawer */}
+            <nav 
+              className={`fixed top-0 right-0 h-screen w-[80%] max-w-[320px] bg-black z-50 md:hidden flex flex-col transition-transform duration-250 ease-out ${
+                mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+              }`}
+              aria-label="Mobile navigation"
             >
-              <X size={20} />
-            </button>
-          </div>
-          
-          {/* Top group */}
-          <div className="flex flex-col px-6 pt-2 gap-5">
-            <Link 
-              to="/auth" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-medium text-white/95 hover:text-white transition-opacity"
-            >
-              Client Sign In
-            </Link>
-            <Link 
-              to="/contact" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-            >
-              Contact
-            </Link>
-            <Link 
-              to="/services" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-            >
-              Services
-            </Link>
-          </div>
-          
-          {/* Middle group */}
-          <div className="flex flex-col px-6 pt-8 gap-5">
-            <Link 
-              to="/licensing-account" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-            >
-              Request Licensing Access
-            </Link>
-            <Link 
-              to="/service-inquiry" 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-            >
-              Inquire About Services
-            </Link>
-          </div>
-          
-          {/* Bottom legal group */}
-          <div className="mt-auto px-6 pb-10">
-            <div className="border-t border-white/10 pt-6 flex flex-col gap-4">
-              <Link 
-                to="/privacy" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
-              >
-                Privacy Policy
-              </Link>
-              <Link 
-                to="/terms" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
-              >
-                Terms of Use
-              </Link>
-            </div>
-          </div>
-        </nav>
+              {/* Close button */}
+              <div className="flex justify-end p-5">
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-white/60 hover:text-white transition-opacity"
+                  aria-label="Close menu"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              
+              {/* Top group */}
+              <div className="flex flex-col px-6 pt-2 gap-5">
+                <Link 
+                  to="/auth" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[15px] font-medium text-white/95 hover:text-white transition-opacity"
+                >
+                  Client Sign In
+                </Link>
+                <Link 
+                  to="/contact" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
+                >
+                  Contact
+                </Link>
+                <Link 
+                  to="/services" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
+                >
+                  Services
+                </Link>
+              </div>
+              
+              {/* Middle group */}
+              <div className="flex flex-col px-6 pt-8 gap-5">
+                <Link 
+                  to="/licensing-account" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
+                >
+                  Request Licensing Access
+                </Link>
+                <Link 
+                  to="/service-inquiry" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
+                >
+                  Inquire About Services
+                </Link>
+              </div>
+              
+              {/* Bottom legal group */}
+              <div className="mt-auto px-6 pb-10">
+                <div className="border-t border-white/10 pt-6 flex flex-col gap-4">
+                  <Link 
+                    to="/privacy" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link 
+                    to="/terms" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
+                  >
+                    Terms of Use
+                  </Link>
+                </div>
+              </div>
+            </nav>
+          </>
+        )}
       </header>
 
       {/* Main */}
@@ -225,7 +233,7 @@ export function PublicLayout({ children }: PublicLayoutProps) {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer disableLinks={disableFooterLinks} />
     </div>
   );
 }
