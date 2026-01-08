@@ -24,63 +24,63 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-semibold mb-2">Track Details</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[14px] text-muted-foreground">
           Enter the specific track information.
         </p>
       </div>
 
       <div className="grid gap-4">
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="track_title">Track Title *</Label>
           <Input
             id="track_title"
             value={data.track_title}
             onChange={(e) => onUpdate("track_title", e.target.value)}
-            className={errors.track_title ? "border-destructive" : ""}
+            className={errors.track_title ? "border-[#737373]" : ""}
           />
           {errors.track_title && (
-            <p className="text-xs text-destructive">{errors.track_title}</p>
+            <p className="text-[13px] text-[#525252] leading-snug">{errors.track_title}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="track_artist">Track Artist *</Label>
           <Input
             id="track_artist"
             value={data.track_artist}
             onChange={(e) => onUpdate("track_artist", e.target.value)}
-            className={errors.track_artist ? "border-destructive" : ""}
+            className={errors.track_artist ? "border-[#737373]" : ""}
           />
           {errors.track_artist && (
-            <p className="text-xs text-destructive">{errors.track_artist}</p>
+            <p className="text-[13px] text-[#525252] leading-snug">{errors.track_artist}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="track_isrc">ISRC *</Label>
           <Input
             id="track_isrc"
             value={data.track_isrc}
             onChange={(e) => onUpdate("track_isrc", e.target.value)}
             placeholder="e.g., USRC17607839"
-            className={errors.track_isrc ? "border-destructive" : ""}
+            className={errors.track_isrc ? "border-[#737373]" : ""}
           />
           {errors.track_isrc && (
-            <p className="text-xs text-destructive">{errors.track_isrc}</p>
+            <p className="text-[13px] text-[#525252] leading-snug">{errors.track_isrc}</p>
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="runtime">Runtime (MM:SS) *</Label>
           <Input
             id="runtime"
             value={data.runtime}
             onChange={(e) => onUpdate("runtime", e.target.value)}
             placeholder="e.g., 3:45"
-            className={errors.runtime ? "border-destructive" : ""}
+            className={errors.runtime ? "border-[#737373]" : ""}
           />
           {errors.runtime && (
-            <p className="text-xs text-destructive">{errors.runtime}</p>
+            <p className="text-[13px] text-[#525252] leading-snug">{errors.runtime}</p>
           )}
         </div>
 
@@ -93,19 +93,20 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
                 onUpdate("appears_multiple_times", !!checked);
                 if (!checked) onUpdate("times_count", null);
               }}
+              className="shrink-0 mt-0.5"
             />
             <div className="space-y-1">
-              <Label htmlFor="appears_multiple_times" className="text-sm cursor-pointer">
+              <Label htmlFor="appears_multiple_times" className="text-[14px] cursor-pointer">
                 Track appears multiple times in the product
               </Label>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-[13px] text-muted-foreground leading-snug">
                 Check this if the same track appears in multiple places (e.g., different versions)
               </p>
             </div>
           </div>
 
           {data.appears_multiple_times && (
-            <div className="ml-6 space-y-2">
+            <div className="ml-6 space-y-1.5">
               <Label htmlFor="times_count">Number of times</Label>
               <Input
                 id="times_count"
@@ -119,7 +120,7 @@ export function TrackDetailsStep({ data, onUpdate, errors }: TrackDetailsStepPro
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="additional_track_info">Additional Information</Label>
           <Textarea
             id="additional_track_info"
