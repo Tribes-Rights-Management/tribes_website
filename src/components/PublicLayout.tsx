@@ -6,11 +6,11 @@ import { Footer } from "@/components/Footer";
 
 interface PublicLayoutProps {
   children: ReactNode;
-  hideNav?: boolean;
+  logoOnly?: boolean;
   disableFooterLinks?: boolean;
 }
 
-export function PublicLayout({ children, hideNav = false, disableFooterLinks = false }: PublicLayoutProps) {
+export function PublicLayout({ children, logoOnly = false, disableFooterLinks = false }: PublicLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerDark, setHeaderDark] = useState(true);
   const mainRef = useRef<HTMLElement>(null);
@@ -90,46 +90,50 @@ export function PublicLayout({ children, hideNav = false, disableFooterLinks = f
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
-      {!hideNav && (
-        <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg} ${borderColor} border-b`}>
-          <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-14">
-            <Link to="/" className="flex items-center">
-              <span className={`text-base font-semibold tracking-tight ${textColor}`}>{BRAND.wordmark}</span>
-            </Link>
-            
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-6">
-              <Link 
-                to="/services" 
-                className={`text-sm transition-colors ${mutedColor}`}
-              >
-                Services
-              </Link>
-              <Link 
-                to="/our-approach" 
-                className={`text-sm transition-colors ${mutedColor}`}
-              >
-                Our Approach
-              </Link>
-              <Link 
-                to="/auth" 
-                className={`text-sm transition-colors ${mutedColor}`}
-              >
-                Sign in
-              </Link>
-            </nav>
+      <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg} ${borderColor} border-b`}>
+        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 flex items-center justify-between h-14">
+          <Link to="/" className="flex items-center">
+            <span className={`text-base font-semibold tracking-tight ${textColor}`}>{BRAND.wordmark}</span>
+          </Link>
+          
+          {!logoOnly && (
+            <>
+              {/* Desktop Nav */}
+              <nav className="hidden md:flex items-center gap-6">
+                <Link 
+                  to="/services" 
+                  className={`text-sm transition-colors ${mutedColor}`}
+                >
+                  Services
+                </Link>
+                <Link 
+                  to="/our-approach" 
+                  className={`text-sm transition-colors ${mutedColor}`}
+                >
+                  Our Approach
+                </Link>
+                <Link 
+                  to="/auth" 
+                  className={`text-sm transition-colors ${mutedColor}`}
+                >
+                  Sign in
+                </Link>
+              </nav>
 
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`md:hidden p-2 -mr-2 ${textColor}`}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className={`md:hidden p-2 -mr-2 ${textColor}`}
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </>
+          )}
+        </div>
 
-          {/* Mobile Menu - Right slide-in drawer */}
+        {/* Mobile Menu - Right slide-in drawer */}
+        {!logoOnly && (
           <>
             {/* Backdrop */}
             <div 
@@ -222,8 +226,8 @@ export function PublicLayout({ children, hideNav = false, disableFooterLinks = f
               </div>
             </nav>
           </>
-        </header>
-      )}
+        )}
+      </header>
 
       {/* Main */}
       <main ref={mainRef} className="flex-1">
