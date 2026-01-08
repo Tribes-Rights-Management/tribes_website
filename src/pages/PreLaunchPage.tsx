@@ -30,7 +30,7 @@ export default function PreLaunchPage() {
               onClick={scrollToContact}
               className="text-sm text-white/75 hover:text-white transition-colors duration-150 underline underline-offset-4 decoration-white/30"
             >
-              Contact us
+              Contact
             </button>
           </div>
         </div>
@@ -47,7 +47,7 @@ export default function PreLaunchPage() {
             <div className="space-y-6">
               <div>
                 <p className="text-muted-foreground leading-relaxed mb-2">
-                  For inquiries regarding publishing administration and rights management, please contact us at:
+                  For inquiries regarding publishing administration and rights management, please reach out at:
                 </p>
                 <a
                   href="mailto:admin@tribesassets.com"
