@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { WizardFormData, DEFAULT_WIZARD_FORM } from "@/types";
-import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Footer } from "@/components/Footer";
 
 import { WizardProgress } from "@/components/wizard/WizardProgress";
@@ -345,18 +345,24 @@ export default function RequestFormPage() {
             {currentStep === 7 && <ThankYouStep />}
           </div>
 
-          {/* Navigation */}
+          {/* INSTITUTIONAL NAVIGATION (LOCKED) */}
+          {/* - Back preserves data without revalidation */}
+          {/* - Next advances only when required fields valid */}
+          {/* - No icons, minimal styling */}
           {currentStep >= 1 && currentStep <= 6 && (
-            <div className="flex justify-between mt-8">
-              <Button variant="ghost" onClick={goBack} disabled={currentStep === 1}>
-                <ArrowLeft className="w-4 h-4 mr-2" />
+            <div className="flex justify-between mt-8 pt-6 border-t border-[#e5e5e5]">
+              <Button 
+                variant="ghost" 
+                onClick={goBack} 
+                disabled={currentStep === 1}
+                className="text-muted-foreground"
+              >
                 Back
               </Button>
               
               {currentStep < 6 ? (
                 <Button onClick={goNext}>
                   Next
-                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               ) : (
                 <Button onClick={submitRequest} disabled={isSubmitting}>
@@ -366,7 +372,7 @@ export default function RequestFormPage() {
                       Submitting…
                     </>
                   ) : (
-                    "Submit for Review"
+                    "Submit"
                   )}
                 </Button>
               )}
