@@ -33,7 +33,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     const handleScroll = () => {
       // Find all sections and determine which one is at the top
       const sections = document.querySelectorAll('section[data-theme]');
-      const headerHeight = 72; // md:h-[72px] for desktop
+      const headerHeight = 64; // md:h-16 for desktop
       
       let isDark = true; // Default to dark for pages with dark heroes
       
@@ -95,7 +95,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     <div className="min-h-screen flex flex-col bg-background">
       {/* Header */}
       <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg} ${borderColor} border-b`}>
-        <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-14 md:h-[72px]`}>
+        <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-14 md:h-16`}>
           <Link to="/" className="flex items-center">
             <img 
               src={tribesLogoWhite} 
@@ -154,7 +154,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               onClick={() => {
                 document.getElementById(mobileContactAnchor)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={`text-sm transition-colors ${mutedColor}`}
+              className={`text-sm leading-none transition-colors ${mutedColor}`}
             >
               Contact
             </button>
