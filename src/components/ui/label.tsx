@@ -4,7 +4,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const labelVariants = cva("text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70");
+// Institutional-grade label (LOCKED)
+// 14px, font-medium, foreground color
+const labelVariants = cva("text-[14px] font-medium text-foreground leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-60");
 
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
