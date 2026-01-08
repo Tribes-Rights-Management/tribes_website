@@ -14,6 +14,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
+import { getSignInUrl, isPreviewEnvironment } from "@/lib/domains";
 import { z } from "zod";
 
 const licensingAccountSchema = z.object({
@@ -176,12 +177,21 @@ export default function LicensingAccountPage() {
               <p className="text-muted-foreground leading-relaxed mb-6">
                 An account with this email already exists.
               </p>
-              <Link 
-                to="/auth" 
-                className="text-[14px] text-foreground hover:text-muted-foreground transition-colors duration-150 underline underline-offset-4"
-              >
-                Client Sign In
-              </Link>
+              {isPreviewEnvironment() ? (
+                <Link 
+                  to="/auth" 
+                  className="text-[14px] text-foreground hover:text-muted-foreground transition-colors duration-150 underline underline-offset-4"
+                >
+                  Client Sign In
+                </Link>
+              ) : (
+                <a 
+                  href={getSignInUrl("/portal")} 
+                  className="text-[14px] text-foreground hover:text-muted-foreground transition-colors duration-150 underline underline-offset-4"
+                >
+                  Client Sign In
+                </a>
+              )}
             </div>
           </div>
         </section>
@@ -347,9 +357,15 @@ export default function LicensingAccountPage() {
 
             <div className="flex flex-col gap-2 mt-6 text-center md:text-left">
               <p className="text-[13px] text-muted-foreground/60">
-                <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
-                  Client Sign In
-                </Link>
+                {isPreviewEnvironment() ? (
+                  <Link to="/auth" className="text-muted-foreground hover:text-foreground transition-colors">
+                    Client Sign In
+                  </Link>
+                ) : (
+                  <a href={getSignInUrl("/portal")} className="text-muted-foreground hover:text-foreground transition-colors">
+                    Client Sign In
+                  </a>
+                )}
               </p>
               <p className="text-[12px] text-muted-foreground/40">
                 <Link 

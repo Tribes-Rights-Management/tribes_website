@@ -5,6 +5,8 @@ import { AdminBanner, AdminFooterNote } from "@/components/admin/AdminGuardrails
 import { AccountMenu } from "@/components/AccountMenu";
 import { ImpersonationBanner } from "@/components/ImpersonationBanner";
 import { LegalRow } from "@/components/LegalRow";
+import { getMarketingSiteUrl, isPreviewEnvironment } from "@/lib/domains";
+import { ExternalLink } from "lucide-react";
 
 
 interface DashboardLayoutProps {
@@ -73,6 +75,28 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               </li>
             ))}
           </ul>
+          
+          {/* Divider */}
+          <div className="h-px bg-border/30 my-4 mx-4" />
+          
+          {/* Back to site link */}
+          {isPreviewEnvironment() ? (
+            <Link
+              to="/"
+              className="flex items-center gap-1.5 px-4 h-9 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Back to site
+            </Link>
+          ) : (
+            <a
+              href={getMarketingSiteUrl("/")}
+              className="flex items-center gap-1.5 px-4 h-9 text-[12px] text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Back to site
+            </a>
+          )}
         </nav>
 
         {/* Footer */}
