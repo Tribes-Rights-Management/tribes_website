@@ -6,10 +6,9 @@ import { Footer } from "@/components/Footer";
 
 interface PublicLayoutProps {
   children: ReactNode;
-  footerVariant?: "full" | "minimal";
 }
 
-export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutProps) {
+export function PublicLayout({ children }: PublicLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -103,7 +102,7 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
       </main>
 
       {/* Footer */}
-      <Footer variant={footerVariant} />
+      <Footer />
     </div>
   );
 }

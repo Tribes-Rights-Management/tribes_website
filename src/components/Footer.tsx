@@ -4,23 +4,10 @@ import { getCopyrightLine } from "@/lib/copyright";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
-  variant?: "full" | "minimal";
   className?: string;
 }
 
-export function Footer({ variant = "full", className }: FooterProps) {
-  if (variant === "minimal") {
-    return (
-      <footer className={cn("py-8", className)}>
-        <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
-          <p className="text-xs text-muted-foreground">
-            {getCopyrightLine()}
-          </p>
-        </div>
-      </footer>
-    );
-  }
-
+export function Footer({ className }: FooterProps) {
   return (
     <footer className={cn("pt-16 pb-10", className)}>
       <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">

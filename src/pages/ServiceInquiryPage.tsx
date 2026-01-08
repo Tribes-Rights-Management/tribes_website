@@ -90,7 +90,7 @@ export default function ServiceInquiryPage() {
   // Post-submission confirmation
   if (isSubmitted) {
     return (
-      <PublicLayout footerVariant="minimal">
+      <PublicLayout>
         <section className="pt-28 pb-24 md:pt-36 md:pb-32">
           <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
             <div className="max-w-[560px]">
@@ -114,7 +114,7 @@ export default function ServiceInquiryPage() {
   }
 
   return (
-    <PublicLayout footerVariant="minimal">
+    <PublicLayout>
       {/* Header */}
       <section className="pt-28 pb-8 md:pt-36 md:pb-10">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12">
