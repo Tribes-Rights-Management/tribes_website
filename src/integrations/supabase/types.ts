@@ -84,6 +84,7 @@ export type Database = {
           ip_hash: string | null
           location: string
           message: string
+          org_id: string | null
           source_page: string
           status: Database["public"]["Enums"]["contact_status"]
           updated_at: string
@@ -100,6 +101,7 @@ export type Database = {
           ip_hash?: string | null
           location: string
           message: string
+          org_id?: string | null
           source_page?: string
           status?: Database["public"]["Enums"]["contact_status"]
           updated_at?: string
@@ -116,6 +118,7 @@ export type Database = {
           ip_hash?: string | null
           location?: string
           message?: string
+          org_id?: string | null
           source_page?: string
           status?: Database["public"]["Enums"]["contact_status"]
           updated_at?: string
@@ -123,7 +126,15 @@ export type Database = {
           user_agent?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contact_submissions_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       generated_documents: {
         Row: {
@@ -216,6 +227,7 @@ export type Database = {
           licensee_email: string | null
           licensee_legal_name: string | null
           media_type: Database["public"]["Enums"]["media_type"] | null
+          org_id: string | null
           organization: string | null
           package_reference: string
           paid_at: string | null
@@ -278,6 +290,7 @@ export type Database = {
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
+          org_id?: string | null
           organization?: string | null
           package_reference: string
           paid_at?: string | null
@@ -340,6 +353,7 @@ export type Database = {
           licensee_email?: string | null
           licensee_legal_name?: string | null
           media_type?: Database["public"]["Enums"]["media_type"] | null
+          org_id?: string | null
           organization?: string | null
           package_reference?: string
           paid_at?: string | null
@@ -376,7 +390,15 @@ export type Database = {
           user_id?: string
           writers_publishers?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "license_packages_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       license_types: {
         Row: {
@@ -519,6 +541,59 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      organization_members: {
+        Row: {
+          created_at: string
+          id: string
+          member_role: string
+          org_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_role?: string
+          org_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_role?: string
+          org_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_members_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       policy_acknowledgments: {
         Row: {
@@ -702,6 +777,7 @@ export type Database = {
         Args: { p_status: Database["public"]["Enums"]["request_status"] }
         Returns: number
       }
+      get_user_org_ids: { Args: { _user_id: string }; Returns: string[] }
       get_user_role: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["app_role"]
@@ -712,6 +788,10 @@ export type Database = {
       }
       has_acknowledged_policy: {
         Args: { _policy_version: string; _user_id: string }
+        Returns: boolean
+      }
+      has_org_access: {
+        Args: { _org_id: string; _user_id: string }
         Returns: boolean
       }
       has_role: {
