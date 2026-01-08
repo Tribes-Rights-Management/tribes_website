@@ -125,22 +125,6 @@ export default function PreLaunchPage() {
               {getCopyrightLine()}
             </p>
             
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-              <Link 
-                to="/privacy" 
-                className="text-[#B5B5B5] transition-colors duration-150 hover:text-white py-1"
-                style={{ fontSize: 12 }}
-              >
-                Privacy
-              </Link>
-              <Link 
-                to="/terms" 
-                className="text-[#B5B5B5] transition-colors duration-150 hover:text-white py-1"
-                style={{ fontSize: 12 }}
-              >
-                Terms
-              </Link>
-            </div>
           </div>
         </div>
       </footer>
