@@ -31,7 +31,7 @@ export default function PrivacyPage() {
             <div>
               <h3 className="text-sm font-medium text-foreground mb-2">Website Visitors</h3>
               <p>
-                When you fill out a form, sign up for updates, or contact us, we may collect your name, email address, phone number, and any other information you choose to share.
+                When you fill out a form, sign up for updates, or reach out, we may collect your name, email address, phone number, and any other information you choose to share.
               </p>
             </div>
 
@@ -128,7 +128,7 @@ export default function PrivacyPage() {
               Executed agreements and related records may not be eligible for deletion where retention is legally required.
             </p>
             <p>
-              To make a request, contact us at admin@tribesassets.com.
+              To make a request, email admin@tribesassets.com.
             </p>
           </div>
         </section>
