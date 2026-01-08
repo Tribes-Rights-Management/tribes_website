@@ -3,6 +3,8 @@ import { ReactNode, useState, useEffect, useRef, useCallback } from "react";
 import { Menu } from "lucide-react";
 import { BRAND, LOGO_SIZES, NAV_SIZES } from "@/lib/brand";
 import { LegalRow } from "@/components/LegalRow";
+import { AppLink } from "@/components/AppLink";
+import { getSignInUrl, isPreviewEnvironment } from "@/lib/domains";
 import FocusTrap from "focus-trap-react";
 import {
   Sheet,
@@ -127,22 +129,39 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
           
           <div className="flex items-center" style={{ gap: 24 }}>
             {/* Client Sign In — Desktop only, quiet typography */}
-            <Link 
-              to="/auth" 
-              className={`hidden lg:block transition-opacity duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
-                location.pathname === "/auth"
-                  ? isHeaderDark ? "text-white/90" : "text-foreground/90"
-                  : isHeaderDark ? "text-white/65 hover:text-white/85" : "text-foreground/60 hover:text-foreground/80"
-              }`}
-              style={{
-                fontSize: 14,
-                fontWeight: 450,
-                letterSpacing: "0.005em",
-                lineHeight: 1.5,
-              }}
-            >
-              Client Sign In
-            </Link>
+            {isPreviewEnvironment() ? (
+              <Link 
+                to="/auth" 
+                className={`hidden lg:block transition-opacity duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
+                  location.pathname === "/auth"
+                    ? isHeaderDark ? "text-white/90" : "text-foreground/90"
+                    : isHeaderDark ? "text-white/65 hover:text-white/85" : "text-foreground/60 hover:text-foreground/80"
+                }`}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 450,
+                  letterSpacing: "0.005em",
+                  lineHeight: 1.5,
+                }}
+              >
+                Client Sign In
+              </Link>
+            ) : (
+              <a 
+                href={getSignInUrl("/portal")} 
+                className={`hidden lg:block transition-opacity duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/30 ${
+                  isHeaderDark ? "text-white/65 hover:text-white/85" : "text-foreground/60 hover:text-foreground/80"
+                }`}
+                style={{
+                  fontSize: 14,
+                  fontWeight: 450,
+                  letterSpacing: "0.005em",
+                  lineHeight: 1.5,
+                }}
+              >
+                Client Sign In
+              </a>
+            )}
             
             {/* Hamburger Menu — All breakpoints */}
             <Sheet open={mobileMenuOpen} onOpenChange={(open) => {
@@ -215,29 +234,49 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                         44px min-height for accessible click targets
                         ═══════════════════════════════════════════════════════════ */}
                     <div className="flex flex-col" style={{ gap: 4 }}>
-                      <Link 
-                        to="/auth" 
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                          location.pathname === "/auth"
-                            ? "text-foreground"
-                            : "text-foreground/90 hover:text-foreground"
-                        }`}
-                        style={{ 
-                          minHeight: 48,
-                          paddingTop: 2,
-                          paddingBottom: 2,
-                          fontSize: 15,
-                          fontWeight: 600,
-                          lineHeight: 1.5,
-                          letterSpacing: "0.005em",
-                        }}
-                      >
-                        <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
-                          Client Sign In
-                        </span>
-                      </Link>
-                      <Link 
+                      {isPreviewEnvironment() ? (
+                        <Link 
+                          to="/auth" 
+                          onClick={() => setMobileMenuOpen(false)}
+                          className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                            location.pathname === "/auth"
+                              ? "text-foreground"
+                              : "text-foreground/90 hover:text-foreground"
+                          }`}
+                          style={{ 
+                            minHeight: 48,
+                            paddingTop: 2,
+                            paddingBottom: 2,
+                            fontSize: 15,
+                            fontWeight: 600,
+                            lineHeight: 1.5,
+                            letterSpacing: "0.005em",
+                          }}
+                        >
+                          <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                            Client Sign In
+                          </span>
+                        </Link>
+                      ) : (
+                        <a 
+                          href={getSignInUrl("/portal")} 
+                          className="group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background text-foreground/90 hover:text-foreground"
+                          style={{ 
+                            minHeight: 48,
+                            paddingTop: 2,
+                            paddingBottom: 2,
+                            fontSize: 15,
+                            fontWeight: 600,
+                            lineHeight: 1.5,
+                            letterSpacing: "0.005em",
+                          }}
+                        >
+                          <span className="group-hover:underline group-hover:underline-offset-4 group-hover:decoration-1">
+                            Client Sign In
+                          </span>
+                        </a>
+                      )}
+                      <Link
                         to="/services" 
                         onClick={() => setMobileMenuOpen(false)}
                         className={`group transition-colors duration-150 flex items-center rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
@@ -416,12 +455,21 @@ export function PublicLayout({ children, footerVariant = "full" }: PublicLayoutP
                     >
                       Inquire About Services
                     </Link>
-                    <Link 
-                      to="/auth"
-                      className="text-[15px] text-[#EDEDED] hover:text-white transition-colors duration-150"
-                    >
-                      Client Sign In
-                    </Link>
+                    {isPreviewEnvironment() ? (
+                      <Link 
+                        to="/auth"
+                        className="text-[15px] text-[#EDEDED] hover:text-white transition-colors duration-150"
+                      >
+                        Client Sign In
+                      </Link>
+                    ) : (
+                      <a 
+                        href={getSignInUrl("/portal")}
+                        className="text-[15px] text-[#EDEDED] hover:text-white transition-colors duration-150"
+                      >
+                        Client Sign In
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>

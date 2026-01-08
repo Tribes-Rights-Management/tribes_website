@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { DomainRedirect } from "@/components/DomainRedirect";
+import { SeoMeta } from "@/components/SeoMeta";
 
 import MarketingPage from "./pages/MarketingPage";
 import OurApproachPage from "./pages/OurApproachPage";
@@ -52,10 +54,11 @@ function AppRoutes() {
 
   return (
     <Routes>
+      {/* Auth routes (app subdomain in production) */}
       <Route path="/auth" element={user ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace /> : <AuthPage />} />
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       
-      {/* Public pages */}
+      {/* Public/Marketing pages (root domain in production) */}
       <Route path="/" element={
         user 
           ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
@@ -71,7 +74,7 @@ function AppRoutes() {
       <Route path="/privacy" element={<PrivacyPage />} />
       <Route path="/terms" element={<TermsPage />} />
       
-      {/* User Portal Routes */}
+      {/* User Portal Routes (app subdomain in production) */}
       <Route path="/portal" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
       <Route path="/portal/licenses" element={<ProtectedRoute><PortalLicensesPage /></ProtectedRoute>} />
       <Route path="/portal/account" element={<ProtectedRoute><MyAccountPage /></ProtectedRoute>} />
@@ -87,7 +90,7 @@ function AppRoutes() {
       <Route path="/request/:id" element={<Navigate to="/portal/request/:id" replace />} />
       <Route path="/request/:id/edit" element={<Navigate to="/portal/request/:id/edit" replace />} />
       
-      {/* Admin Console Routes */}
+      {/* Admin Console Routes (app subdomain in production) */}
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboardPage /></ProtectedRoute>} />
       <Route path="/admin/licenses" element={<ProtectedRoute requireAdmin><AdminLicensesPage /></ProtectedRoute>} />
       <Route path="/admin/access-requests" element={<ProtectedRoute requireAdmin><AdminAccessRequestsPage /></ProtectedRoute>} />
@@ -113,6 +116,8 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <DomainRedirect />
+        <SeoMeta />
         <AuthProvider>
           <AppRoutes />
         </AuthProvider>

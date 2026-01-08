@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Footer } from "@/components/Footer";
+import { BackToSite } from "@/components/BackToSite";
 import { useAuth } from "@/contexts/AuthContext";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -220,6 +221,9 @@ export default function AuthPage() {
   if (viewState === "check_email") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <div className="px-6 py-4">
+          <BackToSite />
+        </div>
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Check your email</h1>
@@ -254,6 +258,9 @@ export default function AuthPage() {
   if (viewState === "pending") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <div className="px-6 py-4">
+          <BackToSite />
+        </div>
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Pending approval</h1>
@@ -277,6 +284,9 @@ export default function AuthPage() {
   if (viewState === "new_request") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <div className="px-6 py-4">
+          <BackToSite />
+        </div>
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Request received</h1>
@@ -300,6 +310,9 @@ export default function AuthPage() {
   if (viewState === "rejected") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <div className="px-6 py-4">
+          <BackToSite />
+        </div>
         <main className="flex-1 flex items-center justify-center px-4">
           <div className="w-full max-w-md text-center">
             <h1 className="mb-2">Access unavailable</h1>
@@ -323,6 +336,9 @@ export default function AuthPage() {
   if (viewState === "request_form") {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <div className="px-6 py-4">
+          <BackToSite />
+        </div>
         <main className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
@@ -496,6 +512,11 @@ export default function AuthPage() {
   // Main login form
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      {/* Back to site link at top */}
+      <div className="px-6 py-4">
+        <BackToSite />
+      </div>
+      
       <main className="flex-1 flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
