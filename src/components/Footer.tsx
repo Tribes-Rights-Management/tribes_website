@@ -11,58 +11,51 @@ interface FooterProps {
 }
 
 export function Footer({ className, disableLinks = false, hideLinks = false }: FooterProps) {
+  // Shared link styles with Apple-grade timing
+  const baseLinkClass = "text-[13px] transition-opacity duration-150 ease-out focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/20 focus-visible:outline-offset-2";
+  const infoLinkClass = cn(baseLinkClass, "text-white/85 hover:opacity-100");
+  const legalLinkClass = cn(baseLinkClass, "text-white/55 hover:opacity-100");
+
   return (
-    <footer className={cn("pt-16 pb-10 bg-[#111214]", className)}>
+    <footer className={cn("pt-14 pb-8 bg-[#111214]", className)}>
       <div className={CONTENT_CONTAINER_CLASS}>
-        {/* Brand + Copyright */}
-        <div className="mb-8">
-          <div className="mb-2">
-            <span 
-              className="text-[13px] md:text-[14px] font-bold tracking-[-0.02em] uppercase text-white/90"
-              style={{ fontWeight: 700 }}
-            >
-              {BRAND.wordmark}
-            </span>
-          </div>
-          <p className="text-xs text-white/50">
+        {/* Brand + Copyright — tight vertical stack */}
+        <div className="mb-6">
+          <span 
+            className="text-[13px] md:text-[14px] font-bold uppercase text-white block"
+            style={{ fontWeight: 700, letterSpacing: '0.04em' }}
+          >
+            {BRAND.wordmark}
+          </span>
+          <p className="text-[11px] text-white/55 mt-1">
             {getCopyrightLine()}
           </p>
         </div>
 
-        {/* Navigation Links - Horizontal row */}
+        {/* Navigation Links — single row, split hierarchy */}
         {!hideLinks && (
           <nav className="flex flex-wrap gap-x-6 gap-y-2">
             {disableLinks ? (
               <>
-                <span className="text-sm text-white/50">How Administration Works</span>
-                <span className="text-sm text-white/50">How Licensing Works</span>
-                <span className="text-sm text-white/50">Privacy Policy</span>
-                <span className="text-sm text-white/50">Terms of Use</span>
+                <span className="text-[13px] text-white/55">How Administration Works</span>
+                <span className="text-[13px] text-white/55">How Licensing Works</span>
+                <span className="text-[13px] text-white/55">Privacy Policy</span>
+                <span className="text-[13px] text-white/55">Terms of Use</span>
               </>
             ) : (
               <>
-                <Link 
-                  to="/how-publishing-admin-works" 
-                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
-                >
+                {/* Informational links — higher opacity */}
+                <Link to="/how-publishing-admin-works" className={infoLinkClass}>
                   How Administration Works
                 </Link>
-                <Link 
-                  to="/how-licensing-works" 
-                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
-                >
+                <Link to="/how-licensing-works" className={infoLinkClass}>
                   How Licensing Works
                 </Link>
-                <Link 
-                  to="/privacy" 
-                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
-                >
+                {/* Legal links — lower opacity */}
+                <Link to="/privacy" className={legalLinkClass}>
                   Privacy Policy
                 </Link>
-                <Link 
-                  to="/terms" 
-                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
-                >
+                <Link to="/terms" className={legalLinkClass}>
                   Terms of Use
                 </Link>
               </>
