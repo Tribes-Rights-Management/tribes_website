@@ -117,11 +117,28 @@ export default {
           from: { opacity: "0" },
           to: { opacity: "1" },
         },
+        "slide-in-right": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "slide-out-right": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(100%)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "content-fade": "content-fade 0.14s ease-out",
+        "slide-in-right": "slide-in-right 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "slide-out-right": "slide-out-right 0.22s cubic-bezier(0.2, 0.8, 0.2, 1)",
+      },
+      transitionDuration: {
+        '160': '160ms',
+        '220': '220ms',
+      },
+      transitionTimingFunction: {
+        'apple': 'cubic-bezier(0.2, 0.8, 0.2, 1)',
       },
     },
   },

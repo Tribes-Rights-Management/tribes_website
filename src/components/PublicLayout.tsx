@@ -37,7 +37,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     const handleScroll = () => {
       // Find all sections and determine which one is at the top
       const sections = document.querySelectorAll('section[data-theme]');
-      const headerHeight = 64; // md:h-16 for desktop
+      const headerHeight = 64; // Desktop header height
       
       let isDark = true; // Default to dark for pages with dark heroes
       
@@ -94,20 +94,27 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       return () => document.removeEventListener('keydown', handleEsc);
     }
   }, [mobileMenuOpen, desktopSidebarOpen]);
+
   const headerBg = headerDark ? "bg-[#111214]" : "bg-background";
   const textColor = headerDark ? "text-white" : "text-foreground";
-  const mutedColor = headerDark ? "text-white/60 hover:text-white/90" : "text-muted-foreground hover:text-foreground";
-  const borderColor = headerDark ? "border-white/10" : "border-border/50";
+  const mutedColor = headerDark ? "text-white/60" : "text-muted-foreground";
+  const borderStyle = headerDark 
+    ? "border-b border-white/[0.06]" 
+    : "border-b border-foreground/[0.06]";
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      {/* Header */}
-      <header className={`sticky top-0 z-50 transition-colors duration-300 ${headerBg} ${borderColor} border-b`}>
+      {/* Header - 64px desktop, 56px mobile */}
+      <header className={`sticky top-0 z-50 transition-colors duration-220 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${headerBg} ${borderStyle}`}>
         <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-14 md:h-16`}>
-          {/* Left-aligned wordmark */}
-          <Link to="/" className="flex items-center">
+          {/* Left-aligned wordmark - font-weight 700 */}
+          <Link 
+            to="/" 
+            className="flex items-center hover:opacity-85 transition-opacity duration-160"
+          >
             <span 
               className={`text-[15px] md:text-[17px] font-bold tracking-[-0.02em] uppercase ${textColor}`}
+              style={{ fontWeight: 700 }}
             >
               {BRAND.wordmark}
             </span>
@@ -117,7 +124,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {!logoOnly && isRootPage && (
             <Link 
               to="/contact" 
-              className={`hidden md:block text-sm transition-colors ${mutedColor}`}
+              className={`hidden md:block text-sm transition-opacity duration-160 hover:opacity-85 ${mutedColor}`}
             >
               Contact
             </Link>
@@ -127,7 +134,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {!logoOnly && !isRootPage && (
             <button
               onClick={() => setDesktopSidebarOpen(true)}
-              className={`hidden md:flex p-2 -mr-2 transition-colors ${mutedColor}`}
+              className={`hidden md:flex p-2 -mr-2 transition-opacity duration-160 hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${headerDark ? 'focus-visible:outline-white/25' : 'focus-visible:outline-foreground/18'} ${mutedColor}`}
               aria-label="Open menu"
             >
               <Menu size={20} />
@@ -138,7 +145,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {!logoOnly && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`md:hidden p-2 -mr-2 ${textColor}`}
+              className={`md:hidden p-2 -mr-2 transition-opacity duration-160 hover:opacity-85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${headerDark ? 'focus-visible:outline-white/25' : 'focus-visible:outline-foreground/18'} ${textColor}`}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -151,87 +158,93 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               onClick={() => {
                 document.getElementById(mobileContactAnchor)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={`text-sm leading-none transition-colors ${mutedColor}`}
+              className={`text-sm leading-none transition-opacity duration-160 hover:opacity-85 ${mutedColor}`}
             >
               Contact
             </button>
           )}
         </div>
 
-        {/* Mobile Menu - Right slide-in drawer */}
+        {/* Mobile Menu - Full-screen slide-in drawer */}
         {!logoOnly && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop with blur */}
             <div 
-              className={`fixed inset-0 bg-black/70 z-40 md:hidden transition-opacity duration-250 ease-out ${
+              className={`fixed inset-0 z-40 md:hidden transition-opacity duration-220 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
                 mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
+              style={{
+                backgroundColor: 'rgba(0,0,0,0.35)',
+                backdropFilter: mobileMenuOpen ? 'blur(10px)' : 'blur(0px)',
+                WebkitBackdropFilter: mobileMenuOpen ? 'blur(10px)' : 'blur(0px)',
+              }}
               onClick={() => setMobileMenuOpen(false)}
               aria-hidden="true"
             />
             
-            {/* Drawer */}
+            {/* Drawer - Full width on mobile */}
             <nav 
-              className={`fixed top-0 right-0 h-screen w-[80%] max-w-[320px] bg-black z-50 md:hidden flex flex-col transition-transform duration-250 ease-out ${
+              className={`fixed top-0 right-0 h-screen w-full bg-black z-50 md:hidden flex flex-col transition-transform duration-220 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:duration-0 ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
               }`}
+              style={{
+                paddingTop: 'env(safe-area-inset-top)',
+                paddingBottom: 'env(safe-area-inset-bottom)',
+                paddingRight: 'env(safe-area-inset-right)',
+                paddingLeft: 'env(safe-area-inset-left)',
+              }}
               aria-label="Mobile navigation"
             >
               {/* Close button */}
               <div className="flex justify-end p-5">
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-white/60 hover:text-white transition-opacity"
+                  className="text-white/60 hover:opacity-85 transition-opacity duration-160 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white/25 focus-visible:outline-offset-2"
                   aria-label="Close menu"
                 >
                   <X size={20} />
                 </button>
               </div>
               
-              {/* Top group */}
+              {/* Primary links */}
               <div className="flex flex-col px-6 pt-2 gap-5">
-                <Link 
-                  to="/services" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-                >
-                  Services
-                </Link>
-                <Link 
-                  to="/our-approach" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-                >
-                  Our Approach
-                </Link>
-                <Link 
-                  to="/how-publishing-admin-works" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-                >
-                  How Administration Works
-                </Link>
-                <Link 
-                  to="/how-licensing-works" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-                >
-                  How Licensing Works
-                </Link>
                 <Link 
                   to="/auth" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
+                  className="text-[15px] font-semibold text-white hover:opacity-85 transition-opacity duration-160"
                 >
-                  Sign In
+                  Client Sign In
                 </Link>
-                <Link 
-                  to="/contact" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] font-light text-white/80 hover:text-white transition-opacity"
-                >
-                  Contact
-                </Link>
+              </div>
+
+              {/* Services section */}
+              <div className="px-6 mt-10">
+                <p className="text-xs font-medium uppercase tracking-[0.1em] text-white/50 mb-4">
+                  Services
+                </p>
+                <div className="flex flex-col gap-4">
+                  <Link 
+                    to="/licensing-account" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[15px] font-light text-white/80 hover:opacity-85 transition-opacity duration-160"
+                  >
+                    Request Licensing Access
+                  </Link>
+                  <Link 
+                    to="/services/inquiry" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[15px] font-light text-white/80 hover:opacity-85 transition-opacity duration-160"
+                  >
+                    Inquire About Services
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[15px] font-light text-white/80 hover:opacity-85 transition-opacity duration-160"
+                  >
+                    Contact
+                  </Link>
+                </div>
               </div>
               
               {/* Bottom legal group */}
@@ -240,14 +253,14 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                   <Link 
                     to="/privacy" 
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
+                    className="text-sm font-light text-white/50 hover:opacity-85 transition-opacity duration-160"
                   >
                     Privacy Policy
                   </Link>
                   <Link 
                     to="/terms" 
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm font-light text-white/50 hover:text-white/70 transition-opacity"
+                    className="text-sm font-light text-white/50 hover:opacity-85 transition-opacity duration-160"
                   >
                     Terms of Use
                   </Link>

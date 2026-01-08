@@ -1,44 +1,12 @@
-import { Link } from "react-router-dom";
 import { PublicLayout } from "@/components/PublicLayout";
+import { Hero } from "@/components/Hero";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 
 export default function MarketingPage() {
   return (
     <PublicLayout>
-      {/* Hero - Near-black (#111214) */}
-      <section data-theme="dark" className="bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
-        <div className={CONTENT_CONTAINER_CLASS}>
-          <div className="max-w-[640px]">
-            {/* Logo */}
-            <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
-              TRIBES
-            </p>
-            
-            {/* H1 - Institutional weight, refined letter-spacing */}
-            <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-8">
-              Rights management, built to last.
-            </h1>
-            
-            {/* Secondary supporting line - Quiet, subordinate */}
-            <p className="text-base md:text-lg font-light text-white/45 leading-[1.5] tracking-[0.01em] mb-16">
-              Publishing administration, built for precision.
-            </p>
-            
-            {/* Divider */}
-            <div className="w-16 h-px bg-white/10 mb-8" />
-            
-            {/* Micro-line removed - slogan is definitive, no secondary taglines */}
-            
-            {/* Understated link */}
-            <Link 
-              to="/our-approach" 
-              className="text-xs text-white/55 hover:text-white/75 transition-colors underline underline-offset-4 decoration-white/20"
-            >
-              Our approach
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Shared Hero Component - pixel-perfect match with root */}
+      <Hero />
 
       {/* Built for Permanence — Structural Differentiation (Desktop: after hero, Mobile: after Who It's For) */}
       <section data-theme="light" className="pt-12 pb-16 md:pt-14 md:pb-20 bg-background border-b border-border/30 hidden md:block">
