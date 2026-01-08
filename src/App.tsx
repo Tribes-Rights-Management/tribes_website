@@ -9,7 +9,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import { DomainRedirect } from "@/components/DomainRedirect";
 import { SeoMeta } from "@/components/SeoMeta";
 
-import MarketingPage from "./pages/MarketingPage";
+import PreLaunchPage from "./pages/PreLaunchPage";
 import OurApproachPage from "./pages/OurApproachPage";
 import ServicesPage from "./pages/ServicesPage";
 import ServiceInquiryPage from "./pages/ServiceInquiryPage";
@@ -59,11 +59,7 @@ function AppRoutes() {
       <Route path="/auth/callback" element={<AuthCallbackPage />} />
       
       {/* Public/Marketing pages (root domain in production) */}
-      <Route path="/" element={
-        user 
-          ? <Navigate to={isAnyAdmin ? "/admin" : "/portal"} replace />
-          : <MarketingPage />
-      } />
+      <Route path="/" element={<PreLaunchPage />} />
       <Route path="/our-approach" element={<OurApproachPage />} />
       <Route path="/services" element={<ServicesPage />} />
       <Route path="/inquire" element={<ServiceInquiryPage />} />
