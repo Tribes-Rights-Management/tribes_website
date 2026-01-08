@@ -73,7 +73,7 @@ export default function AgreementHandoffPage() {
         </div>
       </main>
 
-      <Footer variant="minimal" />
+      <Footer />
     </div>
   );
 }

@@ -381,7 +381,7 @@ export default function RequestFormPage() {
             All submissions are reviewed before agreements are finalized.
           </p>
         </div>
-        <Footer variant="minimal" className="pt-0" />
+        <Footer className="pt-0" />
       </footer>
     </div>
   );
