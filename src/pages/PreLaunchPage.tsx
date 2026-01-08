@@ -98,7 +98,7 @@ export default function PreLaunchPage() {
                 
                 <div>
                   <p className="text-muted-foreground leading-relaxed mb-2">
-                    For inquiries related to licensing, translations, or other permission-based uses, please contact:
+                    For inquiries related to licensing, translations, or other copyright permissions, please contact:
                   </p>
                   <a 
                     href="mailto:licensing@tribesassets.com"
