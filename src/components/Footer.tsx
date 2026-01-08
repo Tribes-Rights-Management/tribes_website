@@ -3,6 +3,7 @@ import { BRAND } from "@/lib/brand";
 import { getCopyrightLine } from "@/lib/copyright";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { cn } from "@/lib/utils";
+import tribesLogoBlack from "@/assets/tribes-logo-black.png";
 
 interface FooterProps {
   className?: string;
@@ -16,9 +17,21 @@ export function Footer({ className, disableLinks = false, hideLinks = false }: F
       <div className={CONTENT_CONTAINER_CLASS}>
         {/* Brand + Copyright */}
         <div className="mb-8">
-          <p className="text-sm font-semibold tracking-tight text-white/80 mb-2">
-            {BRAND.wordmark}
-          </p>
+          <div className="mb-2">
+            <img 
+              src={tribesLogoBlack} 
+              alt={BRAND.wordmark}
+              className="h-[12px] w-auto invert opacity-80"
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const fallback = document.createElement('p');
+                fallback.className = 'text-sm font-semibold tracking-tight text-white/80';
+                fallback.textContent = BRAND.wordmark;
+                target.parentNode?.appendChild(fallback);
+              }}
+            />
+          </div>
           <p className="text-xs text-white/50">
             {getCopyrightLine()}
           </p>
