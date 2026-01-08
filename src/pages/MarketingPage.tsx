@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { PublicLayout } from "@/components/PublicLayout";
+import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 
 export default function MarketingPage() {
   return (
     <PublicLayout>
       {/* Hero - Near-black (#111214) */}
       <section data-theme="dark" className="bg-[#111214] pt-36 pb-32 md:pt-44 md:pb-40 lg:pt-52 lg:pb-48">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <div className="max-w-[640px]">
             {/* Logo */}
             <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
@@ -41,7 +42,7 @@ export default function MarketingPage() {
 
       {/* Built for Permanence — Structural Differentiation (Desktop: after hero, Mobile: after Who It's For) */}
       <section data-theme="light" className="pt-12 pb-16 md:pt-14 md:pb-20 bg-background border-b border-border/30 hidden md:block">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <div className="max-w-[560px]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-7">
               Built for permanence
@@ -66,7 +67,7 @@ export default function MarketingPage() {
 
       {/* Who It's For */}
       <section data-theme="light" className="py-24 md:py-32">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <h2 className="text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground mb-10">
             Who It's For
           </h2>
@@ -101,7 +102,7 @@ export default function MarketingPage() {
 
       {/* Built for Permanence — Mobile Only (appears after Who It's For) */}
       <section data-theme="light" className="pt-8 pb-12 bg-background border-b border-border/30 md:hidden">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <div className="max-w-[320px]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground/80 mb-5">
               Built for permanence
@@ -126,7 +127,7 @@ export default function MarketingPage() {
 
       {/* Music as an Asset - Full-width dark section */}
       <section data-theme="dark" id="asset-management" className="py-24 md:py-32" style={{ backgroundColor: '#111214' }}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Left Column */}
             <div>
@@ -204,7 +205,7 @@ export default function MarketingPage() {
 
       {/* Philosophical Anchor — Category Reframe */}
       <section data-theme="light" className="py-20 md:py-24 bg-background">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <div className="max-w-[580px]">
             <p className="text-[18px] md:text-[20px] text-foreground/80 leading-[1.7] tracking-[-0.005em]">
               Over time, the difference between administration and stewardship is whether records survive the people who made them.
@@ -215,7 +216,7 @@ export default function MarketingPage() {
 
       {/* How Licensing Works - Increased density for cognitive focus */}
       <section data-theme="light" id="how-it-works" className="py-20 md:py-24 scroll-mt-24 bg-background border-t border-border/40">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
+        <div className={CONTENT_CONTAINER_CLASS}>
           <h2 className="text-xs font-medium uppercase tracking-[0.12em] mb-4 text-muted-foreground">
             How Licensing Works
           </h2>
