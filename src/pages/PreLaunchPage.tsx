@@ -78,19 +78,37 @@ export default function PreLaunchPage() {
         <section id="contact" className="py-24 md:py-32 scroll-mt-24">
           <div className="max-w-[1400px] mx-auto px-6 md:px-10 lg:px-20">
             <div className="max-w-[560px]">
-              <h2 className="text-2xl md:text-3xl font-medium text-foreground mb-3">
-                Get in touch
+              <h2 className="text-2xl md:text-3xl font-medium text-foreground mb-6">
+                Contact
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-8">
-                For inquiries regarding publishing administration, rights management, and licensing, please contact us directly.
-              </p>
-              <a 
-                href="mailto:admin@tribesassets.com"
-                className="text-foreground hover:text-foreground/80 transition-colors duration-150 underline underline-offset-4 decoration-foreground/30"
-                style={{ fontSize: 15 }}
-              >
-                admin@tribesassets.com
-              </a>
+              
+              <div className="space-y-6">
+                <div>
+                  <p className="text-muted-foreground leading-relaxed mb-2">
+                    For inquiries regarding publishing administration and rights management, please contact us at:
+                  </p>
+                  <a 
+                    href="mailto:admin@tribesassets.com"
+                    className="text-foreground hover:text-foreground/80 transition-colors duration-150 underline underline-offset-4 decoration-foreground/30"
+                    style={{ fontSize: 15 }}
+                  >
+                    admin@tribesassets.com
+                  </a>
+                </div>
+                
+                <div>
+                  <p className="text-muted-foreground leading-relaxed mb-2">
+                    For inquiries related to licensing, translations, or other permission-based uses, please contact:
+                  </p>
+                  <a 
+                    href="mailto:licensing@tribesassets.com"
+                    className="text-foreground hover:text-foreground/80 transition-colors duration-150 underline underline-offset-4 decoration-foreground/30"
+                    style={{ fontSize: 15 }}
+                  >
+                    licensing@tribesassets.com
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </section>
