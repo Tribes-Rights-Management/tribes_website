@@ -24,9 +24,13 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
   // Root landing page exception - no desktop sidebar
   const isRootPage = location.pathname === "/";
 
+  // Legal/utility pages use white header by design (distinct from marketing)
+  const legalPages = ["/privacy", "/terms", "/data-retention"];
+  const isLegalPage = legalPages.includes(location.pathname);
+
   // Check if we're on a page that starts with a dark hero
   const darkHeroPages = ["/", "/marketing"];
-  const startsWithDarkHero = darkHeroPages.includes(location.pathname);
+  const startsWithDarkHero = !isLegalPage && darkHeroPages.includes(location.pathname);
 
   useEffect(() => {
     if (!startsWithDarkHero) {

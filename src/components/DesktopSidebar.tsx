@@ -32,23 +32,23 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
 
   return (
     <>
-      {/* Backdrop - Apple-grade blur overlay */}
+      {/* Backdrop - Institutional grade: subtle blur, neutral gray dim */}
       <div
-        className={`fixed inset-0 z-40 transition-opacity duration-220 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+        className={`fixed inset-0 z-40 transition-opacity duration-200 ease-out ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         style={{
-          backgroundColor: 'rgba(0,0,0,0.35)',
-          backdropFilter: isOpen ? 'blur(10px)' : 'blur(0px)',
-          WebkitBackdropFilter: isOpen ? 'blur(10px)' : 'blur(0px)',
+          backgroundColor: 'rgba(115, 115, 115, 0.25)',
+          backdropFilter: isOpen ? 'blur(6px)' : 'blur(0px)',
+          WebkitBackdropFilter: isOpen ? 'blur(6px)' : 'blur(0px)',
         }}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Sidebar Panel - 420px desktop, full-width mobile */}
+      {/* Sidebar Panel - 420px desktop, full-width mobile, no border/shadow */}
       <aside
-        className={`fixed top-0 right-0 h-screen w-full md:w-[420px] bg-white z-50 flex flex-col shadow-2xl transition-transform duration-220 ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:duration-0 ${
+        className={`fixed top-0 right-0 h-screen w-full md:w-[420px] bg-white z-50 flex flex-col transition-transform duration-200 ease-out motion-reduce:duration-0 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{
@@ -58,17 +58,17 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
         }}
         aria-label="Desktop navigation"
       >
-        {/* Header with Close button */}
+        {/* Header with Close button - institutional styling */}
         <div className="flex justify-end px-8 pt-6 pb-4">
           <button
             onClick={onClose}
-            className="text-sm text-muted-foreground hover:opacity-85 transition-opacity duration-160 focus-visible:outline focus-visible:outline-2 focus-visible:outline-foreground/20 focus-visible:outline-offset-2"
+            className="text-[13px] text-foreground/50 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
           >
             Close
           </button>
         </div>
 
-        {/* Navigation Links */}
+        {/* Navigation Links - Institutional grade spacing and hierarchy */}
         <nav className="flex flex-col flex-1 px-8 pt-6">
           {/* Primary Section */}
           <div className="flex flex-col gap-5">
@@ -76,7 +76,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
             <Link
               to="/auth"
               onClick={onClose}
-              className="text-[15px] font-semibold text-foreground hover:opacity-85 transition-opacity duration-160"
+              className="text-[15px] font-semibold text-foreground transition-opacity duration-150 ease-out hover:opacity-70 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
             >
               Client Sign In
             </Link>
@@ -84,50 +84,50 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
 
           {/* Services Section */}
           <div className="mt-10">
-            <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground mb-4">
+            <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-4">
               Services
             </p>
             <div className="flex flex-col gap-4">
               <Link
                 to="/licensing-account"
                 onClick={onClose}
-                className="text-[15px] text-foreground hover:opacity-85 transition-opacity duration-160"
+                className="text-[15px] text-foreground/80 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
               >
                 Request Licensing Access
               </Link>
               <Link
                 to="/services/inquiry"
                 onClick={onClose}
-                className="text-[15px] text-foreground hover:opacity-85 transition-opacity duration-160"
+                className="text-[15px] text-foreground/80 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
               >
                 Inquire About Services
               </Link>
               <Link
                 to="/contact"
                 onClick={onClose}
-                className="text-[15px] text-foreground hover:opacity-85 transition-opacity duration-160"
+                className="text-[15px] text-foreground/80 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
               >
                 Contact
               </Link>
             </div>
           </div>
 
-          {/* Divider */}
-          <div className="border-t border-border mt-10 mb-6" />
+          {/* Divider - subtle, no harsh contrast */}
+          <div className="border-t border-foreground/[0.06] mt-10 mb-6" />
 
-          {/* Secondary/Footer Links */}
+          {/* Secondary/Footer Links - reduced hierarchy */}
           <div className="flex flex-col gap-3">
             <Link
               to="/privacy"
               onClick={onClose}
-              className="text-sm text-muted-foreground hover:opacity-85 transition-opacity duration-160"
+              className="text-[13px] text-foreground/50 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
             >
               Privacy Policy
             </Link>
             <Link
               to="/terms"
               onClick={onClose}
-              className="text-sm text-muted-foreground hover:opacity-85 transition-opacity duration-160"
+              className="text-[13px] text-foreground/50 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
             >
               Terms of Use
             </Link>
