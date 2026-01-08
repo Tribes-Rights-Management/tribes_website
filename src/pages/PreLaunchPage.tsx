@@ -82,7 +82,7 @@ export default function PreLaunchPage() {
                 Get in touch
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                For inquiries regarding publishing administration or rights management, please contact us directly.
+                For inquiries regarding publishing administration, rights management, and licensing, please contact us directly.
               </p>
               <a 
                 href="mailto:admin@tribesassets.com"
