@@ -17,7 +17,10 @@ export function Footer({ className, disableLinks = false, hideLinks = false }: F
         {/* Brand + Copyright */}
         <div className="mb-8">
           <div className="mb-2">
-            <span className="text-[13px] md:text-[14px] font-bold tracking-[-0.02em] uppercase text-white/90">
+            <span 
+              className="text-[13px] md:text-[14px] font-bold tracking-[-0.02em] uppercase text-white/90"
+              style={{ fontWeight: 700 }}
+            >
               {BRAND.wordmark}
             </span>
           </div>
@@ -40,25 +43,25 @@ export function Footer({ className, disableLinks = false, hideLinks = false }: F
               <>
                 <Link 
                   to="/how-publishing-admin-works" 
-                  className="text-sm text-white/50 hover:text-white/80 transition-colors"
+                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
                 >
                   How Administration Works
                 </Link>
                 <Link 
                   to="/how-licensing-works" 
-                  className="text-sm text-white/50 hover:text-white/80 transition-colors"
+                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
                 >
                   How Licensing Works
                 </Link>
                 <Link 
                   to="/privacy" 
-                  className="text-sm text-white/50 hover:text-white/80 transition-colors"
+                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
                 >
                   Privacy Policy
                 </Link>
                 <Link 
                   to="/terms" 
-                  className="text-sm text-white/50 hover:text-white/80 transition-colors"
+                  className="text-sm text-white/50 hover:opacity-85 transition-opacity duration-160"
                 >
                   Terms of Use
                 </Link>

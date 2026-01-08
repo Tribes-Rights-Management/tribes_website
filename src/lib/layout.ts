@@ -8,15 +8,21 @@
  * - Do not widen beyond 1200px unless explicitly instructed
  * - Do not alter padding values without explicit instruction
  * - Header, body, and footer content must share this same grid
- * - Desktop header height is locked at 64px (h-16)
- * - Desktop logo height is locked at 28px
+ * - Desktop header height is locked at 64px
+ * - Mobile header height is locked at 56px
  */
 
-/** Inner content container: max-width + centering + responsive horizontal padding */
-export const CONTENT_CONTAINER_CLASS = "max-w-[1200px] mx-auto px-6 md:px-8 lg:px-12";
+/** 
+ * Inner content container: max-width + centering + responsive horizontal padding
+ * Desktop: 40px padding | Mobile: 20px padding
+ */
+export const CONTENT_CONTAINER_CLASS = "max-w-[1200px] mx-auto px-5 md:px-10";
 
 /** Desktop header height in pixels (locked) */
 export const DESKTOP_HEADER_HEIGHT = 64;
 
-/** Desktop logo height in pixels (locked) */
-export const DESKTOP_LOGO_HEIGHT = 28;
+/** Mobile header height in pixels (locked) */
+export const MOBILE_HEADER_HEIGHT = 56;
+
+/** Desktop sidebar panel width */
+export const DESKTOP_SIDEBAR_WIDTH = 420;
