@@ -86,7 +86,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       style={pageBackgroundStyle}
     >
       {/* Header - 64px desktop, 56px mobile - Institutional grade lock */}
-      <header className={`sticky top-0 z-50 ${borderStyle}`} style={headerBgStyle}>
+      {/* NON-STICKY: scrolls away for institutional calm (LOCKED) */}
+      <header className={`relative z-50 ${borderStyle}`} style={headerBgStyle}>
         <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-14 md:h-16`}>
           {/* Left-aligned wordmark - institutional weight + tracking */}
           <Link 
@@ -277,8 +278,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         <FooterSpacer isDark={darkBackground} />
       </main>
 
-      {/* Footer */}
-      <Footer disableLinks={disableFooterLinks} hideLinks={hideFooterLinks} />
+      {/* Footer — root page uses compact variant to preserve original layout */}
+      <Footer 
+        disableLinks={disableFooterLinks} 
+        hideLinks={hideFooterLinks} 
+        variant={isRootPage ? "compact" : "standard"}
+      />
     </div>
   );
 }
