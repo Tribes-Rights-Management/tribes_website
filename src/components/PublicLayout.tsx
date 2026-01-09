@@ -103,8 +103,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </span>
           </Link>
           
-          {/* Root or marketing page: Contact link on right */}
-          {!logoOnly && (isRootPage || isMarketingPage) && (
+          {/* Root page ONLY: Contact link on right (simplified landing) */}
+          {!logoOnly && isRootPage && (
             <Link 
               to="/contact" 
               className={`hidden md:block text-[13px] transition-opacity duration-150 ease-out opacity-60 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
@@ -113,8 +113,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </Link>
           )}
 
-          {/* Non-marketing pages: Hamburger menu trigger on right (desktop) */}
-          {!logoOnly && !isRootPage && !isMarketingPage && (
+          {/* ALL pages except root: Hamburger menu trigger on right (desktop) */}
+          {!logoOnly && !isRootPage && (
             <button
               onClick={() => setDesktopSidebarOpen(true)}
               className={`hidden md:flex p-2 -mr-2 transition-opacity duration-150 ease-out opacity-70 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
@@ -263,8 +263,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           </>
         )}
 
-        {/* Desktop Sidebar - only for non-marketing pages */}
-        {!logoOnly && !isRootPage && !isMarketingPage && (
+        {/* Desktop Sidebar - all pages except root */}
+        {!logoOnly && !isRootPage && (
           <DesktopSidebar
             isOpen={desktopSidebarOpen}
             onClose={() => setDesktopSidebarOpen(false)}
