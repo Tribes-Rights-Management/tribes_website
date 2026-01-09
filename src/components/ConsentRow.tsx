@@ -6,10 +6,10 @@ import { TribesCheckbox } from "@/components/ui/tribes-checkbox";
  * 
  * Single source of truth for "I agree to Privacy Policy and Terms" consent.
  * 
- * Spacing rules (enforced via explicit margins, not inherited gaps):
+ * Spacing rules (explicit margins, NOT inherited gaps):
  * - 20px margin ABOVE the consent row (mt-5)
- * - 20px margin BELOW the consent row (mb-5)
- * - Checkbox aligns to first line of label text (top-aligned)
+ * - NO margin below — the CTA button wrapper must apply its own mt-5
+ * - Checkbox aligns to first line of label text (via TribesCheckbox)
  * - Same left edge as form inputs (no extra left padding)
  */
 
@@ -27,7 +27,7 @@ export function ConsentRow({
   disabled = false,
 }: ConsentRowProps) {
   return (
-    <div className="mt-5 mb-5">
+    <div className="mt-5">
       <TribesCheckbox
         id={id}
         checked={checked}
