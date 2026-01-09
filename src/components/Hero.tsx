@@ -70,7 +70,7 @@ export function Hero({ contactAnchor }: HeroProps) {
       `}</style>
       
       {/* Content container - uses identical sizing to header for perfect left-rail alignment */}
-      <div className="max-w-[1200px] mx-auto px-5 md:px-10 py-12 md:py-24 lg:py-32">
+      <div className={`${CONTENT_CONTAINER_CLASS} py-12 md:py-24 lg:py-32`}>
         <div className="max-w-[640px]">
           {/* Eyebrow */}
           <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
