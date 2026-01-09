@@ -176,56 +176,56 @@ export default function MarketingPage() {
           {/* Eyebrow */}
           <p 
             className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60"
-            style={{ marginBottom: 'var(--eyebrow-bottom)' }}
+            style={{ marginBottom: '28px' }}
           >
             How Copyright Clearance Works
           </p>
           
-          {/* Headline */}
-          <h2 
-            className="text-[28px] md:text-[32px] font-medium leading-[1.2] tracking-[-0.01em] text-foreground max-w-[640px]"
-            style={{ marginBottom: 'var(--headline-bottom)' }}
+          {/* Intro line — policy statement */}
+          <p 
+            className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px]"
+            style={{ marginBottom: '64px' }}
           >
             Every request is reviewed before any agreement is issued.
-          </h2>
+          </p>
           
           {/* Steps grid with premium spacing */}
           <div 
-            className="grid md:grid-cols-2 gap-12 md:gap-20"
-            style={{ paddingTop: 'var(--step-list-top)' }}
+            className="grid md:grid-cols-2"
+            style={{ gap: '56px', paddingTop: '24px' }}
           >
             {/* Left column steps */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--step-gap)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
               <div>
-                <p className="text-xs font-medium mb-2 text-foreground/50">01</p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">Submit</h3>
+                <p className="text-xs font-medium text-foreground/50" style={{ marginBottom: '18px' }}>01</p>
+                <h3 className="text-lg font-medium text-foreground" style={{ marginBottom: '18px' }}>Submit</h3>
                 <p className="text-[15px] leading-[1.7] text-foreground/70">
-                  Tell us what you want to use and how. The details you provide become the foundation of the agreement.
+                  Provide the song, intended use, and required details. This information forms the basis of the agreement.
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium mb-2 text-foreground/50">02</p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">Review</h3>
+                <p className="text-xs font-medium text-foreground/50" style={{ marginBottom: '18px' }}>02</p>
+                <h3 className="text-lg font-medium text-foreground" style={{ marginBottom: '18px' }}>Review</h3>
                 <p className="text-[15px] leading-[1.7] text-foreground/70">
-                  We verify ownership, splits, and usage details—so the agreement reflects the correct terms from the start.
+                  Ownership, splits, and usage details are verified to ensure the agreement reflects the correct terms from the outset.
                 </p>
               </div>
             </div>
             
             {/* Right column steps */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--step-gap)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '56px' }}>
               <div>
-                <p className="text-xs font-medium mb-2 text-foreground/50">03</p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">Execute</h3>
+                <p className="text-xs font-medium text-foreground/50" style={{ marginBottom: '18px' }}>03</p>
+                <h3 className="text-lg font-medium text-foreground" style={{ marginBottom: '18px' }}>Execute</h3>
                 <p className="text-[15px] leading-[1.7] text-foreground/70">
-                  Sign and pay (if applicable) in one step. Once executed, the license becomes a binding reference.
+                  Agreements are signed and, where applicable, payment is completed in a single step. Once executed, the license becomes a binding reference.
                 </p>
               </div>
               <div>
-                <p className="text-xs font-medium mb-2 text-foreground/50">04</p>
-                <h3 className="text-lg font-medium mb-3 text-foreground">Record</h3>
+                <p className="text-xs font-medium text-foreground/50" style={{ marginBottom: '18px' }}>04</p>
+                <h3 className="text-lg font-medium text-foreground" style={{ marginBottom: '18px' }}>Record</h3>
                 <p className="text-[15px] leading-[1.7] text-foreground/70">
-                  Your agreement is stored as a permanent record—retrievable whenever you need it, years from now.
+                  Executed agreements are retained as permanent records and remain accessible from your account.
                 </p>
               </div>
             </div>
