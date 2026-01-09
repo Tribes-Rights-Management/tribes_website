@@ -8,9 +8,13 @@
  * - Add at the end of main content, before the footer
  * - Set isDark={true} for dark-themed pages
  * - This ensures no white fall-through on mobile
+ * 
+ * HEIGHTS (locked):
+ * - Mobile: 80px (64-96px range)
+ * - Desktop: 100px (80-120px range)
  */
 
-import { THEME_DARK_BG, THEME_LIGHT_BG, FOOTER_SPACER } from "@/lib/theme";
+import { THEME_DARK_BG, THEME_LIGHT_BG } from "@/lib/theme";
 
 interface FooterSpacerProps {
   /** Use dark theme background */
@@ -20,22 +24,9 @@ interface FooterSpacerProps {
 export function FooterSpacer({ isDark = false }: FooterSpacerProps) {
   return (
     <div
-      className="w-full"
-      style={{
-        backgroundColor: isDark ? THEME_DARK_BG : THEME_LIGHT_BG,
-        minHeight: `${FOOTER_SPACER.mobile}px`,
-      }}
+      className="w-full min-h-[80px] md:min-h-[100px]"
+      style={{ backgroundColor: isDark ? THEME_DARK_BG : THEME_LIGHT_BG }}
       aria-hidden="true"
-    >
-      {/* Responsive height via media query would be ideal, but inline style suffices */}
-      <style>{`
-        @media (min-width: 768px) {
-          [data-footer-spacer] {
-            min-height: ${FOOTER_SPACER.desktop}px !important;
-          }
-        }
-      `}</style>
-      <div data-footer-spacer className="w-full h-full" />
-    </div>
+    />
   );
 }
