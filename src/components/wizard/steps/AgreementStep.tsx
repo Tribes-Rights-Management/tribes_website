@@ -1,4 +1,4 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import { TribesCheckbox } from "@/components/ui/tribes-checkbox";
 import { Label } from "@/components/ui/label";
 
 interface AgreementStepProps {
@@ -18,46 +18,42 @@ export function AgreementStep({ agreementAccounting, agreementTerms, onUpdate, e
         </p>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex items-start gap-3">
-          <Checkbox
+        <div className="space-y-4">
+          <TribesCheckbox
             id="agreement_accounting"
             checked={agreementAccounting}
-            onCheckedChange={(checked) => onUpdate("agreement_accounting", !!checked)}
-            className="shrink-0 mt-0.5"
-          />
-          <div className="space-y-1">
-            <Label htmlFor="agreement_accounting" className="text-[14px] cursor-pointer">
-              I agree to provide accurate accounting information
-            </Label>
-            <p className="text-[13px] text-muted-foreground leading-snug">
-              You certify that all financial and usage data provided will be accurate and complete.
-            </p>
-            {errors.agreement_accounting && (
-              <p className="text-[13px] text-[#525252] leading-snug mt-1">{errors.agreement_accounting}</p>
-            )}
-          </div>
-        </div>
+            onCheckedChange={(checked) => onUpdate("agreement_accounting", checked)}
+          >
+            <span className="block space-y-1">
+              <Label htmlFor="agreement_accounting" className="text-[14px] cursor-pointer">
+                I agree to provide accurate accounting information
+              </Label>
+              <span className="block text-[13px] text-muted-foreground leading-snug">
+                You certify that all financial and usage data provided will be accurate and complete.
+              </span>
+              {errors.agreement_accounting && (
+                <span className="block text-[13px] text-[#525252] leading-snug mt-1">{errors.agreement_accounting}</span>
+              )}
+            </span>
+          </TribesCheckbox>
 
-        <div className="flex items-start gap-3">
-          <Checkbox
-            id="agreement_terms"
-            checked={agreementTerms}
-            onCheckedChange={(checked) => onUpdate("agreement_terms", !!checked)}
-            className="shrink-0 mt-0.5"
-          />
-          <div className="space-y-1">
+        <TribesCheckbox
+          id="agreement_terms"
+          checked={agreementTerms}
+          onCheckedChange={(checked) => onUpdate("agreement_terms", checked)}
+        >
+          <span className="block space-y-1">
             <Label htmlFor="agreement_terms" className="text-[14px] cursor-pointer">
               I agree to the license terms and conditions
             </Label>
-            <p className="text-[13px] text-muted-foreground leading-snug">
+            <span className="block text-[13px] text-muted-foreground leading-snug">
               You agree to abide by the terms of the license agreement once executed.
-            </p>
+            </span>
             {errors.agreement_terms && (
-              <p className="text-[13px] text-[#525252] leading-snug mt-1">{errors.agreement_terms}</p>
+              <span className="block text-[13px] text-[#525252] leading-snug mt-1">{errors.agreement_terms}</span>
             )}
-          </div>
-        </div>
+          </span>
+        </TribesCheckbox>
       </div>
     </div>
   );
