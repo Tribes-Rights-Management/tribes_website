@@ -239,21 +239,25 @@ export default function ServiceInquiryPage() {
             SECTION 4: CONSENT + SUBMISSION
             Spacing: 20px above/below consent (via ConsentRow)
             ============================================ */}
-        <ConsentRow
-          id="terms"
-          checked={agreeToTerms}
-          onCheckedChange={setAgreeToTerms}
-          disabled={isSubmitting}
-        />
-
-        <Button
-          type="submit"
-          disabled={isSubmitting || !agreeToTerms}
-          size="lg"
-          className="w-full"
-        >
-          {isSubmitting ? "Submitting…" : "Submit Inquiry"}
-        </Button>
+        {/* Consent + CTA: explicit 20px spacing, not inherited from space-y-6 */}
+        <div>
+          <ConsentRow
+            id="terms"
+            checked={agreeToTerms}
+            onCheckedChange={setAgreeToTerms}
+            disabled={isSubmitting}
+          />
+          <div className="mt-5">
+            <Button
+              type="submit"
+              disabled={isSubmitting || !agreeToTerms}
+              size="lg"
+              className="w-full"
+            >
+              {isSubmitting ? "Submitting…" : "Submit Inquiry"}
+            </Button>
+          </div>
+        </div>
       </form>
 
       <div className="mt-8 text-center">
