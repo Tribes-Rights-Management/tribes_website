@@ -14,9 +14,9 @@
 
 /** 
  * Inner content container: max-width + centering + responsive horizontal padding
- * Desktop: 40px padding | Mobile: 20px padding
+ * Uses --gutter (24px mobile / 32px tablet / 48px desktop) from index.css
  */
-export const CONTENT_CONTAINER_CLASS = "max-w-[1200px] mx-auto px-5 md:px-10";
+export const CONTENT_CONTAINER_CLASS = "max-w-[1200px] mx-auto w-full px-[var(--gutter)]";
 
 /** Desktop header height in pixels (locked) */
 export const DESKTOP_HEADER_HEIGHT = 64;
