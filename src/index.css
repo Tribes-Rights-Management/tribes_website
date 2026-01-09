@@ -540,6 +540,104 @@
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   UX HARDENING — TRIBES INSTITUTIONAL STANDARD (LOCKED)
+   
+   Global interaction polish: tap targets, focus states, link feedback,
+   headline orphan prevention. Applied to all marketing pages.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* C) TAP TARGETS — Minimum 44px touch area for mobile accessibility */
+@layer base {
+  /* Ensure all interactive elements have adequate tap area */
+  a, button {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /* Exception: inline text links within paragraphs */
+  p a, li a, span a {
+    min-height: auto;
+    display: inline;
+  }
+  
+  /* Navigation links get explicit padding for tap area */
+  nav a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+/* D) FOCUS STATES — Visible, subtle, brand-appropriate */
+@layer base {
+  /* Global focus-visible for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 1px solid hsl(0 0% 9% / 0.35);
+    outline-offset: 2px;
+  }
+  
+  /* Dark background focus states */
+  [data-theme="dark"] a:focus-visible,
+  [data-theme="dark"] button:focus-visible,
+  [style*="background: #0B"] a:focus-visible,
+  [style*="background: #0B"] button:focus-visible,
+  [style*="backgroundColor"] a:focus-visible,
+  footer a:focus-visible,
+  footer button:focus-visible {
+    outline-color: hsl(0 0% 100% / 0.35);
+  }
+  
+  /* Remove default focus for mouse users */
+  a:focus:not(:focus-visible),
+  button:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* E) LINK FEEDBACK — Immediate interaction response */
+@layer base {
+  /* All links get pointer cursor */
+  a {
+    cursor: pointer;
+  }
+  
+  /* Active/tap state for mobile */
+  a:active,
+  button:active {
+    opacity: 0.85;
+  }
+}
+
+/* F) HEADLINE ORPHAN PREVENTION — Controlled measure for premium line breaks */
+@layer components {
+  /* Marketing section headlines - prevent single-word orphans */
+  .headline-measure {
+    max-width: 90%;
+  }
+  
+  @media (min-width: 768px) {
+    .headline-measure {
+      max-width: 640px;
+    }
+  }
+}
+
+/* G) FONT LOADING STABILITY — Prevent layout shift */
+@layer base {
+  /* System font stack with font-display swap for custom fonts if added */
+  @font-face {
+    font-family: 'SF Pro Text';
+    src: local('SF Pro Text'), local('-apple-system'), local('BlinkMacSystemFont');
+    font-display: swap;
+  }
+}
+
 @layer utilities {
   /* ═══════════════════════════════════════════════════════════════════════════
      iOS SAFARI VIEWPORT UTILITIES — LOCKED
