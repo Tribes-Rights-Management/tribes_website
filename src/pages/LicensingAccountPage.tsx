@@ -304,9 +304,9 @@ export default function LicensingAccountPage() {
 
         {/* ============================================
             SECTION 4: CONSENT + SUBMISSION
-            Distinct "legal moment" with clear separation
+            Spacing: 20px above consent, 20px to button (locked)
             ============================================ */}
-        <div className="pt-6 space-y-5">
+        <div className="pt-5 space-y-5">
           <TribesCheckbox
             id="terms"
             checked={agreeToTerms}
