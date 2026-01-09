@@ -32,9 +32,11 @@ interface ContentPageLayoutProps {
   lede?: string;
   /** @deprecated Use 'lede' instead */
   description?: string;
+  /** Last updated date for legal/policy pages - renders as secondary metadata */
+  lastUpdated?: string;
 }
 
-export function ContentPageLayout({ children, title, lede, description }: ContentPageLayoutProps) {
+export function ContentPageLayout({ children, title, lede, description, lastUpdated }: ContentPageLayoutProps) {
   // Support legacy 'description' prop but prefer 'lede'
   const ledeText = lede || description;
 
@@ -44,11 +46,17 @@ export function ContentPageLayout({ children, title, lede, description }: Conten
       <section className="pt-12 pb-16 md:pb-20">
         <div className={CONTENT_CONTAINER_CLASS}>
           <div className="max-w-[700px]">
-            {/* H1 — Locked typography from index.css, mb-3 spacing */}
+            {/* H1 — Locked typography from index.css */}
             {title && (
-              <h1 className="text-foreground mb-3">
+              <h1 className="text-foreground mb-3.5">
                 {title}
               </h1>
+            )}
+            {/* Last Updated — secondary metadata, smaller/lighter with clear separation */}
+            {lastUpdated && (
+              <p className="text-[12px] text-muted-foreground/50 mb-7">
+                Last Updated: {lastUpdated}
+              </p>
             )}
             {/* Lede — 16px, muted, mb-10 to first section */}
             {ledeText && (

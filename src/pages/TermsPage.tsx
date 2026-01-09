@@ -6,16 +6,11 @@ import { ContentPageLayout } from "@/components/ContentPageLayout";
  */
 export default function TermsPage() {
   return (
-    <ContentPageLayout title="Terms of Use">
-      {/* Meta Line */}
-      <p className="text-[13px] text-muted-foreground/60 -mt-7 mb-10">
-        Last Updated: January 6, 2026
-      </p>
-
-      {/* Intro */}
-      <p className="text-base leading-relaxed text-muted-foreground mb-10">
-        These Terms govern your access to and use of the websites, portals, and services provided by Tribes Rights Management LLC.
-      </p>
+    <ContentPageLayout 
+      title="Terms of Use"
+      lastUpdated="January 6, 2026"
+      lede="These Terms govern your access to and use of the websites, portals, and services provided by Tribes Rights Management LLC."
+    >
 
       <section>
         <h2 className="text-foreground mb-3">1. Definitions</h2>

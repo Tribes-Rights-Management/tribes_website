@@ -6,16 +6,11 @@ import { ContentPageLayout } from "@/components/ContentPageLayout";
  */
 export default function PrivacyPage() {
   return (
-    <ContentPageLayout title="Privacy Policy">
-      {/* Meta Line */}
-      <p className="text-[13px] text-muted-foreground/60 -mt-7 mb-10">
-        Last Updated: January 6, 2026
-      </p>
-
-      {/* Intro */}
-      <p className="text-base leading-relaxed text-muted-foreground mb-10">
-        This Privacy Policy explains how Tribes Rights Management LLC collects, uses, and shares information when you use our websites, portals, and services.
-      </p>
+    <ContentPageLayout 
+      title="Privacy Policy"
+      lastUpdated="January 6, 2026"
+      lede="This Privacy Policy explains how Tribes Rights Management LLC collects, uses, and shares information when you use our websites, portals, and services."
+    >
 
       <section>
         <h2 className="text-foreground mb-3">Information We Collect</h2>
