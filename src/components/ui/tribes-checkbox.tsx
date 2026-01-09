@@ -3,20 +3,10 @@ import { cn } from "@/lib/utils";
 
 /**
  * TRIBES CHECKBOX — CANONICAL CONSENT CONTROL (LOCKED)
- * 
- * This is the ONLY checkbox component for consent/legal rows sitewide.
- * 
- * Visual requirements (non-negotiable):
- * - 18x18px visible box, border-radius: 2px
- * - 1px border #cfcfcf, transparent background
- * - Checked: crisp SVG checkmark (#111), NO filled background
- * - Top-aligned with first line of label text
- * - Full row clickable (44px+ hit area), visible box stays 18px
- * - Focus: subtle outline on box only
- * - Disabled: reduced opacity
- * 
- * iOS Safari: Native input is absolutely positioned and opacity:0,
- * with explicit sizing to prevent any native rendering from showing.
+ *
+ * Purpose: a stable, iOS-safe consent checkbox that cannot regress to native UI.
+ * Implementation: native <input type="checkbox"> kept for accessibility but visually hidden (opacity: 0)
+ * and fully overridden; a separate 18×18 visual box renders the checkmark.
  */
 
 interface TribesCheckboxProps {
@@ -36,54 +26,44 @@ export function TribesCheckbox({
   children,
   className,
 }: TribesCheckboxProps) {
+  const labelId = `${id}-label`;
+
   return (
-    <label
-      htmlFor={id}
+    <div
       className={cn(
-        // Wrapper: flex row, top-aligned, 12px gap, full row clickable
+        // Wrapper: flex; top-aligned; 12px gap; full-row tap target
         "flex items-start gap-3 cursor-pointer select-none min-h-[44px]",
         disabled && "cursor-not-allowed opacity-50",
-        className
+        className,
       )}
+      onClick={() => {
+        if (!disabled) onCheckedChange(!checked);
+      }}
     >
-      {/* Checkbox container - positions native input and custom visual */}
+      {/* Visual checkbox + native input */}
       <span className="relative shrink-0 w-[18px] h-[18px] mt-[3px]">
-        {/* Native input: opacity 0, same size as container, no appearance */}
         <input
           type="checkbox"
           id={id}
           checked={checked}
           onChange={(e) => onCheckedChange(e.target.checked)}
+          onClick={(e) => e.stopPropagation()}
           disabled={disabled}
-          aria-checked={checked}
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '18px',
-            height: '18px',
-            margin: 0,
-            padding: 0,
-            opacity: 0,
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            // Force no appearance on iOS Safari
-            WebkitAppearance: 'none',
-            appearance: 'none',
-          }}
+          aria-labelledby={labelId}
+          data-tribes-checkbox
+          className="peer absolute inset-0 m-0 p-0 w-[18px] h-[18px] opacity-0"
+          style={{ WebkitAppearance: "none", appearance: "none" }}
         />
-        
-        {/* Custom visual checkbox box */}
+
         <span
           className={cn(
-            // 18x18px box, 2px radius, thin border, transparent bg
-            "absolute inset-0 rounded-[2px] border bg-transparent transition-colors duration-100 pointer-events-none",
-            "border-[#cfcfcf]",
-            // Checked: slightly darker border for definition
-            checked && "border-[#888888]"
+            "absolute inset-0 rounded-[2px] border bg-transparent transition-colors duration-100",
+            "border-[hsl(var(--tribes-checkbox-border))]",
+            checked && "border-[hsl(var(--tribes-checkbox-border-checked))]",
+            "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-[hsl(var(--tribes-checkbox-focus))] peer-focus-visible:outline-offset-2",
           )}
           aria-hidden="true"
         >
-          {/* Checkmark SVG - only visible when checked */}
           {checked && (
             <svg
               className="absolute inset-0 w-full h-full p-[2px]"
@@ -93,7 +73,7 @@ export function TribesCheckbox({
             >
               <path
                 d="M3 7.5L5.5 10L11 4"
-                stroke="#111111"
+                stroke="hsl(var(--tribes-checkbox-check))"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -101,18 +81,13 @@ export function TribesCheckbox({
             </svg>
           )}
         </span>
-        
-        {/* Focus ring - shows when native input is focused */}
-        <span 
-          className="absolute inset-0 rounded-[2px] pointer-events-none peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-[rgba(17,17,17,0.25)] peer-focus-visible:outline-offset-2"
-          aria-hidden="true"
-        />
       </span>
-      
-      {/* Label content - inherits typography from parent */}
-      <span className="text-[14px] text-muted-foreground leading-relaxed">
+
+      {/* Label content (not a <label> to avoid link-click toggling) */}
+      <span id={labelId} className="text-[14px] text-muted-foreground leading-relaxed">
         {children}
       </span>
-    </label>
+    </div>
   );
 }
+
