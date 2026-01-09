@@ -51,17 +51,17 @@ export const THEME_DARK_CLASS = "bg-[#0B0F14]";
 /** Tailwind class for light theme zone background (form zone) */
 export const THEME_LIGHT_CLASS = "bg-[#F5F5F7]";
 
-/** Overlay backdrop color with blur - institutional standard */
+/** Overlay backdrop - institutional standard (subtle, architectural) */
 export const OVERLAY_BACKDROP = {
-  color: "rgba(0, 0, 0, 0.40)",
-  blur: "14px",
+  color: "rgba(0, 0, 0, 0.25)",
+  blur: "5px",
 };
 
-/** Motion timing - institutional standard (Apple-grade) */
+/** Motion timing - institutional standard (firm, restrained) */
 export const MOTION_TIMING = {
-  enter: 200, // 180-220ms enter
-  exit: 160,  // 140-180ms exit
-  easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+  enter: 180, // Fast, restrained
+  exit: 140,  // Slightly faster than enter
+  easing: "cubic-bezier(0.25, 0.1, 0.25, 1)", // Standard ease-out, no spring
 };
 
 /** Footer spacer heights (responsive) */

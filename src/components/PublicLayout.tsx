@@ -151,7 +151,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         {/* Mobile Menu - Full-screen slide-in drawer */}
         {!logoOnly && (
           <>
-            {/* Backdrop with blur - uses theme constants */}
+            {/* Backdrop - Institutional: subtle blur, de-emphasizes without obscuring */}
             <div 
               className={`fixed inset-0 z-40 md:hidden ${
                 mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -160,7 +160,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 backgroundColor: OVERLAY_BACKDROP.color,
                 backdropFilter: mobileMenuOpen ? `blur(${OVERLAY_BACKDROP.blur})` : 'blur(0px)',
                 WebkitBackdropFilter: mobileMenuOpen ? `blur(${OVERLAY_BACKDROP.blur})` : 'blur(0px)',
-                transition: `opacity ${MOTION_TIMING.enter}ms ${MOTION_TIMING.easing}`,
+                transition: `opacity ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
               }}
               onClick={() => setMobileMenuOpen(false)}
               aria-hidden="true"
@@ -177,9 +177,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 paddingBottom: 'env(safe-area-inset-bottom)',
                 paddingRight: 'env(safe-area-inset-right)',
                 paddingLeft: 'env(safe-area-inset-left)',
-                transition: `transform ${MOTION_TIMING.enter}ms ${MOTION_TIMING.easing}`,
+                transition: `transform ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
               }}
               aria-label="Mobile navigation"
+              aria-modal="true"
+              role="dialog"
             >
               {/* Close button - institutional styling */}
               <div className="flex justify-end px-6 pt-6 pb-4">
