@@ -33,23 +33,23 @@
   --space-11: 160px;
   --space-12: 200px;
   
-  /* Footer-specific tokens — Institutional grade (Mercury/Stripe) */
-  --footer-pt-mobile: 72px;    /* Tightened: calm, dense top */
-  --footer-pt-tablet: 76px;
-  --footer-pt-desktop: 80px;
-  --footer-pb-mobile: 56px;    /* Tightened: confident bottom */
-  --footer-pb-tablet: 60px;
-  --footer-pb-desktop: 64px;
-  --footer-group-gap-mobile: 48px;   /* Tightened column group spacing */
-  --footer-label-to-link-mobile: 20px;  /* Tightened label→link */
+  /* Footer-specific tokens — Institutional grade, balanced zones */
+  --footer-pt-mobile: 72px;    /* Locked: equal top/bottom */
+  --footer-pt-tablet: 72px;
+  --footer-pt-desktop: 72px;
+  --footer-pb-mobile: 72px;    /* Locked: equal top/bottom */
+  --footer-pb-tablet: 72px;
+  --footer-pb-desktop: 72px;
+  --footer-group-gap-mobile: 40px;   /* Column group spacing (mobile stack) */
+  --footer-label-to-link-mobile: 16px;  /* Tight label→link */
   --footer-label-to-link-desktop: 16px;
-  --footer-link-gap-mobile: 16px;    /* Tightened link→link */
-  --footer-link-gap-desktop: 14px;
+  --footer-link-gap-mobile: 13px;    /* Link→link: 12-14px range */
+  --footer-link-gap-desktop: 12px;
   --footer-column-gap-tablet: 40px;
   --footer-column-gap-desktop: 64px;
-  --footer-signature-mt-mobile: 40px;  /* Tightened: unified footer block */
-  --footer-signature-mt-tablet: 44px;
-  --footer-signature-mt-desktop: 48px;
+  --footer-signature-mt-mobile: 56px;  /* Zone gap: links → brand block */
+  --footer-signature-mt-tablet: 56px;
+  --footer-signature-mt-desktop: 56px;
 
   /* ─────────────────────────────────────────────────────────────────────────────
      PAGE GUTTERS — Horizontal container padding
