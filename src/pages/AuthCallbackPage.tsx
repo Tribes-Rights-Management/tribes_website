@@ -121,7 +121,7 @@ export default function AuthCallbackPage() {
             )}
           </div>
         </main>
-        <Footer />
+        <Footer variant="standard" />
       </div>
     );
   }
@@ -169,7 +169,7 @@ export default function AuthCallbackPage() {
             )}
           </div>
         </main>
-        <Footer />
+        <Footer variant="standard" />
       </div>
     );
   }
@@ -191,7 +191,7 @@ export default function AuthCallbackPage() {
           </button>
         </div>
       </main>
-      <Footer />
+      <Footer variant="standard" />
     </div>
   );
 }

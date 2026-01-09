@@ -381,14 +381,7 @@ export default function RequestFormPage() {
         </div>
       </main>
 
-      <footer className="border-t border-border/50 py-4">
-        <div className="container text-center">
-          <p className="text-xs text-muted-foreground mb-3">
-            All submissions are reviewed before agreements are finalized.
-          </p>
-        </div>
-        <Footer className="pt-0" />
-      </footer>
+      <Footer variant="standard" />
     </div>
   );
 }
