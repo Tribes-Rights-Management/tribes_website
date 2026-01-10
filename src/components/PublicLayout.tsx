@@ -86,7 +86,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
           headerDark 
             ? 'border-b border-white/[0.06]' 
-            : 'backdrop-blur-md bg-background/80 border-b border-border/40'
+            : 'md:backdrop-blur-md md:bg-background/80 bg-white border-b border-black/[0.08] md:border-border/40'
         }`}
         style={headerDark ? { backgroundColor: THEME_DARK_BG } : undefined}
       >

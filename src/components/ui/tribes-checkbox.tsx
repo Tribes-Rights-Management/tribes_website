@@ -105,8 +105,12 @@ export function TribesCheckbox({
         </span>
       </span>
 
-      {/* Label content: top-aligned with visual box */}
-      <span id={labelId} className="text-[14px] text-muted-foreground leading-relaxed pt-px">
+      {/* Label content: tertiary hierarchy - smaller, muted for legal text */}
+      <span 
+        id={labelId} 
+        className="text-[13px] font-normal leading-[1.5] pt-px"
+        style={{ color: 'rgba(0, 0, 0, 0.7)' }}
+      >
         {children}
       </span>
     </div>
