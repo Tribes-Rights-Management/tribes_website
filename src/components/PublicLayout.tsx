@@ -278,6 +278,23 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </div>
           </nav>
 
+          {/* Desktop/iPad Background Blur Overlay - Subtle Apple-style depth */}
+          <div
+            className={`hidden md:block fixed inset-0 z-40 ${
+              menuOpen ? '' : 'pointer-events-none'
+            }`}
+            style={{
+              top: '72px',
+              backdropFilter: menuOpen ? 'blur(6px)' : 'blur(0px)',
+              WebkitBackdropFilter: menuOpen ? 'blur(6px)' : 'blur(0px)',
+              opacity: menuOpen ? 1 : 0,
+              transition: 'backdrop-filter 100ms ease-out, opacity 100ms ease-out',
+              willChange: 'backdrop-filter, opacity',
+            }}
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+
           {/* Desktop/iPad Dropdown Panel - Full-width Apple-style */}
           <div
             ref={menuRef}
