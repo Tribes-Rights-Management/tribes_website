@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FormPageLayout, FormSuccessLayout } from "@/components/FormPageLayout";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
 import { z } from "zod";
+import { FormFeedback } from "@/components/shared/FormFeedback";
+import { ButtonSpinner } from "@/components/shared/ButtonSpinner";
 
 /**
  * CONTACT PAGE — Uses global FormPageLayout standard
@@ -28,17 +30,38 @@ const contactSchema = z.object({
   message: z.string().trim().min(1, "Message is required").max(5000),
 });
 
+type SubmitStatus = "idle" | "success" | "error";
+
 export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
 
+  // Auto-dismiss success message after 5 seconds
+  useEffect(() => {
+    if (submitStatus === "success") {
+      const timer = setTimeout(() => {
+        setSubmitStatus("idle");
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
+  function resetForm() {
+    setName("");
+    setEmail("");
+    setLocation("");
+    setMessage("");
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setSubmitStatus("idle");
     
     const result = contactSchema.safeParse({
       name,
@@ -74,11 +97,7 @@ export default function ContactPage() {
       }
 
       if (data?.error) {
-        toast({
-          title: "Unable to submit",
-          description: data.error,
-          variant: "destructive",
-        });
+        setSubmitStatus("error");
         setIsSubmitting(false);
         return;
       }
@@ -86,11 +105,7 @@ export default function ContactPage() {
       setIsSubmitted(true);
     } catch (error: any) {
       console.error("Submit error:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
     }
@@ -195,17 +210,33 @@ export default function ContactPage() {
         </div>
 
         {/* ============================================
-            SECTION 3: SUBMISSION
-            Distinct separation for the legal/action moment
+            SECTION 3: FEEDBACK + SUBMISSION
             ============================================ */}
         <div className="pt-4 space-y-4">
+          {/* Inline Feedback */}
+          {submitStatus === "error" && (
+            <FormFeedback
+              type="error"
+              title="Unable to submit"
+              message="Something went wrong. Please try again or email us directly at admin@tribesassets.com."
+              onDismiss={() => setSubmitStatus("idle")}
+            />
+          )}
+
           <Button
             type="submit"
             disabled={isSubmitting}
             size="lg"
             className="w-full"
           >
-            {isSubmitting ? "Submitting…" : "Submit"}
+            {isSubmitting ? (
+              <span className="inline-flex items-center gap-2">
+                <ButtonSpinner size={16} />
+                Submitting…
+              </span>
+            ) : (
+              "Submit"
+            )}
           </Button>
 
           <p className="text-[13px] text-muted-foreground text-center">
