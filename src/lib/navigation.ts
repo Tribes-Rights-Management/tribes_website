@@ -45,46 +45,52 @@ export const NAV_CONFIG: NavConfig = {
 
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  DROPDOWN ANIMATION VALUES ARE FINAL                                       ║
- * ║  Do not modify easing, duration, or transform behavior unless explicitly   ║
- * ║  instructed.                                                               ║
+ * ║  DROPDOWN ANIMATION TIMINGS/EASING ARE FINAL                               ║
+ * ║  Do not alter without explicit instruction.                                ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
 /**
- * Navigation timing constants (locked to premium feel)
+ * Navigation timing constants (Apple-grade, locked)
+ * 
+ * Open:  320ms - deliberate, smooth reveal
+ * Close: 240ms - controlled, slightly faster than open
  */
 export const NAV_TIMING = {
   /** Desktop dropdown open animation duration */
-  dropdownOpen: 220,
+  dropdownOpen: 320,
   /** Desktop dropdown close animation duration */
-  dropdownClose: 180,
-  /** Background blur transition */
-  blurTransition: 100,
+  dropdownClose: 240,
   /** Mobile overlay slide transition */
-  mobileSlide: 220,
+  mobileSlide: 280,
 } as const;
 
 /**
  * Navigation easing curves (Apple-grade, locked)
+ * 
+ * Open:  cubic-bezier(0.16, 1, 0.3, 1) - smooth, Apple-like ease-out
+ * Close: cubic-bezier(0.4, 0, 0.2, 1)  - controlled, standard ease-out
  */
 export const NAV_EASING = {
   /** Open: smooth ease-out, Apple-like */
-  open: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
-  /** Close: slightly quicker, controlled */
-  close: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+  open: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  /** Close: controlled, slightly quicker */
+  close: 'cubic-bezier(0.4, 0, 0.2, 1)',
 } as const;
 
 /**
  * Navigation transform values (locked)
+ * 
+ * Open:  translateY(-10px) → translateY(0)
+ * Close: translateY(0) → translateY(-8px)
  */
 export const NAV_TRANSFORM = {
   /** Starting position on open */
-  openFrom: 'translateY(-8px)',
-  /** Ending position on open */
+  openFrom: 'translateY(-10px)',
+  /** Ending position on open / starting position on close */
   openTo: 'translateY(0)',
   /** Ending position on close */
-  closeTo: 'translateY(-6px)',
+  closeTo: 'translateY(-8px)',
 } as const;
 
 /**

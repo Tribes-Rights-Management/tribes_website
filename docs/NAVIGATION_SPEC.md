@@ -45,9 +45,10 @@ The hamburger is the **only navigation entry point** on all screen sizes.
 | Animation type   | opacity + transform (no height animation) | opacity + transform (no height animation) |
 | Transform origin | top center                                | top center                                |
 | Opacity          | 0 → 1                                     | 1 → 0                                     |
-| Transform        | translateY(-8px) → translateY(0)          | translateY(0) → translateY(-6px)          |
-| Duration         | 220ms                                     | 180ms                                     |
-| Easing           | cubic-bezier(0.22, 0.61, 0.36, 1)         | cubic-bezier(0.4, 0.0, 0.2, 1)            |
+| Transform        | translateY(-10px) → translateY(0)         | translateY(0) → translateY(-8px)          |
+| Duration         | 320ms                                     | 240ms                                     |
+| Easing           | cubic-bezier(0.16, 1, 0.3, 1)             | cubic-bezier(0.4, 0, 0.2, 1)              |
+| Blur sync        | Same duration + easing as dropdown        | Same duration + easing as dropdown        |
 
 **Motion Rules:**
 - No bounce, overshoot, or spring physics

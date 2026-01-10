@@ -300,7 +300,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               Per spec: 6px blur on background content, 100ms transition
               ───────────────────────────────────────────────────────────────────── */}
           
-          {/* Background Blur Overlay - blocks scroll events */}
+          {/* Background Blur Overlay - synchronized with dropdown timing */}
           <div
             className={`hidden md:block fixed inset-0 z-40 ${
               menuOpen ? '' : 'pointer-events-none'
@@ -310,7 +310,10 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               backdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
               WebkitBackdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
               opacity: menuOpen ? 1 : 0,
-              transition: `backdrop-filter ${NAV_TIMING.blurTransition}ms ease-out, opacity ${NAV_TIMING.blurTransition}ms ease-out`,
+              // Blur syncs with dropdown: 320ms open, 240ms close
+              transition: menuOpen 
+                ? `backdrop-filter ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}, opacity ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}`
+                : `backdrop-filter ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}, opacity ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}`,
               willChange: 'backdrop-filter, opacity',
               // Prevent scroll bleed through overlay
               overscrollBehavior: 'contain',
@@ -324,11 +327,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
 
           {/* Dropdown Panel
               ═══════════════════════════════════════════════════════════════════════
-              ANIMATION VALUES ARE FINAL - Do not modify easing, duration, or
-              transform behavior unless explicitly instructed.
+              DROPDOWN ANIMATION TIMINGS/EASING ARE FINAL
+              Do not alter without explicit instruction.
               
-              Open:  opacity 0→1, translateY(-8px)→0, 220ms, cubic-bezier(0.22, 0.61, 0.36, 1)
-              Close: opacity 1→0, translateY(0)→-6px, 180ms, cubic-bezier(0.4, 0.0, 0.2, 1)
+              Open:  opacity 0→1, translateY(-10px)→0, 320ms, cubic-bezier(0.16, 1, 0.3, 1)
+              Close: opacity 1→0, translateY(0)→-8px, 240ms, cubic-bezier(0.4, 0, 0.2, 1)
               ═══════════════════════════════════════════════════════════════════════ */}
           <div
             ref={menuRef}
