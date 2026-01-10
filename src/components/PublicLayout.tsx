@@ -19,7 +19,7 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { useScrollLock } from "@/hooks/useScrollLock";
-import { NAV_CONFIG, NAV_TIMING, NAV_BLUR_INTENSITY } from "@/lib/navigation";
+import { NAV_CONFIG, NAV_TIMING, NAV_EASING, NAV_TRANSFORM, NAV_BLUR_INTENSITY } from "@/lib/navigation";
 
 
 interface PublicLayoutProps {
@@ -317,34 +317,36 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             aria-hidden="true"
           />
 
-          {/* Dropdown Panel */}
+          {/* Dropdown Panel
+              ═══════════════════════════════════════════════════════════════════════
+              ANIMATION VALUES ARE FINAL - Do not modify easing, duration, or
+              transform behavior unless explicitly instructed.
+              
+              Open:  opacity 0→1, translateY(-8px)→0, 220ms, cubic-bezier(0.22, 0.61, 0.36, 1)
+              Close: opacity 1→0, translateY(0)→-6px, 180ms, cubic-bezier(0.4, 0.0, 0.2, 1)
+              ═══════════════════════════════════════════════════════════════════════ */}
           <div
             ref={menuRef}
-            className={`hidden md:block fixed left-0 right-0 z-50 overflow-hidden ${
+            className={`hidden md:block fixed left-0 right-0 z-50 motion-safe:transition-[opacity,transform] ${
               menuOpen ? '' : 'pointer-events-none'
             }`}
             style={{
               top: '72px',
+              transformOrigin: 'top center',
               backgroundColor: THEME_LIGHT_BG,
               borderBottom: menuOpen ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
               boxShadow: menuOpen ? '0 2px 16px rgba(0, 0, 0, 0.06)' : 'none',
-              maxHeight: menuOpen ? '500px' : '0',
               opacity: menuOpen ? 1 : 0,
-              transition: `max-height ${NAV_TIMING.dropdownReveal}ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-out`,
-              willChange: 'max-height, opacity',
+              transform: menuOpen ? NAV_TRANSFORM.openTo : NAV_TRANSFORM.closeTo,
+              transition: menuOpen 
+                ? `opacity ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}, transform ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}`
+                : `opacity ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}, transform ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}`,
+              willChange: 'opacity, transform',
             }}
             role="menu"
             aria-label="Navigation menu"
           >
-            <div 
-              className={CONTENT_CONTAINER_CLASS}
-              style={{
-                transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
-                opacity: menuOpen ? 1 : 0,
-                transition: `transform ${NAV_TIMING.dropdownReveal}ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease-out`,
-                transitionDelay: menuOpen ? `${NAV_TIMING.dropdownContentDelay}ms` : '0ms',
-              }}
-            >
+            <div className={CONTENT_CONTAINER_CLASS}>
               <div className="flex">
                 {/* Navigation - Rendered from NAV_CONFIG */}
                 <div 

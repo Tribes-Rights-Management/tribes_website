@@ -44,17 +44,47 @@ export const NAV_CONFIG: NavConfig = {
 };
 
 /**
+ * ╔════════════════════════════════════════════════════════════════════════════╗
+ * ║  DROPDOWN ANIMATION VALUES ARE FINAL                                       ║
+ * ║  Do not modify easing, duration, or transform behavior unless explicitly   ║
+ * ║  instructed.                                                               ║
+ * ╚════════════════════════════════════════════════════════════════════════════╝
+ */
+
+/**
  * Navigation timing constants (locked to premium feel)
  */
 export const NAV_TIMING = {
-  /** Desktop dropdown reveal animation */
-  dropdownReveal: 280,
-  /** Desktop dropdown content slide delay */
-  dropdownContentDelay: 40,
+  /** Desktop dropdown open animation duration */
+  dropdownOpen: 220,
+  /** Desktop dropdown close animation duration */
+  dropdownClose: 180,
   /** Background blur transition */
   blurTransition: 100,
   /** Mobile overlay slide transition */
   mobileSlide: 220,
+} as const;
+
+/**
+ * Navigation easing curves (Apple-grade, locked)
+ */
+export const NAV_EASING = {
+  /** Open: smooth ease-out, Apple-like */
+  open: 'cubic-bezier(0.22, 0.61, 0.36, 1)',
+  /** Close: slightly quicker, controlled */
+  close: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+} as const;
+
+/**
+ * Navigation transform values (locked)
+ */
+export const NAV_TRANSFORM = {
+  /** Starting position on open */
+  openFrom: 'translateY(-8px)',
+  /** Ending position on open */
+  openTo: 'translateY(0)',
+  /** Ending position on close */
+  closeTo: 'translateY(-6px)',
 } as const;
 
 /**
