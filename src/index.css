@@ -290,6 +290,7 @@
     margin: 0;
     padding: 0;
     min-height: 100%;
+    /* DO NOT use scroll-behavior: smooth globally — causes jank on iOS */
     /* Prevent bounce revealing light browser canvas */
     overscroll-behavior-y: none;
   }
@@ -310,12 +311,32 @@
     overflow-x: hidden;
     /* Prevent bounce revealing light browser canvas */
     overscroll-behavior-y: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
     /* iOS Safari viewport fix - use all three for maximum compatibility */
     min-height: 100vh;
     min-height: 100dvh;
     min-height: 100svh;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     SCROLL-LOCK STATE — Applied via JS when modals/menus open
+     Preserves scroll position and compensates for scrollbar width
+     ═══════════════════════════════════════════════════════════════════════════ */
+  body.scroll-locked {
+    overflow: hidden !important;
+    /* Scrollbar width compensation applied via JS --scrollbar-width */
+    padding-right: var(--scrollbar-width, 0px);
+  }
+
+  /* Reduced motion: disable all animations and transitions */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   /* iOS Safari: fixed full-viewport underlay so overscroll can never reveal white */
