@@ -179,18 +179,16 @@ export default function MarketingPage() {
             How Copyright Clearance Works
           </p>
           
-          {/* Intro line — policy statement */}
+          {/* Intro line — policy statement, tighter gap to steps on mobile */}
           <p 
-            className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px]"
-            style={{ marginBottom: '64px' }}
+            className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] mb-10 md:mb-16"
           >
             Every request is reviewed before any agreement is issued.
           </p>
           
-          {/* Steps — stackLoose between each step on mobile */}
+          {/* Steps — stackLoose between each step on mobile, no top padding on mobile */}
           <div 
-            className="flex flex-col stack-loose md:grid md:grid-cols-2"
-            style={{ paddingTop: '24px' }}
+            className="flex flex-col stack-loose md:grid md:grid-cols-2 md:pt-6"
           >
             {/* Step 01 */}
             <div>
