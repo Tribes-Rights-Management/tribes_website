@@ -80,6 +80,31 @@
   --footer-mobile-pt: 104px;
   --footer-mobile-pb: 104px;
   
+  /* ═════════════════════════════════════════════════════════════════════════════
+     MOBILE NAVIGATION TOKENS — LOCKED SYSTEM COMPONENT
+     
+     These tokens define the mobile navigation overlay. No page-specific overrides.
+     Any future changes must modify these tokens directly—never ad hoc tweaks.
+     ═════════════════════════════════════════════════════════════════════════════ */
+  --mobile-nav-padding-x: 20px;
+  --mobile-nav-item-gap: 6px;        /* Gap between primary nav items */
+  --mobile-nav-section-gap: 32px;    /* Gap between nav sections */
+  --mobile-nav-divider-gap: 24px;    /* Space around hairline dividers */
+  --mobile-nav-header-pt: 20px;      /* Top padding for close button area */
+  --mobile-nav-header-pb: 16px;      /* Bottom padding for close button area */
+  --mobile-nav-content-pt: 12px;     /* Top padding for nav content */
+  
+  /* Typography — Primary navigation items */
+  --mobile-nav-primary-size: 17px;
+  --mobile-nav-primary-weight: 500;
+  --mobile-nav-primary-color: 0 0% 9%;         /* High-contrast primary */
+  
+  /* Typography — Secondary navigation items (nested/subordinate) */
+  --mobile-nav-secondary-size: 15px;
+  --mobile-nav-secondary-weight: 400;
+  --mobile-nav-secondary-color: 0 0% 35%;      /* Muted relative to primary */
+  --mobile-nav-secondary-indent: 16px;         /* Left indent for hierarchy */
+  
   /* Legacy tokens mapped to new system for compatibility */
   --section-padding-light-mobile: var(--section-light-mobile-pt);
   --section-padding-dark-mobile: var(--section-dark-mobile-pt);
@@ -688,6 +713,65 @@
 
   .link-simple:hover {
     opacity: 0.75;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     MOBILE NAVIGATION TYPOGRAPHY — LOCKED SYSTEM COMPONENT
+     
+     Premium hierarchy for mobile nav. No page-specific overrides allowed.
+     Uses tokens from --mobile-nav-* for spacing/sizing consistency.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  /* Mobile nav drawer — full system surface */
+  .mobile-nav-drawer {
+    touch-action: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Primary navigation items — destination language, high contrast */
+  .mobile-nav-primary {
+    font-size: var(--mobile-nav-primary-size);
+    font-weight: var(--mobile-nav-primary-weight);
+    color: hsl(var(--mobile-nav-primary-color));
+    transition: opacity 150ms ease-out;
+    display: block;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mobile-nav-primary:hover,
+  .mobile-nav-primary:focus-visible {
+    opacity: 0.7;
+  }
+  
+  .mobile-nav-primary:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
+  }
+  
+  /* Secondary navigation items — subordinate, muted, indented */
+  .mobile-nav-secondary {
+    font-size: var(--mobile-nav-secondary-size);
+    font-weight: var(--mobile-nav-secondary-weight);
+    color: hsl(var(--mobile-nav-secondary-color));
+    padding-left: var(--mobile-nav-secondary-indent);
+    transition: opacity 150ms ease-out;
+    display: block;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .mobile-nav-secondary:hover,
+  .mobile-nav-secondary:focus-visible {
+    opacity: 0.7;
+  }
+  
+  .mobile-nav-secondary:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
   }
 
   /* Disabled state - opacity only, no events */

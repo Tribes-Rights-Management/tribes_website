@@ -159,17 +159,15 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               aria-hidden="true"
             />
             
-            {/* Drawer - Full width on mobile, white background (INSTITUTIONAL LOCK) */}
+            {/* Mobile Nav Drawer — Full-width system surface (LOCKED COMPONENT) */}
             <nav 
-              className={`fixed top-0 right-0 h-screen w-full z-50 md:hidden flex flex-col motion-reduce:duration-0 ${
+              className={`mobile-nav-drawer fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col overscroll-none ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
               }`}
               style={{
                 backgroundColor: THEME_LIGHT_BG,
                 paddingTop: 'env(safe-area-inset-top)',
                 paddingBottom: 'env(safe-area-inset-bottom)',
-                paddingRight: 'env(safe-area-inset-right)',
-                paddingLeft: 'env(safe-area-inset-left)',
                 transition: `transform ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
                 willChange: "transform",
               }}
@@ -177,8 +175,16 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               aria-modal="true"
               role="dialog"
             >
-              {/* Close button - institutional styling */}
-              <div className="flex justify-end px-6 pt-6 pb-4">
+              {/* Close button header — institutional styling */}
+              <div 
+                className="flex justify-end"
+                style={{ 
+                  paddingLeft: 'var(--mobile-nav-padding-x)',
+                  paddingRight: 'var(--mobile-nav-padding-x)',
+                  paddingTop: 'var(--mobile-nav-header-pt)',
+                  paddingBottom: 'var(--mobile-nav-header-pb)',
+                }}
+              >
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-[13px] text-foreground/50 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
@@ -188,54 +194,96 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 </button>
               </div>
               
-              {/* Navigation Links - Clean vertical list, no section headers */}
-              <div className="flex flex-col px-6 pt-4 gap-5">
+              {/* Primary Navigation — Client Portal with nested Licensing Access */}
+              <div 
+                className="flex flex-col"
+                style={{ 
+                  paddingLeft: 'var(--mobile-nav-padding-x)',
+                  paddingRight: 'var(--mobile-nav-padding-x)',
+                  paddingTop: 'var(--mobile-nav-content-pt)',
+                  gap: 'var(--mobile-nav-item-gap)',
+                }}
+              >
+                {/* Client Portal — Primary destination */}
                 <a 
                   href="https://app.tribesrightsmanagement.com" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
+                  className="mobile-nav-primary py-2"
                 >
                   Client Portal
                 </a>
+                {/* Licensing Access — Secondary, nested under Client Portal */}
+                <Link 
+                  to="/licensing-account" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="mobile-nav-secondary py-2"
+                >
+                  Licensing Access
+                </Link>
+              </div>
+
+              {/* Hairline Divider — Full width, low contrast */}
+              <div 
+                className="border-t border-foreground/[0.06] w-full"
+                style={{ 
+                  marginTop: 'var(--mobile-nav-divider-gap)',
+                  marginBottom: 'var(--mobile-nav-divider-gap)',
+                }}
+              />
+
+              {/* Main Navigation Section */}
+              <div 
+                className="flex flex-col"
+                style={{ 
+                  paddingLeft: 'var(--mobile-nav-padding-x)',
+                  paddingRight: 'var(--mobile-nav-padding-x)',
+                  gap: 'var(--mobile-nav-item-gap)',
+                }}
+              >
                 <Link 
                   to="/services" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
+                  className="mobile-nav-primary py-2"
                 >
                   Services
                 </Link>
                 <Link 
                   to="/how-publishing-admin-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
+                  className="mobile-nav-primary py-2"
                 >
                   How Administration Works
                 </Link>
                 <Link 
                   to="/how-licensing-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
+                  className="mobile-nav-primary py-2"
                 >
                   How Licensing Works
                 </Link>
               </div>
 
-              {/* Divider */}
-              <div className="border-t border-foreground/[0.06] mx-6 mt-8 mb-5" />
+              {/* Hairline Divider */}
+              <div 
+                className="border-t border-foreground/[0.06] w-full"
+                style={{ 
+                  marginTop: 'var(--mobile-nav-divider-gap)',
+                  marginBottom: 'var(--mobile-nav-divider-gap)',
+                }}
+              />
 
-              {/* Secondary Links */}
-              <div className="flex flex-col px-6 gap-5">
-                <Link 
-                  to="/licensing-account" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
-                >
-                  Licensing Access
-                </Link>
+              {/* Contact — Bottom section */}
+              <div 
+                className="flex flex-col"
+                style={{ 
+                  paddingLeft: 'var(--mobile-nav-padding-x)',
+                  paddingRight: 'var(--mobile-nav-padding-x)',
+                }}
+              >
                 <Link 
                   to="/contact" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
+                  className="mobile-nav-primary py-2"
                 >
                   Contact
                 </Link>
