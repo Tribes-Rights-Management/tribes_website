@@ -60,7 +60,7 @@ export function Footer({
 
   const renderGroup = (
     label: string,
-    links: { to?: string; label: string; disabled?: boolean }[],
+    links: { to?: string; label: string; disabled?: boolean; external?: boolean }[],
     extraClass?: string
   ) => (
     <div className={cn(groupClass, extraClass)}>
@@ -74,6 +74,14 @@ export function Footer({
             >
               {link.label}
             </span>
+          ) : link.external ? (
+            <a 
+              key={link.label}
+              href={link.to!} 
+              className={cn(linkClass, "text-white block", getLinkSpacingClass(idx))}
+            >
+              {link.label}
+            </a>
           ) : (
             <Link 
               key={link.label}
@@ -99,7 +107,7 @@ export function Footer({
           <nav>
             <div className={navGridClass}>
               {renderGroup("Access", [
-                { to: "/portal", label: "Client Portal" },
+                { to: "https://app.tribesrightsmanagement.com", label: "Client Portal", external: true },
                 { to: "/licensing-account", label: "Licensing Access" },
               ])}
               {renderGroup("Company", [

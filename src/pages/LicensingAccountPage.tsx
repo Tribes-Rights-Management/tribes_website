@@ -15,7 +15,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
-import { getSignInUrl, isPreviewEnvironment } from "@/lib/domains";
 import { z } from "zod";
 
 /**
@@ -227,21 +226,12 @@ export default function LicensingAccountPage() {
         title="Account exists"
         message="An account with this email already exists."
       >
-        {isPreviewEnvironment() ? (
-          <Link 
-            to="/auth" 
-            className="text-[14px] text-foreground hover:opacity-70 transition-opacity duration-150 underline underline-offset-4"
-          >
-            Sign in
-          </Link>
-        ) : (
-          <a 
-            href={getSignInUrl("/portal")} 
-            className="text-[14px] text-foreground hover:opacity-70 transition-opacity duration-150 underline underline-offset-4"
-          >
-            Sign in
-          </a>
-        )}
+        <a 
+          href="https://app.tribesrightsmanagement.com" 
+          className="text-[14px] text-foreground hover:opacity-70 transition-opacity duration-150 underline underline-offset-4"
+        >
+          Sign in
+        </a>
       </FormSuccessLayout>
     );
   }
@@ -398,15 +388,9 @@ export default function LicensingAccountPage() {
       <div className="mt-8 text-center">
         <p className="text-[14px] text-muted-foreground">
           Already have an account?{" "}
-          {isPreviewEnvironment() ? (
-            <Link to="/auth" className="text-foreground font-medium hover:opacity-70 transition-opacity duration-150">
-              Sign in
-            </Link>
-          ) : (
-            <a href={getSignInUrl("/portal")} className="text-foreground font-medium hover:opacity-70 transition-opacity duration-150">
-              Sign in
-            </a>
-          )}
+          <a href="https://app.tribesrightsmanagement.com" className="text-foreground font-medium hover:opacity-70 transition-opacity duration-150">
+            Sign in
+          </a>
         </p>
       </div>
     </FormPageLayout>

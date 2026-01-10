@@ -89,13 +89,13 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
         {/* Navigation Links - Clean vertical list, no section headers */}
         <nav className="flex flex-col flex-1 px-8 pt-6">
           <div className="flex flex-col gap-5">
-            <Link
-              to="/portal"
+            <a
+              href="https://app.tribesrightsmanagement.com"
               onClick={onClose}
               className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
             >
               Client Portal
-            </Link>
+            </a>
             <Link
               to="/services"
               onClick={onClose}
