@@ -8,7 +8,6 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-    strictPort: false,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
@@ -26,23 +25,12 @@ export default defineConfig(({ mode }) => ({
           ui: [
             "@radix-ui/react-dialog",
             "@radix-ui/react-dropdown-menu",
-            "@radix-ui/react-select",
-            "@radix-ui/react-tabs",
           ],
           supabase: ["@supabase/supabase-js"],
-          utils: ["clsx", "tailwind-merge", "date-fns"],
         },
       },
     },
-    sourcemap: mode !== "production",
+    sourcemap: false,
     chunkSizeWarningLimit: 1000,
-  },
-  optimizeDeps: {
-    include: [
-      "react",
-      "react-dom",
-      "react-router-dom",
-      "@supabase/supabase-js",
-    ],
   },
 }));
