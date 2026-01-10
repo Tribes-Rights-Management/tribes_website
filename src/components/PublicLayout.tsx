@@ -281,20 +281,31 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {/* Desktop/iPad Dropdown Panel - Full-width Apple-style */}
           <div
             ref={menuRef}
-            className={`hidden md:block fixed left-0 right-0 z-50 ${
-              menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            className={`hidden md:block fixed left-0 right-0 z-50 overflow-hidden ${
+              menuOpen ? '' : 'pointer-events-none'
             }`}
             style={{
               top: '72px',
               backgroundColor: THEME_LIGHT_BG,
-              borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
-              boxShadow: '0 2px 16px rgba(0, 0, 0, 0.06)',
-              transition: `opacity 150ms ease-out`,
+              borderBottom: menuOpen ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
+              boxShadow: menuOpen ? '0 2px 16px rgba(0, 0, 0, 0.06)' : 'none',
+              maxHeight: menuOpen ? '500px' : '0',
+              opacity: menuOpen ? 1 : 0,
+              transition: 'max-height 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-out',
+              willChange: 'max-height, opacity',
             }}
             role="menu"
             aria-label="Navigation menu"
           >
-            <div className={CONTENT_CONTAINER_CLASS}>
+            <div 
+              className={CONTENT_CONTAINER_CLASS}
+              style={{
+                transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
+                opacity: menuOpen ? 1 : 0,
+                transition: 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease-out',
+                transitionDelay: menuOpen ? '40ms' : '0ms',
+              }}
+            >
               <div className="flex">
                 {/* Primary Navigation - Left column */}
                 <div 
