@@ -104,7 +104,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
             <button
               ref={closeButtonRef}
               onClick={onClose}
-              className="text-[13px] text-foreground/50 transition-opacity duration-150 ease-out hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
+              className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-0 border-0"
             >
               Close
             </button>
