@@ -3,7 +3,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
 import { ScrollToTop } from "@/components/ScrollToTop";
 
 // Public pages
@@ -24,32 +23,30 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Routes>
-            {/* Public routes */}
-            <Route path="/" element={<PreLaunchPage />} />
-            <Route path="/marketing" element={<MarketingPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
-            <Route path="/how-publishing-admin-works" element={<HowPublishingAdminWorksPage />} />
-            <Route path="/licensing-account" element={<LicensingAccountPage />} />
-            <Route path="/our-approach" element={<OurApproachPage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/terms" element={<TermsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          {/* Public routes */}
+          <Route path="/" element={<PreLaunchPage />} />
+          <Route path="/marketing" element={<MarketingPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
+          <Route path="/how-publishing-admin-works" element={<HowPublishingAdminWorksPage />} />
+          <Route path="/licensing-account" element={<LicensingAccountPage />} />
+          <Route path="/our-approach" element={<OurApproachPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
 
-            {/* Catch-all */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+          {/* Catch-all */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
