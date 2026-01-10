@@ -60,6 +60,22 @@
   --stack-standard: 20px;  /* heading → paragraph → paragraph */
   --stack-loose: 36px;     /* between subsections, e.g., Songwriters → Rights Holders */
   
+  /* ═════════════════════════════════════════════════════════════════════════════
+     LEDE → LIST/STEPS BRIDGE TOKENS — LOCKED
+     
+     These tokens enforce consistent spacing between a section lede and the first
+     list/step item. Only ONE spacing rule applies at this boundary.
+     
+     Usage:
+     - lede element: margin-bottom = ledeToList[Breakpoint]
+     - first list item: margin-top = 0 (no additional top spacing)
+     - subsequent items: gap = listItemStack[Breakpoint]
+     ═════════════════════════════════════════════════════════════════════════════ */
+  --lede-to-list-mobile: 20px;
+  --lede-to-list-desktop: 24px;
+  --list-item-stack-mobile: 28px;
+  --list-item-stack-desktop: 32px;
+  
   /* Footer padding — premium institutional presence */
   --footer-mobile-pt: 104px;
   --footer-mobile-pb: 104px;
@@ -495,6 +511,40 @@
   .mb-stack-tight { margin-bottom: var(--stack-tight); }
   .mb-stack-standard { margin-bottom: var(--stack-standard); }
   .mb-stack-loose { margin-bottom: var(--stack-loose); }
+  
+  /* ═════════════════════════════════════════════════════════════════════════════
+     LEDE → LIST/STEPS BRIDGE — LOCKED PATTERN
+     
+     Ensures consistent spacing between section lede and first list/step item.
+     Prevents double-gap issues from stacked margins/paddings.
+     
+     Usage:
+     - Apply .lede-to-list to the lede element (adds margin-bottom)
+     - Apply .list-step-stack to the list/steps container (sets gap between items)
+     - First item automatically has no top margin via gap behavior
+     ═════════════════════════════════════════════════════════════════════════════ */
+  .lede-to-list {
+    margin-bottom: var(--lede-to-list-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .lede-to-list {
+      margin-bottom: var(--lede-to-list-desktop);
+    }
+  }
+  
+  /* Step/list container — locked spacing between items */
+  .list-step-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--list-item-stack-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .list-step-stack {
+      gap: var(--list-item-stack-desktop);
+    }
+  }
 
   /* Footer compact padding — original spacing for root temp page */
   .footer-padding {
