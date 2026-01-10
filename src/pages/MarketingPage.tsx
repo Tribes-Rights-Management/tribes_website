@@ -46,16 +46,13 @@ export default function MarketingPage() {
             Built for long-term rights holders.
           </h2>
           
-          {/* Supporting lead-in line — larger gap to content */}
-          <p 
-            className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px]"
-            style={{ marginBottom: '52px' }}
-          >
+          {/* Supporting lead-in line — uses locked lede-to-list bridge */}
+          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list md:mb-[52px]">
             Clear music rights through proper authorization, documentation, payment handling, and defensible records.
           </p>
           
-          {/* Audience cards — stackLoose between each on mobile */}
-          <div className="flex flex-col stack-loose md:grid md:grid-cols-3 md:gap-12">
+          {/* Audience cards — list-step-stack on mobile, grid on desktop */}
+          <div className="list-step-stack md:grid md:grid-cols-3 md:gap-12">
             <div>
               <h3 className="text-lg font-medium text-foreground mb-stack-tight">
                 Songwriters & Producers
@@ -179,17 +176,13 @@ export default function MarketingPage() {
             How Copyright Clearance Works
           </p>
           
-          {/* Intro line — policy statement, tighter gap to steps on mobile */}
-          <p 
-            className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] mb-10 md:mb-16"
-          >
+          {/* Intro line — uses locked lede-to-list bridge spacing */}
+          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list">
             Every request is reviewed before any agreement is issued.
           </p>
           
-          {/* Steps — stackLoose between each step on mobile, no top padding on mobile */}
-          <div 
-            className="flex flex-col stack-loose md:grid md:grid-cols-2 md:pt-6"
-          >
+          {/* Steps — list-step-stack for locked item spacing, grid on desktop */}
+          <div className="list-step-stack md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-8">
             {/* Step 01 */}
             <div>
               <p className="text-xs font-medium text-foreground/50 mb-stack-tight">01</p>
