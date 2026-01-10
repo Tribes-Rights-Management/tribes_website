@@ -33,23 +33,32 @@
   --space-11: 160px;
   --space-12: 200px;
   
+  /* ─────────────────────────────────────────────────────────────────────────────
+     MOBILE SECTION PADDING — Institutional vertical rhythm
+     Light sections: 72px (settled, consistent)
+     Dark sections: 80px (slightly heavier, conveys permanence)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --section-padding-light-mobile: 72px;
+  --section-padding-dark-mobile: 80px;
+  
   /* Footer-specific tokens — Institutional grade, balanced zones */
-  --footer-pt-mobile: 72px;    /* Locked: equal top/bottom */
-  --footer-pt-tablet: 72px;
-  --footer-pt-desktop: 72px;
-  --footer-pb-mobile: 72px;    /* Locked: equal top/bottom */
-  --footer-pb-tablet: 72px;
-  --footer-pb-desktop: 72px;
-  --footer-group-gap-mobile: 40px;   /* Column group spacing (mobile stack) */
-  --footer-label-to-link-mobile: 16px;  /* Tight label→link */
-  --footer-label-to-link-desktop: 16px;
-  --footer-link-gap-mobile: 13px;    /* Link→link: 12-14px range */
+  /* Mobile: ~10% increase for settled presence (72 → 80px) */
+  --footer-pt-mobile: 80px;
+  --footer-pt-tablet: 80px;
+  --footer-pt-desktop: 80px;
+  --footer-pb-mobile: 80px;
+  --footer-pb-tablet: 80px;
+  --footer-pb-desktop: 80px;
+  --footer-group-gap-mobile: 44px;   /* Column group spacing - more breathing room */
+  --footer-label-to-link-mobile: 20px;  /* More space above first link */
+  --footer-label-to-link-desktop: 18px;
+  --footer-link-gap-mobile: 14px;    /* Link→link: slightly more generous */
   --footer-link-gap-desktop: 12px;
   --footer-column-gap-tablet: 40px;
   --footer-column-gap-desktop: 64px;
-  --footer-signature-mt-mobile: 56px;  /* Zone gap: links → brand block */
-  --footer-signature-mt-tablet: 56px;
-  --footer-signature-mt-desktop: 56px;
+  --footer-signature-mt-mobile: 60px;  /* Zone gap: links → brand block */
+  --footer-signature-mt-tablet: 60px;
+  --footer-signature-mt-desktop: 60px;
 
   /* ─────────────────────────────────────────────────────────────────────────────
      PAGE GUTTERS — Horizontal container padding
@@ -59,9 +68,10 @@
 
   /* ─────────────────────────────────────────────────────────────────────────────
      SECTION PADDING — Vertical rhythm for major page sections
-     Mobile: 96px | Tablet: 120px | Desktop: 160px
+     Mobile: 72px (light) / 80px (dark) | Tablet: 120px | Desktop: 160px
      ───────────────────────────────────────────────────────────────────────────── */
-  --section-padding-y: var(--space-9); /* 96px mobile default */
+  --section-padding-y: var(--section-padding-light-mobile); /* 72px mobile default */
+  --section-padding-y-dark: var(--section-padding-dark-mobile); /* 80px for dark sections */
 
   /* ─────────────────────────────────────────────────────────────────────────────
      SECTION HEADER RHYTHM — Eyebrow + headline pattern
@@ -84,6 +94,7 @@
   :root {
     --gutter: var(--space-5);          /* 32px */
     --section-padding-y: var(--space-10); /* 120px */
+    --section-padding-y-dark: var(--space-10); /* Same on tablet+ */
   }
 }
 
@@ -92,6 +103,7 @@
   :root {
     --gutter: var(--space-6);          /* 48px */
     --section-padding-y: var(--space-11); /* 160px */
+    --section-padding-y-dark: var(--space-11); /* Same on desktop */
   }
 }
 
@@ -395,6 +407,12 @@
   .section-padding {
     padding-top: var(--section-padding-y);
     padding-bottom: var(--section-padding-y);
+  }
+
+  /* Section padding for dark/heavy sections — slightly more on mobile for weight */
+  .section-padding-dark {
+    padding-top: var(--section-padding-y-dark);
+    padding-bottom: var(--section-padding-y-dark);
   }
 
   /* Footer compact padding — original spacing for root temp page */
