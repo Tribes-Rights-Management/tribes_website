@@ -29,9 +29,9 @@ export function Footer({
     ? "footer-padding-standard" 
     : "footer-padding";
 
-  // Nav grid classes based on variant
+  // Nav grid classes based on variant — uses stackLoose between groups on mobile
   const navGridClass = isStandard
-    ? "flex flex-col gap-[var(--footer-group-gap-mobile)] md:grid md:grid-cols-3 md:gap-x-[var(--footer-column-gap-tablet)] lg:gap-x-[var(--footer-column-gap-desktop)]"
+    ? "flex flex-col stack-loose md:grid md:grid-cols-3 md:gap-x-[var(--footer-column-gap-tablet)] lg:gap-x-[var(--footer-column-gap-desktop)]"
     : "grid grid-cols-2 gap-x-8 gap-y-4 md:grid-cols-3 md:gap-x-16";
 
   // Group spacing classes based on variant

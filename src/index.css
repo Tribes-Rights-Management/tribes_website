@@ -33,24 +33,50 @@
   --space-11: 160px;
   --space-12: 200px;
   
-  /* ─────────────────────────────────────────────────────────────────────────────
-     MOBILE SECTION PADDING — Institutional vertical rhythm
-     Light sections: 72px (settled, consistent)
-     Dark sections: 80px (slightly heavier, conveys permanence)
-     ───────────────────────────────────────────────────────────────────────────── */
-  --section-padding-light-mobile: 72px;
-  --section-padding-dark-mobile: 80px;
+  /* ═════════════════════════════════════════════════════════════════════════════
+     MOBILE SPACING TOKENS — LOCKED PREMIUM SYSTEM (NO AD-HOC MARGINS)
+     
+     These tokens are authoritative. No component, section, or page may define
+     custom vertical spacing outside these tokens.
+     
+     Usage:
+     - Sections: section-dark-mobile, section-light-mobile
+     - Internal stacks: stack-tight, stack-standard, stack-loose
+     - Footer: footer-mobile
+     ═════════════════════════════════════════════════════════════════════════════ */
+  
+  /* Section padding — premium institutional rhythm */
+  --section-dark-mobile-pt: 96px;
+  --section-dark-mobile-pb: 96px;
+  --section-light-mobile-pt: 88px;
+  --section-light-mobile-pb: 88px;
+  
+  /* Section divider — between conceptual blocks */
+  --section-divider-mobile-mt: 64px;
+  --section-divider-mobile-mb: 64px;
+  
+  /* Stack tokens — internal vertical rhythm */
+  --stack-tight: 12px;     /* heading → body within single concept */
+  --stack-standard: 20px;  /* heading → paragraph → paragraph */
+  --stack-loose: 36px;     /* between subsections, e.g., Songwriters → Rights Holders */
+  
+  /* Footer padding — premium institutional presence */
+  --footer-mobile-pt: 104px;
+  --footer-mobile-pb: 104px;
+  
+  /* Legacy tokens mapped to new system for compatibility */
+  --section-padding-light-mobile: var(--section-light-mobile-pt);
+  --section-padding-dark-mobile: var(--section-dark-mobile-pt);
   
   /* Footer-specific tokens — Institutional grade, balanced zones */
-  /* Mobile: ~10% increase for settled presence (72 → 80px) */
-  --footer-pt-mobile: 80px;
+  --footer-pt-mobile: var(--footer-mobile-pt);
   --footer-pt-tablet: 80px;
   --footer-pt-desktop: 80px;
-  --footer-pb-mobile: 80px;
+  --footer-pb-mobile: var(--footer-mobile-pb);
   --footer-pb-tablet: 80px;
   --footer-pb-desktop: 80px;
-  --footer-group-gap-mobile: 44px;   /* Column group spacing - more breathing room */
-  --footer-label-to-link-mobile: 20px;  /* More space above first link */
+  --footer-group-gap-mobile: var(--stack-loose);   /* Column group spacing - premium breathing room */
+  --footer-label-to-link-mobile: var(--stack-standard);  /* More space above first link */
   --footer-label-to-link-desktop: 18px;
   --footer-link-gap-mobile: 14px;    /* Link→link: slightly more generous */
   --footer-link-gap-desktop: 12px;
@@ -67,11 +93,13 @@
   --gutter: var(--space-4); /* 24px mobile default */
 
   /* ─────────────────────────────────────────────────────────────────────────────
-     SECTION PADDING — Vertical rhythm for major page sections
-     Mobile: 72px (light) / 80px (dark) | Tablet: 120px | Desktop: 160px
+     SECTION PADDING — Responsive vertical rhythm for major page sections
+     Uses locked mobile tokens, scales up for tablet/desktop
      ───────────────────────────────────────────────────────────────────────────── */
-  --section-padding-y: var(--section-padding-light-mobile); /* 72px mobile default */
-  --section-padding-y-dark: var(--section-padding-dark-mobile); /* 80px for dark sections */
+  --section-padding-y-light: var(--section-light-mobile-pt);
+  --section-padding-y-dark: var(--section-dark-mobile-pt);
+  /* Legacy alias */
+  --section-padding-y: var(--section-padding-y-light);
 
   /* ─────────────────────────────────────────────────────────────────────────────
      SECTION HEADER RHYTHM — Eyebrow + headline pattern
@@ -81,20 +109,25 @@
   --headline-bottom: var(--space-6); /* 48px to content */
 
   /* ─────────────────────────────────────────────────────────────────────────────
-     CONTENT RHYTHM — Internal spacing
+     CONTENT RHYTHM — Internal spacing (using stack tokens)
      ───────────────────────────────────────────────────────────────────────────── */
-  --paragraph-gap: 28px;             /* Between paragraph blocks */
-  --card-gap: var(--space-6);        /* 48px between major items */
-  --step-gap: 56px;                  /* Between numbered steps */
-  --step-list-top: var(--space-4);   /* 24px above step list */
+  --paragraph-gap: var(--stack-standard); /* 20px between paragraph blocks */
+  --card-gap: var(--stack-loose);         /* 36px between major items on mobile */
+  --step-gap: var(--stack-loose);         /* 36px between numbered steps on mobile */
+  --step-list-top: var(--space-4);        /* 24px above step list */
 }
 
 /* Tablet breakpoint (768px+) */
 @media (min-width: 768px) {
   :root {
     --gutter: var(--space-5);          /* 32px */
-    --section-padding-y: var(--space-10); /* 120px */
-    --section-padding-y-dark: var(--space-10); /* Same on tablet+ */
+    --section-padding-y-light: var(--space-10); /* 120px */
+    --section-padding-y-dark: var(--space-10);  /* 120px */
+    --section-padding-y: var(--space-10);       /* Legacy alias */
+    --card-gap: var(--space-6);                 /* 48px on tablet+ */
+    --step-gap: 56px;                           /* Premium step spacing on tablet+ */
+    --footer-pt-mobile: 80px;                   /* Reset to standard on tablet+ */
+    --footer-pb-mobile: 80px;
   }
 }
 
@@ -102,8 +135,9 @@
 @media (min-width: 1024px) {
   :root {
     --gutter: var(--space-6);          /* 48px */
-    --section-padding-y: var(--space-11); /* 160px */
-    --section-padding-y-dark: var(--space-11); /* Same on desktop */
+    --section-padding-y-light: var(--space-11); /* 160px */
+    --section-padding-y-dark: var(--space-11);  /* 160px */
+    --section-padding-y: var(--space-11);       /* Legacy alias */
   }
 }
 
@@ -421,20 +455,46 @@
     @apply border border-border bg-transparent text-muted-foreground;
   }
 
-  /* ─────────────────────────────────────────────────────────────────────────────
-     SECTION PADDING — Premium vertical rhythm for marketing pages
-     Uses CSS custom properties from :root for responsive values
-     ───────────────────────────────────────────────────────────────────────────── */
-  .section-padding {
-    padding-top: var(--section-padding-y);
-    padding-bottom: var(--section-padding-y);
+  /* ═════════════════════════════════════════════════════════════════════════════
+     LOCKED SECTION PADDING CLASSES — TRIBES PREMIUM RHYTHM
+     
+     These classes enforce the locked mobile spacing tokens.
+     No other vertical spacing should be used on marketing sections.
+     ═════════════════════════════════════════════════════════════════════════════ */
+  
+  /* Light section padding (white background) — 88px mobile, scales on tablet+ */
+  .section-padding,
+  .section-padding-light {
+    padding-top: var(--section-padding-y-light);
+    padding-bottom: var(--section-padding-y-light);
   }
 
-  /* Section padding for dark/heavy sections — slightly more on mobile for weight */
+  /* Dark section padding (black background) — 96px mobile, scales on tablet+ */
   .section-padding-dark {
     padding-top: var(--section-padding-y-dark);
     padding-bottom: var(--section-padding-y-dark);
   }
+  
+  /* Stack utilities — locked internal rhythm */
+  .stack-tight {
+    gap: var(--stack-tight);
+  }
+  
+  .stack-standard {
+    gap: var(--stack-standard);
+  }
+  
+  .stack-loose {
+    gap: var(--stack-loose);
+  }
+  
+  /* Margin variants for non-flex contexts */
+  .mt-stack-tight { margin-top: var(--stack-tight); }
+  .mt-stack-standard { margin-top: var(--stack-standard); }
+  .mt-stack-loose { margin-top: var(--stack-loose); }
+  .mb-stack-tight { margin-bottom: var(--stack-tight); }
+  .mb-stack-standard { margin-bottom: var(--stack-standard); }
+  .mb-stack-loose { margin-bottom: var(--stack-loose); }
 
   /* Footer compact padding — original spacing for root temp page */
   .footer-padding {
