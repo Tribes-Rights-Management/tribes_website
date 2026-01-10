@@ -36,7 +36,30 @@ The hamburger is the **only navigation entry point** on all screen sizes.
 
 ---
 
-## D. Dropdown Blur (Tablet + Desktop Only)
+## D. Dropdown Animation (Tablet + Desktop Only) — LOCKED
+
+> **Animation values are final. Do not modify easing, duration, or transform behavior unless explicitly instructed.**
+
+| Property         | Open                                      | Close                                     |
+|------------------|-------------------------------------------|-------------------------------------------|
+| Animation type   | opacity + transform (no height animation) | opacity + transform (no height animation) |
+| Transform origin | top center                                | top center                                |
+| Opacity          | 0 → 1                                     | 1 → 0                                     |
+| Transform        | translateY(-8px) → translateY(0)          | translateY(0) → translateY(-6px)          |
+| Duration         | 220ms                                     | 180ms                                     |
+| Easing           | cubic-bezier(0.22, 0.61, 0.36, 1)         | cubic-bezier(0.4, 0.0, 0.2, 1)            |
+
+**Motion Rules:**
+- No bounce, overshoot, or spring physics
+- No scaling effects
+- No delay on user input
+- Close animation feels slightly faster than open
+- Motion is calm, restrained, and premium
+- Respects `prefers-reduced-motion` (instant fade, no transforms)
+
+---
+
+## E. Dropdown Blur (Tablet + Desktop Only)
 
 - When dropdown is open, apply subtle blur to page content behind the dropdown.
 - **Blur intensity**: 4–8px equivalent (currently 6px).
@@ -46,7 +69,7 @@ The hamburger is the **only navigation entry point** on all screen sizes.
 
 ---
 
-## E. Visual Tokens
+## F. Visual Tokens
 
 - Menu typography, spacing, dividers, and weights must remain consistent with current premium Tribes styling.
 - **Do not change** font families or global type scale.
@@ -63,7 +86,7 @@ The hamburger is the **only navigation entry point** on all screen sizes.
 
 ---
 
-## F. Information Architecture
+## G. Information Architecture
 
 Menu items and grouping are **locked**:
 
@@ -81,7 +104,7 @@ Menu items and grouping are **locked**:
 
 ---
 
-## G. Accessibility + Interaction
+## H. Accessibility + Interaction
 
 | Feature                  | Requirement                                    |
 |--------------------------|------------------------------------------------|
@@ -91,16 +114,18 @@ Menu items and grouping are **locked**:
 | Focus trap               | Within menu while open                         |
 | Focus states             | Visible focus rings on all interactive elements|
 | Skip to content          | Available for keyboard users                   |
+| prefers-reduced-motion   | Instant transitions, no transforms             |
 
 ---
 
-## H. Implementation Files
+## I. Implementation Files
 
 | File                              | Purpose                                |
 |-----------------------------------|----------------------------------------|
-| `src/lib/navigation.ts`           | Centralized nav data structure         |
+| `src/lib/navigation.ts`           | Centralized nav data + timing constants|
 | `src/components/PublicLayout.tsx` | Navigation rendering (single source)   |
 | `src/index.css`                   | Nav-related CSS tokens and classes     |
+| `docs/NAVIGATION_SPEC.md`         | This spec (canonical source of truth)  |
 
 ---
 
