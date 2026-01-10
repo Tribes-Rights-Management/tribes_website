@@ -38,26 +38,16 @@ export function Hero({ contactAnchor }: HeroProps) {
   return (
     <section 
       data-theme="dark"
-      className="relative flex flex-col justify-center pb-[env(safe-area-inset-bottom)]"
+      className="relative flex flex-col"
       style={{ 
         backgroundColor: THEME_DARK_BG,
-        /* Use min-height only — never height — to prevent iOS stretch/snap */
-        /* svh as primary for stable mobile viewport, vh as fallback */
-        minHeight: 'calc(100svh - var(--header-h, 56px))',
         width: '100%',
       }}
     >
-      {/* Stable viewport fallback for older browsers */}
-      <style>{`
-        @supports not (min-height: 100svh) {
-          [data-theme="dark"].relative.flex.flex-col.justify-center {
-            min-height: calc(100vh - var(--header-h, 56px)) !important;
-          }
-        }
-      `}</style>
       
       {/* Content container - uses identical sizing to header for perfect left-rail alignment */}
-      <div className={`${CONTENT_CONTAINER_CLASS} py-12 md:py-24 lg:py-32`}>
+      {/* Intrinsic height via generous vertical padding — no viewport units */}
+      <div className={`${CONTENT_CONTAINER_CLASS} py-24 md:py-32 lg:py-40`}>
         <div className="max-w-[640px]">
           {/* Eyebrow */}
           <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">

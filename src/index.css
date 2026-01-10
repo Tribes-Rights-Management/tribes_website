@@ -337,18 +337,22 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.65;
+    /* Mobile: slightly smaller body copy (~5% reduction) with more breathing room */
+    font-size: 15px;
+    line-height: 1.72;
     margin: 0;
     padding: 0;
-    /* Prevent horizontal overflow */
+    /* Prevent horizontal overflow — body is sole scroll container */
     overflow-x: hidden;
-    /* Prevent bounce revealing light browser canvas */
-    overscroll-behavior-y: none;
-    /* iOS Safari viewport fix - use all three for maximum compatibility */
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: 100svh;
+    /* Natural document scroll — no nested scroll containers */
+  }
+
+  /* Desktop: restore standard body typography */
+  @media (min-width: 768px) {
+    body {
+      font-size: 16px;
+      line-height: 1.65;
+    }
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
@@ -383,21 +387,17 @@
     pointer-events: none;
   }
 
-  /* App root element(s) - ensures full viewport coverage on iOS Safari */
+  /* App root element(s) - ensures full viewport coverage */
   #root,
   #__next {
     position: relative;
     z-index: 1;
     /* Dark background as baseline - prevents white flash on overscroll */
     background: hsl(var(--site-black));
-    /* iOS Safari viewport units - cascading fallbacks */
-    min-height: 100vh;
-    min-height: 100dvh;
-    min-height: 100svh;
+    /* Simple min-height — no dynamic viewport units that cause iOS stretch */
+    min-height: 100%;
     /* Safe area padding for notched devices */
     padding-bottom: env(safe-area-inset-bottom);
-    /* Extra insurance: extend dark color beyond viewport edges during bounce */
-    box-shadow: 0 100vh 0 100vh hsl(var(--site-black)), 0 -100vh 0 100vh hsl(var(--site-black));
   }
 
   /* H1 — Primary page heading. Locked globally. */
