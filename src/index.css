@@ -831,25 +831,21 @@
      ═══════════════════════════════════════════════════════════════════════════ */
   
   .desktop-dropdown-item {
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 400;
     color: hsl(var(--foreground));
-    padding: 10px 12px;
-    margin: 0 -12px;
-    border-radius: 6px;
-    transition: background-color 150ms ease-out;
-    display: flex;
-    align-items: center;
+    padding: 8px 0;
+    transition: opacity 150ms ease-out;
+    display: block;
   }
   
   .desktop-dropdown-item:hover {
-    background-color: hsl(var(--foreground) / 0.04);
+    opacity: 0.6;
   }
   
   .desktop-dropdown-item:focus-visible {
     outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: -1px;
-    background-color: hsl(var(--foreground) / 0.04);
+    outline-offset: 2px;
   }
 
   

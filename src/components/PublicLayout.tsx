@@ -278,94 +278,81 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </div>
           </nav>
 
-          {/* Desktop/iPad Dropdown Panel - Constrained dropdown anchored to header */}
+          {/* Desktop/iPad Dropdown Panel - Full-width Apple-style */}
           <div
             ref={menuRef}
-            className={`hidden md:block fixed right-0 z-50 ${
-              menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+            className={`hidden md:block fixed left-0 right-0 z-50 ${
+              menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             style={{
               top: '72px',
-              maxWidth: '420px',
-              width: '100%',
               backgroundColor: THEME_LIGHT_BG,
-              borderRadius: '0 0 0 8px',
-              boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)',
-              border: '1px solid rgba(0, 0, 0, 0.06)',
-              borderTop: 'none',
-              transition: `opacity 150ms ease-out, transform 150ms ease-out`,
+              borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
+              boxShadow: '0 2px 16px rgba(0, 0, 0, 0.06)',
+              transition: `opacity 150ms ease-out`,
             }}
             role="menu"
             aria-label="Navigation menu"
           >
-            {/* Primary Navigation */}
-            <div 
-              className="flex flex-col py-4"
-              style={{ 
-                paddingLeft: '24px',
-                paddingRight: '24px',
-                gap: '4px',
-              }}
-            >
-              <Link 
-                to="/services" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                Services
-              </Link>
-              <Link 
-                to="/how-publishing-admin-works" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                How Administration Works
-              </Link>
-              <Link 
-                to="/how-licensing-works" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                How Licensing Works
-              </Link>
-              <Link 
-                to="/contact" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                Contact
-              </Link>
-            </div>
-
-            {/* Divider */}
-            <div 
-              className="w-full border-t"
-              style={{ borderColor: 'rgba(0, 0, 0, 0.06)' }}
-            />
-
-            {/* Action Items */}
-            <div 
-              className="flex flex-col py-4"
-              style={{ 
-                paddingLeft: '24px',
-                paddingRight: '24px',
-                gap: '4px',
-              }}
-            >
-              <a 
-                href="https://app.tribesrightsmanagement.com" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                Sign in
-              </a>
-              <Link 
-                to="/licensing-account" 
-                onClick={() => setMenuOpen(false)}
-                className="desktop-dropdown-item"
-              >
-                Request Licensing Access
-              </Link>
+            <div className={CONTENT_CONTAINER_CLASS}>
+              <div className="flex">
+                {/* Primary Navigation - Left column */}
+                <div 
+                  className="flex flex-col py-8"
+                  style={{ gap: '6px', minWidth: '280px' }}
+                >
+                  <Link 
+                    to="/services" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    Services
+                  </Link>
+                  <Link 
+                    to="/how-publishing-admin-works" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    How Administration Works
+                  </Link>
+                  <Link 
+                    to="/how-licensing-works" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    How Licensing Works
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    Contact
+                  </Link>
+                  
+                  {/* Divider */}
+                  <div 
+                    className="w-full my-4"
+                    style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', maxWidth: '200px' }}
+                  />
+                  
+                  {/* Action Items */}
+                  <a 
+                    href="https://app.tribesrightsmanagement.com" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    Sign in
+                  </a>
+                  <Link 
+                    to="/licensing-account" 
+                    onClick={() => setMenuOpen(false)}
+                    className="desktop-dropdown-item"
+                  >
+                    Request Licensing Access
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </>
