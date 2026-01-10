@@ -99,37 +99,43 @@
      ═════════════════════════════════════════════════════════════════════════════ */
   
   /* ─────────────────────────────────────────────────────────────────────────────
-     MOBILE NAVIGATION TOKENS — LOCKED (PREMIUM HIERARCHY)
+     MOBILE NAVIGATION TOKENS — LOCKED (STRIPE/MERCURY PATTERN)
      
-     Structure: Client Portal (dominant) → Licensing Access (subordinate) → Company links (calm)
-     Single divider separates Access from Company.
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  DO NOT TOUCH                                                             ║
+     ║                                                                           ║
+     ║  This mobile navigation structure, IA, typography tokens, and spacing    ║
+     ║  are locked. Do not alter without explicit instruction.                   ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
+     
+     Structure:
+       Primary (top): Services, How Administration Works, How Licensing Works, Contact
+       ─────────────────────────────────────────────────────────────────────────
+       Actions (bottom): Sign in, Request Licensing Access
      ───────────────────────────────────────────────────────────────────────────── */
-  --mobile-nav-padding-x: 24px;
-  --mobile-nav-header-pt: 20px;
-  --mobile-nav-header-pb: 12px;
-  --mobile-nav-content-pt: 8px;
   
-  /* Spacing tokens — tight within sections, restrained between */
-  --mobile-nav-item-gap: 2px;           /* Tight gap within a section */
-  --mobile-nav-section-gap: 20px;       /* Gap between Access and Company sections */
-  --mobile-nav-primary-gap: 0px;        /* No extra gap after primary item */
+  /* Layout tokens */
+  --nav-padding-x-mobile: 24px;
+  --nav-header-pt-mobile: 20px;
+  --nav-header-pb-mobile: 16px;
+  --nav-content-pt-mobile: 16px;
   
-  /* Primary item — Client Portal (dominant action) */
-  --mobile-nav-primary-size: 18px;
-  --mobile-nav-primary-weight: 500;
-  --mobile-nav-primary-color: 0 0% 9%;
+  /* Spacing tokens — consistent rhythm */
+  --nav-item-spacing-mobile: 4px;         /* Vertical gap between nav items */
+  --nav-section-spacing-mobile: 32px;     /* Gap before action area */
   
-  /* Secondary item — Licensing Access (clearly subordinate) */
-  --mobile-nav-secondary-size: 14px;
-  --mobile-nav-secondary-weight: 400;
-  --mobile-nav-secondary-color: 0 0% 45%;
-  --mobile-nav-secondary-indent: 0px;
+  /* Typography — Primary navigation (top stack) */
+  --nav-primary-size-mobile: 17px;
+  --nav-primary-weight-mobile: 500;
+  --nav-primary-color-mobile: 0 0% 9%;
   
-  /* Company links — calm, informational, equal weight */
-  --mobile-nav-company-size: 15px;
-  --mobile-nav-company-weight: 400;
-  --mobile-nav-company-color: 0 0% 25%;
-  --mobile-nav-company-gap: 2px;
+  /* Typography — Action items (bottom stack) */
+  --nav-action-size-mobile: 17px;
+  --nav-action-weight-mobile: 500;
+  --nav-action-color-mobile: 0 0% 9%;
+  
+  /* Divider */
+  --nav-divider-color-mobile: 0 0% 0% / 0.08;
   
   /* ─────────────────────────────────────────────────────────────────────────────
      DESKTOP NAVIGATION TOKENS — LOCKED
@@ -710,79 +716,61 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     MOBILE NAVIGATION TYPOGRAPHY — LOCKED PREMIUM HIERARCHY
+     MOBILE NAVIGATION TYPOGRAPHY — LOCKED (STRIPE/MERCURY PATTERN)
      
-     Structure: Client Portal (dominant) → Licensing Access (subordinate) → Company (calm)
-     Single divider separates Access from Company. Token-driven only.
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  DO NOT TOUCH                                                             ║
+     ║                                                                           ║
+     ║  This mobile navigation structure, IA, typography tokens, and spacing    ║
+     ║  are locked. Do not alter without explicit instruction.                   ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Mobile nav drawer — full system surface */
-  .mobile-nav-drawer {
+  /* Mobile nav overlay — full-height, full-width, static feel */
+  .mobile-nav-overlay {
     touch-action: none;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
   
-  /* Primary — Client Portal (dominant action, largest, medium weight) */
-  .mobile-nav-primary {
-    font-size: var(--mobile-nav-primary-size);
-    font-weight: var(--mobile-nav-primary-weight);
-    color: hsl(var(--mobile-nav-primary-color));
+  /* Primary navigation items — top stack (Services, How..., Contact) */
+  .nav-primary-mobile {
+    font-size: var(--nav-primary-size-mobile);
+    font-weight: var(--nav-primary-weight-mobile);
+    color: hsl(var(--nav-primary-color-mobile));
     transition: opacity 150ms ease-out;
     display: flex;
     align-items: center;
     min-height: 48px;
   }
   
-  .mobile-nav-primary:hover,
-  .mobile-nav-primary:focus-visible {
-    opacity: 0.65;
+  .nav-primary-mobile:hover,
+  .nav-primary-mobile:focus-visible {
+    opacity: 0.6;
   }
   
-  .mobile-nav-primary:focus-visible {
+  .nav-primary-mobile:focus-visible {
     outline: 1px solid hsl(var(--foreground) / 0.15);
     outline-offset: 2px;
   }
   
-  /* Secondary — Licensing Access (subordinate, smaller, muted) */
-  .mobile-nav-secondary {
-    font-size: var(--mobile-nav-secondary-size);
-    font-weight: var(--mobile-nav-secondary-weight);
-    color: hsl(var(--mobile-nav-secondary-color));
-    padding-left: var(--mobile-nav-secondary-indent);
+  /* Action items — bottom stack (Sign in, Request Licensing Access) */
+  .nav-action-mobile {
+    font-size: var(--nav-action-size-mobile);
+    font-weight: var(--nav-action-weight-mobile);
+    color: hsl(var(--nav-action-color-mobile));
     transition: opacity 150ms ease-out;
     display: flex;
     align-items: center;
-    min-height: 40px;
+    min-height: 48px;
   }
   
-  .mobile-nav-secondary:hover,
-  .mobile-nav-secondary:focus-visible {
-    opacity: 0.65;
+  .nav-action-mobile:hover,
+  .nav-action-mobile:focus-visible {
+    opacity: 0.6;
   }
   
-  .mobile-nav-secondary:focus-visible {
-    outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: 2px;
-  }
-  
-  /* Company links — calm, informational, equal weight, no dominance */
-  .mobile-nav-company {
-    font-size: var(--mobile-nav-company-size);
-    font-weight: var(--mobile-nav-company-weight);
-    color: hsl(var(--mobile-nav-company-color));
-    transition: opacity 150ms ease-out;
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-  }
-  
-  .mobile-nav-company:hover,
-  .mobile-nav-company:focus-visible {
-    opacity: 0.65;
-  }
-  
-  .mobile-nav-company:focus-visible {
+  .nav-action-mobile:focus-visible {
     outline: 1px solid hsl(var(--foreground) / 0.15);
     outline-offset: 2px;
   }
