@@ -827,8 +827,31 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     FOOTER NAVIGATION TYPOGRAPHY — LOCKED SYSTEM COMPONENT
+     DESKTOP DROPDOWN MENU — CONSTRAINED APPLE-STYLE PANEL
      ═══════════════════════════════════════════════════════════════════════════ */
+  
+  .desktop-dropdown-item {
+    font-size: 15px;
+    font-weight: 500;
+    color: hsl(var(--foreground));
+    padding: 10px 12px;
+    margin: 0 -12px;
+    border-radius: 6px;
+    transition: background-color 150ms ease-out;
+    display: flex;
+    align-items: center;
+  }
+  
+  .desktop-dropdown-item:hover {
+    background-color: hsl(var(--foreground) / 0.04);
+  }
+  
+  .desktop-dropdown-item:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: -1px;
+    background-color: hsl(var(--foreground) / 0.04);
+  }
+
   
   .footer-system {
     /* Token-driven — no inline overrides */
