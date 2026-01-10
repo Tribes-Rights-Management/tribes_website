@@ -1,13 +1,13 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  DO NOT TOUCH NAVIGATION SYSTEM WITHOUT EXPLICIT INSTRUCTION               ║
+ * ║  UNIFIED NAVIGATION SYSTEM — SINGLE COMPONENT FOR ALL BREAKPOINTS          ║
  * ║                                                                            ║
  * ║  Source of truth: /docs/NAVIGATION_SPEC.md                                 ║
+ * ║  Navigation data: src/lib/navigation.ts (NAV_CONFIG)                       ║
  * ║                                                                            ║
- * ║  Any change must be validated against spec and regression-tested on        ║
- * ║  mobile/tablet/desktop.                                                    ║
- * ║                                                                            ║
- * ║  Navigation data is centralized in: src/lib/navigation.ts                  ║
+ * ║  One navigation component with responsive container sizing only.           ║
+ * ║  Mobile: Full-screen dropdown | Tablet/Desktop: Constrained dropdown       ║
+ * ║  Structure, logic, and content are identical across all devices.           ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -16,10 +16,10 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
-import { THEME_DARK_BG, THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
+import { THEME_DARK_BG, THEME_LIGHT_BG } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { useScrollLock } from "@/hooks/useScrollLock";
-import { NAV_CONFIG, NAV_TIMING, NAV_EASING, NAV_TRANSFORM, NAV_BLUR_INTENSITY } from "@/lib/navigation";
+import { UnifiedNavigation } from "@/components/UnifiedNavigation";
 
 
 interface PublicLayoutProps {
@@ -166,246 +166,19 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       <div className="h-16 md:h-[72px]" />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          NAVIGATION MENU SYSTEM
-          - Mobile (< 768px): Full-screen overlay, no blur
-          - Tablet/Desktop (≥ 768px): Dropdown panel with background blur
+          UNIFIED NAVIGATION SYSTEM
+          
+          Single navigation component for ALL breakpoints.
+          Responsive container sizing only — structure/logic/content identical.
           
           Data source: NAV_CONFIG from src/lib/navigation.ts
           ═══════════════════════════════════════════════════════════════════════ */}
       {!logoOnly && (
-        <>
-          {/* ─────────────────────────────────────────────────────────────────────
-              MOBILE: Full-screen overlay menu (< 768px)
-              Per spec: No blur on mobile
-              ───────────────────────────────────────────────────────────────────── */}
-          
-          {/* Mobile Backdrop */}
-          <div
-            className={`fixed inset-0 z-40 md:hidden ${
-              menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-            }`}
-            style={{
-              backgroundColor: OVERLAY_BACKDROP.color,
-              backdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
-              WebkitBackdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
-              transition: `opacity ${menuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
-              willChange: "opacity",
-            }}
-            onClick={closeMenu}
-            aria-hidden="true"
-          />
-          
-          {/* Mobile Navigation Panel */}
-          <nav 
-            className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col ${
-              menuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}
-            style={{
-              backgroundColor: THEME_LIGHT_BG,
-              paddingTop: 'env(safe-area-inset-top)',
-              paddingBottom: 'env(safe-area-inset-bottom)',
-              transition: `transform ${menuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
-              willChange: "transform",
-            }}
-            aria-label="Mobile navigation"
-            aria-modal="true"
-            role="dialog"
-          >
-            {/* Close button */}
-            <div 
-              className="flex justify-end"
-              style={{ 
-                paddingLeft: 'var(--nav-padding-x-mobile)',
-                paddingRight: 'var(--nav-padding-x-mobile)',
-                paddingTop: 'var(--nav-header-pt-mobile)',
-                paddingBottom: 'var(--nav-header-pb-mobile)',
-              }}
-            >
-              <button
-                onClick={closeMenu}
-                className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-0 border-0"
-                aria-label="Close menu"
-              >
-                Close
-              </button>
-            </div>
-            
-            {/* Primary Navigation - Rendered from NAV_CONFIG */}
-            <div 
-              className="flex flex-col"
-              style={{ 
-                paddingLeft: 'var(--nav-padding-x-mobile)',
-                paddingRight: 'var(--nav-padding-x-mobile)',
-                paddingTop: 'var(--nav-content-pt-mobile)',
-                gap: 'var(--nav-item-spacing-mobile)',
-              }}
-            >
-              {NAV_CONFIG.primary.map((item) => (
-                <Link 
-                  key={item.href}
-                  to={item.href} 
-                  onClick={closeMenu}
-                  className="nav-primary-mobile"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-
-            {/* Divider */}
-            <div 
-              className="w-full"
-              style={{ 
-                marginTop: 'var(--nav-section-spacing-mobile)',
-                marginBottom: 'var(--nav-section-spacing-mobile)',
-                borderTop: '1px solid hsl(var(--nav-divider-color-mobile))',
-              }}
-            />
-
-            {/* Action Items - Rendered from NAV_CONFIG */}
-            <div 
-              className="flex flex-col"
-              style={{ 
-                paddingLeft: 'var(--nav-padding-x-mobile)',
-                paddingRight: 'var(--nav-padding-x-mobile)',
-                gap: 'var(--nav-item-spacing-mobile)',
-              }}
-            >
-              {NAV_CONFIG.actions.map((item) => (
-                item.external ? (
-                  <a 
-                    key={item.href}
-                    href={item.href} 
-                    onClick={closeMenu}
-                    className="nav-action-mobile"
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link 
-                    key={item.href}
-                    to={item.href} 
-                    onClick={closeMenu}
-                    className="nav-action-mobile"
-                  >
-                    {item.label}
-                  </Link>
-                )
-              ))}
-            </div>
-          </nav>
-
-          {/* ─────────────────────────────────────────────────────────────────────
-              TABLET/DESKTOP: Dropdown panel with blur (≥ 768px)
-              Per spec: 6px blur on background content, 100ms transition
-              ───────────────────────────────────────────────────────────────────── */}
-          
-          {/* Background Blur Overlay - synchronized with dropdown timing */}
-          <div
-            className={`hidden md:block fixed inset-0 z-40 ${
-              menuOpen ? '' : 'pointer-events-none'
-            }`}
-            style={{
-              top: '72px',
-              backdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
-              WebkitBackdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
-              opacity: menuOpen ? 1 : 0,
-              // Blur syncs with dropdown: 320ms open, 240ms close
-              transition: menuOpen 
-                ? `backdrop-filter ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}, opacity ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}`
-                : `backdrop-filter ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}, opacity ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}`,
-              willChange: 'backdrop-filter, opacity',
-              // Prevent scroll bleed through overlay
-              overscrollBehavior: 'contain',
-              touchAction: 'none',
-            }}
-            onClick={closeMenu}
-            onWheel={(e) => e.preventDefault()}
-            onTouchMove={(e) => e.preventDefault()}
-            aria-hidden="true"
-          />
-
-          {/* Dropdown Panel
-              ═══════════════════════════════════════════════════════════════════════
-              DROPDOWN ANIMATION TIMINGS/EASING ARE FINAL
-              Do not alter without explicit instruction.
-              
-              Open:  opacity 0→1, translateY(-10px)→0, 320ms, cubic-bezier(0.16, 1, 0.3, 1)
-              Close: opacity 1→0, translateY(0)→-8px, 240ms, cubic-bezier(0.4, 0, 0.2, 1)
-              ═══════════════════════════════════════════════════════════════════════ */}
-          <div
-            ref={menuRef}
-            className={`hidden md:block fixed left-0 right-0 z-50 motion-safe:transition-[opacity,transform] ${
-              menuOpen ? '' : 'pointer-events-none'
-            }`}
-            style={{
-              top: '72px',
-              transformOrigin: 'top center',
-              backgroundColor: THEME_LIGHT_BG,
-              borderBottom: menuOpen ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
-              boxShadow: menuOpen ? '0 2px 16px rgba(0, 0, 0, 0.06)' : 'none',
-              opacity: menuOpen ? 1 : 0,
-              transform: menuOpen ? NAV_TRANSFORM.openTo : NAV_TRANSFORM.closeTo,
-              transition: menuOpen 
-                ? `opacity ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}, transform ${NAV_TIMING.dropdownOpen}ms ${NAV_EASING.open}`
-                : `opacity ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}, transform ${NAV_TIMING.dropdownClose}ms ${NAV_EASING.close}`,
-              willChange: 'opacity, transform',
-            }}
-            role="menu"
-            aria-label="Navigation menu"
-          >
-            <div className={CONTENT_CONTAINER_CLASS}>
-              <div className="flex">
-                {/* Navigation - Rendered from NAV_CONFIG */}
-                <div 
-                  className="flex flex-col py-8"
-                  style={{ gap: '6px', minWidth: '280px' }}
-                >
-                  {/* Primary Navigation */}
-                  {NAV_CONFIG.primary.map((item) => (
-                    <Link 
-                      key={item.href}
-                      to={item.href} 
-                      onClick={closeMenu}
-                      className="desktop-dropdown-item"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                  
-                  {/* Divider */}
-                  <div 
-                    className="w-full my-4"
-                    style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', maxWidth: '200px' }}
-                  />
-                  
-                  {/* Action Items */}
-                  {NAV_CONFIG.actions.map((item) => (
-                    item.external ? (
-                      <a 
-                        key={item.href}
-                        href={item.href} 
-                        onClick={closeMenu}
-                        className="desktop-dropdown-item"
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
-                      <Link 
-                        key={item.href}
-                        to={item.href} 
-                        onClick={closeMenu}
-                        className="desktop-dropdown-item"
-                      >
-                        {item.label}
-                      </Link>
-                    )
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
+        <UnifiedNavigation
+          ref={menuRef}
+          isOpen={menuOpen}
+          onClose={closeMenu}
+        />
       )}
 
       {/* Main content */}

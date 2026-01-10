@@ -716,24 +716,216 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     MOBILE NAVIGATION TYPOGRAPHY — LOCKED (STRIPE/MERCURY PATTERN)
+     UNIFIED NAVIGATION SYSTEM — SINGLE COMPONENT FOR ALL BREAKPOINTS
      
      ╔═══════════════════════════════════════════════════════════════════════════╗
      ║  DO NOT TOUCH                                                             ║
      ║                                                                           ║
-     ║  This mobile navigation structure, IA, typography tokens, and spacing    ║
-     ║  are locked. Do not alter without explicit instruction.                   ║
+     ║  One navigation component with responsive container sizing only.          ║
+     ║  Mobile: Full-screen | Tablet/Desktop: Constrained dropdown               ║
+     ║  Structure, logic, and content are identical across all devices.          ║
      ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Mobile nav overlay — full-height, full-width, static feel */
+  /* Backdrop overlay — positioned below header, responsive top offset */
+  .unified-nav-backdrop {
+    top: 64px; /* Mobile header height */
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-backdrop {
+      top: 72px; /* Tablet/Desktop header height */
+    }
+  }
+  
+  /* Navigation panel — fixed positioned, responsive sizing */
+  .unified-nav-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 64px; /* Mobile header height */
+    z-index: 50;
+    background-color: #FFFFFF;
+    touch-action: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    /* Mobile: full viewport height below header */
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* Tablet/Desktop: auto height, content-fit */
+  @media (min-width: 768px) {
+    .unified-nav-panel {
+      top: 72px; /* Tablet/Desktop header height */
+      height: auto;
+      max-height: calc(100vh - 72px);
+      max-height: calc(100dvh - 72px);
+    }
+  }
+  
+  /* Container — full width on mobile, constrained on tablet+ */
+  .unified-nav-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: var(--nav-padding-x-mobile);
+    padding-right: var(--nav-padding-x-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-container {
+      height: auto;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+  
+  /* Header with close button — mobile only */
+  .unified-nav-header {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--nav-header-pt-mobile);
+    padding-bottom: var(--nav-header-pb-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-header {
+      display: none;
+    }
+  }
+  
+  /* Navigation content wrapper */
+  .unified-nav-content {
+    display: flex;
+    flex-direction: column;
+    padding-top: var(--nav-content-pt-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-content {
+      padding-top: 32px;
+      padding-bottom: 32px;
+      min-width: 280px;
+      width: fit-content;
+    }
+  }
+  
+  /* Navigation group */
+  .unified-nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--nav-item-spacing-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-group {
+      gap: 6px;
+    }
+  }
+  
+  /* Divider between groups */
+  .unified-nav-divider {
+    width: 100%;
+    margin-top: var(--nav-section-spacing-mobile);
+    margin-bottom: var(--nav-section-spacing-mobile);
+    border-top: 1px solid hsl(var(--nav-divider-color-mobile));
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-divider {
+      margin-top: 16px;
+      margin-bottom: 16px;
+      max-width: 200px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+  }
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     UNIFIED NAV ITEM STYLES — Responsive typography
+     ───────────────────────────────────────────────────────────────────────────── */
+  
+  /* Primary items (Services, How..., Contact) */
+  .unified-nav-item-primary {
+    font-size: var(--nav-primary-size-mobile);
+    font-weight: var(--nav-primary-weight-mobile);
+    color: hsl(var(--nav-primary-color-mobile));
+    transition: opacity 150ms ease-out;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-item-primary {
+      font-size: 14px;
+      font-weight: 400;
+      min-height: auto;
+      padding: 8px 0;
+      display: block;
+    }
+  }
+  
+  .unified-nav-item-primary:hover,
+  .unified-nav-item-primary:focus-visible {
+    opacity: 0.6;
+  }
+  
+  .unified-nav-item-primary:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
+  }
+  
+  /* Action items (Client Portal, Request Licensing Access) */
+  .unified-nav-item-action {
+    font-size: var(--nav-action-size-mobile);
+    font-weight: var(--nav-action-weight-mobile);
+    color: hsl(var(--nav-action-color-mobile));
+    transition: opacity 150ms ease-out;
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+  
+  @media (min-width: 768px) {
+    .unified-nav-item-action {
+      font-size: 14px;
+      font-weight: 400;
+      min-height: auto;
+      padding: 8px 0;
+      display: block;
+    }
+  }
+  
+  .unified-nav-item-action:hover,
+  .unified-nav-item-action:focus-visible {
+    opacity: 0.6;
+  }
+  
+  .unified-nav-item-action:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
+  }
+  
+  /* ═══════════════════════════════════════════════════════════════════════════
+     LEGACY NAVIGATION CLASSES — Kept for backwards compatibility
+     TODO: Remove after full migration verification
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
   .mobile-nav-overlay {
     touch-action: none;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
   }
   
-  /* Primary navigation items — top stack (Services, How..., Contact) */
   .nav-primary-mobile {
     font-size: var(--nav-primary-size-mobile);
     font-weight: var(--nav-primary-weight-mobile);
@@ -749,12 +941,6 @@
     opacity: 0.6;
   }
   
-  .nav-primary-mobile:focus-visible {
-    outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: 2px;
-  }
-  
-  /* Action items — bottom stack (Sign in, Request Licensing Access) */
   .nav-action-mobile {
     font-size: var(--nav-action-size-mobile);
     font-weight: var(--nav-action-weight-mobile);
@@ -769,66 +955,6 @@
   .nav-action-mobile:focus-visible {
     opacity: 0.6;
   }
-  
-  .nav-action-mobile:focus-visible {
-    outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: 2px;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════════════
-     DESKTOP NAVIGATION TYPOGRAPHY — LOCKED SYSTEM COMPONENT
-     ═══════════════════════════════════════════════════════════════════════════ */
-  
-  .desktop-nav-sidebar {
-    overscroll-behavior: contain;
-  }
-  
-  .desktop-nav-primary {
-    font-size: var(--desktop-nav-font-size);
-    font-weight: var(--desktop-nav-font-weight);
-    color: hsl(var(--desktop-nav-color));
-    transition: color 120ms ease-out, font-weight 120ms ease-out;
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-  }
-  
-  .desktop-nav-primary:hover,
-  .desktop-nav-primary:focus-visible {
-    color: hsl(var(--desktop-nav-color-hover));
-    font-weight: var(--desktop-nav-font-weight-hover);
-  }
-  
-  .desktop-nav-primary:focus-visible {
-    outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: 2px;
-  }
-  
-  .desktop-nav-secondary {
-    font-size: var(--desktop-nav-font-size);
-    font-weight: var(--desktop-nav-font-weight);
-    color: hsl(var(--mobile-nav-secondary-color));
-    padding-left: var(--mobile-nav-secondary-indent);
-    transition: color 120ms ease-out, font-weight 120ms ease-out;
-    display: flex;
-    align-items: center;
-    min-height: 44px;
-  }
-  
-  .desktop-nav-secondary:hover,
-  .desktop-nav-secondary:focus-visible {
-    color: hsl(var(--desktop-nav-color-hover));
-    font-weight: var(--desktop-nav-font-weight-hover);
-  }
-  
-  .desktop-nav-secondary:focus-visible {
-    outline: 1px solid hsl(var(--foreground) / 0.15);
-    outline-offset: 2px;
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════════════
-     DESKTOP DROPDOWN MENU — CONSTRAINED APPLE-STYLE PANEL
-     ═══════════════════════════════════════════════════════════════════════════ */
   
   .desktop-dropdown-item {
     font-size: 14px;
