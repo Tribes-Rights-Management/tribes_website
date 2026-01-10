@@ -110,7 +110,9 @@ Menu items and grouping are **locked**:
 |--------------------------|------------------------------------------------|
 | ESC key                  | Closes menu (desktop/tablet)                   |
 | Click outside            | Closes dropdown (desktop/tablet)               |
-| Body scroll lock         | When menu is open (all sizes, mobile only)     |
+| Body scroll lock         | When menu is open (ALL breakpoints)            |
+| Scroll position          | Preserved on open/close (no jump)              |
+| Scroll bleed prevention  | Wheel/touch events blocked on overlay          |
 | Focus trap               | Within menu while open                         |
 | Focus states             | Visible focus rings on all interactive elements|
 | Skip to content          | Available for keyboard users                   |
