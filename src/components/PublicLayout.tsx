@@ -159,7 +159,19 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               aria-hidden="true"
             />
             
-            {/* Mobile Nav Drawer — Full-width system surface (LOCKED COMPONENT) */}
+            {/* ═══════════════════════════════════════════════════════════════════
+                MOBILE NAVIGATION — DO NOT MODIFY
+                
+                This navigation hierarchy, spacing, and typography are final.
+                Changes require intentional token updates in index.css.
+                No page-level overrides. No visual rebalancing without revisiting spec.
+                
+                Structure:
+                  Primary: Client Portal (dominant)
+                  Secondary: Licensing Access (subordinate)
+                  ─────────────────────────────────
+                  Company: Services, How Administration Works, How Licensing Works, Contact
+                ═══════════════════════════════════════════════════════════════════ */}
             <nav 
               className={`mobile-nav-drawer fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col overscroll-none ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -175,7 +187,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               aria-modal="true"
               role="dialog"
             >
-              {/* Close button header — institutional styling */}
+              {/* Close button — top-right */}
               <div 
                 className="flex justify-end"
                 style={{ 
@@ -194,96 +206,76 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 </button>
               </div>
               
-              {/* Primary Navigation — Client Portal with nested Licensing Access */}
+              {/* Access Section — Primary + Secondary */}
               <div 
                 className="flex flex-col"
                 style={{ 
                   paddingLeft: 'var(--mobile-nav-padding-x)',
                   paddingRight: 'var(--mobile-nav-padding-x)',
                   paddingTop: 'var(--mobile-nav-content-pt)',
-                  gap: 'var(--mobile-nav-item-gap)',
                 }}
               >
-                {/* Client Portal — Primary destination */}
+                {/* Client Portal — Dominant action */}
                 <a 
                   href="https://app.tribesrightsmanagement.com" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary py-2"
+                  className="mobile-nav-primary"
                 >
                   Client Portal
                 </a>
-                {/* Licensing Access — Secondary, nested under Client Portal */}
+                {/* Licensing Access — Subordinate */}
                 <Link 
                   to="/licensing-account" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-secondary py-2"
+                  className="mobile-nav-secondary"
                 >
                   Licensing Access
                 </Link>
               </div>
 
-              {/* Hairline Divider — Full width, low contrast */}
+              {/* Single Divider — Separates Access from Company */}
               <div 
-                className="border-t border-foreground/[0.06] w-full"
+                className="border-t border-foreground/[0.08] w-full"
                 style={{ 
-                  marginTop: 'var(--mobile-nav-divider-gap)',
-                  marginBottom: 'var(--mobile-nav-divider-gap)',
+                  marginTop: 'var(--mobile-nav-section-gap)',
+                  marginBottom: 'var(--mobile-nav-section-gap)',
                 }}
               />
 
-              {/* Main Navigation Section */}
+              {/* Company Section — Calm, informational links */}
               <div 
                 className="flex flex-col"
                 style={{ 
                   paddingLeft: 'var(--mobile-nav-padding-x)',
                   paddingRight: 'var(--mobile-nav-padding-x)',
-                  gap: 'var(--mobile-nav-item-gap)',
+                  gap: 'var(--mobile-nav-company-gap)',
                 }}
               >
                 <Link 
                   to="/services" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary py-2"
+                  className="mobile-nav-company"
                 >
                   Services
                 </Link>
                 <Link 
                   to="/how-publishing-admin-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary py-2"
+                  className="mobile-nav-company"
                 >
                   How Administration Works
                 </Link>
                 <Link 
                   to="/how-licensing-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary py-2"
+                  className="mobile-nav-company"
                 >
                   How Licensing Works
                 </Link>
-              </div>
-
-              {/* Hairline Divider */}
-              <div 
-                className="border-t border-foreground/[0.06] w-full"
-                style={{ 
-                  marginTop: 'var(--mobile-nav-divider-gap)',
-                  marginBottom: 'var(--mobile-nav-divider-gap)',
-                }}
-              />
-
-              {/* Contact — Bottom section */}
-              <div 
-                className="flex flex-col"
-                style={{ 
-                  paddingLeft: 'var(--mobile-nav-padding-x)',
-                  paddingRight: 'var(--mobile-nav-padding-x)',
-                }}
-              >
                 <Link 
                   to="/contact" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary py-2"
+                  className="mobile-nav-company"
                 >
                   Contact
                 </Link>
