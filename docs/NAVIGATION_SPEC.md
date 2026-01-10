@@ -98,8 +98,10 @@ Menu items and grouping are **locked**:
 4. Contact → `/contact`
 
 ### Group 2 (Action Items)
-1. Sign in → `https://app.tribesrightsmanagement.com` (external)
+1. Client Portal → `https://app.tribesrightsmanagement.com` (external)
 2. Request Licensing Access → `/licensing-account`
+
+**LOCKED BRAND STANDARD**: "Client Portal" is the canonical label for portal access across header and footer navigation. Exception: "Sign in" may be used on the Request an Account page for authentication context.
 
 **No renames, reordering, or new items without explicit instruction.**
 
