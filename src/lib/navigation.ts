@@ -37,8 +37,9 @@ export const NAV_CONFIG: NavConfig = {
   ],
   
   // Group 2: Action Items
+  // LOCKED BRAND STANDARD: "Client Portal" is the canonical label for portal access
   actions: [
-    { label: "Sign in", href: "https://app.tribesrightsmanagement.com", external: true },
+    { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
     { label: "Request Licensing Access", href: "/licensing-account" },
   ],
 };
