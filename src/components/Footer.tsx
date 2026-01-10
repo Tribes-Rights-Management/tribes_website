@@ -1,3 +1,27 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * FOOTER — LOCKED SYSTEM COMPONENT
+ * 
+ * This component is part of the global navigation system and must not be modified
+ * without updating the corresponding tokens in index.css.
+ * 
+ * IA Structure:
+ *   Access
+ *     └─ Client Portal
+ *     └─ Licensing Access
+ *   Company
+ *     └─ How Administration Works
+ *     └─ How Licensing Works
+ *     └─ Services
+ *     └─ Contact
+ *   Legal
+ *     └─ Privacy Policy
+ *     └─ Terms of Use
+ * 
+ * NO page-level overrides. NO conditional variants. Token-driven only.
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 import { Link } from "react-router-dom";
 import { BRAND } from "@/lib/brand";
 import { getCopyrightLine } from "@/lib/copyright";
@@ -20,118 +44,110 @@ export function Footer({
   variant = "standard" 
 }: FooterProps) {
   const isStandard = variant === "standard";
-  
-  // Link styles with Apple-grade timing
-  const linkClass = "text-[13px] leading-relaxed transition-opacity duration-150 ease-out opacity-70 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-white/20 focus-visible:outline-offset-2";
-
-  // Footer wrapper classes based on variant
-  const footerWrapperClass = isStandard 
-    ? "footer-padding-standard" 
-    : "footer-padding";
-
-  // Nav grid classes based on variant — uses stackLoose between groups on mobile
-  const navGridClass = isStandard
-    ? "flex flex-col stack-loose md:grid md:grid-cols-3 md:gap-x-[var(--footer-column-gap-tablet)] lg:gap-x-[var(--footer-column-gap-desktop)]"
-    : "grid grid-cols-2 gap-x-8 gap-y-4 md:grid-cols-3 md:gap-x-16";
-
-  // Group spacing classes based on variant
-  const groupClass = isStandard
-    ? "flex flex-col"
-    : "space-y-3";
-
-  // Label classes based on variant
-  const labelClass = isStandard
-    ? "text-[11px] font-medium uppercase tracking-[0.12em] text-white/40 footer-label-spacing"
-    : "text-[11px] font-medium uppercase tracking-[0.12em] text-white/40 mb-4";
-
-  // Link wrapper classes based on variant
-  const linkWrapperClass = isStandard
-    ? "flex flex-col"
-    : "";
-
-  // Link class for standard variant (gap between links)
-  const getLinkSpacingClass = (idx: number) => 
-    isStandard && idx > 0 ? "footer-link-spacing" : "";
-
-  // Signature block classes based on variant
-  const signatureClass = isStandard
-    ? "footer-signature-spacing"
-    : "pt-8 border-t border-white/10";
-
-  const renderGroup = (
-    label: string,
-    links: { to?: string; label: string; disabled?: boolean; external?: boolean }[],
-    extraClass?: string
-  ) => (
-    <div className={cn(groupClass, extraClass)}>
-      <p className={labelClass}>{label}</p>
-      <div className={linkWrapperClass}>
-        {links.map((link, idx) => (
-          link.disabled || disableLinks ? (
-            <span 
-              key={link.label} 
-              className={cn("text-[13px] text-white/50 block", getLinkSpacingClass(idx))}
-            >
-              {link.label}
-            </span>
-          ) : link.external ? (
-            <a 
-              key={link.label}
-              href={link.to!} 
-              className={cn(linkClass, "text-white block", getLinkSpacingClass(idx))}
-            >
-              {link.label}
-            </a>
-          ) : (
-            <Link 
-              key={link.label}
-              to={link.to!} 
-              className={cn(linkClass, "text-white block", getLinkSpacingClass(idx))}
-            >
-              {link.label}
-            </Link>
-          )
-        ))}
-      </div>
-    </div>
-  );
 
   return (
     <footer 
-      className={cn(footerWrapperClass, className)} 
-      style={{ backgroundColor: THEME_DARK_BG }}
+      className={cn("footer-system", className)} 
+      style={{ 
+        backgroundColor: THEME_DARK_BG,
+        paddingTop: 'var(--footer-padding-y)',
+        paddingBottom: 'var(--footer-padding-y)',
+      }}
     >
       <div className={CONTENT_CONTAINER_CLASS}>
         {/* Navigation Links */}
         {!hideLinks && (
-          <nav>
-            <div className={navGridClass}>
-              {renderGroup("Access", [
-                { to: "https://app.tribesrightsmanagement.com", label: "Client Portal", external: true },
-                { to: "/licensing-account", label: "Licensing Access" },
-              ])}
-              {renderGroup("Company", [
-                { to: "/how-publishing-admin-works", label: "How Administration Works" },
-                { to: "/how-licensing-works", label: "How Licensing Works" },
-                { to: "/contact", label: "Contact" },
-              ])}
-              {renderGroup("Legal", [
-                { to: "/privacy", label: "Privacy Policy" },
-                { to: "/terms", label: "Terms of Use" },
-              ])}
+          <nav className="footer-nav">
+            <div className="footer-nav-grid">
+              {/* Access Column */}
+              <div className="footer-column">
+                <p className="footer-label">Access</p>
+                <div className="footer-links">
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Client Portal</span>
+                  ) : (
+                    <a 
+                      href="https://app.tribesrightsmanagement.com"
+                      className="footer-link"
+                    >
+                      Client Portal
+                    </a>
+                  )}
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Licensing Access</span>
+                  ) : (
+                    <Link to="/licensing-account" className="footer-link">
+                      Licensing Access
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              {/* Company Column */}
+              <div className="footer-column">
+                <p className="footer-label">Company</p>
+                <div className="footer-links">
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">How Administration Works</span>
+                  ) : (
+                    <Link to="/how-publishing-admin-works" className="footer-link">
+                      How Administration Works
+                    </Link>
+                  )}
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">How Licensing Works</span>
+                  ) : (
+                    <Link to="/how-licensing-works" className="footer-link">
+                      How Licensing Works
+                    </Link>
+                  )}
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Services</span>
+                  ) : (
+                    <Link to="/services" className="footer-link">
+                      Services
+                    </Link>
+                  )}
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Contact</span>
+                  ) : (
+                    <Link to="/contact" className="footer-link">
+                      Contact
+                    </Link>
+                  )}
+                </div>
+              </div>
+
+              {/* Legal Column */}
+              <div className="footer-column">
+                <p className="footer-label">Legal</p>
+                <div className="footer-links">
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Privacy Policy</span>
+                  ) : (
+                    <Link to="/privacy" className="footer-link">
+                      Privacy Policy
+                    </Link>
+                  )}
+                  {disableLinks ? (
+                    <span className="footer-link-disabled">Terms of Use</span>
+                  ) : (
+                    <Link to="/terms" className="footer-link">
+                      Terms of Use
+                    </Link>
+                  )}
+                </div>
+              </div>
             </div>
           </nav>
         )}
 
-        {/* Brand + Copyright — bottom of footer */}
-        <div className={signatureClass}>
-          <span 
-            className="text-[13px] md:text-[14px] font-bold uppercase text-white block"
-            style={{ fontWeight: 700, letterSpacing: '0.04em' }}
-          >
+        {/* Brand + Copyright — Zone B */}
+        <div className="footer-signature">
+          <span className="footer-wordmark">
             {BRAND.wordmark}
           </span>
-          <p className="text-[11px] text-white/50 mt-1.5">
+          <p className="footer-copyright">
             {getCopyrightLine()}
           </p>
         </div>
