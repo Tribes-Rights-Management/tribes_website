@@ -1,3 +1,24 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * DESKTOP SIDEBAR — LOCKED SYSTEM COMPONENT
+ * 
+ * This component is part of the global navigation system and must not be modified
+ * without updating the corresponding tokens in index.css.
+ * 
+ * IA Structure (matches mobile):
+ *   Client Portal (primary destination)
+ *   └─ Licensing Access (secondary, nested)
+ *   ───────────────────────────────────
+ *   Services
+ *   How Administration Works
+ *   How Licensing Works
+ *   ───────────────────────────────────
+ *   Contact
+ * 
+ * NO page-level overrides. NO conditional variants. Token-driven only.
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
+
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import FocusTrap from "focus-trap-react";
@@ -23,7 +44,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
     }
   }, [isOpen, onClose]);
 
-  // Lock body scroll when open — uses proper scroll preservation
+  // Lock body scroll when open
   useScrollLock(isOpen);
 
   // Focus close button on open
@@ -35,8 +56,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
 
   return (
     <>
-      {/* Backdrop - Institutional: dim-first approach, subtle blur */}
-      {/* will-change hint for smooth GPU-accelerated transitions */}
+      {/* Backdrop */}
       <div
         className={`fixed inset-0 z-40 hidden md:block ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -52,13 +72,14 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
         aria-hidden="true"
       />
 
-      {/* Sidebar Panel - Focus trapped, 420px desktop */}
+      {/* Sidebar Panel — Token-driven layout */}
       <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true }}>
         <aside
-          className={`fixed top-0 right-0 h-screen w-[420px] z-50 hidden md:flex flex-col motion-reduce:duration-0 ${
+          className={`desktop-nav-sidebar fixed top-0 right-0 h-screen z-50 hidden md:flex flex-col ${
             isOpen ? "translate-x-0" : "translate-x-full"
           }`}
           style={{
+            width: 'var(--desktop-nav-sidebar-width)',
             backgroundColor: THEME_LIGHT_BG,
             paddingTop: 'env(safe-area-inset-top)',
             paddingBottom: 'env(safe-area-inset-bottom)',
@@ -70,8 +91,16 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
           aria-modal="true"
           role="dialog"
         >
-          {/* Header with Close button - institutional styling */}
-          <div className="flex justify-end px-8 pt-6 pb-4">
+          {/* Header with Close button */}
+          <div 
+            className="flex justify-end"
+            style={{
+              paddingLeft: 'var(--desktop-nav-padding-x)',
+              paddingRight: 'var(--desktop-nav-padding-x)',
+              paddingTop: 'var(--desktop-nav-header-pt)',
+              paddingBottom: 'var(--desktop-nav-header-pb)',
+            }}
+          >
             <button
               ref={closeButtonRef}
               onClick={onClose}
@@ -81,60 +110,103 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
             </button>
           </div>
 
-        {/* Navigation Links - Clean vertical list, no section headers */}
-        <nav className="flex flex-col flex-1 px-8 pt-6">
-          <div className="flex flex-col gap-5">
-            <a
-              href="https://app.tribesrightsmanagement.com"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
+          {/* Navigation — Token-driven, IA-locked */}
+          <nav 
+            className="flex flex-col flex-1"
+            style={{ paddingTop: 'var(--desktop-nav-content-pt)' }}
+          >
+            {/* Primary Section: Client Portal + Licensing Access */}
+            <div 
+              className="flex flex-col"
+              style={{
+                paddingLeft: 'var(--desktop-nav-padding-x)',
+                paddingRight: 'var(--desktop-nav-padding-x)',
+                gap: 'var(--desktop-nav-item-gap)',
+              }}
             >
-              Client Portal
-            </a>
-            <Link
-              to="/services"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
-            >
-              Services
-            </Link>
-            <Link
-              to="/how-publishing-admin-works"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
-            >
-              How Administration Works
-            </Link>
-            <Link
-              to="/how-licensing-works"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
-            >
-              How Licensing Works
-            </Link>
-          </div>
+              <a
+                href="https://app.tribesrightsmanagement.com"
+                onClick={onClose}
+                className="desktop-nav-primary py-2"
+              >
+                Client Portal
+              </a>
+              <Link
+                to="/licensing-account"
+                onClick={onClose}
+                className="desktop-nav-secondary py-2"
+              >
+                Licensing Access
+              </Link>
+            </div>
 
-          {/* Divider */}
-          <div className="border-t border-foreground/[0.06] mt-8 mb-5" />
+            {/* Divider */}
+            <div 
+              className="border-t border-foreground/[0.06] w-full"
+              style={{
+                marginTop: 'var(--desktop-nav-divider-gap)',
+                marginBottom: 'var(--desktop-nav-divider-gap)',
+              }}
+            />
 
-          {/* Secondary Links */}
-          <div className="flex flex-col gap-5">
-            <Link
-              to="/licensing-account"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
+            {/* Main Navigation Section */}
+            <div 
+              className="flex flex-col"
+              style={{
+                paddingLeft: 'var(--desktop-nav-padding-x)',
+                paddingRight: 'var(--desktop-nav-padding-x)',
+                gap: 'var(--desktop-nav-item-gap)',
+              }}
             >
-              Licensing Access
-            </Link>
-            <Link
-              to="/contact"
-              onClick={onClose}
-              className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium focus-visible:outline focus-visible:outline-1 focus-visible:outline-foreground/15 focus-visible:outline-offset-2"
+              <Link
+                to="/services"
+                onClick={onClose}
+                className="desktop-nav-primary py-2"
+              >
+                Services
+              </Link>
+              <Link
+                to="/how-publishing-admin-works"
+                onClick={onClose}
+                className="desktop-nav-primary py-2"
+              >
+                How Administration Works
+              </Link>
+              <Link
+                to="/how-licensing-works"
+                onClick={onClose}
+                className="desktop-nav-primary py-2"
+              >
+                How Licensing Works
+              </Link>
+            </div>
+
+            {/* Divider */}
+            <div 
+              className="border-t border-foreground/[0.06] w-full"
+              style={{
+                marginTop: 'var(--desktop-nav-divider-gap)',
+                marginBottom: 'var(--desktop-nav-divider-gap)',
+              }}
+            />
+
+            {/* Contact Section */}
+            <div 
+              className="flex flex-col"
+              style={{
+                paddingLeft: 'var(--desktop-nav-padding-x)',
+                paddingRight: 'var(--desktop-nav-padding-x)',
+              }}
             >
-              Contact
-            </Link>
-          </div>
-        </nav>
+              <Link
+                to="/contact"
+                onClick={onClose}
+                className="desktop-nav-primary py-2"
+              >
+                Contact
+              </Link>
+            </div>
+          </nav>
         </aside>
       </FocusTrap>
     </>

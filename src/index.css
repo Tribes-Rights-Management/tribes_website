@@ -81,51 +81,79 @@
   --footer-mobile-pb: 104px;
   
   /* ═════════════════════════════════════════════════════════════════════════════
-     MOBILE NAVIGATION TOKENS — LOCKED SYSTEM COMPONENT
-     
-     These tokens define the mobile navigation overlay. No page-specific overrides.
-     Any future changes must modify these tokens directly—never ad hoc tweaks.
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  GLOBAL NAVIGATION SYSTEM — DO NOT MODIFY                                 ║
+     ║                                                                           ║
+     ║  Mobile navigation, desktop navigation, and footer navigation are        ║
+     ║  locked system components.                                                ║
+     ║                                                                           ║
+     ║  Changes are only permitted if:                                           ║
+     ║    1. Tokens are intentionally updated, OR                                ║
+     ║    2. This system note is explicitly revised.                             ║
+     ║                                                                           ║
+     ║  Page-level overrides, ad hoc spacing changes, alternate labels, or       ║
+     ║  conditional variants are STRICTLY PROHIBITED.                            ║
+     ║                                                                           ║
+     ║  This applies to: Header (mobile + desktop), Footer, Sidebar              ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
      ═════════════════════════════════════════════════════════════════════════════ */
-  --mobile-nav-padding-x: 20px;
-  --mobile-nav-item-gap: 6px;        /* Gap between primary nav items */
-  --mobile-nav-section-gap: 32px;    /* Gap between nav sections */
-  --mobile-nav-divider-gap: 24px;    /* Space around hairline dividers */
-  --mobile-nav-header-pt: 20px;      /* Top padding for close button area */
-  --mobile-nav-header-pb: 16px;      /* Bottom padding for close button area */
-  --mobile-nav-content-pt: 12px;     /* Top padding for nav content */
   
-  /* Typography — Primary navigation items */
+  /* ─────────────────────────────────────────────────────────────────────────────
+     MOBILE NAVIGATION TOKENS — LOCKED
+     ───────────────────────────────────────────────────────────────────────────── */
+  --mobile-nav-padding-x: 20px;
+  --mobile-nav-item-gap: 6px;
+  --mobile-nav-section-gap: 32px;
+  --mobile-nav-divider-gap: 24px;
+  --mobile-nav-header-pt: 20px;
+  --mobile-nav-header-pb: 16px;
+  --mobile-nav-content-pt: 12px;
   --mobile-nav-primary-size: 17px;
   --mobile-nav-primary-weight: 500;
-  --mobile-nav-primary-color: 0 0% 9%;         /* High-contrast primary */
-  
-  /* Typography — Secondary navigation items (nested/subordinate) */
+  --mobile-nav-primary-color: 0 0% 9%;
   --mobile-nav-secondary-size: 15px;
   --mobile-nav-secondary-weight: 400;
-  --mobile-nav-secondary-color: 0 0% 35%;      /* Muted relative to primary */
-  --mobile-nav-secondary-indent: 16px;         /* Left indent for hierarchy */
+  --mobile-nav-secondary-color: 0 0% 35%;
+  --mobile-nav-secondary-indent: 16px;
   
-  /* Legacy tokens mapped to new system for compatibility */
-  --section-padding-light-mobile: var(--section-light-mobile-pt);
-  --section-padding-dark-mobile: var(--section-dark-mobile-pt);
+  /* ─────────────────────────────────────────────────────────────────────────────
+     DESKTOP NAVIGATION TOKENS — LOCKED
+     ───────────────────────────────────────────────────────────────────────────── */
+  --desktop-nav-height: 64px;
+  --desktop-nav-padding-x: 32px;
+  --desktop-nav-item-gap: 8px;
+  --desktop-nav-font-size: 15px;
+  --desktop-nav-font-weight: 400;
+  --desktop-nav-font-weight-hover: 500;
+  --desktop-nav-color: 0 0% 29%;           /* #4A4A4A */
+  --desktop-nav-color-hover: 0 0% 0%;      /* #000000 */
+  --desktop-nav-sidebar-width: 420px;
+  --desktop-nav-divider-gap: 32px;
+  --desktop-nav-header-pt: 24px;
+  --desktop-nav-header-pb: 16px;
+  --desktop-nav-content-pt: 24px;
   
-  /* Footer-specific tokens — Institutional grade, balanced zones */
-  --footer-pt-mobile: var(--footer-mobile-pt);
-  --footer-pt-tablet: 80px;
-  --footer-pt-desktop: 80px;
-  --footer-pb-mobile: var(--footer-mobile-pb);
-  --footer-pb-tablet: 80px;
-  --footer-pb-desktop: 80px;
-  --footer-group-gap-mobile: var(--stack-loose);   /* Column group spacing - premium breathing room */
-  --footer-label-to-link-mobile: var(--stack-standard);  /* More space above first link */
-  --footer-label-to-link-desktop: 18px;
-  --footer-link-gap-mobile: 14px;    /* Link→link: slightly more generous */
-  --footer-link-gap-desktop: 12px;
+  /* ─────────────────────────────────────────────────────────────────────────────
+     FOOTER NAVIGATION TOKENS — LOCKED
+     ───────────────────────────────────────────────────────────────────────────── */
+  --footer-padding-y: 72px;
+  --footer-section-gap: 36px;
+  --footer-label-gap: 16px;
+  --footer-link-gap: 13px;
+  --footer-signature-gap: 56px;
   --footer-column-gap-tablet: 40px;
   --footer-column-gap-desktop: 64px;
-  --footer-signature-mt-mobile: 60px;  /* Zone gap: links → brand block */
-  --footer-signature-mt-tablet: 60px;
-  --footer-signature-mt-desktop: 60px;
+  --footer-label-size: 11px;
+  --footer-label-weight: 500;
+  --footer-label-tracking: 0.12em;
+  --footer-label-color: 0 0% 100% / 0.40;
+  --footer-link-size: 13px;
+  --footer-link-color: 0 0% 100% / 0.70;
+  --footer-link-color-hover: 0 0% 100%;
+  --footer-wordmark-size: 13px;
+  --footer-wordmark-size-desktop: 14px;
+  --footer-copyright-size: 11px;
+  --footer-copyright-color: 0 0% 100% / 0.50;
 
   /* ─────────────────────────────────────────────────────────────────────────────
      PAGE GUTTERS — Horizontal container padding
@@ -571,59 +599,10 @@
     }
   }
 
-  /* Footer compact padding — original spacing for root temp page */
+  /* Legacy footer padding — kept for compact variant compatibility only */
   .footer-padding {
     padding-top: var(--section-padding-y);
-    padding-bottom: var(--space-9); /* 96px bottom on all sizes */
-  }
-
-  /* Footer premium institutional padding — standard for all marketing pages */
-  .footer-padding-standard {
-    padding-top: var(--footer-pt-mobile);
-    padding-bottom: var(--footer-pb-mobile);
-  }
-
-  /* Footer standard internal spacing utilities */
-  .footer-label-spacing {
-    margin-bottom: var(--footer-label-to-link-mobile);
-  }
-  
-  .footer-link-spacing {
-    margin-top: var(--footer-link-gap-mobile);
-  }
-  
-  .footer-signature-spacing {
-    margin-top: var(--footer-signature-mt-mobile);
-  }
-
-  @media (min-width: 768px) {
-    .footer-padding-standard {
-      padding-top: var(--footer-pt-tablet);
-      padding-bottom: var(--footer-pb-tablet);
-    }
-    
-    .footer-label-spacing {
-      margin-bottom: var(--footer-label-to-link-desktop);
-    }
-    
-    .footer-link-spacing {
-      margin-top: var(--footer-link-gap-desktop);
-    }
-    
-    .footer-signature-spacing {
-      margin-top: var(--footer-signature-mt-tablet);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .footer-padding-standard {
-      padding-top: var(--footer-pt-desktop);
-      padding-bottom: var(--footer-pb-desktop);
-    }
-    
-    .footer-signature-spacing {
-      margin-top: var(--footer-signature-mt-desktop);
-    }
+    padding-bottom: var(--space-9);
   }
 
   /* Section spacing */
@@ -772,6 +751,154 @@
   .mobile-nav-secondary:focus-visible {
     outline: 1px solid hsl(var(--foreground) / 0.15);
     outline-offset: 2px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     DESKTOP NAVIGATION TYPOGRAPHY — LOCKED SYSTEM COMPONENT
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  .desktop-nav-sidebar {
+    overscroll-behavior: contain;
+  }
+  
+  .desktop-nav-primary {
+    font-size: var(--desktop-nav-font-size);
+    font-weight: var(--desktop-nav-font-weight);
+    color: hsl(var(--desktop-nav-color));
+    transition: color 120ms ease-out, font-weight 120ms ease-out;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  
+  .desktop-nav-primary:hover,
+  .desktop-nav-primary:focus-visible {
+    color: hsl(var(--desktop-nav-color-hover));
+    font-weight: var(--desktop-nav-font-weight-hover);
+  }
+  
+  .desktop-nav-primary:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
+  }
+  
+  .desktop-nav-secondary {
+    font-size: var(--desktop-nav-font-size);
+    font-weight: var(--desktop-nav-font-weight);
+    color: hsl(var(--mobile-nav-secondary-color));
+    padding-left: var(--mobile-nav-secondary-indent);
+    transition: color 120ms ease-out, font-weight 120ms ease-out;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  
+  .desktop-nav-secondary:hover,
+  .desktop-nav-secondary:focus-visible {
+    color: hsl(var(--desktop-nav-color-hover));
+    font-weight: var(--desktop-nav-font-weight-hover);
+  }
+  
+  .desktop-nav-secondary:focus-visible {
+    outline: 1px solid hsl(var(--foreground) / 0.15);
+    outline-offset: 2px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     FOOTER NAVIGATION TYPOGRAPHY — LOCKED SYSTEM COMPONENT
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  .footer-system {
+    /* Token-driven — no inline overrides */
+  }
+  
+  .footer-nav-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--footer-section-gap);
+  }
+  
+  @media (min-width: 768px) {
+    .footer-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--footer-column-gap-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .footer-nav-grid {
+      gap: var(--footer-column-gap-desktop);
+    }
+  }
+  
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .footer-label {
+    font-size: var(--footer-label-size);
+    font-weight: var(--footer-label-weight);
+    text-transform: uppercase;
+    letter-spacing: var(--footer-label-tracking);
+    color: hsl(var(--footer-label-color));
+    margin-bottom: var(--footer-label-gap);
+  }
+  
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--footer-link-gap);
+  }
+  
+  .footer-link {
+    font-size: var(--footer-link-size);
+    color: hsl(var(--footer-link-color));
+    transition: opacity 150ms ease-out;
+    display: block;
+  }
+  
+  .footer-link:hover,
+  .footer-link:focus-visible {
+    opacity: 1;
+    color: hsl(var(--footer-link-color-hover));
+  }
+  
+  .footer-link:focus-visible {
+    outline: 1px solid hsl(0 0% 100% / 0.20);
+    outline-offset: 2px;
+  }
+  
+  .footer-link-disabled {
+    font-size: var(--footer-link-size);
+    color: hsl(0 0% 100% / 0.50);
+    display: block;
+  }
+  
+  .footer-signature {
+    margin-top: var(--footer-signature-gap);
+  }
+  
+  .footer-wordmark {
+    font-size: var(--footer-wordmark-size);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: hsl(0 0% 100%);
+    display: block;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-wordmark {
+      font-size: var(--footer-wordmark-size-desktop);
+    }
+  }
+  
+  .footer-copyright {
+    font-size: var(--footer-copyright-size);
+    color: hsl(var(--footer-copyright-color));
+    margin-top: 6px;
   }
 
   /* Disabled state - opacity only, no events */
