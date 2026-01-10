@@ -19,7 +19,9 @@ interface PublicLayoutProps {
 }
 
 export function PublicLayout({ children, logoOnly = false, disableFooterLinks = false, hideFooterLinks = false, mobileContactAnchor, darkBackground = false }: PublicLayoutProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const location = useLocation();
 
@@ -32,26 +34,45 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
   // All other pages: White header with backdrop blur
   const headerDark = isRootPage || isMarketingPage;
 
-  // Close mobile menu on route change
+  // Close menu on route change
   useEffect(() => {
-    setMobileMenuOpen(false);
+    setMenuOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll when menu is open
-  useScrollLock(mobileMenuOpen);
+  // Lock body scroll when menu is open (mobile only)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  useScrollLock(menuOpen && isMobile);
+
+  // Close on click outside (desktop dropdown)
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        menuRef.current && 
+        !menuRef.current.contains(e.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(e.target as Node)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [menuOpen]);
 
   // Close on ESC key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setMobileMenuOpen(false);
+        setMenuOpen(false);
       }
     };
-    if (mobileMenuOpen) {
+    if (menuOpen) {
       document.addEventListener('keydown', handleEsc);
       return () => document.removeEventListener('keydown', handleEsc);
     }
-  }, [mobileMenuOpen]);
+  }, [menuOpen]);
 
   // Helper to check active route
   const isActiveRoute = (path: string) => location.pathname === path;
@@ -100,9 +121,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {/* Hamburger Menu Button - visible on ALL breakpoints (locked design decision) */}
           {!logoOnly && (
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              ref={menuButtonRef}
+              onClick={() => setMenuOpen(!menuOpen)}
               className={`p-2 -mr-2 transition-opacity duration-200 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
             >
               <Menu size={20} strokeWidth={1.75} />
             </button>
@@ -125,35 +148,35 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       {/* Spacer for fixed header */}
       <div className="h-16 md:h-[72px]" />
 
-      {/* Navigation Menu - Full-screen slide-in drawer (all breakpoints) */}
+      {/* Navigation Menu */}
       {!logoOnly && (
         <>
-          {/* Backdrop */}
+          {/* Mobile Backdrop - Only visible on mobile */}
           <div
-            className={`fixed inset-0 z-40 ${
-              mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            className={`fixed inset-0 z-40 md:hidden ${
+              menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             style={{
               backgroundColor: OVERLAY_BACKDROP.color,
               backdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
               WebkitBackdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
-              transition: `opacity ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+              transition: `opacity ${menuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
               willChange: "opacity",
             }}
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={() => setMenuOpen(false)}
             aria-hidden="true"
           />
           
-          {/* Navigation Panel - All breakpoints */}
+          {/* Mobile Navigation Panel - Full screen overlay on mobile only */}
           <nav 
-            className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 flex flex-col ${
-              mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col ${
+              menuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
             style={{
               backgroundColor: THEME_LIGHT_BG,
               paddingTop: 'env(safe-area-inset-top)',
               paddingBottom: 'env(safe-area-inset-bottom)',
-              transition: `transform ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+              transition: `transform ${menuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
               willChange: "transform",
             }}
             aria-label="Mobile navigation"
@@ -171,7 +194,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               }}
             >
               <button
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-0 border-0"
                 aria-label="Close menu"
               >
@@ -191,28 +214,28 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             >
               <Link 
                 to="/services" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-primary-mobile"
               >
                 Services
               </Link>
               <Link 
                 to="/how-publishing-admin-works" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-primary-mobile"
               >
                 How Administration Works
               </Link>
               <Link 
                 to="/how-licensing-works" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-primary-mobile"
               >
                 How Licensing Works
               </Link>
               <Link 
                 to="/contact" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-primary-mobile"
               >
                 Contact
@@ -240,20 +263,111 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             >
               <a 
                 href="https://app.tribesrightsmanagement.com" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-action-mobile"
               >
                 Sign in
               </a>
               <Link 
                 to="/licensing-account" 
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => setMenuOpen(false)}
                 className="nav-action-mobile"
               >
                 Request Licensing Access
               </Link>
             </div>
           </nav>
+
+          {/* Desktop/iPad Dropdown Panel - Constrained dropdown anchored to header */}
+          <div
+            ref={menuRef}
+            className={`hidden md:block fixed right-0 z-50 ${
+              menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+            }`}
+            style={{
+              top: '72px',
+              maxWidth: '420px',
+              width: '100%',
+              backgroundColor: THEME_LIGHT_BG,
+              borderRadius: '0 0 0 8px',
+              boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04)',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              borderTop: 'none',
+              transition: `opacity 150ms ease-out, transform 150ms ease-out`,
+            }}
+            role="menu"
+            aria-label="Navigation menu"
+          >
+            {/* Primary Navigation */}
+            <div 
+              className="flex flex-col py-4"
+              style={{ 
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                gap: '4px',
+              }}
+            >
+              <Link 
+                to="/services" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                Services
+              </Link>
+              <Link 
+                to="/how-publishing-admin-works" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                How Administration Works
+              </Link>
+              <Link 
+                to="/how-licensing-works" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                How Licensing Works
+              </Link>
+              <Link 
+                to="/contact" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                Contact
+              </Link>
+            </div>
+
+            {/* Divider */}
+            <div 
+              className="w-full border-t"
+              style={{ borderColor: 'rgba(0, 0, 0, 0.06)' }}
+            />
+
+            {/* Action Items */}
+            <div 
+              className="flex flex-col py-4"
+              style={{ 
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                gap: '4px',
+              }}
+            >
+              <a 
+                href="https://app.tribesrightsmanagement.com" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                Sign in
+              </a>
+              <Link 
+                to="/licensing-account" 
+                onClick={() => setMenuOpen(false)}
+                className="desktop-dropdown-item"
+              >
+                Request Licensing Access
+              </Link>
+            </div>
+          </div>
         </>
       )}
 
