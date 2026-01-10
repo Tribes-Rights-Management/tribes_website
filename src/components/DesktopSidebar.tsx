@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import FocusTrap from "focus-trap-react";
 import { THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface DesktopSidebarProps {
   isOpen: boolean;
@@ -22,17 +23,8 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
     }
   }, [isOpen, onClose]);
 
-  // Lock body scroll when open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
+  // Lock body scroll when open — uses proper scroll preservation
+  useScrollLock(isOpen);
 
   // Focus close button on open
   useEffect(() => {
@@ -44,6 +36,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
   return (
     <>
       {/* Backdrop - Institutional: dim-first approach, subtle blur */}
+      {/* will-change hint for smooth GPU-accelerated transitions */}
       <div
         className={`fixed inset-0 z-40 hidden md:block ${
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
@@ -53,6 +46,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
           backdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
           WebkitBackdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
           transition: `opacity ${isOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+          willChange: "opacity",
         }}
         onClick={onClose}
         aria-hidden="true"
@@ -70,6 +64,7 @@ export function DesktopSidebar({ isOpen, onClose }: DesktopSidebarProps) {
             paddingBottom: 'env(safe-area-inset-bottom)',
             paddingRight: 'env(safe-area-inset-right)',
             transition: `transform ${isOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+            willChange: "transform",
           }}
           aria-label="Desktop navigation"
           aria-modal="true"

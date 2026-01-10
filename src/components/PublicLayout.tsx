@@ -6,6 +6,7 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { DesktopSidebar } from "@/components/DesktopSidebar";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -39,17 +40,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     setDesktopSidebarOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll when menu is open
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [mobileMenuOpen]);
+  // Lock body scroll when menu is open — uses proper scroll preservation
+  useScrollLock(mobileMenuOpen);
 
   // Close on ESC key
   useEffect(() => {
@@ -151,6 +143,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         {!logoOnly && (
           <>
             {/* Backdrop - Institutional: dim-first approach, subtle blur */}
+            {/* will-change hints for smooth GPU-accelerated transitions */}
             <div
               className={`fixed inset-0 z-40 md:hidden ${
                 mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -160,6 +153,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 backdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
                 WebkitBackdropFilter: `blur(${OVERLAY_BACKDROP.blur})`,
                 transition: `opacity ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+                willChange: "opacity",
               }}
               onClick={() => setMobileMenuOpen(false)}
               aria-hidden="true"
@@ -177,6 +171,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 paddingRight: 'env(safe-area-inset-right)',
                 paddingLeft: 'env(safe-area-inset-left)',
                 transition: `transform ${mobileMenuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
+                willChange: "transform",
               }}
               aria-label="Mobile navigation"
               aria-modal="true"
