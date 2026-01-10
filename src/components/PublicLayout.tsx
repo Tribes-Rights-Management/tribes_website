@@ -195,13 +195,13 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               
               {/* Navigation Links - Clean vertical list, no section headers */}
               <div className="flex flex-col px-6 pt-4 gap-5">
-                <Link 
-                  to="/portal" 
+                <a 
+                  href="https://app.tribesrightsmanagement.com" 
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-[15px] text-[#4A4A4A] font-normal transition-colors duration-[120ms] ease-out hover:text-[#000000] hover:font-medium focus-visible:text-[#000000] focus-visible:font-medium"
                 >
                   Client Portal
-                </Link>
+                </a>
                 <Link 
                   to="/services" 
                   onClick={() => setMobileMenuOpen(false)}
