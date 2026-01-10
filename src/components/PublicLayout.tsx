@@ -6,7 +6,7 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { useScrollLock } from "@/hooks/useScrollLock";
-import { Button } from "@/components/ui/button";
+
 
 interface PublicLayoutProps {
   children: ReactNode;
@@ -56,13 +56,6 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
   // Helper to check active route
   const isActiveRoute = (path: string) => location.pathname === path;
 
-  // Desktop navigation links
-  const navLinks = [
-    { to: "/services", label: "Services" },
-    { to: "/how-publishing-admin-works", label: "How It Works" },
-    { to: "/contact", label: "Contact" },
-  ];
-
   // Theme zone background
   const pageBackgroundStyle = darkBackground 
     ? { backgroundColor: THEME_DARK_BG } 
@@ -103,50 +96,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               {BRAND.wordmark}
             </span>
           </Link>
-          
-          {/* Desktop Navigation - Hidden on mobile, visible on md+ */}
-          {!logoOnly && (
-            <nav className="hidden md:flex items-center gap-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className={`text-sm font-medium transition-colors duration-200 ${
-                    headerDark
-                      ? isActiveRoute(link.to)
-                        ? 'text-white'
-                        : 'text-white/60 hover:text-white'
-                      : isActiveRoute(link.to)
-                        ? 'text-foreground'
-                        : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              
-              {/* CTA Button */}
-              <Button
-                asChild
-                variant={headerDark ? "outline" : "default"}
-                size="sm"
-                className={headerDark 
-                  ? "border-white/20 bg-transparent text-white hover:bg-white/10" 
-                  : ""
-                }
-              >
-                <a href="https://app.tribesrightsmanagement.com">
-                  Sign In
-                </a>
-              </Button>
-            </nav>
-          )}
 
-          {/* Mobile Menu Button - visible only on mobile (<768px) */}
+          {/* Hamburger Menu Button - visible on ALL breakpoints (locked design decision) */}
           {!logoOnly && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`md:hidden p-2 -mr-2 transition-opacity duration-200 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
+              className={`p-2 -mr-2 transition-opacity duration-200 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             >
               <Menu size={20} strokeWidth={1.75} />
@@ -170,12 +125,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       {/* Spacer for fixed header */}
       <div className="h-16 md:h-[72px]" />
 
-      {/* Mobile Menu - Full-screen slide-in drawer (unchanged) */}
+      {/* Navigation Menu - Full-screen slide-in drawer (all breakpoints) */}
       {!logoOnly && (
         <>
           {/* Backdrop */}
           <div
-            className={`fixed inset-0 z-40 md:hidden ${
+            className={`fixed inset-0 z-40 ${
               mobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
             style={{
@@ -189,9 +144,9 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             aria-hidden="true"
           />
           
-          {/* Mobile Navigation Panel */}
+          {/* Navigation Panel - All breakpoints */}
           <nav 
-            className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col ${
+            className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 flex flex-col ${
               mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
             style={{
