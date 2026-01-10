@@ -9,8 +9,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 // Public pages
 import PreLaunchPage from "./pages/PreLaunchPage";
-import AuthPage from "./pages/AuthPage";
-import AuthCallbackPage from "./pages/AuthCallbackPage";
 import MarketingPage from "./pages/MarketingPage";
 import ContactPage from "./pages/ContactPage";
 import HowLicensingWorksPage from "./pages/HowLicensingWorksPage";
@@ -58,8 +56,6 @@ const App = () => (
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<PreLaunchPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/auth/callback" element={<AuthCallbackPage />} />
             <Route path="/marketing" element={<MarketingPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/how-licensing-works" element={<HowLicensingWorksPage />} />
