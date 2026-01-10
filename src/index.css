@@ -16,23 +16,8 @@
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     ╔═══════════════════════════════════════════════════════════════════════════╗
-     ║  PREMIUM VERTICAL RHYTHM SYSTEM — DO NOT MODIFY                           ║
-     ║                                                                           ║
-     ║  This is a unified, premium-grade vertical spacing system across the      ║
-     ║  entire public-facing marketing website. All vertical spacing is          ║
-     ║  governed by these tokens.                                                ║
-     ║                                                                           ║
-     ║  DO NOT MODIFY SPACING VALUES OR ADD CUSTOM MARGINS.                      ║
-     ║  Any new section must use existing tokens only.                           ║
-     ║                                                                           ║
-     ║  Changes require intentional token updates with cross-page verification.  ║
-     ╚═══════════════════════════════════════════════════════════════════════════╝
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
   /* ─────────────────────────────────────────────────────────────────────────────
-     BASE SPACING SCALE — 8px unit (reference only)
+     SPACING SCALE — 8px base unit
      ───────────────────────────────────────────────────────────────────────────── */
   --space-0: 0px;
   --space-1: 8px;
@@ -48,169 +33,201 @@
   --space-11: 160px;
   --space-12: 200px;
   
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     SECTION SPACING — MOBILE (Default)
+  /* ═════════════════════════════════════════════════════════════════════════════
+     MOBILE SPACING TOKENS — LOCKED PREMIUM SYSTEM (NO AD-HOC MARGINS)
      
-     Dark sections: Generous padding for marketing authority
-     Light sections: Slightly tighter for content density
-     ═══════════════════════════════════════════════════════════════════════════════ */
+     These tokens are authoritative. No component, section, or page may define
+     custom vertical spacing outside these tokens.
+     
+     Usage:
+     - Sections: section-dark-mobile, section-light-mobile
+     - Internal stacks: stack-tight, stack-standard, stack-loose
+     - Footer: footer-mobile
+     ═════════════════════════════════════════════════════════════════════════════ */
   
-  /* Dark section padding (e.g., Hero, Asset Management, Footer) */
+  /* Section padding — premium institutional rhythm */
   --section-dark-mobile-pt: 96px;
   --section-dark-mobile-pb: 96px;
-  
-  /* Light section padding (e.g., Who It's For, How It Works) */
   --section-light-mobile-pt: 88px;
   --section-light-mobile-pb: 88px;
   
-  /* Active section tokens (used by utility classes) */
-  --section-padding-y-dark: var(--section-dark-mobile-pt);
-  --section-padding-y-light: var(--section-light-mobile-pt);
-  --section-padding-y: var(--section-padding-y-light); /* Legacy alias */
+  /* Section divider — between conceptual blocks */
+  --section-divider-mobile-mt: 64px;
+  --section-divider-mobile-mb: 64px;
   
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     STACK SPACING — Content Block Rhythm (Mobile)
+  /* Stack tokens — internal vertical rhythm */
+  --stack-tight: 12px;     /* heading → body within single concept */
+  --stack-standard: 20px;  /* heading → paragraph → paragraph */
+  --stack-loose: 36px;     /* between subsections, e.g., Songwriters → Rights Holders */
+  
+  /* ═════════════════════════════════════════════════════════════════════════════
+     LEDE → LIST/STEPS BRIDGE TOKENS — LOCKED
      
-     stackSmall:  List items, metadata, helper text
-     stackMedium: Headings to paragraphs, paragraph to paragraph  
-     stackLarge:  Section title to body, major content blocks
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
-  --stack-small-mobile: 12px;    /* List items, metadata, tight coupling */
-  --stack-medium-mobile: 20px;   /* Heading → paragraph, p → p */
-  --stack-large-mobile: 36px;    /* Between subsections, feature blocks */
-  
-  /* Active stack tokens */
-  --stack-tight: var(--stack-small-mobile);
-  --stack-standard: var(--stack-medium-mobile);
-  --stack-loose: var(--stack-large-mobile);
-  
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     DIVIDER SPACING — Horizontal rules (Mobile)
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
-  --divider-spacing-mobile: 40px;
-  
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     LEDE → LIST/STEPS BRIDGE — Locked transition pattern
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
+     These tokens enforce consistent spacing between a section lede and the first
+     list/step item. Only ONE spacing rule applies at this boundary.
+     
+     Usage:
+     - lede element: margin-bottom = ledeToList[Breakpoint]
+     - first list item: margin-top = 0 (no additional top spacing)
+     - subsequent items: gap = listItemStack[Breakpoint]
+     ═════════════════════════════════════════════════════════════════════════════ */
   --lede-to-list-mobile: 20px;
   --lede-to-list-desktop: 24px;
   --list-item-stack-mobile: 28px;
   --list-item-stack-desktop: 32px;
   
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     SECTION HEADER RHYTHM — Eyebrow + headline pattern
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
-  --eyebrow-top: 32px;     /* Breathing room from section top */
-  --eyebrow-bottom: 24px;  /* Eyebrow to headline */
-  --headline-bottom: 48px; /* Headline to content */
-  
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     CONTENT RHYTHM — Page-level spacing
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
-  --paragraph-gap: var(--stack-standard);  /* 20px between paragraphs */
-  --card-gap: var(--stack-loose);          /* 36px between cards on mobile */
-  --step-gap: var(--stack-loose);          /* 36px between steps on mobile */
-  --step-list-top: 24px;                   /* Above step list */
-  
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     FOOTER SPACING — Premium institutional presence (responsive)
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
+  /* Footer padding — premium institutional presence */
   --footer-mobile-pt: 104px;
   --footer-mobile-pb: 104px;
   
-  /* Active footer token — overridden in tablet/desktop */
-  --footer-padding-y: var(--footer-mobile-pt);
+  /* ═════════════════════════════════════════════════════════════════════════════
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  GLOBAL NAVIGATION SYSTEM — DO NOT MODIFY                                 ║
+     ║                                                                           ║
+     ║  Mobile navigation, desktop navigation, and footer navigation are        ║
+     ║  locked system components.                                                ║
+     ║                                                                           ║
+     ║  Changes are only permitted if:                                           ║
+     ║    1. Tokens are intentionally updated, OR                                ║
+     ║    2. This system note is explicitly revised.                             ║
+     ║                                                                           ║
+     ║  Page-level overrides, ad hoc spacing changes, alternate labels, or       ║
+     ║  conditional variants are STRICTLY PROHIBITED.                            ║
+     ║                                                                           ║
+     ║  This applies to: Header (mobile + desktop), Footer, Sidebar              ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
+     ═════════════════════════════════════════════════════════════════════════════ */
   
-  /* ═══════════════════════════════════════════════════════════════════════════════
+  /* ─────────────────────────────────────────────────────────────────────────────
+     MOBILE NAVIGATION TOKENS — LOCKED (STRIPE/MERCURY PATTERN)
+     
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  DO NOT TOUCH                                                             ║
+     ║                                                                           ║
+     ║  This mobile navigation structure, IA, typography tokens, and spacing    ║
+     ║  are locked. Do not alter without explicit instruction.                   ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
+     
+     Structure:
+       Primary (top): Services, How Administration Works, How Licensing Works, Contact
+       ─────────────────────────────────────────────────────────────────────────
+       Actions (bottom): Sign in, Request Licensing Access
+     ───────────────────────────────────────────────────────────────────────────── */
+  
+  /* Layout tokens */
+  --nav-padding-x-mobile: 24px;
+  --nav-header-pt-mobile: 20px;
+  --nav-header-pb-mobile: 16px;
+  --nav-content-pt-mobile: 16px;
+  
+  /* Spacing tokens — consistent rhythm */
+  --nav-item-spacing-mobile: 4px;         /* Vertical gap between nav items */
+  --nav-section-spacing-mobile: 32px;     /* Gap before action area */
+  
+  /* Typography — Primary navigation (top stack) */
+  --nav-primary-size-mobile: 17px;
+  --nav-primary-weight-mobile: 600;       /* Semibold — intentional hierarchy */
+  --nav-primary-color-mobile: 0 0% 9%;
+  
+  /* Typography — Action items (bottom stack) */
+  --nav-action-size-mobile: 17px;
+  --nav-action-weight-mobile: 500;        /* Medium — subordinate to primary */
+  --nav-action-color-mobile: 0 0% 9%;
+  
+  /* Divider */
+  --nav-divider-color-mobile: 0 0% 0% / 0.08;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     DESKTOP NAVIGATION TOKENS — LOCKED
+     ───────────────────────────────────────────────────────────────────────────── */
+  --desktop-nav-height: 64px;
+  --desktop-nav-padding-x: 32px;
+  --desktop-nav-item-gap: 8px;
+  --desktop-nav-font-size: 15px;
+  --desktop-nav-font-weight: 400;
+  --desktop-nav-font-weight-hover: 500;
+  --desktop-nav-color: 0 0% 29%;           /* #4A4A4A */
+  --desktop-nav-color-hover: 0 0% 0%;      /* #000000 */
+  --desktop-nav-sidebar-width: 420px;
+  --desktop-nav-divider-gap: 32px;
+  --desktop-nav-header-pt: 24px;
+  --desktop-nav-header-pb: 16px;
+  --desktop-nav-content-pt: 24px;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     FOOTER NAVIGATION TOKENS — LOCKED
+     ───────────────────────────────────────────────────────────────────────────── */
+  --footer-padding-y: 72px;
+  --footer-section-gap: 36px;
+  --footer-label-gap: 16px;
+  --footer-link-gap: 13px;
+  --footer-signature-gap: 56px;
+  --footer-column-gap-tablet: 40px;
+  --footer-column-gap-desktop: 64px;
+  --footer-label-size: 11px;
+  --footer-label-weight: 500;
+  --footer-label-tracking: 0.12em;
+  --footer-label-color: 0 0% 100% / 0.40;
+  --footer-link-size: 13px;
+  --footer-link-color: 0 0% 100% / 0.70;
+  --footer-link-color-hover: 0 0% 100%;
+  --footer-wordmark-size: 13px;
+  --footer-wordmark-size-desktop: 14px;
+  --footer-copyright-size: 11px;
+  --footer-copyright-color: 0 0% 100% / 0.50;
+
+  /* ─────────────────────────────────────────────────────────────────────────────
      PAGE GUTTERS — Horizontal container padding
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  
-  --gutter: 24px; /* Mobile default */
+     Mobile: 24px | Tablet: 32px | Desktop: 48px
+     ───────────────────────────────────────────────────────────────────────────── */
+  --gutter: var(--space-4); /* 24px mobile default */
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     SECTION PADDING — Responsive vertical rhythm for major page sections
+     Uses locked mobile tokens, scales up for tablet/desktop
+     ───────────────────────────────────────────────────────────────────────────── */
+  --section-padding-y-light: var(--section-light-mobile-pt);
+  --section-padding-y-dark: var(--section-dark-mobile-pt);
+  /* Legacy alias */
+  --section-padding-y: var(--section-padding-y-light);
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     SECTION HEADER RHYTHM — Eyebrow + headline pattern
+     ───────────────────────────────────────────────────────────────────────────── */
+  --eyebrow-top: var(--space-5);     /* 32px breathing room from section top */
+  --eyebrow-bottom: var(--space-4);  /* 24px to headline */
+  --headline-bottom: var(--space-6); /* 48px to content */
+
+  /* ─────────────────────────────────────────────────────────────────────────────
+     CONTENT RHYTHM — Internal spacing (using stack tokens)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --paragraph-gap: var(--stack-standard); /* 20px between paragraph blocks */
+  --card-gap: var(--stack-loose);         /* 36px between major items on mobile */
+  --step-gap: var(--stack-loose);         /* 36px between numbered steps on mobile */
+  --step-list-top: var(--space-4);        /* 24px above step list */
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════════
-   TABLET BREAKPOINT (768px+) — Scaled tokens
-   ═══════════════════════════════════════════════════════════════════════════════ */
+/* Tablet breakpoint (768px+) */
 @media (min-width: 768px) {
   :root {
-    /* Section spacing — tablet */
-    --section-dark-tablet-pt: 120px;
-    --section-dark-tablet-pb: 120px;
-    --section-light-tablet-pt: 112px;
-    --section-light-tablet-pb: 112px;
-    
-    /* Active section tokens */
-    --section-padding-y-dark: 120px;
-    --section-padding-y-light: 112px;
-    --section-padding-y: var(--section-padding-y-light);
-    
-    /* Stack spacing — tablet (proportional increase) */
-    --stack-small-tablet: 14px;
-    --stack-medium-tablet: 24px;
-    --stack-large-tablet: 44px;
-    
-    --stack-tight: var(--stack-small-tablet);
-    --stack-standard: var(--stack-medium-tablet);
-    --stack-loose: var(--stack-large-tablet);
-    
-    /* Divider spacing — tablet */
-    --divider-spacing-tablet: 48px;
-    
-    /* Content rhythm — tablet */
-    --card-gap: 48px;
-    --step-gap: 56px;
-    
-    /* Gutter — tablet */
-    --gutter: 32px;
-    
-    /* Footer — tablet (balanced, premium) */
-    --footer-tablet-pt: 88px;
-    --footer-tablet-pb: 88px;
-    --footer-padding-y: var(--footer-tablet-pt);
+    --gutter: var(--space-5);          /* 32px */
+    --section-padding-y-light: var(--space-10); /* 120px */
+    --section-padding-y-dark: var(--space-10);  /* 120px */
+    --section-padding-y: var(--space-10);       /* Legacy alias */
+    --card-gap: var(--space-6);                 /* 48px on tablet+ */
+    --step-gap: 56px;                           /* Premium step spacing on tablet+ */
+    --footer-pt-mobile: 80px;                   /* Reset to standard on tablet+ */
+    --footer-pb-mobile: 80px;
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════════
-   DESKTOP BREAKPOINT (1024px+) — Full tokens
-   ═══════════════════════════════════════════════════════════════════════════════ */
+/* Desktop breakpoint (1024px+) */
 @media (min-width: 1024px) {
   :root {
-    /* Section spacing — desktop (generous, premium feel) */
-    --section-dark-desktop-pt: 160px;
-    --section-dark-desktop-pb: 160px;
-    --section-light-desktop-pt: 144px;
-    --section-light-desktop-pb: 144px;
-    
-    /* Active section tokens */
-    --section-padding-y-dark: 160px;
-    --section-padding-y-light: 144px;
-    --section-padding-y: var(--section-padding-y-light);
-    
-    /* Stack spacing — desktop */
-    --stack-small-desktop: 16px;
-    --stack-medium-desktop: 28px;
-    --stack-large-desktop: 52px;
-    
-    --stack-tight: var(--stack-small-desktop);
-    --stack-standard: var(--stack-medium-desktop);
-    --stack-loose: var(--stack-large-desktop);
-    
-    /* Divider spacing — desktop */
-    --divider-spacing-desktop: 56px;
-    
-    /* Gutter — desktop */
-    --gutter: 48px;
-    
-    /* Footer — desktop (settled, authoritative) */
-    --footer-desktop-pt: 96px;
-    --footer-desktop-pb: 96px;
-    --footer-padding-y: var(--footer-desktop-pt);
+    --gutter: var(--space-6);          /* 48px */
+    --section-padding-y-light: var(--space-11); /* 160px */
+    --section-padding-y-dark: var(--space-11);  /* 160px */
+    --section-padding-y: var(--space-11);       /* Legacy alias */
   }
 }
 
@@ -602,31 +619,6 @@
       gap: var(--list-item-stack-desktop);
     }
   }
-  
-  /* ═════════════════════════════════════════════════════════════════════════════
-     DIVIDER SPACING — LOCKED PATTERN
-     
-     Ensures consistent spacing around horizontal rules/dividers.
-     Scales with breakpoints for premium rhythm.
-     ═════════════════════════════════════════════════════════════════════════════ */
-  .divider-spacing {
-    margin-top: var(--divider-spacing-mobile);
-    margin-bottom: var(--divider-spacing-mobile);
-  }
-  
-  @media (min-width: 768px) {
-    .divider-spacing {
-      margin-top: var(--divider-spacing-tablet);
-      margin-bottom: var(--divider-spacing-tablet);
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .divider-spacing {
-      margin-top: var(--divider-spacing-desktop);
-      margin-bottom: var(--divider-spacing-desktop);
-    }
-  }
 
   /* Legacy footer padding — kept for compact variant compatibility only */
   .footer-padding {
@@ -634,20 +626,17 @@
     padding-bottom: var(--space-9);
   }
 
-  /* ═════════════════════════════════════════════════════════════════════════════
-     SECTION GAPS — Token-driven spacing between content blocks
-     Use these instead of arbitrary mb-* classes
-     ═════════════════════════════════════════════════════════════════════════════ */
+  /* Section spacing */
   .section-gap {
-    margin-bottom: var(--stack-loose);
+    @apply mb-8; /* 32px */
   }
 
   .subsection-gap {
-    margin-bottom: var(--stack-standard);
+    @apply mb-6; /* 24px */
   }
 
   .row-gap {
-    margin-bottom: var(--stack-tight);
+    @apply mb-3; /* 12px */
   }
 
   /* Hairline divider */
