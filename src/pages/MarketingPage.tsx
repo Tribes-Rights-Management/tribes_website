@@ -4,76 +4,73 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG } from "@/lib/theme";
 
 /**
- * MARKETING PAGE — TRIBES LOCKED PREMIUM SPACING SYSTEM
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * MARKETING PAGE — LOCKED DESIGN TOKEN SYSTEM (DO NOT TOUCH)
  * 
  * Section order: Hero (dark) → Who It's For (light) → Music as an Asset (dark) 
  *                → How Copyright Clearance Works (light) → Footer (dark)
  * 
- * LOCKED MOBILE TOKENS (no ad-hoc margins allowed):
- * - sectionDarkMobile: 96px top/bottom
- * - sectionLightMobile: 88px top/bottom  
- * - stackTight: 12px (heading → body)
- * - stackStandard: 20px (heading → paragraph → paragraph)
- * - stackLoose: 36px (between subsections)
- * - footerMobile: 104px top/bottom
+ * LOCKED SPACING TOKENS (no ad-hoc margins allowed):
+ * - sectionDarkMobileY: 64px (var(--space-10))
+ * - sectionLightMobileY: 72px (4.5rem)
+ * - stackLargeMobile: 32px (var(--space-7))
+ * - stackMediumMobile: 20px (var(--space-5))
+ * - stackSmallMobile: 12px (var(--space-3))
+ * - stackTightMobile: 8px (var(--space-2))
+ * 
+ * LOCKED TYPOGRAPHY:
+ * - labelCaps: 12px, 500, 0.12em tracking
+ * - h2: 28px mobile / 36px desktop
+ * - h3: 18px mobile / 20px desktop
+ * - body: 16px mobile / 18px desktop
+ * ═══════════════════════════════════════════════════════════════════════════════
  */
 
 export default function MarketingPage() {
   return (
     <PublicLayout darkBackground>
-      {/* 1) HERO = BLACK — Full viewport, locked */}
+      {/* 1) HERO = BLACK */}
       <Hero />
 
-      {/* 2) WHO IT'S FOR = WHITE — sectionLightMobile (88px) */}
+      {/* 2) WHO IT'S FOR = LIGHT */}
       <section 
         data-theme="light" 
-        className="section-padding-light"
+        className="section--light"
         style={{ backgroundColor: THEME_LIGHT_BG }}
       >
         <div className={CONTENT_CONTAINER_CLASS}>
-          {/* Eyebrow label with premium spacing */}
-          <p 
-            className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60"
-            style={{ marginBottom: 'var(--eyebrow-bottom)' }}
-          >
+          {/* Eyebrow label */}
+          <p className="labelCaps text-foreground/60 mb-stack-standard">
             Who It's For
           </p>
           
-          {/* Headline — stackStandard to lead-in */}
-          <h2 
-            className="text-[24px] md:text-[29px] lg:text-[30px] font-medium leading-[1.2] tracking-[-0.01em] text-foreground max-w-[640px] mb-stack-standard"
-          >
+          {/* Headline */}
+          <h2 className="text-foreground max-w-[640px] mb-stack-standard">
             Built for long-term rights holders.
           </h2>
           
-          {/* Supporting lead-in line — uses locked lede-to-list bridge */}
-          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list md:mb-[52px]">
+          {/* Supporting lead-in */}
+          <p className="body text-foreground/70 max-w-[560px] lede-to-list">
             Clear music rights through proper authorization, documentation, payment handling, and defensible records.
           </p>
           
-          {/* Audience cards — list-step-stack on mobile, grid on desktop */}
+          {/* Audience cards */}
           <div className="list-step-stack md:grid md:grid-cols-3 md:gap-12">
-            <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
-                Songwriters & Producers
-              </h3>
-              <p className="text-[15px] text-foreground/70 leading-[1.7]">
+            <div className="stack--sm">
+              <h3 className="text-foreground">Songwriters & Producers</h3>
+              <p className="body text-foreground/70">
                 Get your copyrights registered, royalties collected, and records organized—so ownership and income remain clear over time.
               </p>
             </div>
-            <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
-                Rights Holders
-              </h3>
-              <p className="text-[15px] text-foreground/70 leading-[1.7]">
+            <div className="stack--sm">
+              <h3 className="text-foreground">Rights Holders</h3>
+              <p className="body text-foreground/70">
                 Clear ownership records, structured licensing, reliable income tracking.
               </p>
             </div>
-            <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
-                Commercial & Broadcast
-              </h3>
-              <p className="text-[15px] text-foreground/70 leading-[1.7]">
+            <div className="stack--sm">
+              <h3 className="text-foreground">Commercial & Broadcast</h3>
+              <p className="body text-foreground/70">
                 Clear music rights for your projects with proper authorization, documentation, and records that hold up.
               </p>
             </div>
@@ -81,78 +78,45 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* 3) MUSIC AS AN ASSET = BLACK — sectionDarkMobile (96px) */}
+      {/* 3) MUSIC AS AN ASSET = DARK */}
       <section 
         data-theme="dark" 
         id="asset-management" 
-        className="section-padding-dark"
+        className="section--dark"
         style={{ backgroundColor: THEME_DARK_BG }}
       >
         <div className={CONTENT_CONTAINER_CLASS}>
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
             {/* Left Column */}
-            <div>
-              <p 
-                className="text-xs font-medium uppercase tracking-[0.12em]"
-                style={{ color: 'rgba(255,255,255,0.60)', marginBottom: 'var(--eyebrow-bottom)' }}
-              >
+            <div className="stack">
+              <p className="labelCaps" style={{ color: 'rgba(255,255,255,0.60)' }}>
                 Music as an Asset
               </p>
-              <h2 
-                className="text-[28px] md:text-[36px] font-medium leading-[1.2] tracking-[-0.01em]"
-                style={{ color: 'rgba(255,255,255,0.92)', marginBottom: 'var(--headline-bottom)' }}
-              >
+              <h2 style={{ color: 'rgba(255,255,255,0.92)' }}>
                 Your catalog is a long-term asset. We treat it that way.
               </h2>
-              <p 
-                className="text-base leading-[1.8]"
-                style={{ color: 'rgba(255,255,255,0.72)' }}
-              >
+              <p className="body" style={{ color: 'rgba(255,255,255,0.72)' }}>
                 Publishing administration isn't paperwork—it's asset management. We handle rights, data, income, and documentation with the same rigor you'd expect from any serious financial steward.
               </p>
             </div>
             
-            {/* Right Column - Feature list with stackLoose between items */}
-            <div className="lg:pt-12 flex flex-col stack-loose">
-              <div>
-                <h3 
-                  className="text-lg font-medium mb-stack-tight"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
-                >
-                  Clear Ownership
-                </h3>
-                <p 
-                  className="text-[15px] leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
-                >
+            {/* Right Column - Feature list */}
+            <div className="lg:pt-12 stack--lg">
+              <div className="stack--sm">
+                <h3 style={{ color: 'rgba(255,255,255,0.92)' }}>Clear Ownership</h3>
+                <p className="body" style={{ color: 'rgba(255,255,255,0.65)' }}>
                   Structured ownership records, including splits, metadata, and agreements, maintained as permanent reference.
                 </p>
               </div>
-              <div>
-                <h3 
-                  className="text-lg font-medium mb-stack-tight"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
-                >
-                  Reliable Financials
-                </h3>
-                <p 
-                  className="text-[15px] leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
-                >
+              <div className="stack--sm">
+                <h3 style={{ color: 'rgba(255,255,255,0.92)' }}>Reliable Financials</h3>
+                <p className="body" style={{ color: 'rgba(255,255,255,0.65)' }}>
                   Accurate collections, clear reporting, and records that stay consistent over time.
                 </p>
               </div>
-              <div>
-                <h3 
-                  className="text-lg font-medium mb-stack-tight"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
-                >
-                  Lasting Documentation
-                </h3>
-                <p 
-                  className="text-[15px] leading-[1.7]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
-                >
+              <div className="stack--sm">
+                <h3 style={{ color: 'rgba(255,255,255,0.92)' }}>Lasting Documentation</h3>
+                <p className="body" style={{ color: 'rgba(255,255,255,0.65)' }}>
                   Agreements, licenses, and identifiers organized for audits, transactions, or whenever you need them.
                 </p>
               </div>
@@ -161,60 +125,54 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* 4) HOW COPYRIGHT CLEARANCE WORKS = WHITE — sectionLightMobile (88px) */}
+      {/* 4) HOW COPYRIGHT CLEARANCE WORKS = LIGHT */}
       <section 
         data-theme="light" 
         id="how-it-works" 
-        className="section-padding-light scroll-mt-24"
+        className="section--light scroll-mt-24"
         style={{ backgroundColor: THEME_LIGHT_BG }}
       >
         <div className={CONTENT_CONTAINER_CLASS}>
           {/* Eyebrow */}
-          <p 
-            className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60 mb-stack-standard"
-          >
+          <p className="labelCaps text-foreground/60 mb-stack-standard">
             How Copyright Clearance Works
           </p>
           
-          {/* Intro line — uses locked lede-to-list bridge spacing */}
-          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list">
+          {/* Intro line */}
+          <p className="body text-foreground/70 max-w-[560px] lede-to-list">
             Every request is reviewed before any agreement is issued.
           </p>
           
-          {/* Steps — list-step-stack for locked item spacing, grid on desktop */}
+          {/* Steps */}
           <div className="list-step-stack md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-8">
-            {/* Step 01 */}
-            <div>
-              <p className="text-xs font-medium text-foreground/50 mb-stack-tight">01</p>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">Submit</h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
+            <div className="stack--sm">
+              <p className="small text-foreground/50">01</p>
+              <h3 className="text-foreground">Submit</h3>
+              <p className="body text-foreground/70">
                 Provide the song, intended use, and required details. This information forms the basis of the agreement.
               </p>
             </div>
             
-            {/* Step 02 */}
-            <div>
-              <p className="text-xs font-medium text-foreground/50 mb-stack-tight">02</p>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">Review</h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
+            <div className="stack--sm">
+              <p className="small text-foreground/50">01</p>
+              <h3 className="text-foreground">Review</h3>
+              <p className="body text-foreground/70">
                 Ownership, splits, and usage details are verified to ensure the agreement reflects the correct terms from the outset.
               </p>
             </div>
             
-            {/* Step 03 */}
-            <div>
-              <p className="text-xs font-medium text-foreground/50 mb-stack-tight">03</p>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">Execute</h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
+            <div className="stack--sm">
+              <p className="small text-foreground/50">03</p>
+              <h3 className="text-foreground">Execute</h3>
+              <p className="body text-foreground/70">
                 Agreements are signed and, where applicable, payment is completed in a single step. Once executed, the license becomes a binding reference.
               </p>
             </div>
             
-            {/* Step 04 */}
-            <div>
-              <p className="text-xs font-medium text-foreground/50 mb-stack-tight">04</p>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">Record</h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
+            <div className="stack--sm">
+              <p className="small text-foreground/50">04</p>
+              <h3 className="text-foreground">Record</h3>
+              <p className="body text-foreground/70">
                 Executed agreements are retained as permanent records and remain accessible from your account.
               </p>
             </div>
