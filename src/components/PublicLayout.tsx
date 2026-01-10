@@ -53,9 +53,9 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     setMenuOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll when menu is open (mobile only)
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  useScrollLock(menuOpen && isMobile);
+  // Lock body scroll when menu is open (all breakpoints)
+  // This prevents scroll bleed and maintains scroll position
+  useScrollLock(menuOpen);
 
   // Close on click outside (desktop dropdown)
   useEffect(() => {
@@ -300,7 +300,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               Per spec: 6px blur on background content, 100ms transition
               ───────────────────────────────────────────────────────────────────── */}
           
-          {/* Background Blur Overlay */}
+          {/* Background Blur Overlay - blocks scroll events */}
           <div
             className={`hidden md:block fixed inset-0 z-40 ${
               menuOpen ? '' : 'pointer-events-none'
@@ -312,8 +312,13 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               opacity: menuOpen ? 1 : 0,
               transition: `backdrop-filter ${NAV_TIMING.blurTransition}ms ease-out, opacity ${NAV_TIMING.blurTransition}ms ease-out`,
               willChange: 'backdrop-filter, opacity',
+              // Prevent scroll bleed through overlay
+              overscrollBehavior: 'contain',
+              touchAction: 'none',
             }}
             onClick={closeMenu}
+            onWheel={(e) => e.preventDefault()}
+            onTouchMove={(e) => e.preventDefault()}
             aria-hidden="true"
           />
 
