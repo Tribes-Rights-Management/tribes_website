@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva(
   // Base: institutional-grade button system (LOCKED)
   // No bounce, spring, or decorative animation. Opacity transitions only.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[15px] font-medium transition-opacity duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-1 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  // Added: subtle press effect (scale) for tactile feedback
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[15px] font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-1 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98] active:opacity-90 select-none",
   {
     variants: {
       variant: {

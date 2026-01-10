@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { PublicLayout } from "@/components/PublicLayout";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
+import { BackToTop } from "@/components/shared/BackToTop";
 
 /**
  * BODY PAGE LAYOUT — GLOBAL STANDARD (LOCKED)
@@ -34,9 +35,18 @@ interface ContentPageLayoutProps {
   description?: string;
   /** Last updated date for legal/policy pages - renders as secondary metadata */
   lastUpdated?: string;
+  /** Show back-to-top button on longer pages */
+  showBackToTop?: boolean;
 }
 
-export function ContentPageLayout({ children, title, lede, description, lastUpdated }: ContentPageLayoutProps) {
+export function ContentPageLayout({ 
+  children, 
+  title, 
+  lede, 
+  description, 
+  lastUpdated,
+  showBackToTop = true 
+}: ContentPageLayoutProps) {
   // Support legacy 'description' prop but prefer 'lede'
   const ledeText = lede || description;
 
@@ -71,6 +81,9 @@ export function ContentPageLayout({ children, title, lede, description, lastUpda
           </div>
         </div>
       </section>
+      
+      {/* Back to top button for longer pages */}
+      {showBackToTop && <BackToTop />}
     </PublicLayout>
   );
 }

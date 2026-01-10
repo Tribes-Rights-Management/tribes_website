@@ -73,6 +73,13 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       className="flex flex-col min-h-screen"
       style={{ backgroundColor: "hsl(var(--site-black))" }}
     >
+      {/* Skip to content link - accessibility */}
+      <a 
+        href="#main-content" 
+        className="skip-to-content sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:bg-foreground focus:text-white focus:px-4 focus:py-2 focus:rounded-md focus:text-sm focus:font-medium"
+      >
+        Skip to content
+      </a>
       {/* Header - Premium Apple/Stripe style */}
       {/* Fixed position with backdrop blur on light pages, integrated on dark pages */}
       <header 
@@ -296,7 +303,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       )}
 
       {/* Main content */}
-      <main ref={mainRef} className="flex-1 flex flex-col" style={pageBackgroundStyle}>
+      <main id="main-content" ref={mainRef} className="flex-1 flex flex-col" style={pageBackgroundStyle}>
         {children}
       </main>
 

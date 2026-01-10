@@ -871,7 +871,7 @@
   .footer-links {
     display: flex;
     flex-direction: column;
-    gap: var(--footer-link-gap);
+    gap: 4px; /* Reduced gap, touch target via padding */
   }
   
   .footer-link {
@@ -879,6 +879,10 @@
     color: hsl(var(--footer-link-color));
     transition: opacity 150ms ease-out;
     display: block;
+    padding: 8px 0; /* Touch target: 8px + ~17px text + 8px = ~33px min, + gap = 44px+ */
+    margin: 0 -4px;
+    padding-left: 4px;
+    padding-right: 4px;
   }
   
   .footer-link:hover,
@@ -1161,10 +1165,21 @@
     cursor: pointer;
   }
   
-  /* Active/tap state for mobile */
+  /* Suppress mobile tap highlight for premium feel */
+  a, button, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* Active/tap state for mobile - restrained opacity shift */
   a:active,
-  button:active {
-    opacity: 0.85;
+  button:active:not(:disabled) {
+    opacity: 0.78;
+  }
+  
+  /* Button press effect - subtle scale for tactile feedback */
+  button:active:not(:disabled),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.98);
   }
 }
 

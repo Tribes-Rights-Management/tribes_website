@@ -16,6 +16,8 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { COUNTRIES } from "@/lib/countries";
 import { z } from "zod";
+import { FormFeedback } from "@/components/shared/FormFeedback";
+import { ButtonSpinner } from "@/components/shared/ButtonSpinner";
 
 /**
  * LICENSING ACCOUNT PAGE — Uses global FormPageLayout standard
@@ -379,7 +381,14 @@ export default function LicensingAccountPage() {
               size="lg"
               className="w-full"
             >
-              {isSubmitting ? "Submitting…" : "Request Account Review"}
+              {isSubmitting ? (
+                <span className="inline-flex items-center gap-2">
+                  <ButtonSpinner size={16} />
+                  Submitting…
+                </span>
+              ) : (
+                "Request Account Review"
+              )}
             </Button>
           </div>
         </div>
