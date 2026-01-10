@@ -100,9 +100,9 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
           headerDark 
             ? 'border-b border-white/[0.06]' 
-            : 'md:backdrop-blur-md md:bg-background/80 bg-white border-b border-black/[0.08] md:border-border/40'
+            : 'bg-white border-b border-black/[0.08]'
         }`}
-        style={headerDark ? { backgroundColor: THEME_DARK_BG } : undefined}
+        style={headerDark ? { backgroundColor: THEME_DARK_BG } : { backgroundColor: '#FFFFFF' }}
       >
         <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-16 md:h-[72px]`}>
           {/* Left-aligned wordmark */}
