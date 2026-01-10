@@ -38,33 +38,20 @@ export function Hero({ contactAnchor }: HeroProps) {
   return (
     <section 
       data-theme="dark"
-      data-hero-section
       className="relative flex flex-col justify-center pb-[env(safe-area-inset-bottom)]"
       style={{ 
         backgroundColor: THEME_DARK_BG,
-        /* Full viewport height - cascading fallbacks for all browsers */
-        minHeight: 'calc(100vh - var(--header-h, 56px))',
-        /* Explicit width prevents flex shrinking in certain contexts */
+        /* Use min-height only — never height — to prevent iOS stretch/snap */
+        /* svh as primary for stable mobile viewport, vh as fallback */
+        minHeight: 'calc(100svh - var(--header-h, 56px))',
         width: '100%',
       }}
     >
-      {/* CSS for svh/dvh support - ensures full viewport on mobile Safari */}
+      {/* Stable viewport fallback for older browsers */}
       <style>{`
-        /* Mobile-first: full viewport height on all devices */
-        [data-hero-section] {
-          min-height: calc(100vh - var(--header-h, 56px));
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        @supports (min-height: 100svh) {
-          [data-hero-section] {
-            min-height: calc(100svh - var(--header-h, 56px)) !important;
-          }
-        }
-        @supports (min-height: 100dvh) {
-          [data-hero-section] {
-            min-height: calc(100dvh - var(--header-h, 56px)) !important;
+        @supports not (min-height: 100svh) {
+          [data-theme="dark"].relative.flex.flex-col.justify-center {
+            min-height: calc(100vh - var(--header-h, 56px)) !important;
           }
         }
       `}</style>
