@@ -160,20 +160,18 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             />
             
             {/* ═══════════════════════════════════════════════════════════════════
-                MOBILE NAVIGATION — DO NOT MODIFY
+                MOBILE NAVIGATION — DO NOT TOUCH
                 
-                This navigation hierarchy, spacing, and typography are final.
-                Changes require intentional token updates in index.css.
-                No page-level overrides. No visual rebalancing without revisiting spec.
+                This mobile navigation structure, IA, typography tokens, and spacing
+                are locked. Do not alter without explicit instruction.
                 
                 Structure:
-                  Primary: Client Portal (dominant)
-                  Secondary: Licensing Access (subordinate)
-                  ─────────────────────────────────
-                  Company: Services, How Administration Works, How Licensing Works, Contact
+                  Primary (top): Services, How Administration Works, How Licensing Works, Contact
+                  ─────────────────────────────────────────────────────────────────────
+                  Actions (bottom): Sign in, Request Licensing Access
                 ═══════════════════════════════════════════════════════════════════ */}
             <nav 
-              className={`mobile-nav-drawer fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col overscroll-none ${
+              className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col ${
                 mobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
               }`}
               style={{
@@ -191,10 +189,10 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               <div 
                 className="flex justify-end"
                 style={{ 
-                  paddingLeft: 'var(--mobile-nav-padding-x)',
-                  paddingRight: 'var(--mobile-nav-padding-x)',
-                  paddingTop: 'var(--mobile-nav-header-pt)',
-                  paddingBottom: 'var(--mobile-nav-header-pb)',
+                  paddingLeft: 'var(--nav-padding-x-mobile)',
+                  paddingRight: 'var(--nav-padding-x-mobile)',
+                  paddingTop: 'var(--nav-header-pt-mobile)',
+                  paddingBottom: 'var(--nav-header-pb-mobile)',
                 }}
               >
                 <button
@@ -206,78 +204,78 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 </button>
               </div>
               
-              {/* Access Section — Primary + Secondary */}
+              {/* Primary Navigation — Top stack */}
               <div 
                 className="flex flex-col"
                 style={{ 
-                  paddingLeft: 'var(--mobile-nav-padding-x)',
-                  paddingRight: 'var(--mobile-nav-padding-x)',
-                  paddingTop: 'var(--mobile-nav-content-pt)',
-                }}
-              >
-                {/* Client Portal — Dominant action */}
-                <a 
-                  href="https://app.tribesrightsmanagement.com" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-primary"
-                >
-                  Client Portal
-                </a>
-                {/* Licensing Access — Subordinate */}
-                <Link 
-                  to="/licensing-account" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-secondary"
-                >
-                  Licensing Access
-                </Link>
-              </div>
-
-              {/* Single Divider — Separates Access from Company */}
-              <div 
-                className="border-t border-foreground/[0.08] w-full"
-                style={{ 
-                  marginTop: 'var(--mobile-nav-section-gap)',
-                  marginBottom: 'var(--mobile-nav-section-gap)',
-                }}
-              />
-
-              {/* Company Section — Calm, informational links */}
-              <div 
-                className="flex flex-col"
-                style={{ 
-                  paddingLeft: 'var(--mobile-nav-padding-x)',
-                  paddingRight: 'var(--mobile-nav-padding-x)',
-                  gap: 'var(--mobile-nav-company-gap)',
+                  paddingLeft: 'var(--nav-padding-x-mobile)',
+                  paddingRight: 'var(--nav-padding-x-mobile)',
+                  paddingTop: 'var(--nav-content-pt-mobile)',
+                  gap: 'var(--nav-item-spacing-mobile)',
                 }}
               >
                 <Link 
                   to="/services" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-company"
+                  className="nav-primary-mobile"
                 >
                   Services
                 </Link>
                 <Link 
                   to="/how-publishing-admin-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-company"
+                  className="nav-primary-mobile"
                 >
                   How Administration Works
                 </Link>
                 <Link 
                   to="/how-licensing-works" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-company"
+                  className="nav-primary-mobile"
                 >
                   How Licensing Works
                 </Link>
                 <Link 
                   to="/contact" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="mobile-nav-company"
+                  className="nav-primary-mobile"
                 >
                   Contact
+                </Link>
+              </div>
+
+              {/* Single Divider — Separates primary nav from actions */}
+              <div 
+                className="w-full"
+                style={{ 
+                  marginTop: 'var(--nav-section-spacing-mobile)',
+                  marginBottom: 'var(--nav-section-spacing-mobile)',
+                  borderTop: '1px solid hsl(var(--nav-divider-color-mobile))',
+                }}
+              />
+
+              {/* Action Items — Bottom stack */}
+              <div 
+                className="flex flex-col"
+                style={{ 
+                  paddingLeft: 'var(--nav-padding-x-mobile)',
+                  paddingRight: 'var(--nav-padding-x-mobile)',
+                  gap: 'var(--nav-item-spacing-mobile)',
+                }}
+              >
+                <a 
+                  href="https://app.tribesrightsmanagement.com" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="nav-action-mobile"
+                >
+                  Sign in
+                </a>
+                <Link 
+                  to="/licensing-account" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="nav-action-mobile"
+                >
+                  Request Licensing Access
                 </Link>
               </div>
             </nav>
