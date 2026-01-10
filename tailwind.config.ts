@@ -20,34 +20,24 @@ export default {
       },
     },
     extend: {
-      /* ═══════════════════════════════════════════════════════════════════════════
-         SPACING — Aligned to locked CSS tokens (DO NOT ADD NEW VALUES)
-         ═══════════════════════════════════════════════════════════════════════════ */
       spacing: {
-        "1": "0.25rem",   /* 4px  - space-1 */
-        "2": "0.5rem",    /* 8px  - space-2 */
-        "3": "0.75rem",   /* 12px - space-3 */
-        "4": "1rem",      /* 16px - space-4 */
-        "5": "1.25rem",   /* 20px - space-5 */
-        "6": "1.5rem",    /* 24px - space-6 */
-        "7": "2rem",      /* 32px - space-7 */
-        "8": "2.5rem",    /* 40px - space-8 */
-        "9": "3rem",      /* 48px - space-9 */
-        "10": "4rem",     /* 64px - space-10 */
-        "11": "5rem",     /* 80px - space-11 */
-        "12": "6rem",     /* 96px - space-12 */
-      },
-      maxWidth: {
-        "content": "var(--maxContentWidth)",  /* 720px */
+        "0.5": "4px",
+        "1": "8px",
+        "1.5": "12px",
+        "2": "16px",
+        "3": "24px",
+        "4": "32px",
+        "6": "48px",
+        "8": "64px",
       },
       fontSize: {
-        "label": ["var(--labelCapsSize)", { lineHeight: "var(--labelCapsLine)", letterSpacing: "var(--labelCapsTracking)", fontWeight: "var(--labelCapsWeight)" }],
-        "xs": ["var(--smallSize)", { lineHeight: "var(--smallLine)", fontWeight: "var(--smallWeight)" }],
-        "sm": ["var(--smallSize)", { lineHeight: "var(--smallLine)", fontWeight: "var(--smallWeight)" }],
-        "base": ["var(--bodySize)", { lineHeight: "var(--bodyLine)", fontWeight: "var(--bodyWeight)" }],
-        "lg": ["var(--h3Size)", { lineHeight: "var(--h3Line)", fontWeight: "var(--h3Weight)" }],
-        "xl": ["var(--h2Size)", { lineHeight: "var(--h2Line)", fontWeight: "var(--h2Weight)" }],
-        "2xl": ["var(--h1Size)", { lineHeight: "var(--h1Line)", fontWeight: "var(--h1Weight)" }],
+        "xs": ["13px", { lineHeight: "1.45", fontWeight: "400" }],
+        "sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+        "base": ["16px", { lineHeight: "1.65", fontWeight: "400" }],
+        "lg": ["17px", { lineHeight: "1.4", fontWeight: "500" }],
+        "xl": ["20px", { lineHeight: "1.3", fontWeight: "500" }],
+        "2xl": ["32px", { lineHeight: "1.15", fontWeight: "600" }],
+        "3xl": ["40px", { lineHeight: "1.15", fontWeight: "600" }],
       },
       colors: {
         border: "hsl(var(--border))",

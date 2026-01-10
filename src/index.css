@@ -2,197 +2,215 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ═════════════════════════════════════════════════════════════════════════════════
-   TRIBES MARKETING SITE — LOCKED DESIGN TOKENS (DO NOT TOUCH)
-   
-   Source of truth for spacing + typography.
-   
-   RULES:
-   1) Use ONLY these tokens for spacing (no ad-hoc px/rem).
-   2) No custom margins/paddings on pages/components.
-   3) Section padding MUST use section* tokens.
-   4) Stacks MUST use stack* tokens.
-   5) Divider blocks MUST use dividerSpacing* tokens.
-   6) Typography MUST use the locked type scale.
-   
-   Any deviation requires explicit approval and cross-page verification.
-   ═════════════════════════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════════════════
+   GLOBAL SPACING SYSTEM — TRIBES STANDARD (LOCKED)
+
+   Premium spacing tokens for Apple/Stripe/Mercury-level vertical rhythm.
+   These tokens are authoritative and must be used consistently across all
+   marketing pages, sections, and the footer.
+
+   Usage:
+   - Sections: Use --section-padding-* for consistent vertical rhythm
+   - Gutters: Use --gutter-* for horizontal page margins
+   - Internal: Use --space-* for component-level spacing
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
   /* ═══════════════════════════════════════════════════════════════════════════════
-     SPACING SCALE — LOCKED (Use only these. No arbitrary values.)
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  PREMIUM VERTICAL RHYTHM SYSTEM — DO NOT MODIFY                           ║
+     ║                                                                           ║
+     ║  This is a unified, premium-grade vertical spacing system across the      ║
+     ║  entire public-facing marketing website. All vertical spacing is          ║
+     ║  governed by these tokens.                                                ║
+     ║                                                                           ║
+     ║  DO NOT MODIFY SPACING VALUES OR ADD CUSTOM MARGINS.                      ║
+     ║  Any new section must use existing tokens only.                           ║
+     ║                                                                           ║
+     ║  Changes require intentional token updates with cross-page verification.  ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --space-1: 0.25rem;   /* 4px  */
-  --space-2: 0.5rem;    /* 8px  */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-7: 2rem;      /* 32px */
-  --space-8: 2.5rem;    /* 40px */
-  --space-9: 3rem;      /* 48px */
-  --space-10: 4rem;     /* 64px */
-  --space-11: 5rem;     /* 80px */
-  --space-12: 6rem;     /* 96px */
-
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     BASE SPACING SCALE — 8px unit (reference only)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --space-0: 0px;
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 80px;
+  --space-9: 96px;
+  --space-10: 120px;
+  --space-11: 160px;
+  --space-12: 200px;
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
-     SECTION PADDING — MOBILE (Default)
+     SECTION SPACING — MOBILE (Default)
      
-     Light sections slightly larger than dark for perceived parity.
+     Dark sections: Generous padding for marketing authority
+     Light sections: Slightly tighter for content density
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --sectionDarkMobileY: var(--space-10);    /* 64px */
-  --sectionLightMobileY: 4.5rem;            /* 72px */
-  --footerMobileTop: var(--space-11);       /* 80px */
-  --footerMobileBottom: 3.5rem;             /* 56px */
+  
+  /* Dark section padding (e.g., Hero, Asset Management, Footer) */
+  --section-dark-mobile-pt: 96px;
+  --section-dark-mobile-pb: 96px;
+  
+  /* Light section padding (e.g., Who It's For, How It Works) */
+  --section-light-mobile-pt: 88px;
+  --section-light-mobile-pb: 88px;
   
   /* Active section tokens (used by utility classes) */
-  --section-padding-y-dark: var(--sectionDarkMobileY);
-  --section-padding-y-light: var(--sectionLightMobileY);
-  --section-padding-y: var(--section-padding-y-light);
-  --footer-padding-top: var(--footerMobileTop);
-  --footer-padding-bottom: var(--footerMobileBottom);
-
-  /* ═══════════════════════════════════════════════════════════════════════════════
-     CONTAINER — Horizontal gutters and max width
-     ═══════════════════════════════════════════════════════════════════════════════ */
-  --containerPaddingMobile: var(--space-5);  /* 20px */
-  --containerPaddingDesktop: var(--space-8); /* 40px */
-  --maxContentWidth: 45rem;                  /* 720px */
-  --gutter: var(--containerPaddingMobile);
-
+  --section-padding-y-dark: var(--section-dark-mobile-pt);
+  --section-padding-y-light: var(--section-light-mobile-pt);
+  --section-padding-y: var(--section-padding-y-light); /* Legacy alias */
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
      STACK SPACING — Content Block Rhythm (Mobile)
      
-     stackTight:  Tight coupling (list items, tight metadata)
      stackSmall:  List items, metadata, helper text
      stackMedium: Headings to paragraphs, paragraph to paragraph  
      stackLarge:  Section title to body, major content blocks
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --stackTightMobile: var(--space-2);   /* 8px */
-  --stackSmallMobile: var(--space-3);   /* 12px */
-  --stackMediumMobile: var(--space-5);  /* 20px */
-  --stackLargeMobile: var(--space-7);   /* 32px */
+  
+  --stack-small-mobile: 12px;    /* List items, metadata, tight coupling */
+  --stack-medium-mobile: 20px;   /* Heading → paragraph, p → p */
+  --stack-large-mobile: 36px;    /* Between subsections, feature blocks */
   
   /* Active stack tokens */
-  --stack-tight: var(--stackTightMobile);
-  --stack-small: var(--stackSmallMobile);
-  --stack-standard: var(--stackMediumMobile);
-  --stack-loose: var(--stackLargeMobile);
-
+  --stack-tight: var(--stack-small-mobile);
+  --stack-standard: var(--stack-medium-mobile);
+  --stack-loose: var(--stack-large-mobile);
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
      DIVIDER SPACING — Horizontal rules (Mobile)
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --dividerSpacingMobile: var(--space-6);  /* 24px */
-  --divider-spacing: var(--dividerSpacingMobile);
-
+  
+  --divider-spacing-mobile: 40px;
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
      LEDE → LIST/STEPS BRIDGE — Locked transition pattern
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --lede-to-list-mobile: var(--space-5);   /* 20px */
-  --lede-to-list-desktop: var(--space-6);  /* 24px */
-  --list-item-stack-mobile: var(--space-5); /* 20px */
-  --list-item-stack-desktop: var(--space-6); /* 24px */
-
+  
+  --lede-to-list-mobile: 20px;
+  --lede-to-list-desktop: 24px;
+  --list-item-stack-mobile: 28px;
+  --list-item-stack-desktop: 32px;
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
      SECTION HEADER RHYTHM — Eyebrow + headline pattern
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --eyebrow-bottom: var(--stackMediumMobile);   /* 20px */
-  --headline-bottom: var(--stackMediumMobile);  /* 20px */
-
+  
+  --eyebrow-top: 32px;     /* Breathing room from section top */
+  --eyebrow-bottom: 24px;  /* Eyebrow to headline */
+  --headline-bottom: 48px; /* Headline to content */
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
-     TYPOGRAPHY SCALE — MOBILE (Default)
+     CONTENT RHYTHM — Page-level spacing
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --labelCapsSize: 0.75rem;           /* 12px */
-  --labelCapsWeight: 500;
-  --labelCapsTracking: 0.12em;
-  --labelCapsLine: 1rem;              /* 16px */
-
-  --h1Size: 2.75rem;                  /* 44px */
-  --h1Weight: 600;
-  --h1Line: 3rem;                     /* 48px */
-
-  --h2Size: 1.75rem;                  /* 28px */
-  --h2Weight: 600;
-  --h2Line: 2.125rem;                 /* 34px */
-
-  --h3Size: 1.125rem;                 /* 18px */
-  --h3Weight: 600;
-  --h3Line: 1.5rem;                   /* 24px */
-
-  --bodySize: 1rem;                   /* 16px */
-  --bodyWeight: 400;
-  --bodyLine: 1.625rem;               /* 26px */
-
-  --smallSize: 0.875rem;              /* 14px */
-  --smallWeight: 400;
-  --smallLine: 1.375rem;              /* 22px */
-
+  
+  --paragraph-gap: var(--stack-standard);  /* 20px between paragraphs */
+  --card-gap: var(--stack-loose);          /* 36px between cards on mobile */
+  --step-gap: var(--stack-loose);          /* 36px between steps on mobile */
+  --step-list-top: 24px;                   /* Above step list */
+  
   /* ═══════════════════════════════════════════════════════════════════════════════
-     INTERACTION TOKENS — Focus, tap, motion
+     FOOTER SPACING — Premium institutional presence (responsive)
      ═══════════════════════════════════════════════════════════════════════════════ */
-  --brandFocus: #0071E3;              /* use only for focus/active states */
-  --focusRingWidth: 2px;
-  --focusRingOffset: 2px;
-  --tapOpacity: 0.78;                 /* press state */
-  --motionFast: 200ms;
-  --motionEase: cubic-bezier(0.2, 0.8, 0.2, 1);
+  
+  --footer-mobile-pt: 104px;
+  --footer-mobile-pb: 104px;
+  
+  /* Active footer token — overridden in tablet/desktop */
+  --footer-padding-y: var(--footer-mobile-pt);
+  
+  /* ═══════════════════════════════════════════════════════════════════════════════
+     PAGE GUTTERS — Horizontal container padding
+     ═══════════════════════════════════════════════════════════════════════════════ */
+  
+  --gutter: 24px; /* Mobile default */
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   DESKTOP OVERRIDES (1024px+)
+   TABLET BREAKPOINT (768px+) — Scaled tokens
+   ═══════════════════════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  :root {
+    /* Section spacing — tablet */
+    --section-dark-tablet-pt: 120px;
+    --section-dark-tablet-pb: 120px;
+    --section-light-tablet-pt: 112px;
+    --section-light-tablet-pb: 112px;
+    
+    /* Active section tokens */
+    --section-padding-y-dark: 120px;
+    --section-padding-y-light: 112px;
+    --section-padding-y: var(--section-padding-y-light);
+    
+    /* Stack spacing — tablet (proportional increase) */
+    --stack-small-tablet: 14px;
+    --stack-medium-tablet: 24px;
+    --stack-large-tablet: 44px;
+    
+    --stack-tight: var(--stack-small-tablet);
+    --stack-standard: var(--stack-medium-tablet);
+    --stack-loose: var(--stack-large-tablet);
+    
+    /* Divider spacing — tablet */
+    --divider-spacing-tablet: 48px;
+    
+    /* Content rhythm — tablet */
+    --card-gap: 48px;
+    --step-gap: 56px;
+    
+    /* Gutter — tablet */
+    --gutter: 32px;
+    
+    /* Footer — tablet (balanced, premium) */
+    --footer-tablet-pt: 88px;
+    --footer-tablet-pb: 88px;
+    --footer-padding-y: var(--footer-tablet-pt);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DESKTOP BREAKPOINT (1024px+) — Full tokens
    ═══════════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 1024px) {
   :root {
-    /* Section spacing — desktop */
-    --sectionDarkDesktopY: var(--space-12);     /* 96px */
-    --sectionLightDesktopY: 6.5rem;             /* 104px */
-    --footerDesktopTop: 7rem;                   /* 112px */
-    --footerDesktopBottom: var(--space-11);     /* 80px */
+    /* Section spacing — desktop (generous, premium feel) */
+    --section-dark-desktop-pt: 160px;
+    --section-dark-desktop-pb: 160px;
+    --section-light-desktop-pt: 144px;
+    --section-light-desktop-pb: 144px;
     
     /* Active section tokens */
-    --section-padding-y-dark: var(--sectionDarkDesktopY);
-    --section-padding-y-light: var(--sectionLightDesktopY);
+    --section-padding-y-dark: 160px;
+    --section-padding-y-light: 144px;
     --section-padding-y: var(--section-padding-y-light);
-    --footer-padding-top: var(--footerDesktopTop);
-    --footer-padding-bottom: var(--footerDesktopBottom);
-
+    
     /* Stack spacing — desktop */
-    --stackTightDesktop: 0.625rem;    /* 10px */
-    --stackSmallDesktop: var(--space-4);   /* 16px */
-    --stackMediumDesktop: var(--space-6);  /* 24px */
-    --stackLargeDesktop: var(--space-8);   /* 40px */
+    --stack-small-desktop: 16px;
+    --stack-medium-desktop: 28px;
+    --stack-large-desktop: 52px;
     
-    --stack-tight: var(--stackTightDesktop);
-    --stack-small: var(--stackSmallDesktop);
-    --stack-standard: var(--stackMediumDesktop);
-    --stack-loose: var(--stackLargeDesktop);
-
+    --stack-tight: var(--stack-small-desktop);
+    --stack-standard: var(--stack-medium-desktop);
+    --stack-loose: var(--stack-large-desktop);
+    
     /* Divider spacing — desktop */
-    --dividerSpacingDesktop: var(--space-7);  /* 32px */
-    --divider-spacing: var(--dividerSpacingDesktop);
-
-    /* Container — desktop */
-    --gutter: var(--containerPaddingDesktop);
-
-    /* Eyebrow/headline rhythm — desktop */
-    --eyebrow-bottom: var(--stackMediumDesktop);
-    --headline-bottom: var(--stackMediumDesktop);
+    --divider-spacing-desktop: 56px;
     
-    /* Lede to list — desktop */
-    --lede-to-list: var(--lede-to-list-desktop);
-    --list-item-stack: var(--list-item-stack-desktop);
-
-    /* Typography — desktop */
-    --h1Size: 4rem;                   /* 64px */
-    --h1Line: 4.5rem;                 /* 72px */
-    --h2Size: 2.25rem;                /* 36px */
-    --h2Line: 2.75rem;                /* 44px */
-    --h3Size: 1.25rem;                /* 20px */
-    --h3Line: 1.75rem;                /* 28px */
-    --bodySize: 1.125rem;             /* 18px */
-    --bodyLine: 1.875rem;             /* 30px */
-    --smallSize: 0.9375rem;           /* 15px */
-    --smallLine: 1.5rem;              /* 24px */
+    /* Gutter — desktop */
+    --gutter: 48px;
+    
+    /* Footer — desktop (settled, authoritative) */
+    --footer-desktop-pt: 96px;
+    --footer-desktop-pb: 96px;
+    --footer-padding-y: var(--footer-desktop-pt);
   }
 }
 
@@ -455,15 +473,11 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  /* ═══════════════════════════════════════════════════════════════════════════
-     TYPOGRAPHY PRIMITIVES — Token-driven (LOCKED)
-     ═══════════════════════════════════════════════════════════════════════════ */
-
   /* H1 — Primary page heading. Locked globally. */
   h1 {
-    font-size: var(--h1Size);
-    font-weight: var(--h1Weight);
-    line-height: var(--h1Line);
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.15;
     letter-spacing: -0.015em;
     scroll-margin-top: calc(var(--header-height) + 24px);
   }
@@ -473,132 +487,104 @@
       /* Desktop: 64px (h-16) */
       --header-h: 64px;
     }
+    
+    h1 {
+      font-size: 40px;
+    }
   }
 
   /* H2 — Section titles. Fixed size, clearly subordinate. */
   h2 {
-    font-size: var(--h2Size);
-    font-weight: var(--h2Weight);
-    line-height: var(--h2Line);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.3;
     letter-spacing: -0.01em;
     scroll-margin-top: calc(var(--header-height) + 24px);
   }
 
   /* H3-H6 — Subsection headings */
   h3 {
-    font-size: var(--h3Size);
-    font-weight: var(--h3Weight);
-    line-height: var(--h3Line);
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.35;
   }
 
   h4, h5, h6 {
-    font-size: var(--smallSize);
+    font-size: 14px;
     font-weight: 500;
-    line-height: var(--smallLine);
+    line-height: 1.4;
   }
 
-  /* Body text */
-  p, li {
-    font-size: var(--bodySize);
-    font-weight: var(--bodyWeight);
-    line-height: var(--bodyLine);
-  }
-
-  /* Small text */
-  small, .text-small {
-    font-size: var(--smallSize);
-    font-weight: var(--smallWeight);
-    line-height: var(--smallLine);
-  }
-
-  /* Paragraph rhythm — stackMedium between siblings */
+  /* Paragraph rhythm — use gap between siblings, not stacked margins */
   p + p {
-    margin-top: var(--stack-standard);
+    margin-top: 1rem;
   }
 }
 
 @layer components {
+  /* Status chips - outline only, neutral */
+  .status-chip {
+    @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium;
+    @apply border border-border bg-transparent text-muted-foreground;
+  }
+
   /* ═════════════════════════════════════════════════════════════════════════════
-     CANONICAL UTILITY CLASSES — DO NOT INVENT NEW ONES
+     LOCKED SECTION PADDING CLASSES — TRIBES PREMIUM RHYTHM
      
-     Use ONLY these classes for layout. No custom spacing.
+     These classes enforce the locked mobile spacing tokens.
+     No other vertical spacing should be used on marketing sections.
      ═════════════════════════════════════════════════════════════════════════════ */
-
-  /* Container — Responsive horizontal padding + max width */
-  .container {
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
-    margin-left: auto;
-    margin-right: auto;
-    max-width: var(--maxContentWidth);
-  }
-
-  /* Section shells — Dark and Light variants */
-  .section--dark,
-  .section-padding-dark {
-    padding-top: var(--section-padding-y-dark);
-    padding-bottom: var(--section-padding-y-dark);
-  }
   
-  .section--light,
+  /* Light section padding (white background) — 88px mobile, scales on tablet+ */
   .section-padding,
   .section-padding-light {
     padding-top: var(--section-padding-y-light);
     padding-bottom: var(--section-padding-y-light);
   }
-  
-  .footer {
-    padding-top: var(--footer-padding-top);
-    padding-bottom: var(--footer-padding-bottom);
-  }
 
-  /* ═════════════════════════════════════════════════════════════════════════════
-     STACK UTILITIES — Consistent vertical rhythm (LOCKED)
-     
-     Use .stack for default, or .stack--lg/md/sm/tight for specific sizes.
-     Children automatically get the appropriate margin-top.
-     ═════════════════════════════════════════════════════════════════════════════ */
+  /* Dark section padding (black background) — 96px mobile, scales on tablet+ */
+  .section-padding-dark {
+    padding-top: var(--section-padding-y-dark);
+    padding-bottom: var(--section-padding-y-dark);
+  }
   
-  /* Default stack uses stackMedium */
-  .stack > * + * { margin-top: var(--stack-standard); }
-  .stack--lg > * + * { margin-top: var(--stack-loose); }
-  .stack--md > * + * { margin-top: var(--stack-standard); }
-  .stack--sm > * + * { margin-top: var(--stack-small); }
-  .stack--tight > * + * { margin-top: var(--stack-tight); }
+  /* Stack utilities — locked internal rhythm */
+  .stack-tight {
+    gap: var(--stack-tight);
+  }
   
-  /* Flex-gap variants (for flex containers) */
-  .stack-tight { gap: var(--stack-tight); }
-  .stack-small { gap: var(--stack-small); }
-  .stack-standard { gap: var(--stack-standard); }
-  .stack-loose { gap: var(--stack-loose); }
+  .stack-standard {
+    gap: var(--stack-standard);
+  }
+  
+  .stack-loose {
+    gap: var(--stack-loose);
+  }
   
   /* Margin variants for non-flex contexts */
   .mt-stack-tight { margin-top: var(--stack-tight); }
-  .mt-stack-small { margin-top: var(--stack-small); }
   .mt-stack-standard { margin-top: var(--stack-standard); }
   .mt-stack-loose { margin-top: var(--stack-loose); }
   .mb-stack-tight { margin-bottom: var(--stack-tight); }
-  .mb-stack-small { margin-bottom: var(--stack-small); }
   .mb-stack-standard { margin-bottom: var(--stack-standard); }
   .mb-stack-loose { margin-bottom: var(--stack-loose); }
-
-  /* ═════════════════════════════════════════════════════════════════════════════
-     DIVIDER SPACING — LOCKED PATTERN
-     ═════════════════════════════════════════════════════════════════════════════ */
-  .dividerBlock,
-  .divider-spacing {
-    padding-top: var(--divider-spacing);
-    padding-bottom: var(--divider-spacing);
-  }
-
+  
   /* ═════════════════════════════════════════════════════════════════════════════
      LEDE → LIST/STEPS BRIDGE — LOCKED PATTERN
+     
+     Ensures consistent spacing between section lede and first list/step item.
+     Prevents double-gap issues from stacked margins/paddings.
+     
+     Usage:
+     - Apply .lede-to-list to the lede element (adds margin-bottom)
+     - Apply .list-step-stack to the list/steps container (sets gap between items)
+     - First item automatically has no top margin via gap behavior
      ═════════════════════════════════════════════════════════════════════════════ */
   .lede-to-list {
     margin-bottom: var(--lede-to-list-mobile);
   }
   
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .lede-to-list {
       margin-bottom: var(--lede-to-list-desktop);
     }
@@ -611,55 +597,63 @@
     gap: var(--list-item-stack-mobile);
   }
   
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     .list-step-stack {
       gap: var(--list-item-stack-desktop);
     }
   }
-
+  
   /* ═════════════════════════════════════════════════════════════════════════════
-     TYPOGRAPHY PRIMITIVES — Token-driven classes (LOCKED)
+     DIVIDER SPACING — LOCKED PATTERN
+     
+     Ensures consistent spacing around horizontal rules/dividers.
+     Scales with breakpoints for premium rhythm.
      ═════════════════════════════════════════════════════════════════════════════ */
-  .labelCaps {
-    font-size: var(--labelCapsSize);
-    font-weight: var(--labelCapsWeight);
-    letter-spacing: var(--labelCapsTracking);
-    line-height: var(--labelCapsLine);
-    text-transform: uppercase;
+  .divider-spacing {
+    margin-top: var(--divider-spacing-mobile);
+    margin-bottom: var(--divider-spacing-mobile);
   }
   
-  .h1 { font-size: var(--h1Size); font-weight: var(--h1Weight); line-height: var(--h1Line); }
-  .h2 { font-size: var(--h2Size); font-weight: var(--h2Weight); line-height: var(--h2Line); }
-  .h3 { font-size: var(--h3Size); font-weight: var(--h3Weight); line-height: var(--h3Line); }
-  .body { font-size: var(--bodySize); font-weight: var(--bodyWeight); line-height: var(--bodyLine); }
-  .small { font-size: var(--smallSize); font-weight: var(--smallWeight); line-height: var(--smallLine); }
-
-  /* ═════════════════════════════════════════════════════════════════════════════
-     LINK STYLING — Premium restraint (LOCKED)
-     ═════════════════════════════════════════════════════════════════════════════ */
-  a {
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
+  @media (min-width: 768px) {
+    .divider-spacing {
+      margin-top: var(--divider-spacing-tablet);
+      margin-bottom: var(--divider-spacing-tablet);
+    }
   }
   
-  a:hover { opacity: 0.85; }
-  a:active { opacity: var(--tapOpacity); }
+  @media (min-width: 1024px) {
+    .divider-spacing {
+      margin-top: var(--divider-spacing-desktop);
+      margin-bottom: var(--divider-spacing-desktop);
+    }
+  }
 
-  /* Status chips - outline only, neutral */
-  .status-chip {
-    @apply inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium;
-    @apply border border-border bg-transparent text-muted-foreground;
+  /* Legacy footer padding — kept for compact variant compatibility only */
+  .footer-padding {
+    padding-top: var(--section-padding-y);
+    padding-bottom: var(--space-9);
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════════
+     SECTION GAPS — Token-driven spacing between content blocks
+     Use these instead of arbitrary mb-* classes
+     ═════════════════════════════════════════════════════════════════════════════ */
+  .section-gap {
+    margin-bottom: var(--stack-loose);
+  }
+
+  .subsection-gap {
+    margin-bottom: var(--stack-standard);
+  }
+
+  .row-gap {
+    margin-bottom: var(--stack-tight);
   }
 
   /* Hairline divider */
   .divider {
     @apply h-px bg-border/50;
   }
-
-  /* Section gaps — Token-driven */
-  .section-gap { margin-bottom: var(--stack-loose); }
-  .subsection-gap { margin-bottom: var(--stack-standard); }
-  .row-gap { margin-bottom: var(--stack-small); }
 
   /* Row density */
   .row-comfortable {
@@ -1140,23 +1134,20 @@
   }
 }
 
-/* D) FOCUS STATES — Brand blue for focus/active only (LOCKED) */
+/* D) FOCUS STATES — Visible, subtle, brand-appropriate */
 @layer base {
-  /* Mobile tap highlight discipline — no default flash */
-  * { -webkit-tap-highlight-color: transparent; }
-
-  /* Global focus-visible — uses brandFocus token */
+  /* Global focus-visible for all interactive elements */
   a:focus-visible,
   button:focus-visible,
   [role="button"]:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: var(--focusRingWidth) solid var(--brandFocus);
-    outline-offset: var(--focusRingOffset);
+    outline: 1px solid hsl(0 0% 9% / 0.35);
+    outline-offset: 2px;
   }
   
-  /* Dark background focus states — white outline */
+  /* Dark background focus states */
   [data-theme="dark"] a:focus-visible,
   [data-theme="dark"] button:focus-visible,
   [style*="background: #0B"] a:focus-visible,
@@ -1164,7 +1155,7 @@
   [style*="backgroundColor"] a:focus-visible,
   footer a:focus-visible,
   footer button:focus-visible {
-    outline-color: hsl(0 0% 100% / 0.50);
+    outline-color: hsl(0 0% 100% / 0.35);
   }
   
   /* Remove default focus for mouse users */
@@ -1248,23 +1239,8 @@
 
   /* Global focus visible for dark surfaces */
   [data-surface="dark"] *:focus-visible {
-    outline: var(--focusRingWidth) solid hsl(0 0% 100% / 0.5) !important;
-    outline-offset: var(--focusRingOffset);
-  }
-
-  /* ═══════════════════════════════════════════════════════════════════════════
-     MOTION DISCIPLINE — Single easing/duration system (LOCKED)
-     ═══════════════════════════════════════════════════════════════════════════ */
-  
-  /* Standard motion utility - uses locked tokens */
-  .motion {
-    transition-duration: var(--motionFast);
-    transition-timing-function: var(--motionEase);
-  }
-  
-  /* Reduced motion compliance */
-  @media (prefers-reduced-motion: reduce) {
-    .motion { transition: none !important; }
+    outline: 1px solid hsl(0 0% 100% / 0.4) !important;
+    outline-offset: 2px;
   }
 
   /* Global transition utility - locked duration */

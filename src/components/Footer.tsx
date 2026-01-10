@@ -47,9 +47,11 @@ export function Footer({
 
   return (
     <footer 
-      className={cn("footer-system footer", className)} 
+      className={cn("footer-system", className)} 
       style={{ 
         backgroundColor: THEME_DARK_BG,
+        paddingTop: 'var(--footer-padding-y)',
+        paddingBottom: 'var(--footer-padding-y)',
       }}
     >
       <div className={CONTENT_CONTAINER_CLASS}>
