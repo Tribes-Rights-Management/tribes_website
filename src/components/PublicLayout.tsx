@@ -73,8 +73,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
 
   return (
     <div 
-      className="min-h-dvh min-h-[100svh] pb-safe flex flex-col"
-      style={{ backgroundColor: "hsl(var(--site-black))" }}
+      className="flex flex-col"
+      style={{ 
+        backgroundColor: "hsl(var(--site-black))",
+        /* Use min-height with svh for stable iOS viewport — no fixed height */
+        minHeight: '100svh',
+      }}
     >
       {/* Header - 64px desktop, 56px mobile - Institutional grade lock */}
       {/* NON-STICKY: scrolls away for institutional calm (LOCKED) */}
