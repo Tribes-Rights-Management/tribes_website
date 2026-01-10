@@ -126,12 +126,12 @@
   
   /* Typography — Primary navigation (top stack) */
   --nav-primary-size-mobile: 17px;
-  --nav-primary-weight-mobile: 500;
+  --nav-primary-weight-mobile: 600;       /* Semibold — intentional hierarchy */
   --nav-primary-color-mobile: 0 0% 9%;
   
   /* Typography — Action items (bottom stack) */
   --nav-action-size-mobile: 17px;
-  --nav-action-weight-mobile: 500;
+  --nav-action-weight-mobile: 500;        /* Medium — subordinate to primary */
   --nav-action-color-mobile: 0 0% 9%;
   
   /* Divider */
