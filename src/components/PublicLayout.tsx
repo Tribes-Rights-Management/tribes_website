@@ -1,3 +1,16 @@
+/**
+ * ╔════════════════════════════════════════════════════════════════════════════╗
+ * ║  DO NOT TOUCH NAVIGATION SYSTEM WITHOUT EXPLICIT INSTRUCTION               ║
+ * ║                                                                            ║
+ * ║  Source of truth: /docs/NAVIGATION_SPEC.md                                 ║
+ * ║                                                                            ║
+ * ║  Any change must be validated against spec and regression-tested on        ║
+ * ║  mobile/tablet/desktop.                                                    ║
+ * ║                                                                            ║
+ * ║  Navigation data is centralized in: src/lib/navigation.ts                  ║
+ * ╚════════════════════════════════════════════════════════════════════════════╝
+ */
+
 import { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
@@ -6,6 +19,7 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG, OVERLAY_BACKDROP, MOTION_TIMING } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { useScrollLock } from "@/hooks/useScrollLock";
+import { NAV_CONFIG, NAV_TIMING, NAV_BLUR_INTENSITY } from "@/lib/navigation";
 
 
 interface PublicLayoutProps {
@@ -74,8 +88,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
     }
   }, [menuOpen]);
 
-  // Helper to check active route
-  const isActiveRoute = (path: string) => location.pathname === path;
+  // Close menu handler for nav items
+  const closeMenu = () => setMenuOpen(false);
 
   // Theme zone background
   const pageBackgroundStyle = darkBackground 
@@ -94,8 +108,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       >
         Skip to content
       </a>
-      {/* Header - Premium Apple/Stripe style */}
-      {/* Fixed position with backdrop blur on light pages, integrated on dark pages */}
+      
+      {/* ═══════════════════════════════════════════════════════════════════════
+          HEADER - Logo + Hamburger Only (All Breakpoints)
+          Per spec: No inline nav items on any breakpoint
+          ═══════════════════════════════════════════════════════════════════════ */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
           headerDark 
@@ -148,10 +165,21 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       {/* Spacer for fixed header */}
       <div className="h-16 md:h-[72px]" />
 
-      {/* Navigation Menu */}
+      {/* ═══════════════════════════════════════════════════════════════════════
+          NAVIGATION MENU SYSTEM
+          - Mobile (< 768px): Full-screen overlay, no blur
+          - Tablet/Desktop (≥ 768px): Dropdown panel with background blur
+          
+          Data source: NAV_CONFIG from src/lib/navigation.ts
+          ═══════════════════════════════════════════════════════════════════════ */}
       {!logoOnly && (
         <>
-          {/* Mobile Backdrop - Only visible on mobile */}
+          {/* ─────────────────────────────────────────────────────────────────────
+              MOBILE: Full-screen overlay menu (< 768px)
+              Per spec: No blur on mobile
+              ───────────────────────────────────────────────────────────────────── */}
+          
+          {/* Mobile Backdrop */}
           <div
             className={`fixed inset-0 z-40 md:hidden ${
               menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
@@ -163,11 +191,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               transition: `opacity ${menuOpen ? MOTION_TIMING.enter : MOTION_TIMING.exit}ms ${MOTION_TIMING.easing}`,
               willChange: "opacity",
             }}
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
             aria-hidden="true"
           />
           
-          {/* Mobile Navigation Panel - Full screen overlay on mobile only */}
+          {/* Mobile Navigation Panel */}
           <nav 
             className={`mobile-nav-overlay fixed inset-0 w-screen h-screen z-50 md:hidden flex flex-col ${
               menuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -194,7 +222,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               }}
             >
               <button
-                onClick={() => setMenuOpen(false)}
+                onClick={closeMenu}
                 className="text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-0 border-0"
                 aria-label="Close menu"
               >
@@ -202,7 +230,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               </button>
             </div>
             
-            {/* Primary Navigation */}
+            {/* Primary Navigation - Rendered from NAV_CONFIG */}
             <div 
               className="flex flex-col"
               style={{ 
@@ -212,34 +240,16 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 gap: 'var(--nav-item-spacing-mobile)',
               }}
             >
-              <Link 
-                to="/services" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-primary-mobile"
-              >
-                Services
-              </Link>
-              <Link 
-                to="/how-publishing-admin-works" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-primary-mobile"
-              >
-                How Administration Works
-              </Link>
-              <Link 
-                to="/how-licensing-works" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-primary-mobile"
-              >
-                How Licensing Works
-              </Link>
-              <Link 
-                to="/contact" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-primary-mobile"
-              >
-                Contact
-              </Link>
+              {NAV_CONFIG.primary.map((item) => (
+                <Link 
+                  key={item.href}
+                  to={item.href} 
+                  onClick={closeMenu}
+                  className="nav-primary-mobile"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
 
             {/* Divider */}
@@ -252,7 +262,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               }}
             />
 
-            {/* Action Items */}
+            {/* Action Items - Rendered from NAV_CONFIG */}
             <div 
               className="flex flex-col"
               style={{ 
@@ -261,41 +271,53 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                 gap: 'var(--nav-item-spacing-mobile)',
               }}
             >
-              <a 
-                href="https://app.tribesrightsmanagement.com" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-action-mobile"
-              >
-                Sign in
-              </a>
-              <Link 
-                to="/licensing-account" 
-                onClick={() => setMenuOpen(false)}
-                className="nav-action-mobile"
-              >
-                Request Licensing Access
-              </Link>
+              {NAV_CONFIG.actions.map((item) => (
+                item.external ? (
+                  <a 
+                    key={item.href}
+                    href={item.href} 
+                    onClick={closeMenu}
+                    className="nav-action-mobile"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link 
+                    key={item.href}
+                    to={item.href} 
+                    onClick={closeMenu}
+                    className="nav-action-mobile"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              ))}
             </div>
           </nav>
 
-          {/* Desktop/iPad Background Blur Overlay - Subtle Apple-style depth */}
+          {/* ─────────────────────────────────────────────────────────────────────
+              TABLET/DESKTOP: Dropdown panel with blur (≥ 768px)
+              Per spec: 6px blur on background content, 100ms transition
+              ───────────────────────────────────────────────────────────────────── */}
+          
+          {/* Background Blur Overlay */}
           <div
             className={`hidden md:block fixed inset-0 z-40 ${
               menuOpen ? '' : 'pointer-events-none'
             }`}
             style={{
               top: '72px',
-              backdropFilter: menuOpen ? 'blur(6px)' : 'blur(0px)',
-              WebkitBackdropFilter: menuOpen ? 'blur(6px)' : 'blur(0px)',
+              backdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
+              WebkitBackdropFilter: menuOpen ? `blur(${NAV_BLUR_INTENSITY}px)` : 'blur(0px)',
               opacity: menuOpen ? 1 : 0,
-              transition: 'backdrop-filter 100ms ease-out, opacity 100ms ease-out',
+              transition: `backdrop-filter ${NAV_TIMING.blurTransition}ms ease-out, opacity ${NAV_TIMING.blurTransition}ms ease-out`,
               willChange: 'backdrop-filter, opacity',
             }}
-            onClick={() => setMenuOpen(false)}
+            onClick={closeMenu}
             aria-hidden="true"
           />
 
-          {/* Desktop/iPad Dropdown Panel - Full-width Apple-style */}
+          {/* Dropdown Panel */}
           <div
             ref={menuRef}
             className={`hidden md:block fixed left-0 right-0 z-50 overflow-hidden ${
@@ -308,7 +330,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               boxShadow: menuOpen ? '0 2px 16px rgba(0, 0, 0, 0.06)' : 'none',
               maxHeight: menuOpen ? '500px' : '0',
               opacity: menuOpen ? 1 : 0,
-              transition: 'max-height 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-out',
+              transition: `max-height ${NAV_TIMING.dropdownReveal}ms cubic-bezier(0.4, 0, 0.2, 1), opacity 200ms ease-out`,
               willChange: 'max-height, opacity',
             }}
             role="menu"
@@ -319,44 +341,27 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               style={{
                 transform: menuOpen ? 'translateY(0)' : 'translateY(-8px)',
                 opacity: menuOpen ? 1 : 0,
-                transition: 'transform 280ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease-out',
-                transitionDelay: menuOpen ? '40ms' : '0ms',
+                transition: `transform ${NAV_TIMING.dropdownReveal}ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease-out`,
+                transitionDelay: menuOpen ? `${NAV_TIMING.dropdownContentDelay}ms` : '0ms',
               }}
             >
               <div className="flex">
-                {/* Primary Navigation - Left column */}
+                {/* Navigation - Rendered from NAV_CONFIG */}
                 <div 
                   className="flex flex-col py-8"
                   style={{ gap: '6px', minWidth: '280px' }}
                 >
-                  <Link 
-                    to="/services" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    Services
-                  </Link>
-                  <Link 
-                    to="/how-publishing-admin-works" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    How Administration Works
-                  </Link>
-                  <Link 
-                    to="/how-licensing-works" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    How Licensing Works
-                  </Link>
-                  <Link 
-                    to="/contact" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    Contact
-                  </Link>
+                  {/* Primary Navigation */}
+                  {NAV_CONFIG.primary.map((item) => (
+                    <Link 
+                      key={item.href}
+                      to={item.href} 
+                      onClick={closeMenu}
+                      className="desktop-dropdown-item"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
                   
                   {/* Divider */}
                   <div 
@@ -365,20 +370,27 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
                   />
                   
                   {/* Action Items */}
-                  <a 
-                    href="https://app.tribesrightsmanagement.com" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    Sign in
-                  </a>
-                  <Link 
-                    to="/licensing-account" 
-                    onClick={() => setMenuOpen(false)}
-                    className="desktop-dropdown-item"
-                  >
-                    Request Licensing Access
-                  </Link>
+                  {NAV_CONFIG.actions.map((item) => (
+                    item.external ? (
+                      <a 
+                        key={item.href}
+                        href={item.href} 
+                        onClick={closeMenu}
+                        className="desktop-dropdown-item"
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link 
+                        key={item.href}
+                        to={item.href} 
+                        onClick={closeMenu}
+                        className="desktop-dropdown-item"
+                      >
+                        {item.label}
+                      </Link>
+                    )
+                  ))}
                 </div>
               </div>
             </div>
