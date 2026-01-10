@@ -21,16 +21,6 @@ import ServicesPage from "./pages/ServicesPage";
 import ServiceInquiryPage from "./pages/ServiceInquiryPage";
 import NotFound from "./pages/NotFound";
 
-// Portal pages (protected)
-import PortalPage from "./pages/PortalPage";
-import PortalDashboard from "./pages/PortalDashboard";
-import PortalLicensesPage from "./pages/PortalLicensesPage";
-import RequestFormPage from "./pages/RequestFormPage";
-import RequestDetailPage from "./pages/RequestDetailPage";
-import AgreementHandoffPage from "./pages/AgreementHandoffPage";
-import MyAccountPage from "./pages/MyAccountPage";
-import SettingsPage from "./pages/SettingsPage";
-import DataRetentionPage from "./pages/DataRetentionPage";
 
 // Admin pages (protected)
 import AdminDashboardPage from "./pages/AdminDashboardPage";
@@ -67,16 +57,6 @@ const App = () => (
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
 
-            {/* Portal routes (protected) */}
-            <Route path="/portal" element={<ProtectedRoute><PortalPage /></ProtectedRoute>} />
-            <Route path="/portal/dashboard" element={<ProtectedRoute><PortalDashboard /></ProtectedRoute>} />
-            <Route path="/portal/licenses" element={<ProtectedRoute><PortalLicensesPage /></ProtectedRoute>} />
-            <Route path="/portal/request/new" element={<ProtectedRoute><RequestFormPage /></ProtectedRoute>} />
-            <Route path="/portal/request/:id" element={<ProtectedRoute><RequestDetailPage /></ProtectedRoute>} />
-            <Route path="/portal/agreement/:id" element={<ProtectedRoute><AgreementHandoffPage /></ProtectedRoute>} />
-            <Route path="/portal/account" element={<ProtectedRoute><MyAccountPage /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-            <Route path="/data-retention" element={<ProtectedRoute><DataRetentionPage /></ProtectedRoute>} />
 
             {/* Admin routes (protected) */}
             <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
