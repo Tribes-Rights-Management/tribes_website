@@ -11,7 +11,7 @@
 
 import { ReactNode, useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG } from "@/lib/theme";
@@ -134,7 +134,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </span>
           </Link>
 
-          {/* Hamburger Menu Button — visible on ALL breakpoints */}
+          {/* Hamburger / Close Toggle — visible on ALL breakpoints */}
           {!logoOnly && (
             <button
               ref={menuButtonRef}
@@ -143,7 +143,11 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
-              <Menu size={20} strokeWidth={1.75} />
+              {menuOpen ? (
+                <X size={20} strokeWidth={2} />
+              ) : (
+                <Menu size={20} strokeWidth={1.75} />
+              )}
             </button>
           )}
 

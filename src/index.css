@@ -740,14 +740,22 @@
      ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop — blur + dim behind panel (REFINED) */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     UNIFIED NAV OVERLAY — APPLE-STYLE TOP DROPDOWN (ALL DEVICES)
+     
+     Single component, single behavior across all breakpoints.
+     Always opens as a TOP DROPDOWN — never slides from side.
+     Close control lives in header (hamburger toggles to X).
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  /* Backdrop — blur + dim behind panel */
   .nav-overlay-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
-    top: 64px; /* Header height */
-    background-color: rgba(0, 0, 0, 0.10); /* Reduced from 0.12 */
-    backdrop-filter: blur(12px); /* Reduced from 14px */
+    top: 64px; /* Mobile header height */
+    background-color: rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     opacity: 0;
     pointer-events: none;
@@ -765,7 +773,7 @@
     }
   }
   
-  /* Navigation panel — responsive positioning (REFINED) */
+  /* Navigation panel — UNIFIED top dropdown (all breakpoints) */
   .nav-overlay-panel {
     position: fixed;
     z-index: 50;
@@ -777,15 +785,16 @@
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* Mobile (<768px): Top sheet, full width */
+    /* Mobile: Full-width, edge-to-edge */
     top: 64px; /* Header height */
     left: 0;
     right: 0;
-    max-height: 65vh; /* Reduced from 75vh — compact control layer */
+    max-height: 70vh;
     border-bottom: 1px solid #EDEDED;
+    border-radius: 0 0 12px 12px; /* Subtle bottom radius on mobile */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transform: translateY(-10px); /* 8-12px slide distance */
-    padding: 16px 20px 20px; /* Tighter top padding */
+    transform: translateY(-12px); /* 10-14px slide distance */
+    padding: 20px;
   }
   
   .nav-overlay-panel--open {
@@ -794,76 +803,44 @@
     transform: translateY(0);
   }
   
-  /* Desktop/iPad (≥768px): Apple-style dropdown panel, top-right anchored */
+  /* Tablet/Desktop (≥768px): Centered, max-width 720px */
   @media (min-width: 768px) {
     .nav-overlay-panel {
       top: 80px; /* 72px header + 8px gap */
-      left: auto;
-      right: 48px;
-      width: min(420px, 90vw);
-      max-height: 65vh; /* Reduced from 70vh */
-      border-radius: 14px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%) translateY(-12px);
+      width: min(720px, calc(100vw - 48px));
+      max-height: 70vh;
+      border-radius: 16px;
       border: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       box-shadow: 
         0 0 0 1px rgba(0, 0, 0, 0.03),
         0 8px 40px rgba(0, 0, 0, 0.12),
         0 2px 8px rgba(0, 0, 0, 0.04);
-      padding: 16px 24px 24px; /* Tighter top padding */
-      transform: translateY(-10px);
+      padding: 24px;
     }
     
     .nav-overlay-panel--open {
-      transform: translateY(0);
+      transform: translateX(-50%) translateY(0);
     }
   }
   
-  /* Close button — functional, not decorative (REFINED) */
-  .nav-overlay-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    min-height: 28px; /* Override global 44px minimum */
-    border-radius: 6px;
-    color: #555; /* Reduced contrast — not pure black */
-    background-color: transparent;
-    transition: color 120ms ease-out, background-color 120ms ease-out;
-  }
-  
-  .nav-overlay-close:hover {
-    color: #333;
-    background-color: rgba(0, 0, 0, 0.05); /* Very subtle, 5% gray */
-  }
-  
-  .nav-overlay-close:active {
-    opacity: 0.7;
-    transition: opacity 80ms linear;
-  }
-  
-  .nav-overlay-close:focus-visible {
-    outline: 2px solid rgba(0, 0, 0, 0.15);
-    outline-offset: 2px;
-  }
-  
-  /* Navigation content — tighter vertical rhythm */
+  /* Navigation content */
   .nav-overlay-content {
     display: flex;
     flex-direction: column;
-    margin-top: 8px; /* Space after close button area */
   }
   
-  /* Section header — REFINED typography */
+  /* Section header — 11px, 0.16em tracking, #8A8A8A */
   .nav-overlay-section-header {
-    font-size: 11px; /* Reduced from 12px */
-    letter-spacing: 0.16em; /* Increased from 0.14em */
+    font-size: 11px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #8A8A8A; /* Lighter than before */
-    margin-top: 20px; /* Between sections */
-    margin-bottom: 8px; /* Tighter to links */
+    color: #8A8A8A;
+    margin-top: 20px; /* Section gap */
+    margin-bottom: 8px;
     font-weight: 500;
   }
   
@@ -872,10 +849,10 @@
     margin-top: 0;
   }
   
-  /* Section divider — reduced opacity */
+  /* Section divider — #EDEDED, only between sections */
   .nav-overlay-divider {
     height: 1px;
-    background-color: #EDEDED; /* Lighter */
+    background-color: #EDEDED;
     margin-top: 6px;
   }
   
@@ -885,22 +862,22 @@
     flex-direction: column;
   }
   
-  /* Nav links — REFINED typography */
+  /* Nav links — 17px mobile, 15px tablet/desktop */
   .nav-overlay-link {
-    font-size: 17px; /* Mobile */
+    font-size: 17px;
     font-weight: 500;
     line-height: 1.25;
-    padding: 10px 0; /* Reduced from 12px */
+    padding: 10px 0; /* Mobile */
     color: #111;
     transition: opacity 120ms ease-out;
     display: block;
   }
   
-  /* Desktop: slightly smaller links */
+  /* Desktop: smaller links, tighter padding */
   @media (min-width: 768px) {
     .nav-overlay-link {
-      font-size: 15px; /* Reduced from 16px */
-      padding: 8px 0; /* Tighter on desktop */
+      font-size: 15px;
+      padding: 8px 0;
     }
   }
   
@@ -915,7 +892,7 @@
     transition: opacity 80ms linear;
   }
   
-  /* Focus ring — 2px, subtle, accessible */
+  /* Focus ring — subtle, accessible */
   .nav-overlay-link:focus-visible {
     outline: 2px solid rgba(0, 0, 0, 0.12);
     outline-offset: 2px;
