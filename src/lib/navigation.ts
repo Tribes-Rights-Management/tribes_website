@@ -46,59 +46,69 @@ export const NAV_CONFIG: NavConfig = {
 
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  DROPDOWN ANIMATION TIMINGS/EASING ARE FINAL                               ║
- * ║  Do not alter without explicit instruction.                                ║
+ * ║  INSTITUTIONAL MOTION TIMING SPEC v2.0 — LOCKED                            ║
+ * ║  Calm, controlled, engineered. No playful or fast motion.                  ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
 /**
- * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  LOCKED MOTION TIMING & EASING SPEC v1.0                                   ║
- * ║  Do not adjust durations, easing curves, or transforms.                    ║
- * ╚════════════════════════════════════════════════════════════════════════════╝
+ * Motion duration tiers (LOCKED)
  * 
- * Open:  320ms - weighted arrival, Apple-style ease-out
- * Close: 240ms - faster, controlled retreat
+ * Micro:   120ms — Focus, underline, opacity shifts
+ * Standard: 220ms — Buttons, links, small state changes
+ * Panel:    280ms — Navigation, overlays, modals
  */
 export const NAV_TIMING = {
-  /** Dropdown open — 320ms, weighted arrival */
-  dropdownOpen: 320,
-  /** Dropdown close — 240ms, controlled retreat */
-  dropdownClose: 240,
-  /** Mobile overlay transition */
+  /** Micro-interactions — 120ms */
+  micro: 120,
+  /** Standard transitions — 220ms */
+  standard: 220,
+  /** Panel/overlay transitions — 280ms */
+  panel: 280,
+  /** Legacy aliases */
+  dropdownOpen: 280,
+  dropdownClose: 220,
   mobileSlide: 280,
 } as const;
 
 /**
- * Navigation easing curves (Apple-grade, locked)
+ * Institutional easing curve (LOCKED)
  * 
- * Open:  cubic-bezier(0.16, 1, 0.3, 1) - smooth, Apple-like ease-out
- * Close: cubic-bezier(0.4, 0, 0.2, 1)  - controlled, standard ease-out
+ * Single curve for entire platform: cubic-bezier(0.25, 0.1, 0.25, 1)
+ * Calm, controlled, no overshoot or bounce.
  */
 export const NAV_EASING = {
-  /** Open: smooth ease-out, Apple-like */
-  open: 'cubic-bezier(0.16, 1, 0.3, 1)',
-  /** Close: controlled, slightly quicker */
-  close: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  /** Primary easing — institutional standard */
+  primary: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  /** Legacy aliases */
+  open: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  close: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
 } as const;
 
 /**
  * Navigation transform values (locked)
- * 
- * Open:  translateY(-10px) → translateY(0)
- * Close: translateY(0) → translateY(-8px)
+ * Subtle vertical shift only — no scale, no bounce
  */
 export const NAV_TRANSFORM = {
   /** Starting position on open */
-  openFrom: 'translateY(-10px)',
-  /** Ending position on open / starting position on close */
+  openFrom: 'translateY(-6px)',
+  /** Ending position */
   openTo: 'translateY(0)',
   /** Ending position on close */
-  closeTo: 'translateY(-8px)',
+  closeTo: 'translateY(-4px)',
 } as const;
 
 /**
  * Desktop dropdown blur intensity (px)
- * Per spec: 4-8px, currently set to 6px
  */
 export const NAV_BLUR_INTENSITY = 6;
+
+/**
+ * CSS variable for global use
+ */
+export const MOTION_CSS = {
+  easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+  durationMicro: '120ms',
+  durationStandard: '220ms',
+  durationPanel: '280ms',
+} as const;
