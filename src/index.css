@@ -729,161 +729,182 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)
+     TRIBES FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)
      
-     Apple-style top dropdown. No sidebar. No section labels.
-     Links only. Hierarchy through order and spacing.
+     Mercury / Apple / Stripe / JPMorgan execution.
+     Top-down dropdown. Not sidebar. Not drawer. Not full-screen.
+     Links only. No section labels. Quiet and confident.
      
-     Motion: 280-320ms, cubic-bezier(0.22, 1, 0.36, 1)
+     Motion: 320ms, cubic-bezier(0.22, 1, 0.36, 1)
+     Background: #FAFAF8 (warm institutional white)
+     Typography: 17px, line-height 1.4, weight 400, color #111111
+     Divider: 1px #E6E6E3
      
-     DO NOT: Add labels, convert to sidebar, change link order.
+     DO NOT: Add labels, create sidebar, change link order.
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop — subtle blur, restrained dim */
-  .nav-backdrop {
+  /* Backdrop — subtle blur on page content */
+  .fintech-nav-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
     top: 64px;
-    background-color: rgba(0, 0, 0, 0.06);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background-color: rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     opacity: 0;
     pointer-events: none;
     will-change: opacity;
-    transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   
-  .nav-backdrop--open {
+  .fintech-nav-backdrop--open {
     opacity: 1;
     pointer-events: auto;
   }
   
   @media (min-width: 768px) {
-    .nav-backdrop {
+    .fintech-nav-backdrop {
       top: 72px;
     }
   }
   
-  /* Panel — top-anchored dropdown, constrained width */
-  .nav-panel {
+  /* Panel — top-anchored dropdown, content-height only */
+  .fintech-nav-panel {
     position: fixed;
     z-index: 50;
-    background-color: hsl(0 0% 100%);
-    border-bottom: 1px solid hsl(0 0% 0% / 0.08);
+    background-color: #FAFAF8; /* Warm institutional white */
+    border-bottom: 1px solid #E6E6E3;
     overflow-y: auto;
     overscroll-behavior: contain;
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* Mobile: Full-width */
+    /* No shadows, no rounded edges, no gradients */
+    box-shadow: none;
+    border-radius: 0;
+    
+    /* Positioning */
     top: 64px;
     left: 0;
     right: 0;
-    max-height: 60vh;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    transform: translateY(-6px);
-    padding: 20px 24px 24px;
+    transform: translateY(-12px);
+    padding: 16px 24px 28px;
   }
   
-  .nav-panel--open {
+  .fintech-nav-panel--open {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
   
-  /* Tablet: Full-width */
   @media (min-width: 768px) {
-    .nav-panel {
+    .fintech-nav-panel {
       top: 72px;
-      padding: 24px 40px 28px;
+      padding: 20px 40px 32px;
     }
   }
   
-  /* Desktop: Constrained width, right-anchored */
+  /* Desktop: Constrain width, right-anchored */
   @media (min-width: 1024px) {
-    .nav-panel {
+    .fintech-nav-panel {
       left: auto;
       right: 0;
-      width: 340px;
-      border-left: 1px solid hsl(0 0% 0% / 0.08);
-      border-radius: 0 0 0 12px;
-      padding: 20px 28px 24px;
+      width: 380px;
+      border-left: 1px solid #E6E6E3;
     }
   }
   
-  /* Link groups */
-  .nav-group {
+  /* Close button — X icon, right-aligned, 44px tap target */
+  .fintech-nav-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
     display: flex;
-    flex-direction: column;
-  }
-  
-  .nav-group--primary {
-    /* Primary links */
-  }
-  
-  .nav-group--secondary {
-    /* Secondary links — slightly less prominent */
-  }
-  
-  /* Divider — subtle separation */
-  .nav-divider {
-    height: 1px;
-    background-color: hsl(0 0% 0% / 0.08);
-    margin: 12px 0;
-  }
-  
-  /* Links — clean, institutional */
-  .nav-link {
-    display: block;
-    line-height: 1.35;
-    color: hsl(0 0% 12%);
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    color: #111111;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
     transition: opacity 100ms ease-out;
   }
   
-  .nav-link:hover {
-    opacity: 0.65;
+  .fintech-nav-close:hover {
+    opacity: 0.6;
   }
   
-  .nav-link:active {
-    opacity: 0.45;
-    transition: opacity 50ms linear;
+  .fintech-nav-close:active {
+    opacity: 0.4;
   }
   
-  .nav-link:focus-visible {
-    outline: 1px solid hsl(0 0% 0% / 0.2);
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-  
-  /* Primary links — slightly larger, heavier */
-  .nav-link--primary {
-    font-size: 15px;
-    font-weight: 500;
-    padding: 9px 0;
-  }
-  
-  /* Secondary links — same size, lighter weight */
-  .nav-link--secondary {
-    font-size: 15px;
-    font-weight: 400;
-    padding: 8px 0;
-    color: hsl(0 0% 25%);
+  .fintech-nav-close:focus-visible {
+    outline: 1px solid #111111;
+    outline-offset: 2px;
   }
   
   @media (min-width: 768px) {
-    .nav-link--primary {
-      font-size: 14px;
-      padding: 8px 0;
-    }
-    
-    .nav-link--secondary {
-      font-size: 14px;
-      padding: 7px 0;
+    .fintech-nav-close {
+      top: 16px;
+      right: 24px;
     }
   }
   
+  /* Links container — one column, left-aligned */
+  .fintech-nav-links {
+    display: flex;
+    flex-direction: column;
+    margin-top: 32px;
+  }
+  
+  @media (min-width: 768px) {
+    .fintech-nav-links {
+      margin-top: 28px;
+    }
+  }
+  
+  /* Divider — thin line between sections */
+  .fintech-nav-divider {
+    height: 1px;
+    background-color: #E6E6E3;
+    margin: 16px 0;
+  }
+  
+  /* Links — 17px, line-height 1.4, weight 400, color #111111 */
+  .fintech-nav-link {
+    display: block;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 1.4;
+    color: #111111;
+    padding: 12px 0;
+    transition: opacity 100ms ease-out;
+  }
+  
+  .fintech-nav-link:hover {
+    opacity: 0.55;
+  }
+  
+  .fintech-nav-link:active {
+    opacity: 0.35;
+    transition: opacity 50ms linear;
+  }
+  
+  .fintech-nav-link:focus-visible {
+    outline: 1px solid #111111;
+    outline-offset: 4px;
+  }
+  
+  @media (min-width: 768px) {
+    .fintech-nav-link {
+      font-size: 16px;
+      padding: 10px 0;
+    }
+  }
   /* ═══════════════════════════════════════════════════════════════════════════
      LEGACY UNIFIED NAV STYLES — DEPRECATED (kept for compatibility)
      ═══════════════════════════════════════════════════════════════════════════ */
