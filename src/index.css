@@ -729,15 +729,201 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     UNIFIED NAVIGATION SYSTEM — SINGLE COMPONENT FOR ALL BREAKPOINTS
+     NAV OVERLAY — UNIFIED PREMIUM NAVIGATION SYSTEM
      
      ╔═══════════════════════════════════════════════════════════════════════════╗
-     ║  DO NOT TOUCH                                                             ║
+     ║  ONE component for ALL breakpoints.                                       ║
+     ║  Desktop/iPad (≥768px): Apple-style dropdown panel, top-right anchored   ║
+     ║  Mobile (<768px): Premium top sheet that slides down from header         ║
      ║                                                                           ║
-     ║  One navigation component with responsive container sizing only.          ║
-     ║  Mobile: Full-screen | Tablet/Desktop: Constrained dropdown               ║
-     ║  Structure, logic, and content are identical across all devices.          ║
+     ║  Motion: 320ms panel, 220ms backdrop, cubic-bezier(0.22, 1, 0.36, 1)     ║
      ╚═══════════════════════════════════════════════════════════════════════════╝
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
+  /* Backdrop — blur + dim behind panel */
+  .nav-overlay-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    top: 64px; /* Header height */
+    background-color: rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+  }
+  
+  .nav-overlay-backdrop--open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  @media (min-width: 768px) {
+    .nav-overlay-backdrop {
+      top: 72px; /* Tablet/Desktop header height */
+    }
+  }
+  
+  /* Navigation panel — responsive positioning */
+  .nav-overlay-panel {
+    position: fixed;
+    z-index: 50;
+    background-color: rgba(255, 255, 255, 0.97);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity, transform;
+    
+    /* Mobile (<768px): Top sheet, full width */
+    top: 64px; /* Header height */
+    left: 0;
+    right: 0;
+    max-height: 75vh;
+    border-bottom: 1px solid #E9E9E9;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transform: translateY(-12px);
+    padding: 20px;
+  }
+  
+  .nav-overlay-panel--open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  
+  /* Desktop/iPad (≥768px): Apple-style dropdown panel, top-right anchored */
+  @media (min-width: 768px) {
+    .nav-overlay-panel {
+      top: 80px; /* 72px header + 8px gap */
+      left: auto;
+      right: 48px;
+      width: min(420px, 90vw);
+      max-height: 70vh;
+      border-radius: 14px;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 
+        0 0 0 1px rgba(0, 0, 0, 0.03),
+        0 8px 40px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+      padding: 24px;
+      transform: translateY(-8px);
+    }
+    
+    .nav-overlay-panel--open {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Close button header */
+  .nav-overlay-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+  }
+  
+  .nav-overlay-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #6B6B6B;
+    transition: color 120ms ease-out, background-color 120ms ease-out;
+  }
+  
+  .nav-overlay-close:hover {
+    color: #111;
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  
+  .nav-overlay-close:active {
+    opacity: 0.7;
+    transition: opacity 80ms linear;
+  }
+  
+  .nav-overlay-close:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.15);
+    outline-offset: 2px;
+  }
+  
+  /* Navigation content */
+  .nav-overlay-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Section header — LOCKED typography */
+  .nav-overlay-section-header {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6B6B6B;
+    margin-top: 22px;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  
+  /* First section has no top margin */
+  .nav-overlay-content > div:first-child .nav-overlay-section-header {
+    margin-top: 0;
+  }
+  
+  /* Section divider */
+  .nav-overlay-divider {
+    height: 1px;
+    background-color: #E9E9E9;
+    margin-top: 8px;
+  }
+  
+  /* Section links container */
+  .nav-overlay-section-links {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Nav links — LOCKED typography */
+  .nav-overlay-link {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.25;
+    padding: 12px 0;
+    color: #111;
+    transition: opacity 120ms ease-out;
+    display: block;
+  }
+  
+  /* Desktop: slightly smaller links */
+  @media (min-width: 768px) {
+    .nav-overlay-link {
+      font-size: 16px;
+    }
+  }
+  
+  /* Hover — subtle opacity OR underline fade */
+  .nav-overlay-link:hover {
+    opacity: 0.85;
+  }
+  
+  /* Active/pressed — 80-120ms opacity */
+  .nav-overlay-link:active {
+    opacity: 0.7;
+    transition: opacity 80ms linear;
+  }
+  
+  /* Focus ring — 2px, subtle, accessible */
+  .nav-overlay-link:focus-visible {
+    outline: 2px solid rgba(0, 0, 0, 0.12);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  
+  
+  /* ═══════════════════════════════════════════════════════════════════════════
+     LEGACY UNIFIED NAV STYLES — DEPRECATED (kept for compatibility)
      ═══════════════════════════════════════════════════════════════════════════ */
   
   /* Backdrop overlay — positioned below header, subtle Apple-style dim + blur */

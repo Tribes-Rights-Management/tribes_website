@@ -1,13 +1,11 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  UNIFIED NAVIGATION SYSTEM — SINGLE COMPONENT FOR ALL BREAKPOINTS          ║
+ * ║  PUBLIC LAYOUT — UNIFIED NAVIGATION SYSTEM                                 ║
  * ║                                                                            ║
- * ║  Source of truth: /docs/NAVIGATION_SPEC.md                                 ║
- * ║  Navigation data: src/lib/navigation.ts (NAV_CONFIG)                       ║
+ * ║  Header: TRIBES wordmark (left) + hamburger icon (right) ONLY              ║
+ * ║  No inline nav items on any breakpoint. Everything in hamburger menu.     ║
  * ║                                                                            ║
- * ║  One navigation component with responsive container sizing only.           ║
- * ║  Mobile: Full-screen dropdown | Tablet/Desktop: Constrained dropdown       ║
- * ║  Structure, logic, and content are identical across all devices.           ║
+ * ║  Navigation: Single NavOverlay component for all breakpoints.              ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -19,7 +17,7 @@ import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 import { THEME_DARK_BG, THEME_LIGHT_BG } from "@/lib/theme";
 import { Footer } from "@/components/Footer";
 import { useScrollLock } from "@/hooks/useScrollLock";
-import { UnifiedNavigation } from "@/components/UnifiedNavigation";
+import { NavOverlay } from "@/components/NavOverlay";
 
 
 interface PublicLayoutProps {
@@ -57,7 +55,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
   // This prevents scroll bleed and maintains scroll position
   useScrollLock(menuOpen);
 
-  // Close on click outside (desktop dropdown)
+  // Close on click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -110,11 +108,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       </a>
       
       {/* ═══════════════════════════════════════════════════════════════════════
-          HEADER - Logo + Hamburger Only (All Breakpoints)
-          Per spec: No inline nav items on any breakpoint
+          HEADER — Wordmark + Hamburger ONLY (All Breakpoints)
+          
+          LOCKED: No inline nav items. Everything lives in hamburger menu.
           ═══════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
+        className={`fixed top-0 left-0 right-0 z-50 ${
           headerDark 
             ? 'border-b border-white/[0.06]' 
             : 'bg-white border-b border-black/[0.08]'
@@ -125,7 +124,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
           {/* Left-aligned wordmark */}
           <Link 
             to="/" 
-            className={`flex items-center transition-opacity duration-200 hover:opacity-100 ${headerDark ? 'opacity-90' : 'opacity-90'}`}
+            className={`flex items-center transition-opacity duration-120 hover:opacity-100 ${headerDark ? 'opacity-90' : 'opacity-90'}`}
           >
             <span 
               className={`text-[15px] md:text-[17px] font-bold uppercase ${headerDark ? 'text-white' : 'text-foreground'}`}
@@ -135,12 +134,12 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </span>
           </Link>
 
-          {/* Hamburger Menu Button - visible on ALL breakpoints (locked design decision) */}
+          {/* Hamburger Menu Button — visible on ALL breakpoints */}
           {!logoOnly && (
             <button
               ref={menuButtonRef}
               onClick={() => setMenuOpen(!menuOpen)}
-              className={`p-2 -mr-2 transition-opacity duration-200 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
+              className={`p-2 -mr-2 transition-opacity duration-120 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
               aria-label={menuOpen ? "Close menu" : "Open menu"}
               aria-expanded={menuOpen}
             >
@@ -154,7 +153,7 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               onClick={() => {
                 document.getElementById(mobileContactAnchor)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={`text-sm font-medium transition-opacity duration-200 opacity-60 hover:opacity-100 ${headerDark ? 'text-white' : 'text-foreground'}`}
+              className={`text-sm font-medium transition-opacity duration-120 opacity-60 hover:opacity-100 ${headerDark ? 'text-white' : 'text-foreground'}`}
             >
               Contact
             </button>
@@ -166,15 +165,13 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       <div className="h-16 md:h-[72px]" />
 
       {/* ═══════════════════════════════════════════════════════════════════════
-          UNIFIED NAVIGATION SYSTEM
+          NAV OVERLAY — Single component for ALL breakpoints
           
-          Single navigation component for ALL breakpoints.
-          Responsive container sizing only — structure/logic/content identical.
-          
-          Data source: NAV_CONFIG from src/lib/navigation.ts
+          Desktop/iPad (≥768px): Apple-style dropdown panel
+          Mobile (<768px): Premium top sheet
           ═══════════════════════════════════════════════════════════════════════ */}
       {!logoOnly && (
-        <UnifiedNavigation
+        <NavOverlay
           ref={menuRef}
           isOpen={menuOpen}
           onClose={closeMenu}
