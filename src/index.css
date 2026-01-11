@@ -29,46 +29,47 @@ body {
   --nav-font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "SF Pro Display", Inter, Arial, sans-serif;
   --nav-font-size: 16px;
   --nav-line-height: 24px;
-  --nav-font-weight: 450;
-  --nav-letter-spacing: -0.01em;
-  --nav-item-gap: 22px;
-  --nav-divider: rgba(0,0,0,0.10);
-  --nav-cta-height: 52px;
-  --nav-cta-radius: 14px;
+  --nav-font-weight: 500;
+  --nav-letter-spacing: normal;
+  --nav-item-gap: 18px;
+  --nav-divider: rgba(17,17,17,0.12);
+  --nav-cta-height: 56px;
+  --nav-cta-radius: 18px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   MOBILE MENU ROOT — HARD INHERITANCE RESET
+   MOBILE MENU ROOT — HARD INHERITANCE RESET (PART A spec)
    
    Prevents ANY prose, heading, or responsive scaling from leaking in.
    -webkit-text-size-adjust: 100% is CRITICAL for iOS Safari.
+   NO transform/scale on container or parents.
    ═══════════════════════════════════════════════════════════════════════════════ */
 .mobile-menu-root {
   font-family: var(--nav-font-family) !important;
-  font-size: var(--nav-font-size) !important;
-  line-height: var(--nav-line-height) !important;
-  font-weight: var(--nav-font-weight) !important;
-  letter-spacing: var(--nav-letter-spacing) !important;
-  text-rendering: optimizeLegibility !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-rendering: geometricPrecision !important;
   -webkit-text-size-adjust: 100% !important;
   text-size-adjust: 100% !important;
   -webkit-font-smoothing: antialiased !important;
   -moz-osx-font-smoothing: grayscale !important;
 }
 
-/* Links — LOCKED at 16px (institutional, not headline scale) */
+/* Links — LOCKED at 16px/24px/500 (PART A spec) */
 .mobile-menu-root .mobile-menu-link {
   display: flex;
   align-items: center;
-  min-height: 56px;
+  min-height: 60px;
   padding-top: 18px;
   padding-bottom: 18px;
   font-family: var(--nav-font-family) !important;
   font-size: 16px !important;
   line-height: 24px !important;
-  font-weight: 450 !important;
-  letter-spacing: -0.01em !important;
-  color: #0B0F14 !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  color: #111111 !important;
   text-decoration: none !important;
   text-transform: none !important;
   -webkit-text-size-adjust: 100% !important;
@@ -80,26 +81,26 @@ body {
   opacity: 0.6;
 }
 
-/* Dividers — 1px, consistent rhythm */
+/* Dividers — 1px solid rgba(17,17,17,0.12) (PART A spec) */
 .mobile-menu-root .mobile-menu-divider {
   height: 1px;
-  background: var(--nav-divider);
+  background: rgba(17,17,17,0.12);
 }
 
-/* Buttons — LOCKED at 16px (matches link scale, NOT inflated) */
+/* Buttons — LOCKED at 16px/24px/600, 56px height, 18px radius (PART A spec) */
 .mobile-menu-root .mobile-menu-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: var(--nav-cta-height) !important;
-  min-height: var(--nav-cta-height) !important;
-  border-radius: var(--nav-cta-radius) !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  border-radius: 18px !important;
   font-family: var(--nav-font-family) !important;
   font-size: 16px !important;
-  line-height: 16px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.01em !important;
+  line-height: 24px !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
   text-decoration: none !important;
   text-transform: none !important;
   -webkit-text-size-adjust: 100% !important;
@@ -118,9 +119,9 @@ body {
 }
 
 .mobile-menu-root .mobile-menu-btn-secondary {
-  background-color: #FFFFFF !important;
-  color: #0B0F14 !important;
-  border: 1px solid rgba(0,0,0,0.18) !important;
+  background-color: transparent !important;
+  color: #111111 !important;
+  border: 1px solid rgba(17,17,17,0.22) !important;
 }
 
 /* DEFENSIVE RESET — prevent ANY heading/prose inflation inside menu */
