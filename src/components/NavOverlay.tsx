@@ -1,45 +1,35 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  TRIBES GLOBAL NAVIGATION SYSTEM (GNS) — FINTECH GRADE (LOCKED)           ║
+ * ║  TRIBES GLOBAL NAVIGATION — MERCURY-GRADE FULL TAKEOVER (LOCKED)          ║
  * ║                                                                            ║
- * ║  Mercury / Apple / Stripe / JPMorgan execution.                            ║
- * ║  Anchored dropdown panel. Not sidebar. Not drawer. Not full-screen.       ║
- * ║  Links only. No section labels. Single thin divider between groups.       ║
+ * ║  Full-height, full-width navigation takeover.                              ║
+ * ║  NOT a sidebar. NOT a dropdown. NOT a card. NOT a modal.                  ║
+ * ║  This replaces the page. It does not sit on top of it.                    ║
  * ║                                                                            ║
  * ║  Motion (LOCKED):                                                          ║
- * ║    Open:  280ms, cubic-bezier(0.16, 1, 0.3, 1), translateY(-8px→0)        ║
- * ║    Close: 200ms, cubic-bezier(0.4, 0, 1, 1), translateY(0→-6px)           ║
+ * ║    300ms, cubic-bezier(0.22, 0.61, 0.36, 1)                                ║
+ * ║    Fade + subtle vertical translate. No bounce. No spring.                ║
  * ║                                                                            ║
- * ║  DO NOT: Add labels, create sidebar, change link order, add scrolling.   ║
+ * ║  DO NOT: Add rounded corners, shadows, cards, section labels, dividers.   ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
+import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
+import { BRAND } from "@/lib/brand";
 
 /**
- * Navigation Links — LOCKED (Exact Order, Two Groups)
+ * Primary Navigation Links — LOCKED (Exact Order)
  * 
- * Group 1 (Primary):
- *   - Client Portal
- *   - Request Licensing Access
+ * 1. How Administration Works
+ * 2. How Licensing Works
+ * 3. Contact
  * 
- * — thin divider —
- * 
- * Group 2 (Secondary):
- *   - How Administration Works
- *   - How Licensing Works
- *   - Contact
- * 
- * NO legal links. NO section labels.
+ * NO section labels. NO dividers. Just links.
  */
-const GROUP_1_LINKS = [
-  { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
-  { label: "Request Licensing Access", href: "/licensing-account" },
-];
-
-const GROUP_2_LINKS = [
+const PRIMARY_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
   { label: "How Licensing Works", href: "/how-licensing-works" },
   { label: "Contact", href: "/contact" },
@@ -51,85 +41,85 @@ interface NavOverlayProps {
 }
 
 /**
- * Motion — LOCKED (Fintech Standard)
- * Open:  280ms, cubic-bezier(0.16, 1, 0.3, 1), translateY(-8px) to 0, opacity 0 to 1
- * Close: 200ms, cubic-bezier(0.4, 0, 1, 1), translateY(0) to -6px, opacity 1 to 0
+ * Motion — LOCKED (Mercury Standard)
+ * 300ms, cubic-bezier(0.22, 0.61, 0.36, 1)
+ * Fade + subtle vertical translate
+ * No bounce. No spring. No acceleration tricks.
  */
 const MOTION = {
-  openDuration: 280,
-  closeDuration: 200,
-  openEasing: "cubic-bezier(0.16, 1, 0.3, 1)",
-  closeEasing: "cubic-bezier(0.4, 0, 1, 1)",
+  duration: 300,
+  easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
   ({ isOpen, onClose }, ref) => {
-    const renderLink = (item: { label: string; href: string; external?: boolean }) => {
-      if (item.external) {
-        return (
-          <a
-            key={item.href}
-            href={item.href}
-            onClick={onClose}
-            className="gns-link"
-            role="menuitem"
-          >
-            {item.label}
-          </a>
-        );
-      }
-      
-      return (
-        <Link
-          key={item.href}
-          to={item.href}
-          onClick={onClose}
-          className="gns-link"
-          role="menuitem"
-        >
-          {item.label}
-        </Link>
-      );
-    };
-
     return (
-      <>
-        {/* Backdrop — blur + dim on page content */}
+      <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
         <div
-          className={`gns-backdrop ${isOpen ? "gns-backdrop--open" : ""}`}
+          ref={ref}
+          className={`mercury-nav ${isOpen ? "mercury-nav--open" : ""}`}
           style={{
-            transition: `opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}, backdrop-filter ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}`,
+            transition: `opacity ${MOTION.duration}ms ${MOTION.easing}, transform ${MOTION.duration}ms ${MOTION.easing}`,
           }}
-          onClick={onClose}
-          aria-hidden="true"
-        />
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation"
+        >
+          {/* Header Bar — Fixed at top */}
+          <header className="mercury-nav-header">
+            {/* Left: TRIBES wordmark */}
+            <Link 
+              to="/" 
+              onClick={onClose}
+              className="mercury-nav-wordmark"
+            >
+              {BRAND.wordmark}
+            </Link>
 
-        {/* GNS Panel — anchored below header */}
-        <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
-          <nav
-            ref={ref}
-            className={`gns-panel ${isOpen ? "gns-panel--open" : ""}`}
-            style={{
-              transition: `transform ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}, opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}`,
-            }}
-            role="menu"
-            aria-label="Navigation"
-          >
-            {/* Group 1: Primary */}
-            <div className="gns-group">
-              {GROUP_1_LINKS.map(renderLink)}
-            </div>
-            
-            {/* Divider */}
-            <div className="gns-divider" />
-            
-            {/* Group 2: Secondary */}
-            <div className="gns-group">
-              {GROUP_2_LINKS.map(renderLink)}
-            </div>
+            {/* Right: Close icon */}
+            <button
+              onClick={onClose}
+              className="mercury-nav-close"
+              aria-label="Close menu"
+            >
+              <X size={22} strokeWidth={1.5} />
+            </button>
+          </header>
+
+          {/* Primary Navigation — Top section */}
+          <nav className="mercury-nav-links" role="menu">
+            {PRIMARY_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={onClose}
+                className="mercury-nav-link"
+                role="menuitem"
+              >
+                {item.label}
+              </Link>
+            ))}
           </nav>
-        </FocusTrap>
-      </>
+
+          {/* Account Actions — Bottom pinned */}
+          <div className="mercury-nav-actions">
+            <a
+              href="https://app.tribesrightsmanagement.com"
+              onClick={onClose}
+              className="mercury-nav-btn mercury-nav-btn--primary"
+            >
+              Client Portal
+            </a>
+            <Link
+              to="/licensing-account"
+              onClick={onClose}
+              className="mercury-nav-btn mercury-nav-btn--secondary"
+            >
+              Request Licensing Access
+            </Link>
+          </div>
+        </div>
+      </FocusTrap>
     );
   }
 );
