@@ -117,8 +117,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
           {/* ═══════════════════════════════════════════════════════════════════
               MENU LIST — Clean rows with dividers
-              Row height: 56px minimum
-              Typography: 18px, font-weight 500
+              Row height: 56px (touch target), Typography: 16px/500 (MERCURY-GRADE)
               ═══════════════════════════════════════════════════════════════════ */}
           <nav 
             className={CONTENT_CONTAINER_CLASS}
@@ -140,8 +139,12 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                   display: 'flex',
                   alignItems: 'center',
                   minHeight: '56px',
-                  fontSize: '18px',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
+                  fontSize: '16px',
                   fontWeight: 500,
+                  lineHeight: 1.3,
+                  letterSpacing: 0,
                   color: 'var(--fg)',
                   borderBottom: index < NAV_LINKS.length - 1 ? '1px solid var(--line)' : 'none',
                   transition: `opacity var(--dur-1) var(--ease)`,
@@ -156,7 +159,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               BOTTOM CTAs — Pinned to bottom, above safe area
               Primary: Client Portal (solid dark)
               Secondary: Request Licensing Access (outline)
-              Button height: 56px, radius: var(--r-lg)
+              Button height: 52px (MERCURY-GRADE), radius: var(--r-lg)
               Gap: 12px
               ═══════════════════════════════════════════════════════════════════ */}
           <div 
@@ -178,8 +181,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '56px',
-                minHeight: '56px',
+                height: '52px',
+                minHeight: '52px',
                 borderRadius: 'var(--r-lg)',
                 backgroundColor: 'var(--fg)',
                 color: 'var(--bg)',
@@ -199,8 +202,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '56px',
-                minHeight: '56px',
+                height: '52px',
+                minHeight: '52px',
                 borderRadius: 'var(--r-lg)',
                 backgroundColor: 'var(--bg)',
                 color: 'var(--fg)',
