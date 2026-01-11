@@ -727,45 +727,47 @@
      ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop overlay — positioned below header, responsive top offset */
+  /* Backdrop overlay — positioned below header, subtle Apple-style dim + blur */
   .unified-nav-backdrop {
-    top: 64px; /* Mobile header height */
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    top: 56px; /* Mobile header height */
+    background-color: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   
   @media (min-width: 768px) {
     .unified-nav-backdrop {
-      top: 72px; /* Tablet/Desktop header height */
+      top: 64px; /* Tablet/Desktop header height */
     }
   }
   
-  /* Navigation panel — fixed positioned, responsive sizing */
+  /* Navigation panel — fixed positioned, content-fit height on all breakpoints
+     LOCKED: Opens downward from header, height limited to content, never full viewport */
   .unified-nav-panel {
     position: fixed;
     left: 0;
     right: 0;
-    top: 64px; /* Mobile header height */
+    top: 56px; /* Mobile header height */
     z-index: 50;
     background-color: #FFFFFF;
     touch-action: none;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    /* Mobile: full viewport height below header */
-    height: calc(100vh - 64px);
-    height: calc(100dvh - 64px);
+    /* Content-fit height — NOT full viewport */
+    height: auto;
+    max-height: calc(100vh - 56px);
+    max-height: calc(100dvh - 56px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    overflow-y: auto;
   }
   
-  /* Tablet/Desktop: auto height, content-fit */
+  /* Tablet/Desktop: same content-fit behavior */
   @media (min-width: 768px) {
     .unified-nav-panel {
-      top: 72px; /* Tablet/Desktop header height */
-      height: auto;
-      max-height: calc(100vh - 72px);
-      max-height: calc(100dvh - 72px);
+      top: 64px; /* Tablet/Desktop header height */
+      max-height: calc(100vh - 64px);
+      max-height: calc(100dvh - 64px);
     }
   }
   
