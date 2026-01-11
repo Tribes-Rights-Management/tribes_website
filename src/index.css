@@ -14,38 +14,65 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
-   MOBILE MENU ROOT — TYPOGRAPHY LOCK (iOS SAFARI FIX)
+   MOBILE MENU — EXPLICIT NAV TOKENS (LOCKED)
    
-   This class MUST be applied to the mobile navigation overlay container.
-   It hard-locks typography to prevent iOS text autosizing inflation.
+   These tokens are the ONLY source of truth for mobile navigation typography.
+   They MUST be used in the mobile menu container. NO inheritance from page.
    
    Typography spec:
-     Links: 18px / 24px, weight 500, letter-spacing -0.01em
-     Buttons: 17px / 24px, weight 600
-     Dividers: 1px solid rgba(0,0,0,0.10)
+     Links: 16px / 24px, weight 450 (institutional)
+     Buttons: 16px / 16px, weight 500
+     Item gap: 22px
+     CTA height: 52px, radius: 14px
    ═══════════════════════════════════════════════════════════════════════════════ */
-.mobile-menu-root {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+:root {
+  --nav-font-family: ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "SF Pro Display", Inter, Arial, sans-serif;
+  --nav-font-size: 16px;
+  --nav-line-height: 24px;
+  --nav-font-weight: 450;
+  --nav-letter-spacing: -0.01em;
+  --nav-item-gap: 22px;
+  --nav-divider: rgba(0,0,0,0.10);
+  --nav-cta-height: 52px;
+  --nav-cta-radius: 14px;
 }
 
-/* Links (the list items) */
+/* ═══════════════════════════════════════════════════════════════════════════════
+   MOBILE MENU ROOT — HARD INHERITANCE RESET
+   
+   Prevents ANY prose, heading, or responsive scaling from leaking in.
+   -webkit-text-size-adjust: 100% is CRITICAL for iOS Safari.
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.mobile-menu-root {
+  font-family: var(--nav-font-family) !important;
+  font-size: var(--nav-font-size) !important;
+  line-height: var(--nav-line-height) !important;
+  font-weight: var(--nav-font-weight) !important;
+  letter-spacing: var(--nav-letter-spacing) !important;
+  text-rendering: optimizeLegibility !important;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+/* Links — LOCKED at 16px (institutional, not headline scale) */
 .mobile-menu-root .mobile-menu-link {
   display: flex;
   align-items: center;
   min-height: 56px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  font-size: 18px;
-  line-height: 24px;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-  color: #0B0F14;
-  text-decoration: none;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  font-family: var(--nav-font-family) !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  font-weight: 450 !important;
+  letter-spacing: -0.01em !important;
+  color: #0B0F14 !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
   transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -53,25 +80,30 @@ body {
   opacity: 0.6;
 }
 
-/* Dividers */
+/* Dividers — 1px, consistent rhythm */
 .mobile-menu-root .mobile-menu-divider {
   height: 1px;
-  background: rgba(0,0,0,0.10);
+  background: var(--nav-divider);
 }
 
-/* Buttons in the menu */
+/* Buttons — LOCKED at 16px (matches link scale, NOT inflated) */
 .mobile-menu-root .mobile-menu-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 56px;
-  min-height: 56px;
-  border-radius: 16px;
-  font-size: 17px;
-  line-height: 24px;
-  font-weight: 600;
-  text-decoration: none;
+  height: var(--nav-cta-height) !important;
+  min-height: var(--nav-cta-height) !important;
+  border-radius: var(--nav-cta-radius) !important;
+  font-family: var(--nav-font-family) !important;
+  font-size: 16px !important;
+  line-height: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+  text-decoration: none !important;
+  text-transform: none !important;
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
   transition: opacity 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
@@ -80,29 +112,38 @@ body {
 }
 
 .mobile-menu-root .mobile-menu-btn-primary {
-  background-color: #0B0F14;
-  color: #FFFFFF;
-  border: none;
+  background-color: #0B0F14 !important;
+  color: #FFFFFF !important;
+  border: none !important;
 }
 
 .mobile-menu-root .mobile-menu-btn-secondary {
-  background-color: #FFFFFF;
-  color: #0B0F14;
-  border: 1px solid rgba(0,0,0,0.18);
+  background-color: #FFFFFF !important;
+  color: #0B0F14 !important;
+  border: 1px solid rgba(0,0,0,0.18) !important;
 }
 
-/* Defensive reset: prevent heading inflation inside menu */
+/* DEFENSIVE RESET — prevent ANY heading/prose inflation inside menu */
+.mobile-menu-root *,
+.mobile-menu-root *::before,
+.mobile-menu-root *::after {
+  font-family: inherit;
+  text-transform: none;
+}
+
 .mobile-menu-root h1,
 .mobile-menu-root h2,
 .mobile-menu-root h3,
 .mobile-menu-root h4,
 .mobile-menu-root h5,
-.mobile-menu-root h6 {
-  font-size: inherit;
-  line-height: inherit;
-  font-weight: inherit;
-  letter-spacing: inherit;
-  margin: 0;
+.mobile-menu-root h6,
+.mobile-menu-root p,
+.mobile-menu-root span {
+  font-size: inherit !important;
+  line-height: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  margin: 0 !important;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
