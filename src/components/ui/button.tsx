@@ -5,14 +5,14 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  // Base: institutional-grade button system (LOCKED)
-  // No bounce, spring, or decorative animation. Opacity transitions only.
-  // Added: subtle press effect (scale) for tactile feedback
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[15px] font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-1 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98] active:opacity-90 select-none",
+  // Base: institutional platform-grade button system (LOCKED)
+  // System-level, not CTA-driven. No bounce, spring, or decorative animation.
+  // Opacity transitions only. Subtle press effect for tactile feedback.
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md text-[14px] font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-1 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-[0.98] active:opacity-90 select-none",
   {
     variants: {
       variant: {
-        // Primary submit: solid black, white text, subtle radius (LOCKED)
+        // Primary: solid black, white text, no emphasis inflation (LOCKED)
         default: "bg-foreground text-white hover:opacity-90 disabled:bg-[#a3a3a3] disabled:opacity-100",
         destructive: "bg-destructive text-destructive-foreground hover:opacity-90",
         outline: "border border-[#d4d4d4] bg-white text-foreground hover:bg-[#fafafa]",
@@ -21,10 +21,11 @@ const buttonVariants = cva(
         link: "text-foreground underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-12 px-6 py-2",
-        sm: "h-10 rounded-md px-4 text-sm",
-        lg: "h-14 rounded-md px-8",
-        icon: "h-10 w-10",
+        // Reduced heights for system-level feel (LOCKED)
+        default: "h-11 px-5 py-2",
+        sm: "h-9 rounded-md px-3.5 text-[13px]",
+        lg: "h-12 rounded-md px-6",
+        icon: "h-9 w-9",
       },
     },
     defaultVariants: {

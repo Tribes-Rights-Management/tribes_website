@@ -31,14 +31,15 @@ export default {
         "8": "64px",
       },
       fontSize: {
-        // MERCURY-GRADE TYPOGRAPHY SCALE — REDUCED ~12-15% (LOCKED)
-        "xs": ["11px", { lineHeight: "1.45", fontWeight: "400" }],
-        "sm": ["12px", { lineHeight: "1.5", fontWeight: "400" }],
-        "base": ["14px", { lineHeight: "1.65", fontWeight: "400" }],
-        "lg": ["15px", { lineHeight: "1.4", fontWeight: "500" }],
-        "xl": ["17px", { lineHeight: "1.3", fontWeight: "500" }],
-        "2xl": ["28px", { lineHeight: "1.15", fontWeight: "600" }],
-        "3xl": ["36px", { lineHeight: "1.15", fontWeight: "600" }],
+        // MERCURY-GRADE PLATFORM TYPOGRAPHY SCALE — INSTITUTIONAL DENSITY (LOCKED)
+        // Reduced ~12-15% from marketing defaults. Deliberate and calm.
+        "xs": ["10px", { lineHeight: "1.45", fontWeight: "400" }],
+        "sm": ["11px", { lineHeight: "1.5", fontWeight: "400" }],
+        "base": ["13px", { lineHeight: "1.65", fontWeight: "400" }],
+        "lg": ["14px", { lineHeight: "1.4", fontWeight: "500" }],
+        "xl": ["16px", { lineHeight: "1.3", fontWeight: "500" }],
+        "2xl": ["24px", { lineHeight: "1.2", fontWeight: "600" }],
+        "3xl": ["32px", { lineHeight: "1.15", fontWeight: "600" }],
       },
       colors: {
         border: "hsl(var(--border))",
