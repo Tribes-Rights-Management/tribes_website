@@ -729,117 +729,144 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     TRIBES FINTECH NAVIGATION — CENTERED MODAL SYSTEM (LOCKED)
+     TRIBES GLOBAL NAVIGATION SYSTEM (GNS) — FINTECH GRADE (LOCKED)
      
      Mercury / Apple / Stripe / JPMorgan execution.
-     Centered dropdown modal. Not sidebar. Not drawer. Not full-screen.
-     Links only. No section labels. No dividers. Quiet and confident.
+     Anchored dropdown panel. Not sidebar. Not drawer. Not full-screen.
+     Links only. No section labels. Single thin divider between groups.
      
-     Motion:
-       Open: 280ms, cubic-bezier(0.22, 1, 0.36, 1), fade + 8px translate
-       Close: 220ms, reverse motion
-     Background: White (#FFFFFF)
-     Typography: 16px, font-weight 500, color #1A1A1A
+     Motion (LOCKED — DO NOT DRIFT):
+       Open:  280ms, cubic-bezier(0.16, 1, 0.3, 1), translateY(-8px→0), opacity 0→1
+       Close: 200ms, cubic-bezier(0.4, 0, 1, 1), translateY(0→-6px), opacity 1→0
      
-     DO NOT: Add labels, create sidebar, change link order, add dividers.
+     Panel:
+       Mobile: full-width minus 16px margins, border-radius 16px
+       Tablet/Desktop: max-width 520px, right-aligned, border-radius 18px
+       Background: rgba(255,255,255,0.92)
+       Shadow: 0 20px 60px rgba(0,0,0,0.12)
+       Border: 1px solid rgba(0,0,0,0.06)
+     
+     DO NOT: Add labels, create sidebar, change link order, add scrolling.
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop — subtle blur on page content */
-  .fintech-modal-backdrop {
+  /* Backdrop — blur + dim on page content */
+  .gns-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
     top: 64px;
-    background-color: rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     opacity: 0;
     pointer-events: none;
     will-change: opacity, backdrop-filter;
   }
   
-  .fintech-modal-backdrop--open {
+  .gns-backdrop--open {
     opacity: 1;
     pointer-events: auto;
   }
   
   @media (min-width: 768px) {
-    .fintech-modal-backdrop {
+    .gns-backdrop {
       top: 72px;
     }
   }
   
-  /* Centered Modal Panel — fixed-width, rounded, no scroll */
-  .fintech-modal-panel {
+  /* GNS Panel — anchored below header */
+  .gns-panel {
     position: fixed;
     z-index: 50;
-    background-color: #FFFFFF;
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+    overflow: hidden; /* NO internal scrolling */
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* Centered positioning */
+    /* Mobile: full width minus 16px margins */
     top: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    width: calc(100% - 32px);
-    max-width: 320px;
-    padding: 16px 0;
+    left: 16px;
+    right: 16px;
+    border-radius: 16px;
+    padding: 24px;
+    max-height: 70vh;
+    
+    /* Closed state transform */
+    transform: translateY(-8px);
   }
   
-  .fintech-modal-panel--open {
+  .gns-panel--open {
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
   
+  /* Tablet/Desktop: fixed max-width, right-aligned */
   @media (min-width: 768px) {
-    .fintech-modal-panel {
+    .gns-panel {
       top: 88px;
-      width: 280px;
-      max-width: 280px;
-      padding: 20px 0;
+      left: auto;
+      right: 32px;
+      width: 520px;
+      max-width: 520px;
+      border-radius: 18px;
+      padding: 28px;
     }
   }
   
-  /* Links container — single column, centered text */
-  .fintech-modal-links {
+  /* Large desktop: maintain right alignment */
+  @media (min-width: 1200px) {
+    .gns-panel {
+      right: calc((100vw - 1200px) / 2 + 20px);
+    }
+  }
+  
+  /* Link groups */
+  .gns-group {
     display: flex;
     flex-direction: column;
   }
   
-  /* Links — 16px, medium weight, calm institutional appearance */
-  .fintech-modal-link {
+  /* Divider — single thin line between groups */
+  .gns-divider {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.08);
+    margin: 16px 0;
+  }
+  
+  /* Links — 18px mobile, 18-20px desktop, weight 500 */
+  .gns-link {
     display: block;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
-    line-height: 1.5;
+    line-height: 1.3;
     color: #1A1A1A;
-    text-align: center;
-    padding: 14px 24px;
-    transition: background-color 120ms ease-out;
+    padding: 14px 0;
+    border-radius: 8px;
+    transition: background-color 100ms ease-out, color 100ms ease-out;
   }
   
-  .fintech-modal-link:hover {
-    background-color: rgba(0, 0, 0, 0.04);
+  .gns-link:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    color: #000000;
   }
   
-  .fintech-modal-link:active {
-    background-color: rgba(0, 0, 0, 0.06);
+  .gns-link:active {
+    background-color: rgba(0, 0, 0, 0.05);
   }
   
-  .fintech-modal-link:focus-visible {
+  .gns-link:focus-visible {
     outline: none;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, 0.03);
   }
   
   @media (min-width: 768px) {
-    .fintech-modal-link {
-      font-size: 15px;
-      padding: 12px 28px;
+    .gns-link {
+      font-size: 19px;
+      padding: 16px 0;
     }
   }
   /* ═══════════════════════════════════════════════════════════════════════════
