@@ -5,13 +5,12 @@
  * ║  Full-height white sheet. No card, no rounded outer container.             ║
  * ║  Close X aligned to same grid as hamburger.                                ║
  * ║                                                                            ║
- * ║  Typography (LOCKED via CSS .mobile-menu-root):                            ║
- * ║    Menu links: 18px, line-height 24px, weight 500, letter-spacing -0.01em  ║
- * ║    Button labels: 17px, line-height 24px, weight 600                       ║
+ * ║  Typography (LOCKED via CSS .mobile-menu-root + inline !important):        ║
+ * ║    Menu links: 16px / 24px, weight 450 (institutional)                     ║
+ * ║    Button labels: 16px / 16px, weight 500                                  ║
  * ║                                                                            ║
  * ║  iOS Safari Fix:                                                           ║
- * ║    Uses CSS classes with -webkit-text-size-adjust: 100% to prevent         ║
- * ║    typography inflation on mobile Safari.                                  ║
+ * ║    Hard-locked via CSS + inline styles with -webkit-text-size-adjust       ║
  * ║                                                                            ║
  * ║  Motion (LOCKED):                                                          ║
  * ║    Duration: 220ms                                                         ║
@@ -38,7 +37,7 @@ const LAYOUT = {
 } as const;
 
 /**
- * Logo typography tokens (LOCKED)
+ * Logo typography tokens (LOCKED — matches header exactly)
  */
 const LOGO = {
   fontSize: 16,
@@ -53,6 +52,18 @@ const LOGO = {
 const MOTION = {
   duration: '220ms',
   easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+} as const;
+
+/**
+ * Nav typography — explicit values for inline styles (iOS Safari fix)
+ * These MUST match CSS tokens in index.css
+ */
+const NAV_TYPE = {
+  fontFamily: 'ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "SF Pro Display", Inter, Arial, sans-serif',
+  fontSize: '16px',
+  lineHeight: '24px',
+  fontWeight: 450,
+  letterSpacing: '-0.01em',
 } as const;
 
 /**
@@ -92,6 +103,14 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             // ONLY translateY — NO scale() allowed
             transform: isOpen ? 'translateY(0)' : 'translateY(6px)',
             transition: `opacity ${MOTION.duration} ${MOTION.easing}, transform ${MOTION.duration} ${MOTION.easing}`,
+            // HARD-LOCK typography — prevents iOS Safari inflation
+            fontFamily: NAV_TYPE.fontFamily,
+            fontSize: NAV_TYPE.fontSize,
+            lineHeight: NAV_TYPE.lineHeight,
+            fontWeight: NAV_TYPE.fontWeight,
+            letterSpacing: NAV_TYPE.letterSpacing,
+            WebkitTextSizeAdjust: '100%',
+            textRendering: 'optimizeLegibility',
           }}
         >
           {/* Reduced motion support */}
