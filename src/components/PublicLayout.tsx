@@ -134,20 +134,16 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             </span>
           </Link>
 
-          {/* Hamburger / Close Toggle — visible on ALL breakpoints */}
-          {!logoOnly && (
+          {/* Hamburger Toggle — visible on ALL breakpoints (only shows when nav closed) */}
+          {!logoOnly && !menuOpen && (
             <button
               ref={menuButtonRef}
-              onClick={() => setMenuOpen(!menuOpen)}
+              onClick={() => setMenuOpen(true)}
               className={`p-2 -mr-2 transition-opacity duration-120 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={menuOpen}
+              aria-label="Open menu"
+              aria-expanded={false}
             >
-              {menuOpen ? (
-                <X size={20} strokeWidth={2} />
-              ) : (
-                <Menu size={20} strokeWidth={1.75} />
-              )}
+              <Menu size={20} strokeWidth={1.75} />
             </button>
           )}
 
