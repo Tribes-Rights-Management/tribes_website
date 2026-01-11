@@ -1,27 +1,26 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  UNIFIED NAV OVERLAY — PREMIUM NAVIGATION SYSTEM                           ║
+ * ║  UNIFIED NAV OVERLAY — APPLE-STYLE TOP DROPDOWN (ALL DEVICES)             ║
  * ║                                                                            ║
  * ║  ONE component for ALL breakpoints. Same items, same groups, same order.   ║
- * ║  Responsive presentation only (dropdown panel vs top sheet).               ║
+ * ║  Always opens as a TOP DROPDOWN — never slides from side.                  ║
  * ║                                                                            ║
- * ║  Desktop/iPad (≥768px): Apple-style dropdown panel, top-right anchored     ║
- * ║  Mobile (<768px): Premium top sheet that slides down from header           ║
+ * ║  Mobile: Full-width, edge-to-edge                                          ║
+ * ║  Tablet/Desktop: Centered, max-width 720px                                 ║
  * ║                                                                            ║
- * ║  DO NOT create separate mobile/desktop nav components.                     ║
+ * ║  Close control lives in header (hamburger toggles to X), not in panel.    ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef } from "react";
 import { Link } from "react-router-dom";
-import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
 
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
  * ║  NAVIGATION STRUCTURE — LOCKED                                             ║
  * ║                                                                            ║
- * ║  SERVICES: Services, How Administration Works, How Licensing Works, Contact║
+ * ║  SERVICES: How Administration Works, How Licensing Works, Contact          ║
  * ║  ACCESS: Client Portal, Request Licensing Access                           ║
  * ║  LEGAL: Privacy Policy, Terms of Use                                       ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
@@ -58,34 +57,22 @@ interface NavOverlayProps {
 
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  MOTION TIMING — LOCKED                                                    ║
+ * ║  MOTION TIMING — LOCKED (Apple-style)                                      ║
  * ║                                                                            ║
- * ║  Panel open/close: 320ms, cubic-bezier(0.22, 1, 0.36, 1)                   ║
- * ║  Backdrop fade: 220ms                                                      ║
- * ║  Same timing opening AND closing (no snapping)                             ║
+ * ║  Panel: 320ms, cubic-bezier(0.16, 1, 0.3, 1) — weighted ease-out           ║
+ * ║  Backdrop: 220ms                                                           ║
+ * ║  Transform: translateY 10-14px only (no side motion)                       ║
+ * ║  No bounce, no overshoot, no snap                                          ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 const MOTION = {
   panelDuration: 320,
   backdropDuration: 220,
-  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
   ({ isOpen, onClose }, ref) => {
-    const closeButtonRef = useRef<HTMLButtonElement>(null);
-
-    // Focus close button on open
-    useEffect(() => {
-      if (isOpen && closeButtonRef.current) {
-        // Small delay to ensure panel is rendered
-        const timer = setTimeout(() => {
-          closeButtonRef.current?.focus();
-        }, 50);
-        return () => clearTimeout(timer);
-      }
-    }, [isOpen]);
-
     // Render nav item
     const renderNavItem = (item: { label: string; href: string; external?: boolean }) => {
       const className = "nav-overlay-link";
@@ -120,7 +107,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
         {/* ═══════════════════════════════════════════════════════════════════════
             BACKDROP — Blur + dim behind panel
             
-            backdrop-filter blur: 14px
+            backdrop-filter blur: 12px
             overlay dim: rgba(0,0,0,0.12)
             ═══════════════════════════════════════════════════════════════════════ */}
         <div
@@ -133,19 +120,13 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
         />
 
         {/* ═══════════════════════════════════════════════════════════════════════
-            NAVIGATION PANEL
+            NAVIGATION PANEL — Apple-style top dropdown (ALL breakpoints)
             
-            Desktop/iPad (≥768px): 
-              - Dropdown anchored top-right
-              - Width: min(420px, 90vw)
-              - Max-height: 70vh, scroll if exceeds
-              - Radius 14px, subtle shadow, 1px border
-              - Background: white at 96-98% opacity
+            Mobile: Full-width, edge-to-edge with internal padding
+            Tablet/Desktop: Centered, max-width 720px
             
-            Mobile (<768px):
-              - Top sheet slides down from header
-              - Max-height: 75vh
-              - Close button (X) top-right inside panel
+            Always animates down from header (translateY), never from side.
+            Close control is in header (hamburger → X), not inside panel.
             ═══════════════════════════════════════════════════════════════════════ */}
         <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
           <nav
@@ -158,15 +139,6 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            {/* Close button - 18px icon, top-right, 16px inset */}
-            <button
-              ref={closeButtonRef}
-              onClick={onClose}
-              className="nav-overlay-close"
-              aria-label="Close menu"
-            >
-              <X size={18} strokeWidth={2} />
-            </button>
 
             {/* Navigation content with sections */}
             <div className="nav-overlay-content">
