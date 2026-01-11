@@ -30,7 +30,6 @@ const NAV_SECTIONS = [
   {
     label: "Services",
     items: [
-      { label: "Services", href: "/services" },
       { label: "How Administration Works", href: "/how-publishing-admin-works" },
       { label: "How Licensing Works", href: "/how-licensing-works" },
       { label: "Contact", href: "/contact" },
@@ -159,17 +158,15 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             aria-modal="true"
             aria-label="Navigation menu"
           >
-            {/* Close button - X icon, top-right */}
-            <div className="nav-overlay-header">
-              <button
-                ref={closeButtonRef}
-                onClick={onClose}
-                className="nav-overlay-close"
-                aria-label="Close menu"
-              >
-                <X size={20} strokeWidth={1.5} />
-              </button>
-            </div>
+            {/* Close button - 18px icon, top-right, 16px inset */}
+            <button
+              ref={closeButtonRef}
+              onClick={onClose}
+              className="nav-overlay-close"
+              aria-label="Close menu"
+            >
+              <X size={18} strokeWidth={2} />
+            </button>
 
             {/* Navigation content with sections */}
             <div className="nav-overlay-content">

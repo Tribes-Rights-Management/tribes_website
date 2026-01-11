@@ -740,15 +740,15 @@
      ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop — blur + dim behind panel */
+  /* Backdrop — blur + dim behind panel (REFINED) */
   .nav-overlay-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
     top: 64px; /* Header height */
-    background-color: rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background-color: rgba(0, 0, 0, 0.10); /* Reduced from 0.12 */
+    backdrop-filter: blur(12px); /* Reduced from 14px */
+    -webkit-backdrop-filter: blur(12px);
     opacity: 0;
     pointer-events: none;
     will-change: opacity;
@@ -765,7 +765,7 @@
     }
   }
   
-  /* Navigation panel — responsive positioning */
+  /* Navigation panel — responsive positioning (REFINED) */
   .nav-overlay-panel {
     position: fixed;
     z-index: 50;
@@ -781,11 +781,11 @@
     top: 64px; /* Header height */
     left: 0;
     right: 0;
-    max-height: 75vh;
-    border-bottom: 1px solid #E9E9E9;
+    max-height: 65vh; /* Reduced from 75vh — compact control layer */
+    border-bottom: 1px solid #EDEDED;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transform: translateY(-12px);
-    padding: 20px;
+    transform: translateY(-10px); /* 8-12px slide distance */
+    padding: 16px 20px 20px; /* Tighter top padding */
   }
   
   .nav-overlay-panel--open {
@@ -801,15 +801,15 @@
       left: auto;
       right: 48px;
       width: min(420px, 90vw);
-      max-height: 70vh;
+      max-height: 65vh; /* Reduced from 70vh */
       border-radius: 14px;
       border: 1px solid rgba(0, 0, 0, 0.06);
       box-shadow: 
         0 0 0 1px rgba(0, 0, 0, 0.03),
         0 8px 40px rgba(0, 0, 0, 0.12),
         0 2px 8px rgba(0, 0, 0, 0.04);
-      padding: 24px;
-      transform: translateY(-8px);
+      padding: 16px 24px 24px; /* Tighter top padding */
+      transform: translateY(-10px);
     }
     
     .nav-overlay-panel--open {
@@ -817,27 +817,26 @@
     }
   }
   
-  /* Close button header */
-  .nav-overlay-header {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 16px;
-  }
-  
+  /* Close button — functional, not decorative (REFINED) */
   .nav-overlay-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    color: #6B6B6B;
+    width: 28px;
+    height: 28px;
+    min-height: 28px; /* Override global 44px minimum */
+    border-radius: 6px;
+    color: #555; /* Reduced contrast — not pure black */
+    background-color: transparent;
     transition: color 120ms ease-out, background-color 120ms ease-out;
   }
   
   .nav-overlay-close:hover {
-    color: #111;
-    background-color: rgba(0, 0, 0, 0.04);
+    color: #333;
+    background-color: rgba(0, 0, 0, 0.05); /* Very subtle, 5% gray */
   }
   
   .nav-overlay-close:active {
@@ -850,21 +849,22 @@
     outline-offset: 2px;
   }
   
-  /* Navigation content */
+  /* Navigation content — tighter vertical rhythm */
   .nav-overlay-content {
     display: flex;
     flex-direction: column;
+    margin-top: 8px; /* Space after close button area */
   }
   
-  /* Section header — LOCKED typography */
+  /* Section header — REFINED typography */
   .nav-overlay-section-header {
-    font-size: 12px;
-    letter-spacing: 0.14em;
+    font-size: 11px; /* Reduced from 12px */
+    letter-spacing: 0.16em; /* Increased from 0.14em */
     text-transform: uppercase;
-    color: #6B6B6B;
-    margin-top: 22px;
-    margin-bottom: 12px;
-    font-weight: 400;
+    color: #8A8A8A; /* Lighter than before */
+    margin-top: 20px; /* Between sections */
+    margin-bottom: 8px; /* Tighter to links */
+    font-weight: 500;
   }
   
   /* First section has no top margin */
@@ -872,11 +872,11 @@
     margin-top: 0;
   }
   
-  /* Section divider */
+  /* Section divider — reduced opacity */
   .nav-overlay-divider {
     height: 1px;
-    background-color: #E9E9E9;
-    margin-top: 8px;
+    background-color: #EDEDED; /* Lighter */
+    margin-top: 6px;
   }
   
   /* Section links container */
@@ -885,12 +885,12 @@
     flex-direction: column;
   }
   
-  /* Nav links — LOCKED typography */
+  /* Nav links — REFINED typography */
   .nav-overlay-link {
-    font-size: 18px;
+    font-size: 17px; /* Mobile */
     font-weight: 500;
     line-height: 1.25;
-    padding: 12px 0;
+    padding: 10px 0; /* Reduced from 12px */
     color: #111;
     transition: opacity 120ms ease-out;
     display: block;
@@ -899,16 +899,17 @@
   /* Desktop: slightly smaller links */
   @media (min-width: 768px) {
     .nav-overlay-link {
-      font-size: 16px;
+      font-size: 15px; /* Reduced from 16px */
+      padding: 8px 0; /* Tighter on desktop */
     }
   }
   
-  /* Hover — subtle opacity OR underline fade */
+  /* Hover — opacity only, no underlines */
   .nav-overlay-link:hover {
     opacity: 0.85;
   }
   
-  /* Active/pressed — 80-120ms opacity */
+  /* Active/pressed — 80ms opacity */
   .nav-overlay-link:active {
     opacity: 0.7;
     transition: opacity 80ms linear;
