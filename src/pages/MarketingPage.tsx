@@ -26,9 +26,10 @@ export default function MarketingPage() {
 
       {/* 2) WHO IT'S FOR = WHITE — sectionLightMobile (88px)
           ═══════════════════════════════════════════════════════════════════════════
-          Unified single-grid layout:
-          - Row 1: Section label + Headline + Supporting sentence (left-aligned)
-          - Row 2: Three equal-width audience columns with horizontal spacing
+          Calm typographic flow matching "How Copyright Clearance Works":
+          - Eyebrow → Intro sentence → Stacked audience items
+          - No cards, no grids, no visual separation
+          - Informational, not promotional
           ═══════════════════════════════════════════════════════════════════════════ */}
       <section 
         data-theme="light" 
@@ -36,57 +37,46 @@ export default function MarketingPage() {
         style={{ backgroundColor: THEME_LIGHT_BG }}
       >
         <div className={CONTENT_CONTAINER_CLASS}>
-          {/* Row 1: Intro content — constrained width, left-aligned */}
-          <div className="max-w-[640px]">
-            <p 
-              className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60"
-              style={{ marginBottom: 'var(--eyebrow-bottom)' }}
-            >
-              Who It's For
-            </p>
-            <h2 
-              className="text-[24px] md:text-[29px] lg:text-[30px] font-medium leading-[1.2] tracking-[-0.01em] text-foreground"
-              style={{ marginBottom: 'var(--headline-bottom)' }}
-            >
-              Built for long-term rights holders.
-            </h2>
-            <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70">
-              Clear music rights through proper authorization, documentation, payment handling, and defensible records.
-            </p>
-          </div>
+          {/* Eyebrow */}
+          <p className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60 mb-stack-standard">
+            Who It's For
+          </p>
           
-          {/* Row 2: Audience columns — equal width, horizontal spacing, no dividers */}
-          <div className="mt-12 md:mt-14 lg:mt-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10 lg:gap-16">
-              {/* Audience 1: Songwriters & Producers */}
-              <div>
-                <h3 className="text-[15px] md:text-base font-medium text-foreground mb-2">
-                  Songwriters & Producers
-                </h3>
-                <p className="text-[13px] md:text-[14px] leading-[1.6] text-foreground/55">
-                  Get your copyrights registered, royalties collected, and records organized—so ownership and income remain clear over time.
-                </p>
-              </div>
-              
-              {/* Audience 2: Rights Holders */}
-              <div>
-                <h3 className="text-[15px] md:text-base font-medium text-foreground mb-2">
-                  Rights Holders
-                </h3>
-                <p className="text-[13px] md:text-[14px] leading-[1.6] text-foreground/55">
-                  Clear ownership records, structured licensing, reliable income tracking.
-                </p>
-              </div>
-              
-              {/* Audience 3: Commercial & Broadcast */}
-              <div>
-                <h3 className="text-[15px] md:text-base font-medium text-foreground mb-2">
-                  Commercial & Broadcast
-                </h3>
-                <p className="text-[13px] md:text-[14px] leading-[1.6] text-foreground/55">
-                  Clear music rights for your projects with proper authorization, documentation, and records that hold up.
-                </p>
-              </div>
+          {/* Lead-in sentence — uses locked lede-to-list bridge spacing */}
+          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list">
+            Built for long-term rights holders who need proper authorization, documentation, payment handling, and defensible records.
+          </p>
+          
+          {/* Audience items — list-step-stack for locked spacing, 2-column grid on desktop */}
+          <div className="list-step-stack md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-8">
+            {/* Songwriters & Producers */}
+            <div>
+              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+                Songwriters & Producers
+              </h3>
+              <p className="text-[15px] leading-[1.7] text-foreground/70">
+                Get your copyrights registered, royalties collected, and records organized—so ownership and income remain clear over time.
+              </p>
+            </div>
+            
+            {/* Rights Holders */}
+            <div>
+              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+                Rights Holders
+              </h3>
+              <p className="text-[15px] leading-[1.7] text-foreground/70">
+                Clear ownership records, structured licensing, reliable income tracking.
+              </p>
+            </div>
+            
+            {/* Commercial & Broadcast */}
+            <div>
+              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+                Commercial & Broadcast
+              </h3>
+              <p className="text-[15px] leading-[1.7] text-foreground/70">
+                Clear music rights for your projects with proper authorization, documentation, and records that hold up.
+              </p>
             </div>
           </div>
         </div>
