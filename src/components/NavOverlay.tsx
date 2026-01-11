@@ -41,14 +41,13 @@ interface NavOverlayProps {
 }
 
 /**
- * Motion — LOCKED (Mercury Standard)
- * 300ms, cubic-bezier(0.22, 0.61, 0.36, 1)
- * Fade + subtle vertical translate
- * No bounce. No spring. No acceleration tricks.
+ * Motion — INSTITUTIONAL STANDARD (LOCKED)
+ * 280ms, cubic-bezier(0.25, 0.1, 0.25, 1)
+ * Calm, controlled. No bounce. No spring.
  */
 const MOTION = {
-  duration: 300,
-  easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+  duration: 280,
+  easing: "cubic-bezier(0.25, 0.1, 0.25, 1)",
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
