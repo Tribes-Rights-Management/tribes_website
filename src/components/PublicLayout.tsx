@@ -108,27 +108,42 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
       </a>
       
       {/* ═══════════════════════════════════════════════════════════════════════
-          HEADER — Wordmark + Hamburger ONLY (All Breakpoints)
+          HEADER — LOCKED (No wordmark jump on scroll)
           
-          LOCKED: No inline nav items. Everything lives in hamburger menu.
+          Height: 64px (all breakpoints)
+          Wordmark: 18px, font-weight 600, letter-spacing 0.10em
+          Only background/border/shadow may change on scroll (not implemented yet)
           ═══════════════════════════════════════════════════════════════════════ */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 ${
-          headerDark 
-            ? 'border-b border-white/[0.06]' 
-            : 'bg-white border-b border-black/[0.08]'
-        }`}
-        style={headerDark ? { backgroundColor: THEME_DARK_BG } : { backgroundColor: '#FFFFFF' }}
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{
+          height: '64px',
+          backgroundColor: headerDark ? '#111214' : '#FFFFFF',
+          borderBottom: headerDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid var(--line)',
+          transition: 'box-shadow var(--dur-2) var(--ease-out), border-color var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out)',
+        }}
       >
-        <div className={`${CONTENT_CONTAINER_CLASS} flex items-center justify-between h-16 md:h-[72px]`}>
-          {/* Left-aligned wordmark */}
+        <div 
+          className={`${CONTENT_CONTAINER_CLASS} h-full flex items-center justify-between`}
+        >
+          {/* TRIBES Wordmark — LOCKED: Same DOM element, same styles, never changes */}
           <Link 
             to="/" 
-            className={`flex items-center transition-opacity duration-120 hover:opacity-100 ${headerDark ? 'opacity-90' : 'opacity-90'}`}
+            className="inline-flex items-center"
+            style={{
+              height: '64px',
+              transition: `opacity var(--dur-1) var(--ease)`,
+            }}
           >
             <span 
-              className={`text-[15px] md:text-[17px] font-bold uppercase ${headerDark ? 'text-white' : 'text-foreground'}`}
-              style={{ fontWeight: 700, letterSpacing: '0.04em' }}
+              style={{ 
+                fontSize: '18px',
+                fontWeight: 600,
+                letterSpacing: '0.10em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                color: headerDark ? '#FFFFFF' : 'var(--fg)',
+              }}
             >
               {BRAND.wordmark}
             </span>
@@ -139,9 +154,22 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
             <button
               ref={menuButtonRef}
               onClick={() => setMenuOpen(true)}
-              className={`p-2 -mr-2 transition-opacity duration-120 opacity-80 hover:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${headerDark ? 'text-white focus-visible:outline-white/20' : 'text-foreground focus-visible:outline-foreground/15'}`}
+              className="p-2 -mr-2"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                minHeight: '44px',
+                color: headerDark ? '#FFFFFF' : 'var(--fg)',
+                opacity: 0.8,
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
               aria-label="Open menu"
               aria-expanded={false}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
             >
               <Menu size={20} strokeWidth={1.75} />
             </button>
@@ -153,7 +181,15 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
               onClick={() => {
                 document.getElementById(mobileContactAnchor)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={`text-sm font-medium transition-opacity duration-120 opacity-60 hover:opacity-100 ${headerDark ? 'text-white' : 'text-foreground'}`}
+              style={{
+                fontSize: 'var(--text-sm)',
+                fontWeight: 'var(--w-medium)',
+                color: headerDark ? '#FFFFFF' : 'var(--fg)',
+                opacity: 0.6,
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.6'}
             >
               Contact
             </button>
@@ -161,8 +197,8 @@ export function PublicLayout({ children, logoOnly = false, disableFooterLinks = 
         </div>
       </header>
 
-      {/* Spacer for fixed header */}
-      <div className="h-16 md:h-[72px]" />
+      {/* Spacer for fixed header — LOCKED at 64px */}
+      <div style={{ height: '64px' }} />
 
       {/* ═══════════════════════════════════════════════════════════════════════
           NAV OVERLAY — Single component for ALL breakpoints

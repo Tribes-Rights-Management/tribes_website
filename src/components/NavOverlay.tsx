@@ -1,16 +1,14 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  TRIBES GLOBAL NAVIGATION — MERCURY-GRADE FULL TAKEOVER (LOCKED)          ║
+ * ║  TRIBES NAVIGATION OVERLAY — MERCURY-GRADE (LOCKED)                        ║
  * ║                                                                            ║
- * ║  Full-height, full-width navigation takeover.                              ║
- * ║  NOT a sidebar. NOT a dropdown. NOT a card. NOT a modal.                  ║
- * ║  This replaces the page. It does not sit on top of it.                    ║
+ * ║  Full-screen white overlay. Clean list rows with dividers.                ║
+ * ║  Bottom-pinned CTAs. Restrained motion.                                   ║
  * ║                                                                            ║
  * ║  Motion (LOCKED):                                                          ║
- * ║    300ms, cubic-bezier(0.22, 0.61, 0.36, 1)                                ║
- * ║    Fade + subtle vertical translate. No bounce. No spring.                ║
- * ║                                                                            ║
- * ║  DO NOT: Add rounded corners, shadows, cards, section labels, dividers.   ║
+ * ║    Fade: opacity 0 → 1 over var(--dur-2) using var(--ease-out)            ║
+ * ║    Panel: translateY(8px) → 0 over var(--dur-2) using var(--ease)         ║
+ * ║    No bounce. No spring. No overshoot.                                    ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -19,17 +17,15 @@ import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
 import { BRAND } from "@/lib/brand";
+import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
 
 /**
- * Primary Navigation Links — LOCKED (Exact Order)
- * 
+ * Navigation Links — LOCKED
  * 1. How Administration Works
  * 2. How Licensing Works
  * 3. Contact
- * 
- * NO section labels. NO dividers. Just links.
  */
-const PRIMARY_LINKS = [
+const NAV_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
   { label: "How Licensing Works", href: "/how-licensing-works" },
   { label: "Contact", href: "/contact" },
@@ -40,79 +36,179 @@ interface NavOverlayProps {
   onClose: () => void;
 }
 
-/**
- * Motion — INSTITUTIONAL STANDARD (LOCKED)
- * 280ms, cubic-bezier(0.25, 0.1, 0.25, 1)
- * Calm, controlled. No bounce. No spring.
- */
-const MOTION = {
-  duration: 280,
-  easing: "cubic-bezier(0.25, 0.1, 0.25, 1)",
-} as const;
-
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
   ({ isOpen, onClose }, ref) => {
     return (
       <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
         <div
           ref={ref}
-          className={`mercury-nav ${isOpen ? "mercury-nav--open" : ""}`}
-          style={{
-            transition: `opacity ${MOTION.duration}ms ${MOTION.easing}, transform ${MOTION.duration}ms ${MOTION.easing}`,
-          }}
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            backgroundColor: 'var(--bg)',
+            display: 'flex',
+            flexDirection: 'column',
+            opacity: isOpen ? 1 : 0,
+            pointerEvents: isOpen ? 'auto' : 'none',
+            transform: isOpen ? 'translateY(0)' : 'translateY(8px)',
+            transition: `opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease)`,
+          }}
         >
-          {/* Header Bar — Fixed at top */}
-          <header className="mercury-nav-header">
-            {/* Left: TRIBES wordmark */}
+          {/* ═══════════════════════════════════════════════════════════════════
+              TOP ROW — Wordmark (left) + Close X (right)
+              Height: 64px, same gutters as header
+              ═══════════════════════════════════════════════════════════════════ */}
+          <header 
+            className={CONTENT_CONTAINER_CLASS}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: '64px',
+              flexShrink: 0,
+            }}
+          >
+            {/* Wordmark — matches header spec */}
             <Link 
               to="/" 
               onClick={onClose}
-              className="mercury-nav-wordmark"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                height: '64px',
+                fontSize: '18px',
+                fontWeight: 600,
+                letterSpacing: '0.10em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                color: 'var(--fg)',
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
             >
               {BRAND.wordmark}
             </Link>
 
-            {/* Right: Close icon */}
+            {/* Close X */}
             <button
               onClick={onClose}
-              className="mercury-nav-close"
               aria-label="Close menu"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                minHeight: '44px',
+                marginRight: '-8px',
+                color: 'var(--fg)',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
             >
               <X size={22} strokeWidth={1.5} />
             </button>
           </header>
 
-          {/* Primary Navigation — Top section */}
-          <nav className="mercury-nav-links" role="menu">
-            {PRIMARY_LINKS.map((item) => (
+          {/* ═══════════════════════════════════════════════════════════════════
+              MENU LIST — Clean rows with dividers
+              Row height: 56px minimum
+              Typography: 18px, font-weight 500
+              ═══════════════════════════════════════════════════════════════════ */}
+          <nav 
+            className={CONTENT_CONTAINER_CLASS}
+            role="menu"
+            style={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              paddingTop: 'var(--s4)',
+            }}
+          >
+            {NAV_LINKS.map((item, index) => (
               <Link
                 key={item.href}
                 to={item.href}
                 onClick={onClose}
-                className="mercury-nav-link"
                 role="menuitem"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  minHeight: '56px',
+                  fontSize: '18px',
+                  fontWeight: 500,
+                  color: 'var(--fg)',
+                  borderBottom: index < NAV_LINKS.length - 1 ? '1px solid var(--line)' : 'none',
+                  transition: `opacity var(--dur-1) var(--ease)`,
+                }}
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          {/* Account Actions — Bottom pinned */}
-          <div className="mercury-nav-actions">
+          {/* ═══════════════════════════════════════════════════════════════════
+              BOTTOM CTAs — Pinned to bottom, above safe area
+              Primary: Client Portal (solid dark)
+              Secondary: Request Licensing Access (outline)
+              Button height: 56px, radius: var(--r-lg)
+              Gap: 12px
+              ═══════════════════════════════════════════════════════════════════ */}
+          <div 
+            className={CONTENT_CONTAINER_CLASS}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              paddingTop: 'var(--s5)',
+              paddingBottom: 'max(var(--s5), env(safe-area-inset-bottom))',
+              flexShrink: 0,
+            }}
+          >
+            {/* Primary: Client Portal */}
             <a
               href="https://app.tribesrightsmanagement.com"
               onClick={onClose}
-              className="mercury-nav-btn mercury-nav-btn--primary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '56px',
+                minHeight: '56px',
+                borderRadius: 'var(--r-lg)',
+                backgroundColor: 'var(--fg)',
+                color: 'var(--bg)',
+                fontSize: '16px',
+                fontWeight: 600,
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
             >
               Client Portal
             </a>
+
+            {/* Secondary: Request Licensing Access */}
             <Link
               to="/licensing-account"
               onClick={onClose}
-              className="mercury-nav-btn mercury-nav-btn--secondary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '56px',
+                minHeight: '56px',
+                borderRadius: 'var(--r-lg)',
+                backgroundColor: 'var(--bg)',
+                color: 'var(--fg)',
+                fontSize: '16px',
+                fontWeight: 600,
+                border: '1px solid var(--line)',
+                transition: `opacity var(--dur-1) var(--ease)`,
+              }}
             >
               Request Licensing Access
             </Link>

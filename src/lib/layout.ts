@@ -1,28 +1,30 @@
 /**
- * Global Layout Constants
+ * Global Layout Constants — TRIBES INSTITUTIONAL STANDARD (LOCKED)
  * 
- * These values define the horizontal grid system for Tribes Rights Management.
- * All primary content must align to this container to prevent layout drift.
+ * Container: 1120px max-width
+ * Gutters: 20px mobile / 28px desktop
+ * Header: 64px (all breakpoints)
  * 
  * NON-REGRESSION RULE:
- * - Do not widen beyond 1200px unless explicitly instructed
- * - Do not alter padding values without explicit instruction
- * - Header, body, and footer content must share this same grid
- * - Desktop header height is locked at 64px
- * - Mobile header height is locked at 56px
+ * - Container is locked at 1120px
+ * - Gutters are locked at 20px/28px
+ * - Header height is locked at 64px
  */
 
 /** 
  * Inner content container: max-width + centering + responsive horizontal padding
- * Uses --gutter (24px mobile / 32px tablet / 48px desktop) from index.css
+ * Uses --gutter (20px mobile / 28px desktop) from index.css
  */
-export const CONTENT_CONTAINER_CLASS = "max-w-[1200px] mx-auto w-full px-[var(--gutter)]";
+export const CONTENT_CONTAINER_CLASS = "max-w-[1120px] mx-auto w-full px-[var(--gutter)]";
 
-/** Desktop header height in pixels (locked) */
+/** Header height in pixels (locked — same on all breakpoints) */
+export const HEADER_HEIGHT = 64;
+
+/** Desktop header height in pixels (legacy alias) */
 export const DESKTOP_HEADER_HEIGHT = 64;
 
-/** Mobile header height in pixels (locked) */
-export const MOBILE_HEADER_HEIGHT = 56;
+/** Mobile header height in pixels (legacy alias) */
+export const MOBILE_HEADER_HEIGHT = 64;
 
 /** Desktop sidebar panel width */
 export const DESKTOP_SIDEBAR_WIDTH = 420;

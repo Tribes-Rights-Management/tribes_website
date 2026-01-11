@@ -16,8 +16,75 @@
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
+  /* ═══════════════════════════════════════════════════════════════════════════
+     TRIBES DESIGN SYSTEM — INSTITUTIONAL STANDARD (LOCKED)
+     Mercury/Stripe/Apple execution with JPMorgan restraint.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  
   /* ─────────────────────────────────────────────────────────────────────────────
-     SPACING SCALE — 8px base unit
+     TYPOGRAPHY SCALE (LOCKED)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+  --lh-tight: 1.15;
+  --lh-body: 1.45;
+  --w-regular: 400;
+  --w-medium: 500;
+  --w-semibold: 600;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     SPACING SCALE (LOCKED)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 40px;
+  --s8: 48px;
+  --s9: 64px;
+  
+  /* Layout */
+  --container: 1120px;
+  --gutter-mobile: 20px;
+  --gutter-desktop: 28px;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     COLOR SYSTEM (LOCKED)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --bg: #ffffff;
+  --fg: #0b0f14;
+  --muted: rgba(11,15,20,.62);
+  --muted2: rgba(11,15,20,.46);
+  --line: rgba(11,15,20,.12);
+  --surface: rgba(11,15,20,.03);
+  --focus: #0071E3;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     RADIUS (LOCKED)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     MOTION (LOCKED — INSTITUTIONAL SPEC)
+     ───────────────────────────────────────────────────────────────────────────── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 140ms;
+  --dur-2: 220ms;
+  --dur-3: 320ms;
+  
+  /* ─────────────────────────────────────────────────────────────────────────────
+     LEGACY SPACING SCALE — 8px base unit (for backward compatibility)
      ───────────────────────────────────────────────────────────────────────────── */
   --space-0: 0px;
   --space-1: 8px;
@@ -177,10 +244,10 @@
   --footer-copyright-color: 0 0% 100% / 0.50;
 
   /* ─────────────────────────────────────────────────────────────────────────────
-     PAGE GUTTERS — Horizontal container padding
-     Mobile: 24px | Tablet: 32px | Desktop: 48px
+     PAGE GUTTERS — Horizontal container padding (LOCKED)
+     Mobile: 20px | Desktop: 28px
      ───────────────────────────────────────────────────────────────────────────── */
-  --gutter: var(--space-4); /* 24px mobile default */
+  --gutter: 20px; /* Mobile default */
 
   /* ─────────────────────────────────────────────────────────────────────────────
      SECTION PADDING — Responsive vertical rhythm for major page sections
@@ -207,16 +274,15 @@
   --step-list-top: var(--space-4);        /* 24px above step list */
 }
 
-/* Tablet breakpoint (768px+) */
+/* Tablet breakpoint (768px+) — Gutter stays 20px for tablet */
 @media (min-width: 768px) {
   :root {
-    --gutter: var(--space-5);          /* 32px */
     --section-padding-y-light: var(--space-10); /* 120px */
     --section-padding-y-dark: var(--space-10);  /* 120px */
     --section-padding-y: var(--space-10);       /* Legacy alias */
     --card-gap: var(--space-6);                 /* 48px on tablet+ */
     --step-gap: 56px;                           /* Premium step spacing on tablet+ */
-    --footer-pt-mobile: 80px;                   /* Reset to standard on tablet+ */
+    --footer-pt-mobile: 80px;
     --footer-pb-mobile: 80px;
   }
 }
@@ -224,7 +290,7 @@
 /* Desktop breakpoint (1024px+) */
 @media (min-width: 1024px) {
   :root {
-    --gutter: var(--space-6);          /* 48px */
+    --gutter: 28px;                             /* Desktop gutter (LOCKED) */
     --section-padding-y-light: var(--space-11); /* 160px */
     --section-padding-y-dark: var(--space-11);  /* 160px */
     --section-padding-y: var(--space-11);       /* Legacy alias */
@@ -415,6 +481,7 @@
     background-color: hsl(var(--site-black)) !important;
     margin: 0;
     padding: 0;
+    height: 100%;
     min-height: 100%;
     /* DO NOT use scroll-behavior: smooth globally — causes jank on iOS */
     /* Prevent bounce revealing light browser canvas */
@@ -425,25 +492,26 @@
     /* Site black baseline for iOS Safari */
     background-color: hsl(210 21% 5%) !important;
     background-color: hsl(var(--site-black)) !important;
-    color: hsl(var(--foreground));
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: var(--lh-body);
+    font-weight: var(--w-regular);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    /* PLATFORM-GRADE: reduced body copy for institutional density */
-    font-size: 13px;
-    line-height: 1.65;
     margin: 0;
     padding: 0;
+    height: 100%;
     /* Prevent horizontal overflow — body is sole scroll container */
     overflow-x: hidden;
     /* Natural document scroll — no nested scroll containers */
   }
 
-  /* Desktop: restore standard body typography (reduced) */
+  /* Desktop: same base typography (15px is locked) */
   @media (min-width: 768px) {
     body {
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 15px;
+      line-height: var(--lh-body);
     }
   }
 
@@ -492,45 +560,54 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
-  /* H1 — Primary page heading. PLATFORM-GRADE reduced. */
+  /* H1 — Primary page heading. INSTITUTIONAL SPEC (LOCKED). */
   h1 {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.15;
+    font-size: var(--text-3xl); /* 36px */
+    font-weight: var(--w-semibold);
+    line-height: var(--lh-tight);
     letter-spacing: -0.015em;
     scroll-margin-top: calc(var(--header-height) + 20px);
   }
 
   @media (min-width: 768px) {
     :root {
-      /* Desktop: 64px (h-16) */
       --header-h: 64px;
     }
-    
+  }
+  
+  /* Mobile: H1 scales down one step */
+  @media (max-width: 767px) {
     h1 {
-      font-size: 32px;
+      font-size: var(--text-2xl); /* 28px mobile */
     }
   }
 
-  /* H2 — Section titles. PLATFORM-GRADE reduced. */
+  /* H2 — Section titles. INSTITUTIONAL SPEC (LOCKED). */
   h2 {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 1.3;
+    font-size: var(--text-2xl); /* 28px */
+    font-weight: var(--w-semibold);
+    line-height: 1.2;
     letter-spacing: -0.01em;
     scroll-margin-top: calc(var(--header-height) + 20px);
   }
+  
+  /* Mobile: H2 scales down */
+  @media (max-width: 767px) {
+    h2 {
+      font-size: var(--text-xl); /* 22px mobile */
+    }
+  }
 
-  /* H3-H6 — Subsection headings (reduced) */
+  /* H3-H6 — Subsection headings */
   h3 {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--text-lg); /* 18px */
+    font-weight: var(--w-medium);
     line-height: 1.35;
   }
 
   h4, h5, h6 {
-    font-size: 11px;
-    font-weight: 500;
+    font-size: var(--text-sm); /* 14px */
+    font-weight: var(--w-medium);
     line-height: 1.4;
   }
 
@@ -1494,7 +1571,7 @@
   }
 }
 
-/* D) FOCUS STATES — Visible, subtle, brand-appropriate */
+/* D) FOCUS STATES — Accessible focus ring (LOCKED) */
 @layer base {
   /* Global focus-visible for all interactive elements */
   a:focus-visible,
@@ -1503,7 +1580,7 @@
   input:focus-visible,
   textarea:focus-visible,
   select:focus-visible {
-    outline: 1px solid hsl(0 0% 9% / 0.35);
+    outline: 2px solid var(--focus);
     outline-offset: 2px;
   }
   
@@ -1515,7 +1592,7 @@
   [style*="backgroundColor"] a:focus-visible,
   footer a:focus-visible,
   footer button:focus-visible {
-    outline-color: hsl(0 0% 100% / 0.35);
+    outline-color: hsl(0 0% 100% / 0.5);
   }
   
   /* Remove default focus for mouse users */
