@@ -1,25 +1,31 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)                               ║
+ * ║  TRIBES FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)                        ║
  * ║                                                                            ║
- * ║  Apple-style top dropdown. Single unified component. No sidebar.          ║
- * ║  No section labels. Links only. Hierarchy through order and spacing.       ║
+ * ║  Mercury / Apple / Stripe / JPMorgan execution.                            ║
+ * ║  Top-down dropdown. Not sidebar. Not drawer. Not full-screen.              ║
+ * ║  Links only. No section labels. Quiet and confident.                       ║
  * ║                                                                            ║
- * ║  DO NOT: Add labels, convert to sidebar, change link order.               ║
+ * ║  DO NOT: Add labels, create sidebar, change link order.                   ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
+import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
 
 /**
- * Navigation Links — LOCKED
+ * Navigation Links — LOCKED (Exact Order)
  * 
- * Primary: How Administration Works, How Licensing Works, Contact
- * Secondary: Client Portal, Request Licensing Access
+ * 1. How Administration Works
+ * 2. How Licensing Works
+ * 3. Contact
+ * — divider —
+ * 4. Client Portal
+ * 5. Request Licensing Access
  * 
- * Privacy/Terms: Footer only — NOT in header navigation
+ * Nothing else. No legal links.
  */
 const PRIMARY_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
@@ -39,26 +45,26 @@ interface NavOverlayProps {
 
 /**
  * Motion — LOCKED
- * Duration: 280-320ms
+ * Duration: 320ms
  * Easing: cubic-bezier(0.22, 1, 0.36, 1)
+ * Direction: Vertical slide only
+ * No bounce, no overshoot, no instant snapping
  */
 const MOTION = {
-  duration: 300,
+  duration: 320,
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
   ({ isOpen, onClose }, ref) => {
-    const renderLink = (item: { label: string; href: string; external?: boolean }, isPrimary: boolean) => {
-      const className = isPrimary ? "nav-link nav-link--primary" : "nav-link nav-link--secondary";
-      
+    const renderLink = (item: { label: string; href: string; external?: boolean }) => {
       if (item.external) {
         return (
           <a
             key={item.href}
             href={item.href}
             onClick={onClose}
-            className={className}
+            className="fintech-nav-link"
           >
             {item.label}
           </a>
@@ -70,7 +76,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           key={item.href}
           to={item.href}
           onClick={onClose}
-          className={className}
+          className="fintech-nav-link"
         >
           {item.label}
         </Link>
@@ -79,35 +85,44 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
     return (
       <>
-        {/* Backdrop — subtle blur */}
+        {/* Backdrop — subtle blur on page content */}
         <div
-          className={`nav-backdrop ${isOpen ? "nav-backdrop--open" : ""}`}
+          className={`fintech-nav-backdrop ${isOpen ? "fintech-nav-backdrop--open" : ""}`}
+          style={{
+            transition: `opacity ${MOTION.duration}ms ${MOTION.easing}`,
+          }}
           onClick={onClose}
           aria-hidden="true"
         />
 
-        {/* Navigation Panel — top-anchored dropdown */}
+        {/* Dropdown Panel — top-anchored, content-height only */}
         <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
           <nav
             ref={ref}
-            className={`nav-panel ${isOpen ? "nav-panel--open" : ""}`}
+            className={`fintech-nav-panel ${isOpen ? "fintech-nav-panel--open" : ""}`}
             style={{
-              transition: `opacity ${MOTION.duration}ms ${MOTION.easing}, transform ${MOTION.duration}ms ${MOTION.easing}`,
+              transition: `transform ${MOTION.duration}ms ${MOTION.easing}, opacity ${MOTION.duration}ms ${MOTION.easing}`,
             }}
             role="menu"
             aria-label="Navigation"
           >
-            {/* Primary Links */}
-            <div className="nav-group nav-group--primary">
-              {PRIMARY_LINKS.map(link => renderLink(link, true))}
-            </div>
+            {/* Close button — X icon, right-aligned, 44px tap target */}
+            <button
+              onClick={onClose}
+              className="fintech-nav-close"
+              aria-label="Close menu"
+            >
+              <X size={20} strokeWidth={1.5} />
+            </button>
 
-            {/* Divider */}
-            <div className="nav-divider" />
-
-            {/* Secondary Links */}
-            <div className="nav-group nav-group--secondary">
-              {SECONDARY_LINKS.map(link => renderLink(link, false))}
+            {/* Links — one column, left-aligned */}
+            <div className="fintech-nav-links">
+              {PRIMARY_LINKS.map(renderLink)}
+              
+              {/* Divider */}
+              <div className="fintech-nav-divider" />
+              
+              {SECONDARY_LINKS.map(renderLink)}
             </div>
           </nav>
         </FocusTrap>
