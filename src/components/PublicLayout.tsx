@@ -28,8 +28,8 @@ import { NavOverlay } from "@/components/NavOverlay";
  * Header geometry tokens (LOCKED)
  */
 const HEADER = {
-  height: 64, // LOCKED — same on all breakpoints
-  gutterMobile: 20,
+  height: 72, // LOCKED — 72px on mobile per spec
+  gutterMobile: 24,
   gutterDesktop: 28,
 } as const;
 
@@ -227,7 +227,7 @@ export function PublicLayout({
             </span>
           </Link>
 
-          {/* Hamburger Icon — 44x44 tap target, 24px glyph, 1.75 stroke */}
+          {/* Hamburger Icon — 44x44 tap target, 22px glyph, 2px stroke */}
           {!logoOnly && !menuOpen && (
             <button
               ref={menuButtonRef}
@@ -253,7 +253,7 @@ export function PublicLayout({
               onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
             >
-              <Menu size={24} strokeWidth={1.75} />
+              <Menu size={22} strokeWidth={2} />
             </button>
           )}
 

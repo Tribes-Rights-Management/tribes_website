@@ -26,14 +26,15 @@ import FocusTrap from "focus-trap-react";
 import { BRAND } from "@/lib/brand";
 
 /**
- * Layout tokens (LOCKED)
+ * Layout tokens (LOCKED — PART A/B spec)
  */
 const LAYOUT = {
-  gutterMobile: 20,
-  headerHeight: 64,
-  topPadding: 22,
-  ctaGap: 12,
+  gutterMobile: 24,
+  headerHeight: 72,
+  topPadding: 24,
+  ctaGap: 10,
   ctaPadding: 24,
+  ctaSafeAreaBottom: 18,
 } as const;
 
 /**
@@ -56,14 +57,14 @@ const MOTION = {
 
 /**
  * Nav typography — explicit values for inline styles (iOS Safari fix)
- * These MUST match CSS tokens in index.css
+ * These MUST match CSS tokens in index.css (PART A spec)
  */
 const NAV_TYPE = {
   fontFamily: 'ui-sans-serif, system-ui, -apple-system, "SF Pro Text", "SF Pro Display", Inter, Arial, sans-serif',
   fontSize: '16px',
   lineHeight: '24px',
-  fontWeight: 450,
-  letterSpacing: '-0.01em',
+  fontWeight: 500,
+  letterSpacing: 'normal',
 } as const;
 
 /**
@@ -103,14 +104,14 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             // ONLY translateY — NO scale() allowed
             transform: isOpen ? 'translateY(0)' : 'translateY(6px)',
             transition: `opacity ${MOTION.duration} ${MOTION.easing}, transform ${MOTION.duration} ${MOTION.easing}`,
-            // HARD-LOCK typography — prevents iOS Safari inflation
+            // HARD-LOCK typography — prevents iOS Safari inflation (PART A spec)
             fontFamily: NAV_TYPE.fontFamily,
             fontSize: NAV_TYPE.fontSize,
             lineHeight: NAV_TYPE.lineHeight,
             fontWeight: NAV_TYPE.fontWeight,
             letterSpacing: NAV_TYPE.letterSpacing,
             WebkitTextSizeAdjust: '100%',
-            textRendering: 'optimizeLegibility',
+            textRendering: 'geometricPrecision',
           }}
         >
           {/* Reduced motion support */}
@@ -231,7 +232,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               flexDirection: 'column',
               gap: `${LAYOUT.ctaGap}px`,
               padding: `${LAYOUT.ctaPadding}px`,
-              paddingBottom: `calc(${LAYOUT.ctaPadding}px + env(safe-area-inset-bottom))`,
+              paddingBottom: `calc(${LAYOUT.ctaSafeAreaBottom}px + env(safe-area-inset-bottom))`,
               flexShrink: 0,
             }}
           >
