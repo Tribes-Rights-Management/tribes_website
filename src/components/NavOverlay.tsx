@@ -2,13 +2,17 @@
  * ╔════════════════════════════════════════════════════════════════════════════╗
  * ║  TRIBES NAVIGATION OVERLAY — MERCURY-GRADE (LOCKED)                        ║
  * ║                                                                            ║
- * ║  Full-screen white overlay. Clean list rows with dividers.                ║
- * ║  Bottom-pinned CTAs. Restrained motion.                                   ║
+ * ║  Full-height white sheet. No card, no rounded outer container.             ║
+ * ║  Close X aligned to same grid as hamburger.                                ║
+ * ║                                                                            ║
+ * ║  Typography (LOCKED):                                                      ║
+ * ║    Menu links: 18px, line-height 24px, weight 500, letter-spacing -0.01em  ║
+ * ║    Button labels: 17px, line-height 22px, weight 600                       ║
  * ║                                                                            ║
  * ║  Motion (LOCKED):                                                          ║
- * ║    Fade: opacity 0 → 1 over var(--dur-2) using var(--ease-out)            ║
- * ║    Panel: translateY(8px) → 0 over var(--dur-2) using var(--ease)         ║
- * ║    No bounce. No spring. No overshoot.                                    ║
+ * ║    Duration: 220ms                                                         ║
+ * ║    Easing: cubic-bezier(0.2, 0.8, 0.2, 1)                                  ║
+ * ║    Transform: opacity + subtle translateY                                  ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -17,13 +21,66 @@ import { Link } from "react-router-dom";
 import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
 import { BRAND } from "@/lib/brand";
-import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
+
+/**
+ * Layout tokens (LOCKED)
+ */
+const LAYOUT = {
+  gutterMobile: 20,
+  gutterDesktop: 28,
+  headerHeight: 64,
+  topPadding: 22,
+  itemSpacing: 18,
+  dividerSpacing: 18,
+  ctaGap: 12,
+  ctaPadding: 20,
+} as const;
+
+/**
+ * Typography tokens (LOCKED)
+ */
+const TYPE = {
+  link: {
+    fontSize: 18,
+    lineHeight: '24px',
+    fontWeight: 500,
+    letterSpacing: '-0.01em',
+  },
+  button: {
+    fontSize: 17,
+    lineHeight: '22px',
+    fontWeight: 600,
+  },
+  logo: {
+    fontSize: 18,
+    fontWeight: 600,
+    letterSpacing: '0.14em',
+    lineHeight: '18px',
+  },
+} as const;
+
+/**
+ * Motion tokens (LOCKED)
+ */
+const MOTION = {
+  duration: '220ms',
+  easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
+} as const;
+
+/**
+ * Color tokens
+ */
+const COLOR = {
+  text: '#111111',
+  background: '#FFFFFF',
+  divider: 'rgba(0,0,0,0.10)',
+  primaryBg: '#0B0F14',
+  primaryText: '#FFFFFF',
+  secondaryBorder: 'rgba(0,0,0,0.18)',
+} as const;
 
 /**
  * Navigation Links — LOCKED
- * 1. How Administration Works
- * 2. How Licensing Works
- * 3. Contact
  */
 const NAV_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
@@ -49,50 +106,63 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             position: 'fixed',
             inset: 0,
             zIndex: 100,
-            backgroundColor: 'var(--bg)',
+            backgroundColor: COLOR.background,
             display: 'flex',
             flexDirection: 'column',
+            paddingTop: 'env(safe-area-inset-top)',
             opacity: isOpen ? 1 : 0,
             pointerEvents: isOpen ? 'auto' : 'none',
-            transform: isOpen ? 'translateY(0)' : 'translateY(8px)',
-            transition: `opacity var(--dur-2) var(--ease-out), transform var(--dur-2) var(--ease)`,
+            transform: isOpen ? 'translateY(0)' : 'translateY(6px)',
+            transition: `opacity ${MOTION.duration} ${MOTION.easing}, transform ${MOTION.duration} ${MOTION.easing}`,
           }}
         >
+          {/* Reduced motion support */}
+          <style>{`
+            @media (prefers-reduced-motion: reduce) {
+              [role="dialog"] {
+                transform: none !important;
+                transition: opacity 100ms ease !important;
+              }
+            }
+          `}</style>
+
           {/* ═══════════════════════════════════════════════════════════════════
-              TOP ROW — Wordmark (left) + Close X (right)
-              Height: 64px, same gutters as header
+              TOP ROW — Logo (left) + Close X (right)
+              Height: 64px, aligned to header grid
               ═══════════════════════════════════════════════════════════════════ */}
           <header 
-            className={CONTENT_CONTAINER_CLASS}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              height: '64px',
+              height: `${LAYOUT.headerHeight}px`,
+              paddingLeft: `${LAYOUT.gutterMobile}px`,
+              paddingRight: `${LAYOUT.gutterMobile}px`,
               flexShrink: 0,
             }}
           >
-            {/* Wordmark — matches header spec */}
+            {/* Logo — matches header exactly */}
             <Link 
               to="/" 
               onClick={onClose}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                height: '64px',
-                fontSize: '18px',
-                fontWeight: 600,
-                letterSpacing: '0.10em',
-                lineHeight: 1,
+                height: TYPE.logo.lineHeight,
+                fontSize: `${TYPE.logo.fontSize}px`,
+                fontWeight: TYPE.logo.fontWeight,
+                letterSpacing: TYPE.logo.letterSpacing,
+                lineHeight: TYPE.logo.lineHeight,
                 textTransform: 'uppercase',
-                color: 'var(--fg)',
-                transition: `opacity var(--dur-1) var(--ease)`,
+                textRendering: 'geometricPrecision',
+                color: COLOR.text,
+                textDecoration: 'none',
               }}
             >
               {BRAND.wordmark}
             </Link>
 
-            {/* Close X */}
+            {/* Close X — 44x44 tap target, 22px glyph, 2px stroke */}
             <button
               onClick={onClose}
               aria-label="Close menu"
@@ -103,73 +173,90 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 width: '44px',
                 height: '44px',
                 minHeight: '44px',
-                marginRight: '-8px',
-                color: 'var(--fg)',
+                marginRight: '-12px', // Align to same edge as hamburger
+                padding: 0,
+                color: COLOR.text,
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                transition: `opacity var(--dur-1) var(--ease)`,
+                opacity: 0.85,
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
             >
-              <X size={22} strokeWidth={1.5} />
+              <X size={22} strokeWidth={2} />
             </button>
           </header>
 
           {/* ═══════════════════════════════════════════════════════════════════
-              MENU LIST — Clean rows with dividers
-              Row height: 56px (touch target), Typography: 16px/500 (MERCURY-GRADE)
+              MENU LIST
+              Typography: 18px / 24px, weight 500, letter-spacing -0.01em
+              Spacing: 18px between items, dividers with 18px breathing room
               ═══════════════════════════════════════════════════════════════════ */}
           <nav 
-            className={CONTENT_CONTAINER_CLASS}
             role="menu"
             style={{
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
-              paddingTop: 'var(--s4)',
+              paddingTop: `${LAYOUT.topPadding}px`,
+              paddingLeft: `${LAYOUT.gutterMobile}px`,
+              paddingRight: `${LAYOUT.gutterMobile}px`,
             }}
           >
             {NAV_LINKS.map((item, index) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                onClick={onClose}
-                role="menuitem"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  minHeight: '56px',
-                  paddingTop: '8px',
-                  paddingBottom: '8px',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  lineHeight: 1.3,
-                  letterSpacing: 0,
-                  color: 'var(--fg)',
-                  borderBottom: index < NAV_LINKS.length - 1 ? '1px solid var(--line)' : 'none',
-                  transition: `opacity var(--dur-1) var(--ease)`,
-                }}
-              >
-                {item.label}
-              </Link>
+              <div key={item.href}>
+                <Link
+                  to={item.href}
+                  onClick={onClose}
+                  role="menuitem"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    minHeight: '44px', // Touch target
+                    paddingTop: `${LAYOUT.itemSpacing}px`,
+                    paddingBottom: `${LAYOUT.itemSpacing}px`,
+                    fontSize: `${TYPE.link.fontSize}px`,
+                    fontWeight: TYPE.link.fontWeight,
+                    lineHeight: TYPE.link.lineHeight,
+                    letterSpacing: TYPE.link.letterSpacing,
+                    color: COLOR.text,
+                    textDecoration: 'none',
+                    transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                >
+                  {item.label}
+                </Link>
+                {/* Divider — 18px breathing room */}
+                {index < NAV_LINKS.length - 1 && (
+                  <div 
+                    style={{
+                      height: '1px',
+                      backgroundColor: COLOR.divider,
+                      marginTop: `${LAYOUT.dividerSpacing}px`,
+                      marginBottom: `${LAYOUT.dividerSpacing}px`,
+                    }}
+                  />
+                )}
+              </div>
             ))}
           </nav>
 
           {/* ═══════════════════════════════════════════════════════════════════
-              BOTTOM CTAs — Pinned to bottom, above safe area
-              Primary: Client Portal (solid dark)
-              Secondary: Request Licensing Access (outline)
-              Button height: 52px (MERCURY-GRADE), radius: var(--r-lg)
-              Gap: 12px
+              BOTTOM CTAs — Fixed to bottom with safe area
+              Buttons: 56px height, 16px radius
+              Typography: 17px / 22px, weight 600
               ═══════════════════════════════════════════════════════════════════ */}
           <div 
-            className={CONTENT_CONTAINER_CLASS}
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '12px',
-              paddingTop: 'var(--s5)',
-              paddingBottom: 'max(var(--s5), env(safe-area-inset-bottom))',
+              gap: `${LAYOUT.ctaGap}px`,
+              padding: `${LAYOUT.ctaPadding}px`,
+              paddingBottom: `max(${LAYOUT.ctaPadding}px, env(safe-area-inset-bottom))`,
               flexShrink: 0,
             }}
           >
@@ -181,15 +268,21 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '52px',
-                minHeight: '52px',
-                borderRadius: 'var(--r-lg)',
-                backgroundColor: 'var(--fg)',
-                color: 'var(--bg)',
-                fontSize: '16px',
-                fontWeight: 600,
-                transition: `opacity var(--dur-1) var(--ease)`,
+                width: '100%',
+                height: '56px',
+                minHeight: '56px',
+                borderRadius: '16px',
+                backgroundColor: COLOR.primaryBg,
+                color: COLOR.primaryText,
+                fontSize: `${TYPE.button.fontSize}px`,
+                fontWeight: TYPE.button.fontWeight,
+                lineHeight: TYPE.button.lineHeight,
+                textDecoration: 'none',
+                border: 'none',
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Client Portal
             </a>
@@ -202,16 +295,21 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '52px',
-                minHeight: '52px',
-                borderRadius: 'var(--r-lg)',
-                backgroundColor: 'var(--bg)',
-                color: 'var(--fg)',
-                fontSize: '16px',
-                fontWeight: 600,
-                border: '1px solid var(--line)',
-                transition: `opacity var(--dur-1) var(--ease)`,
+                width: '100%',
+                height: '56px',
+                minHeight: '56px',
+                borderRadius: '16px',
+                backgroundColor: COLOR.background,
+                color: COLOR.text,
+                fontSize: `${TYPE.button.fontSize}px`,
+                fontWeight: TYPE.button.fontWeight,
+                lineHeight: TYPE.button.lineHeight,
+                textDecoration: 'none',
+                border: `1px solid ${COLOR.secondaryBorder}`,
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Request Licensing Access
             </Link>
