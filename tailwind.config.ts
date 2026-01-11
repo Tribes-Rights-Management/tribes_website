@@ -31,13 +31,14 @@ export default {
         "8": "64px",
       },
       fontSize: {
-        "xs": ["13px", { lineHeight: "1.45", fontWeight: "400" }],
-        "sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
-        "base": ["16px", { lineHeight: "1.65", fontWeight: "400" }],
-        "lg": ["17px", { lineHeight: "1.4", fontWeight: "500" }],
-        "xl": ["20px", { lineHeight: "1.3", fontWeight: "500" }],
-        "2xl": ["32px", { lineHeight: "1.15", fontWeight: "600" }],
-        "3xl": ["40px", { lineHeight: "1.15", fontWeight: "600" }],
+        // MERCURY-GRADE TYPOGRAPHY SCALE — REDUCED ~12-15% (LOCKED)
+        "xs": ["11px", { lineHeight: "1.45", fontWeight: "400" }],
+        "sm": ["12px", { lineHeight: "1.5", fontWeight: "400" }],
+        "base": ["14px", { lineHeight: "1.65", fontWeight: "400" }],
+        "lg": ["15px", { lineHeight: "1.4", fontWeight: "500" }],
+        "xl": ["17px", { lineHeight: "1.3", fontWeight: "500" }],
+        "2xl": ["28px", { lineHeight: "1.15", fontWeight: "600" }],
+        "3xl": ["36px", { lineHeight: "1.15", fontWeight: "600" }],
       },
       colors: {
         border: "hsl(var(--border))",
