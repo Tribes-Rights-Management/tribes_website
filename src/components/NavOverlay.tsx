@@ -1,18 +1,17 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  TRIBES FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)                        ║
+ * ║  TRIBES FINTECH NAVIGATION — CENTERED MODAL SYSTEM (LOCKED)               ║
  * ║                                                                            ║
  * ║  Mercury / Apple / Stripe / JPMorgan execution.                            ║
- * ║  Top-down dropdown. Not sidebar. Not drawer. Not full-screen.              ║
- * ║  Links only. No section labels. Quiet and confident.                       ║
+ * ║  Centered dropdown modal. Not sidebar. Not drawer. Not full-screen.       ║
+ * ║  Links only. No section labels. No dividers. Quiet and confident.         ║
  * ║                                                                            ║
- * ║  DO NOT: Add labels, create sidebar, change link order.                   ║
+ * ║  DO NOT: Add labels, create sidebar, change link order, add dividers.     ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
 import { forwardRef } from "react";
 import { Link } from "react-router-dom";
-import { X } from "lucide-react";
 import FocusTrap from "focus-trap-react";
 
 /**
@@ -21,19 +20,15 @@ import FocusTrap from "focus-trap-react";
  * 1. How Administration Works
  * 2. How Licensing Works
  * 3. Contact
- * — divider —
  * 4. Client Portal
  * 5. Request Licensing Access
  * 
- * Nothing else. No legal links.
+ * Nothing else. No legal links. No labels. No dividers.
  */
-const PRIMARY_LINKS = [
+const NAV_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
   { label: "How Licensing Works", href: "/how-licensing-works" },
   { label: "Contact", href: "/contact" },
-];
-
-const SECONDARY_LINKS = [
   { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
   { label: "Request Licensing Access", href: "/licensing-account" },
 ];
@@ -44,14 +39,13 @@ interface NavOverlayProps {
 }
 
 /**
- * Motion — LOCKED
- * Duration: 320ms
- * Easing: cubic-bezier(0.22, 1, 0.36, 1)
- * Direction: Vertical slide only
- * No bounce, no overshoot, no instant snapping
+ * Motion — LOCKED (Apple/Mercury Standard)
+ * Open: 280ms, cubic-bezier(0.22, 1, 0.36, 1), fade + 8px translate
+ * Close: 220ms, reverse motion
  */
 const MOTION = {
-  duration: 320,
+  openDuration: 280,
+  closeDuration: 220,
   easing: "cubic-bezier(0.22, 1, 0.36, 1)",
 } as const;
 
@@ -64,7 +58,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             key={item.href}
             href={item.href}
             onClick={onClose}
-            className="fintech-nav-link"
+            className="fintech-modal-link"
           >
             {item.label}
           </a>
@@ -76,7 +70,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           key={item.href}
           to={item.href}
           onClick={onClose}
-          className="fintech-nav-link"
+          className="fintech-modal-link"
         >
           {item.label}
         </Link>
@@ -87,42 +81,28 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
       <>
         {/* Backdrop — subtle blur on page content */}
         <div
-          className={`fintech-nav-backdrop ${isOpen ? "fintech-nav-backdrop--open" : ""}`}
+          className={`fintech-modal-backdrop ${isOpen ? "fintech-modal-backdrop--open" : ""}`}
           style={{
-            transition: `opacity ${MOTION.duration}ms ${MOTION.easing}`,
+            transition: `opacity ${MOTION.openDuration}ms ${MOTION.easing}, backdrop-filter ${MOTION.openDuration}ms ${MOTION.easing}`,
           }}
           onClick={onClose}
           aria-hidden="true"
         />
 
-        {/* Dropdown Panel — top-anchored, content-height only */}
+        {/* Centered Modal Panel */}
         <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
           <nav
             ref={ref}
-            className={`fintech-nav-panel ${isOpen ? "fintech-nav-panel--open" : ""}`}
+            className={`fintech-modal-panel ${isOpen ? "fintech-modal-panel--open" : ""}`}
             style={{
-              transition: `transform ${MOTION.duration}ms ${MOTION.easing}, opacity ${MOTION.duration}ms ${MOTION.easing}`,
+              transition: `transform ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${MOTION.easing}, opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${MOTION.easing}`,
             }}
             role="menu"
             aria-label="Navigation"
           >
-            {/* Close button — X icon, right-aligned, 44px tap target */}
-            <button
-              onClick={onClose}
-              className="fintech-nav-close"
-              aria-label="Close menu"
-            >
-              <X size={20} strokeWidth={1.5} />
-            </button>
-
-            {/* Links — one column, left-aligned */}
-            <div className="fintech-nav-links">
-              {PRIMARY_LINKS.map(renderLink)}
-              
-              {/* Divider */}
-              <div className="fintech-nav-divider" />
-              
-              {SECONDARY_LINKS.map(renderLink)}
+            {/* Links — single column, centered alignment */}
+            <div className="fintech-modal-links">
+              {NAV_LINKS.map(renderLink)}
             </div>
           </nav>
         </FocusTrap>

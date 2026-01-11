@@ -729,180 +729,117 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     TRIBES FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)
+     TRIBES FINTECH NAVIGATION — CENTERED MODAL SYSTEM (LOCKED)
      
      Mercury / Apple / Stripe / JPMorgan execution.
-     Top-down dropdown. Not sidebar. Not drawer. Not full-screen.
-     Links only. No section labels. Quiet and confident.
+     Centered dropdown modal. Not sidebar. Not drawer. Not full-screen.
+     Links only. No section labels. No dividers. Quiet and confident.
      
-     Motion: 320ms, cubic-bezier(0.22, 1, 0.36, 1)
-     Background: #FAFAF8 (warm institutional white)
-     Typography: 17px, line-height 1.4, weight 400, color #111111
-     Divider: 1px #E6E6E3
+     Motion:
+       Open: 280ms, cubic-bezier(0.22, 1, 0.36, 1), fade + 8px translate
+       Close: 220ms, reverse motion
+     Background: White (#FFFFFF)
+     Typography: 16px, font-weight 500, color #1A1A1A
      
-     DO NOT: Add labels, create sidebar, change link order.
+     DO NOT: Add labels, create sidebar, change link order, add dividers.
      ═══════════════════════════════════════════════════════════════════════════ */
   
   /* Backdrop — subtle blur on page content */
-  .fintech-nav-backdrop {
+  .fintech-modal-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
     top: 64px;
-    background-color: rgba(0, 0, 0, 0.04);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     opacity: 0;
     pointer-events: none;
-    will-change: opacity;
+    will-change: opacity, backdrop-filter;
   }
   
-  .fintech-nav-backdrop--open {
+  .fintech-modal-backdrop--open {
     opacity: 1;
     pointer-events: auto;
   }
   
   @media (min-width: 768px) {
-    .fintech-nav-backdrop {
+    .fintech-modal-backdrop {
       top: 72px;
     }
   }
   
-  /* Panel — top-anchored dropdown, content-height only */
-  .fintech-nav-panel {
+  /* Centered Modal Panel — fixed-width, rounded, no scroll */
+  .fintech-modal-panel {
     position: fixed;
     z-index: 50;
-    background-color: #FAFAF8; /* Warm institutional white */
-    border-bottom: 1px solid #E6E6E3;
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+    overflow: hidden;
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* No shadows, no rounded edges, no gradients */
-    box-shadow: none;
-    border-radius: 0;
-    
-    /* Positioning */
-    top: 64px;
-    left: 0;
-    right: 0;
-    transform: translateY(-12px);
-    padding: 16px 24px 28px;
+    /* Centered positioning */
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    width: calc(100% - 32px);
+    max-width: 320px;
+    padding: 16px 0;
   }
   
-  .fintech-nav-panel--open {
+  .fintech-modal-panel--open {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
   
   @media (min-width: 768px) {
-    .fintech-nav-panel {
-      top: 72px;
-      padding: 20px 40px 32px;
+    .fintech-modal-panel {
+      top: 88px;
+      width: 280px;
+      max-width: 280px;
+      padding: 20px 0;
     }
   }
   
-  /* Desktop: Constrain width, right-anchored */
-  @media (min-width: 1024px) {
-    .fintech-nav-panel {
-      left: auto;
-      right: 0;
-      width: 380px;
-      border-left: 1px solid #E6E6E3;
-    }
-  }
-  
-  /* Close button — X icon, right-aligned, 44px tap target */
-  .fintech-nav-close {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    min-height: 44px;
-    color: #111111;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    cursor: pointer;
-    transition: opacity 100ms ease-out;
-  }
-  
-  .fintech-nav-close:hover {
-    opacity: 0.6;
-  }
-  
-  .fintech-nav-close:active {
-    opacity: 0.4;
-  }
-  
-  .fintech-nav-close:focus-visible {
-    outline: 1px solid #111111;
-    outline-offset: 2px;
-  }
-  
-  @media (min-width: 768px) {
-    .fintech-nav-close {
-      top: 16px;
-      right: 24px;
-    }
-  }
-  
-  /* Links container — one column, left-aligned */
-  .fintech-nav-links {
+  /* Links container — single column, centered text */
+  .fintech-modal-links {
     display: flex;
     flex-direction: column;
-    margin-top: 32px;
   }
   
-  @media (min-width: 768px) {
-    .fintech-nav-links {
-      margin-top: 28px;
-    }
-  }
-  
-  /* Divider — thin line between sections */
-  .fintech-nav-divider {
-    height: 1px;
-    background-color: #E6E6E3;
-    margin: 16px 0;
-  }
-  
-  /* Links — 17px, line-height 1.4, weight 400, color #111111 */
-  .fintech-nav-link {
+  /* Links — 16px, medium weight, calm institutional appearance */
+  .fintech-modal-link {
     display: block;
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 1.4;
-    color: #111111;
-    padding: 12px 0;
-    transition: opacity 100ms ease-out;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #1A1A1A;
+    text-align: center;
+    padding: 14px 24px;
+    transition: background-color 120ms ease-out;
   }
   
-  .fintech-nav-link:hover {
-    opacity: 0.55;
+  .fintech-modal-link:hover {
+    background-color: rgba(0, 0, 0, 0.04);
   }
   
-  .fintech-nav-link:active {
-    opacity: 0.35;
-    transition: opacity 50ms linear;
+  .fintech-modal-link:active {
+    background-color: rgba(0, 0, 0, 0.06);
   }
   
-  .fintech-nav-link:focus-visible {
-    outline: 1px solid #111111;
-    outline-offset: 4px;
+  .fintech-modal-link:focus-visible {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.04);
   }
   
   @media (min-width: 768px) {
-    .fintech-nav-link {
-      font-size: 16px;
-      padding: 10px 0;
+    .fintech-modal-link {
+      font-size: 15px;
+      padding: 12px 28px;
     }
   }
   /* ═══════════════════════════════════════════════════════════════════════════
