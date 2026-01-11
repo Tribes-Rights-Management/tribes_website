@@ -654,7 +654,13 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     GLOBAL INTERACTION STATE SYSTEM — LOCKED
+     GLOBAL INTERACTION STATE SYSTEM — LOCKED MOTION SPEC v1.0
+     
+     ╔═══════════════════════════════════════════════════════════════════════════╗
+     ║  Hover/Focus: 120ms, linear or ease-out, opacity or underline only       ║
+     ║  Press/Active: 80ms, opacity change only, NO transforms                  ║
+     ║  Nothing snaps. Nothing bounces. Nothing overshoots.                     ║
+     ╚═══════════════════════════════════════════════════════════════════════════╝
      ═══════════════════════════════════════════════════════════════════════════ */
 
   /* Focus ring - visible, 1px solid, 2px offset */
@@ -672,31 +678,33 @@
     outline-color: hsl(0 0% 100% / 0.4);
   }
 
-  /* Hover state - subtle opacity shift only */
+  /* Hover state - 120ms, opacity only */
   .hover-subtle {
-    @apply transition-opacity duration-150 ease-out;
+    transition: opacity 120ms ease-out;
   }
 
   .hover-subtle:hover {
     opacity: 0.88;
   }
 
-  /* Button hover - subtle brightness shift */
+  /* Button hover - 120ms, opacity only, NO transforms */
   .btn-hover {
-    @apply transition-[filter,opacity] duration-150 ease-out;
+    transition: opacity 120ms ease-out;
   }
 
   .btn-hover:hover {
-    filter: brightness(0.94);
+    opacity: 0.88;
   }
 
+  /* Press/Active - 80ms, opacity change only */
   .btn-hover:active {
-    opacity: 0.85;
+    transition: opacity 80ms linear;
+    opacity: 0.78;
   }
 
-  /* Link hover - underline emphasis */
+  /* Link hover - 120ms, underline emphasis only */
   .link-hover {
-    @apply transition-[text-decoration-color,opacity] duration-150 ease-out;
+    transition: text-decoration-color 120ms ease-out, opacity 120ms ease-out;
     text-decoration: underline;
     text-decoration-color: transparent;
     text-underline-offset: 2px;
@@ -706,13 +714,18 @@
     text-decoration-color: currentColor;
   }
 
-  /* Link simple - opacity shift only (for navigation) */
+  /* Link simple - 120ms, opacity shift only (for navigation) */
   .link-simple {
-    @apply transition-opacity duration-150 ease-out;
+    transition: opacity 120ms ease-out;
   }
 
   .link-simple:hover {
     opacity: 0.75;
+  }
+  
+  .link-simple:active {
+    transition: opacity 80ms linear;
+    opacity: 0.6;
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
