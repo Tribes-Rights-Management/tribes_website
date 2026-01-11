@@ -30,10 +30,9 @@ const LAYOUT = {
   gutterDesktop: 28,
   headerHeight: 64,
   topPadding: 22,
-  itemSpacing: 18,
-  dividerSpacing: 18,
+  itemSpacing: 24, // 24px vertical spacing between items
   ctaGap: 12,
-  ctaPadding: 20,
+  ctaPadding: 24,
 } as const;
 
 /**
@@ -52,10 +51,10 @@ const TYPE = {
     fontWeight: 600,
   },
   logo: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 600,
-    letterSpacing: '0.14em',
-    lineHeight: '18px',
+    letterSpacing: '0.18em',
+    lineHeight: 1,
   },
 } as const;
 
@@ -63,7 +62,8 @@ const TYPE = {
  * Motion tokens (LOCKED)
  */
 const MOTION = {
-  duration: '220ms',
+  overlayDuration: '220ms',
+  backdropDuration: '180ms',
   easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
 } as const;
 
@@ -113,7 +113,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             opacity: isOpen ? 1 : 0,
             pointerEvents: isOpen ? 'auto' : 'none',
             transform: isOpen ? 'translateY(0)' : 'translateY(6px)',
-            transition: `opacity ${MOTION.duration} ${MOTION.easing}, transform ${MOTION.duration} ${MOTION.easing}`,
+            transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}, transform ${MOTION.overlayDuration} ${MOTION.easing}`,
           }}
         >
           {/* Reduced motion support */}
@@ -148,7 +148,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                height: TYPE.logo.lineHeight,
+                height: `${LAYOUT.headerHeight}px`,
                 fontSize: `${TYPE.logo.fontSize}px`,
                 fontWeight: TYPE.logo.fontWeight,
                 letterSpacing: TYPE.logo.letterSpacing,
@@ -157,12 +157,13 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 textRendering: 'geometricPrecision',
                 color: COLOR.text,
                 textDecoration: 'none',
+                transform: 'translateZ(0)', // Prevent iOS subpixel re-rasterization
               }}
             >
               {BRAND.wordmark}
             </Link>
 
-            {/* Close X — 44x44 tap target, 22px glyph, 2px stroke */}
+            {/* Close X — 44x44 tap target, 24px glyph, 1.75 stroke */}
             <button
               onClick={onClose}
               aria-label="Close menu"
@@ -173,19 +174,19 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 width: '44px',
                 height: '44px',
                 minHeight: '44px',
-                marginRight: '-12px', // Align to same edge as hamburger
+                marginRight: '-10px', // Align to same edge as hamburger
                 padding: 0,
                 color: COLOR.text,
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 opacity: 0.85,
-                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
             >
-              <X size={22} strokeWidth={2} />
+              <X size={24} strokeWidth={1.75} />
             </button>
           </header>
 
@@ -215,29 +216,27 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                     display: 'flex',
                     alignItems: 'center',
                     minHeight: '44px', // Touch target
-                    paddingTop: `${LAYOUT.itemSpacing}px`,
-                    paddingBottom: `${LAYOUT.itemSpacing}px`,
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
                     fontSize: `${TYPE.link.fontSize}px`,
                     fontWeight: TYPE.link.fontWeight,
                     lineHeight: TYPE.link.lineHeight,
                     letterSpacing: TYPE.link.letterSpacing,
                     color: COLOR.text,
                     textDecoration: 'none',
-                    transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                    transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
                   onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                 >
                   {item.label}
                 </Link>
-                {/* Divider — 18px breathing room */}
+                {/* Divider — 24px vertical spacing between items */}
                 {index < NAV_LINKS.length - 1 && (
                   <div 
                     style={{
                       height: '1px',
                       backgroundColor: COLOR.divider,
-                      marginTop: `${LAYOUT.dividerSpacing}px`,
-                      marginBottom: `${LAYOUT.dividerSpacing}px`,
                     }}
                   />
                 )}
@@ -256,7 +255,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               flexDirection: 'column',
               gap: `${LAYOUT.ctaGap}px`,
               padding: `${LAYOUT.ctaPadding}px`,
-              paddingBottom: `max(${LAYOUT.ctaPadding}px, env(safe-area-inset-bottom))`,
+              paddingBottom: `calc(${LAYOUT.ctaPadding}px + env(safe-area-inset-bottom))`,
               flexShrink: 0,
             }}
           >
@@ -279,7 +278,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 lineHeight: TYPE.button.lineHeight,
                 textDecoration: 'none',
                 border: 'none',
-                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
@@ -306,7 +305,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 lineHeight: TYPE.button.lineHeight,
                 textDecoration: 'none',
                 border: `1px solid ${COLOR.secondaryBorder}`,
-                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
