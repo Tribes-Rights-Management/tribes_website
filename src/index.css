@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent iOS text autosizing inflation */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    GLOBAL SPACING SYSTEM — TRIBES STANDARD (LOCKED)
 

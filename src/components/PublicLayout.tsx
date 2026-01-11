@@ -28,8 +28,7 @@ import { NavOverlay } from "@/components/NavOverlay";
  * Header geometry tokens (LOCKED)
  */
 const HEADER = {
-  heightMobile: 64,
-  heightDesktop: 72,
+  height: 64, // LOCKED — same on all breakpoints
   gutterMobile: 20,
   gutterDesktop: 28,
 } as const;
@@ -38,10 +37,10 @@ const HEADER = {
  * Logo typography tokens (LOCKED — NEVER CHANGES ON SCROLL)
  */
 const LOGO = {
-  fontSize: 18,
+  fontSize: 16,
   fontWeight: 600,
-  letterSpacing: '0.14em',
-  lineHeight: '18px',
+  letterSpacing: '0.18em',
+  lineHeight: 1,
 } as const;
 
 /**
@@ -181,7 +180,7 @@ export function PublicLayout({
         data-scrolled={isScrolled ? 'true' : 'false'}
         className="fixed top-0 left-0 right-0 z-50"
         style={{
-          height: `${HEADER.heightMobile}px`,
+          height: `${HEADER.height}px`,
           padding: 0,
           ...getHeaderBackground(),
           transition: `background-color ${MOTION.duration} ${MOTION.easing}, border-color ${MOTION.duration} ${MOTION.easing}, box-shadow ${MOTION.duration} ${MOTION.easing}`,
@@ -208,8 +207,9 @@ export function PublicLayout({
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              height: `${LOGO.lineHeight}`,
+              height: `${HEADER.height}px`,
               textDecoration: 'none',
+              transform: 'translateZ(0)', // Prevent iOS subpixel re-rasterization
             }}
           >
             <span 
@@ -227,7 +227,7 @@ export function PublicLayout({
             </span>
           </Link>
 
-          {/* Hamburger Icon — 44x44 tap target, 22px glyph, 2px stroke */}
+          {/* Hamburger Icon — 44x44 tap target, 24px glyph, 1.75 stroke */}
           {!logoOnly && !menuOpen && (
             <button
               ref={menuButtonRef}
@@ -241,7 +241,7 @@ export function PublicLayout({
                 width: '44px',
                 height: '44px',
                 minHeight: '44px',
-                marginRight: '-12px', // Align visual icon to edge
+                marginRight: '-10px', // Align visual icon to edge (symmetric with logo left inset)
                 padding: 0,
                 background: 'transparent',
                 border: 'none',
@@ -253,7 +253,7 @@ export function PublicLayout({
               onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
             >
-              <Menu size={22} strokeWidth={2} />
+              <Menu size={24} strokeWidth={1.75} />
             </button>
           )}
 
@@ -283,21 +283,11 @@ export function PublicLayout({
       </header>
 
       {/* Spacer for fixed header */}
-      <div 
-        style={{ height: `${HEADER.heightMobile}px` }} 
-        className="md:hidden"
-      />
-      <div 
-        style={{ height: `${HEADER.heightDesktop}px` }} 
-        className="hidden md:block"
-      />
+      <div style={{ height: `${HEADER.height}px` }} />
 
-      {/* Desktop header height adjustment */}
+      {/* Desktop gutter adjustment */}
       <style>{`
         @media (min-width: 768px) {
-          header[data-scrolled] {
-            height: ${HEADER.heightDesktop}px !important;
-          }
           header[data-scrolled] > div {
             padding-left: ${HEADER.gutterDesktop}px !important;
             padding-right: ${HEADER.gutterDesktop}px !important;
