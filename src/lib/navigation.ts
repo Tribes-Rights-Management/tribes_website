@@ -52,19 +52,21 @@ export const NAV_CONFIG: NavConfig = {
  */
 
 /**
- * Navigation timing constants (Apple-grade, locked)
+ * ╔════════════════════════════════════════════════════════════════════════════╗
+ * ║  LOCKED MOTION TIMING & EASING SPEC v1.0                                   ║
+ * ║  Do not adjust durations, easing curves, or transforms.                    ║
+ * ╚════════════════════════════════════════════════════════════════════════════╝
  * 
- * LOCKED: Slightly slower than default for intentional, financial-grade feel
- * Open:  380ms - deliberate, calm reveal
- * Close: 300ms - controlled, smooth retreat (Apple slows both directions)
+ * Open:  320ms - weighted arrival, Apple-style ease-out
+ * Close: 240ms - faster, controlled retreat
  */
 export const NAV_TIMING = {
-  /** Dropdown open animation duration — deliberate, calm */
-  dropdownOpen: 380,
-  /** Dropdown close animation duration — controlled, slightly faster than open */
-  dropdownClose: 300,
-  /** Mobile overlay slide transition */
-  mobileSlide: 320,
+  /** Dropdown open — 320ms, weighted arrival */
+  dropdownOpen: 320,
+  /** Dropdown close — 240ms, controlled retreat */
+  dropdownClose: 240,
+  /** Mobile overlay transition */
+  mobileSlide: 280,
 } as const;
 
 /**
