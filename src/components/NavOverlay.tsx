@@ -1,14 +1,12 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  UNIFIED NAV OVERLAY — APPLE-STYLE TOP DROPDOWN (ALL DEVICES)             ║
+ * ║  FINTECH NAV — SYSTEM-LEVEL DROPDOWN (ALL DEVICES)                        ║
  * ║                                                                            ║
- * ║  ONE component for ALL breakpoints. Same items, same groups, same order.   ║
- * ║  Always opens as a TOP DROPDOWN — never slides from side.                  ║
+ * ║  Infrastructure UI, not marketing UI.                                      ║
+ * ║  Boring, predictable, calm, and permanent.                                 ║
  * ║                                                                            ║
- * ║  Mobile: Full-width, edge-to-edge                                          ║
- * ║  Tablet/Desktop: Centered, max-width 720px                                 ║
- * ║                                                                            ║
- * ║  Close control lives in header (hamburger toggles to X), not in panel.    ║
+ * ║  Anchored to header — no floating modal affordances.                       ║
+ * ║  Same toggle opens and closes (no explicit close button).                  ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -17,20 +15,14 @@ import { Link } from "react-router-dom";
 import FocusTrap from "focus-trap-react";
 
 /**
- * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  NAVIGATION STRUCTURE — LOCKED                                             ║
- * ║                                                                            ║
- * ║  SERVICES: How Administration Works, How Licensing Works, Contact          ║
- * ║  ACCESS: Client Portal, Request Licensing Access                           ║
- * ║  LEGAL: Privacy Policy, Terms of Use                                       ║
- * ╚════════════════════════════════════════════════════════════════════════════╝
+ * Navigation Structure — Fintech density
  */
 const NAV_SECTIONS = [
   {
     label: "Services",
     items: [
-      { label: "How Administration Works", href: "/how-publishing-admin-works" },
-      { label: "How Licensing Works", href: "/how-licensing-works" },
+      { label: "Administration", href: "/how-publishing-admin-works" },
+      { label: "Licensing", href: "/how-licensing-works" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -38,14 +30,14 @@ const NAV_SECTIONS = [
     label: "Access",
     items: [
       { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
-      { label: "Request Licensing Access", href: "/licensing-account" },
+      { label: "Request Access", href: "/licensing-account" },
     ],
   },
   {
     label: "Legal",
     items: [
-      { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms of Use", href: "/terms" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
     ],
   },
 ];
@@ -57,18 +49,21 @@ interface NavOverlayProps {
 
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  MOTION TIMING — LOCKED (Apple-style)                                      ║
+ * ║  MOTION TIMING — LOCKED (Fintech-grade)                                    ║
  * ║                                                                            ║
- * ║  Panel: 320ms, cubic-bezier(0.16, 1, 0.3, 1) — weighted ease-out           ║
- * ║  Backdrop: 220ms                                                           ║
- * ║  Transform: translateY 10-14px only (no side motion)                       ║
- * ║  No bounce, no overshoot, no snap                                          ║
+ * ║  Open: 320ms                                                               ║
+ * ║  Close: 260ms                                                              ║
+ * ║  Easing: cubic-bezier(0.22, 0.61, 0.36, 1)                                 ║
+ * ║  Opacity delayed ~40ms                                                     ║
+ * ║  No spring, bounce, snap, or overshoot                                     ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 const MOTION = {
-  panelDuration: 320,
-  backdropDuration: 220,
-  easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+  openDuration: 320,
+  closeDuration: 260,
+  backdropDuration: 200,
+  easing: "cubic-bezier(0.22, 0.61, 0.36, 1)",
+  opacityDelay: 40,
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
@@ -102,14 +97,11 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
       );
     };
 
+    const panelDuration = isOpen ? MOTION.openDuration : MOTION.closeDuration;
+
     return (
       <>
-        {/* ═══════════════════════════════════════════════════════════════════════
-            BACKDROP — Blur + dim behind panel
-            
-            backdrop-filter blur: 12px
-            overlay dim: rgba(0,0,0,0.12)
-            ═══════════════════════════════════════════════════════════════════════ */}
+        {/* Backdrop — subtle dim + light blur */}
         <div
           className={`nav-overlay-backdrop ${isOpen ? "nav-overlay-backdrop--open" : ""}`}
           style={{
@@ -119,40 +111,22 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           aria-hidden="true"
         />
 
-        {/* ═══════════════════════════════════════════════════════════════════════
-            NAVIGATION PANEL — Apple-style top dropdown (ALL breakpoints)
-            
-            Mobile: Full-width, edge-to-edge with internal padding
-            Tablet/Desktop: Centered, max-width 720px
-            
-            Always animates down from header (translateY), never from side.
-            Close control is in header (hamburger → X), not inside panel.
-            ═══════════════════════════════════════════════════════════════════════ */}
+        {/* Navigation Panel — anchored to header, system-level surface */}
         <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
           <nav
             ref={ref}
             className={`nav-overlay-panel ${isOpen ? "nav-overlay-panel--open" : ""}`}
             style={{
-              transition: `opacity ${MOTION.panelDuration}ms ${MOTION.easing}, transform ${MOTION.panelDuration}ms ${MOTION.easing}`,
+              transition: `transform ${panelDuration}ms ${MOTION.easing}, opacity ${panelDuration}ms ${MOTION.easing} ${isOpen ? MOTION.opacityDelay : 0}ms`,
             }}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Navigation menu"
+            role="menu"
+            aria-label="Navigation"
           >
-
-            {/* Navigation content with sections */}
             <div className="nav-overlay-content">
               {NAV_SECTIONS.map((section, sectionIndex) => (
-                <div key={section.label}>
-                  {/* Section divider (between groups, not before first) */}
+                <div key={section.label} className="nav-overlay-section">
                   {sectionIndex > 0 && <div className="nav-overlay-divider" />}
-                  
-                  {/* Section header */}
-                  <p className="nav-overlay-section-header">
-                    {section.label}
-                  </p>
-                  
-                  {/* Section links */}
+                  <p className="nav-overlay-section-header">{section.label}</p>
                   <div className="nav-overlay-section-links">
                     {section.items.map(renderNavItem)}
                   </div>

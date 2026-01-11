@@ -741,22 +741,28 @@
      ═══════════════════════════════════════════════════════════════════════════ */
   
   /* ═══════════════════════════════════════════════════════════════════════════
-     UNIFIED NAV OVERLAY — APPLE-STYLE TOP DROPDOWN (ALL DEVICES)
+     FINTECH NAV — SYSTEM-LEVEL DROPDOWN (ALL DEVICES)
      
-     Single component, single behavior across all breakpoints.
-     Always opens as a TOP DROPDOWN — never slides from side.
-     Close control lives in header (hamburger toggles to X).
+     Infrastructure UI, not marketing UI.
+     Anchored to header. No modal affordances. No floating cards.
+     Boring, predictable, calm, permanent.
+     
+     Motion (LOCKED):
+     - Open: 320ms
+     - Close: 260ms  
+     - Easing: cubic-bezier(0.22, 0.61, 0.36, 1)
+     - Opacity delayed ~40ms on open
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* Backdrop — blur + dim behind panel */
+  /* Backdrop — subtle dim + light blur */
   .nav-overlay-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
-    top: 64px; /* Mobile header height */
-    background-color: rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    top: 64px;
+    background-color: rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     opacity: 0;
     pointer-events: none;
     will-change: opacity;
@@ -769,32 +775,31 @@
   
   @media (min-width: 768px) {
     .nav-overlay-backdrop {
-      top: 72px; /* Tablet/Desktop header height */
+      top: 72px;
     }
   }
   
-  /* Navigation panel — UNIFIED top dropdown (all breakpoints) */
+  /* Panel — anchored to header, system-level surface */
   .nav-overlay-panel {
     position: fixed;
     z-index: 50;
-    background-color: rgba(255, 255, 255, 0.97);
+    background-color: hsl(0 0% 100% / 0.98);
+    border-bottom: 1px solid hsl(0 0% 0% / 0.06);
     overflow-y: auto;
     overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* Mobile: Full-width, edge-to-edge */
-    top: 64px; /* Header height */
+    /* Mobile: Full-width, anchored to header */
+    top: 64px;
     left: 0;
     right: 0;
-    max-height: 70vh;
-    border-bottom: 1px solid #EDEDED;
-    border-radius: 0 0 12px 12px; /* Subtle bottom radius on mobile */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    transform: translateY(-12px); /* 10-14px slide distance */
-    padding: 20px;
+    max-height: 65vh;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-8px);
+    padding: 16px 20px 20px;
+    border-radius: 0; /* No radius — system surface */
   }
   
   .nav-overlay-panel--open {
@@ -803,102 +808,97 @@
     transform: translateY(0);
   }
   
-  /* Tablet/Desktop (≥768px): Centered, max-width 720px */
+  /* Tablet/Desktop: Anchored full-width, no centering */
   @media (min-width: 768px) {
     .nav-overlay-panel {
-      top: 80px; /* 72px header + 8px gap */
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%) translateY(-12px);
-      width: min(720px, calc(100vw - 48px));
-      max-height: 70vh;
-      border-radius: 16px;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      box-shadow: 
-        0 0 0 1px rgba(0, 0, 0, 0.03),
-        0 8px 40px rgba(0, 0, 0, 0.12),
-        0 2px 8px rgba(0, 0, 0, 0.04);
-      padding: 24px;
-    }
-    
-    .nav-overlay-panel--open {
-      transform: translateX(-50%) translateY(0);
+      top: 72px;
+      padding: 20px 48px 24px;
+      max-height: 60vh;
     }
   }
   
-  /* Navigation content */
+  /* Large desktop: Constrain width, anchor left */
+  @media (min-width: 1200px) {
+    .nav-overlay-panel {
+      left: auto;
+      right: 0;
+      width: 420px;
+      border-left: 1px solid hsl(0 0% 0% / 0.06);
+      border-radius: 0 0 0 8px;
+    }
+  }
+  
+  /* Navigation content — tight rhythm */
   .nav-overlay-content {
     display: flex;
     flex-direction: column;
   }
   
-  /* Section header — 11px, 0.16em tracking, #8A8A8A */
+  /* Section container */
+  .nav-overlay-section {
+    /* Consistent rhythm */
+  }
+  
+  /* Section header — subdued, institutional */
   .nav-overlay-section-header {
-    font-size: 11px;
-    letter-spacing: 0.16em;
+    font-size: 10px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #8A8A8A;
-    margin-top: 20px; /* Section gap */
-    margin-bottom: 8px;
+    color: hsl(0 0% 55%);
+    margin-top: 16px;
+    margin-bottom: 6px;
     font-weight: 500;
   }
   
-  /* First section has no top margin */
   .nav-overlay-content > div:first-child .nav-overlay-section-header {
     margin-top: 0;
   }
   
-  /* Section divider — #EDEDED, only between sections */
+  /* Section divider — minimal */
   .nav-overlay-divider {
     height: 1px;
-    background-color: #EDEDED;
-    margin-top: 6px;
+    background-color: hsl(0 0% 0% / 0.06);
+    margin-top: 4px;
   }
   
-  /* Section links container */
+  /* Section links */
   .nav-overlay-section-links {
     display: flex;
     flex-direction: column;
   }
   
-  /* Nav links — 17px mobile, 15px tablet/desktop */
+  /* Nav links — uniform, calm, institutional */
   .nav-overlay-link {
-    font-size: 17px;
-    font-weight: 500;
-    line-height: 1.25;
-    padding: 10px 0; /* Mobile */
-    color: #111;
-    transition: opacity 120ms ease-out;
+    font-size: 14px;
+    font-weight: 450;
+    line-height: 1.3;
+    padding: 8px 0;
+    color: hsl(0 0% 15%);
+    transition: opacity 100ms ease-out;
     display: block;
   }
   
-  /* Desktop: smaller links, tighter padding */
   @media (min-width: 768px) {
     .nav-overlay-link {
-      font-size: 15px;
-      padding: 8px 0;
+      font-size: 14px;
+      padding: 7px 0;
     }
   }
   
-  /* Hover — opacity only, no underlines */
   .nav-overlay-link:hover {
-    opacity: 0.85;
-  }
-  
-  /* Active/pressed — 80ms opacity */
-  .nav-overlay-link:active {
     opacity: 0.7;
-    transition: opacity 80ms linear;
   }
   
-  /* Focus ring — subtle, accessible */
+  .nav-overlay-link:active {
+    opacity: 0.5;
+    transition: opacity 60ms linear;
+  }
+  
   .nav-overlay-link:focus-visible {
-    outline: 2px solid rgba(0, 0, 0, 0.12);
+    outline: 1px solid hsl(0 0% 0% / 0.15);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 2px;
   }
-  
   
   /* ═══════════════════════════════════════════════════════════════════════════
      LEGACY UNIFIED NAV STYLES — DEPRECATED (kept for compatibility)
