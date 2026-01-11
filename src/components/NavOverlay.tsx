@@ -5,14 +5,18 @@
  * ║  Full-height white sheet. No card, no rounded outer container.             ║
  * ║  Close X aligned to same grid as hamburger.                                ║
  * ║                                                                            ║
- * ║  Typography (LOCKED):                                                      ║
+ * ║  Typography (LOCKED via CSS .mobile-menu-root):                            ║
  * ║    Menu links: 18px, line-height 24px, weight 500, letter-spacing -0.01em  ║
- * ║    Button labels: 17px, line-height 22px, weight 600                       ║
+ * ║    Button labels: 17px, line-height 24px, weight 600                       ║
+ * ║                                                                            ║
+ * ║  iOS Safari Fix:                                                           ║
+ * ║    Uses CSS classes with -webkit-text-size-adjust: 100% to prevent         ║
+ * ║    typography inflation on mobile Safari.                                  ║
  * ║                                                                            ║
  * ║  Motion (LOCKED):                                                          ║
  * ║    Duration: 220ms                                                         ║
  * ║    Easing: cubic-bezier(0.2, 0.8, 0.2, 1)                                  ║
- * ║    Transform: opacity + subtle translateY                                  ║
+ * ║    Transform: opacity + subtle translateY (NO scale!)                      ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -27,56 +31,28 @@ import { BRAND } from "@/lib/brand";
  */
 const LAYOUT = {
   gutterMobile: 20,
-  gutterDesktop: 28,
   headerHeight: 64,
   topPadding: 22,
-  itemSpacing: 24, // 24px vertical spacing between items
   ctaGap: 12,
   ctaPadding: 24,
 } as const;
 
 /**
- * Typography tokens (LOCKED)
+ * Logo typography tokens (LOCKED)
  */
-const TYPE = {
-  link: {
-    fontSize: 18,
-    lineHeight: '24px',
-    fontWeight: 500,
-    letterSpacing: '-0.01em',
-  },
-  button: {
-    fontSize: 17,
-    lineHeight: '22px',
-    fontWeight: 600,
-  },
-  logo: {
-    fontSize: 16,
-    fontWeight: 600,
-    letterSpacing: '0.18em',
-    lineHeight: 1,
-  },
+const LOGO = {
+  fontSize: 16,
+  fontWeight: 600,
+  letterSpacing: '0.18em',
+  lineHeight: 1,
 } as const;
 
 /**
  * Motion tokens (LOCKED)
  */
 const MOTION = {
-  overlayDuration: '220ms',
-  backdropDuration: '180ms',
+  duration: '220ms',
   easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)',
-} as const;
-
-/**
- * Color tokens
- */
-const COLOR = {
-  text: '#111111',
-  background: '#FFFFFF',
-  divider: 'rgba(0,0,0,0.10)',
-  primaryBg: '#0B0F14',
-  primaryText: '#FFFFFF',
-  secondaryBorder: 'rgba(0,0,0,0.18)',
 } as const;
 
 /**
@@ -102,24 +78,26 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
+          className="mobile-menu-root"
           style={{
             position: 'fixed',
             inset: 0,
             zIndex: 100,
-            backgroundColor: COLOR.background,
+            backgroundColor: '#FFFFFF',
             display: 'flex',
             flexDirection: 'column',
             paddingTop: 'env(safe-area-inset-top)',
             opacity: isOpen ? 1 : 0,
             pointerEvents: isOpen ? 'auto' : 'none',
+            // ONLY translateY — NO scale() allowed
             transform: isOpen ? 'translateY(0)' : 'translateY(6px)',
-            transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}, transform ${MOTION.overlayDuration} ${MOTION.easing}`,
+            transition: `opacity ${MOTION.duration} ${MOTION.easing}, transform ${MOTION.duration} ${MOTION.easing}`,
           }}
         >
           {/* Reduced motion support */}
           <style>{`
             @media (prefers-reduced-motion: reduce) {
-              [role="dialog"] {
+              .mobile-menu-root[role="dialog"] {
                 transform: none !important;
                 transition: opacity 100ms ease !important;
               }
@@ -149,13 +127,13 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 display: 'inline-flex',
                 alignItems: 'center',
                 height: `${LAYOUT.headerHeight}px`,
-                fontSize: `${TYPE.logo.fontSize}px`,
-                fontWeight: TYPE.logo.fontWeight,
-                letterSpacing: TYPE.logo.letterSpacing,
-                lineHeight: TYPE.logo.lineHeight,
+                fontSize: `${LOGO.fontSize}px`,
+                fontWeight: LOGO.fontWeight,
+                letterSpacing: LOGO.letterSpacing,
+                lineHeight: LOGO.lineHeight,
                 textTransform: 'uppercase',
                 textRendering: 'geometricPrecision',
-                color: COLOR.text,
+                color: '#111111',
                 textDecoration: 'none',
                 transform: 'translateZ(0)', // Prevent iOS subpixel re-rasterization
               }}
@@ -176,12 +154,12 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 minHeight: '44px',
                 marginRight: '-10px', // Align to same edge as hamburger
                 padding: 0,
-                color: COLOR.text,
+                color: '#111111',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 opacity: 0.85,
-                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
               onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
               onMouseLeave={(e) => e.currentTarget.style.opacity = '0.85'}
@@ -192,8 +170,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
           {/* ═══════════════════════════════════════════════════════════════════
               MENU LIST
-              Typography: 18px / 24px, weight 500, letter-spacing -0.01em
-              Spacing: 18px between items, dividers with 18px breathing room
+              Uses CSS class .mobile-menu-link for locked typography
+              Row height: 56px (via min-height + padding)
               ═══════════════════════════════════════════════════════════════════ */}
           <nav 
             role="menu"
@@ -212,33 +190,13 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                   to={item.href}
                   onClick={onClose}
                   role="menuitem"
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    minHeight: '44px', // Touch target
-                    paddingTop: '12px',
-                    paddingBottom: '12px',
-                    fontSize: `${TYPE.link.fontSize}px`,
-                    fontWeight: TYPE.link.fontWeight,
-                    lineHeight: TYPE.link.lineHeight,
-                    letterSpacing: TYPE.link.letterSpacing,
-                    color: COLOR.text,
-                    textDecoration: 'none',
-                    transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.6'}
-                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                  className="mobile-menu-link"
                 >
                   {item.label}
                 </Link>
-                {/* Divider — 24px vertical spacing between items */}
+                {/* Divider — consistent vertical rhythm */}
                 {index < NAV_LINKS.length - 1 && (
-                  <div 
-                    style={{
-                      height: '1px',
-                      backgroundColor: COLOR.divider,
-                    }}
-                  />
+                  <div className="mobile-menu-divider" />
                 )}
               </div>
             ))}
@@ -246,8 +204,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
           {/* ═══════════════════════════════════════════════════════════════════
               BOTTOM CTAs — Fixed to bottom with safe area
-              Buttons: 56px height, 16px radius
-              Typography: 17px / 22px, weight 600
+              Uses CSS classes .mobile-menu-btn, .mobile-menu-btn-primary/secondary
               ═══════════════════════════════════════════════════════════════════ */}
           <div 
             style={{
@@ -263,25 +220,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             <a
               href="https://app.tribesrightsmanagement.com"
               onClick={onClose}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '56px',
-                minHeight: '56px',
-                borderRadius: '16px',
-                backgroundColor: COLOR.primaryBg,
-                color: COLOR.primaryText,
-                fontSize: `${TYPE.button.fontSize}px`,
-                fontWeight: TYPE.button.fontWeight,
-                lineHeight: TYPE.button.lineHeight,
-                textDecoration: 'none',
-                border: 'none',
-                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              className="mobile-menu-btn mobile-menu-btn-primary"
             >
               Client Portal
             </a>
@@ -290,25 +229,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             <Link
               to="/licensing-account"
               onClick={onClose}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%',
-                height: '56px',
-                minHeight: '56px',
-                borderRadius: '16px',
-                backgroundColor: COLOR.background,
-                color: COLOR.text,
-                fontSize: `${TYPE.button.fontSize}px`,
-                fontWeight: TYPE.button.fontWeight,
-                lineHeight: TYPE.button.lineHeight,
-                textDecoration: 'none',
-                border: `1px solid ${COLOR.secondaryBorder}`,
-                transition: `opacity ${MOTION.overlayDuration} ${MOTION.easing}`,
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
-              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              className="mobile-menu-btn mobile-menu-btn-secondary"
             >
               Request Licensing Access
             </Link>
