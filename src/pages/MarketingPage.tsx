@@ -24,12 +24,13 @@ export default function MarketingPage() {
       {/* 1) HERO = BLACK — Full viewport, locked */}
       <Hero />
 
-      {/* 2) WHO IT'S FOR = WHITE — sectionLightMobile (88px)
+      {/* 2) WHO IT'S FOR = WHITE — LOCKED TYPOGRAPHY SPEC v1.0
           ═══════════════════════════════════════════════════════════════════════════
-          Calm typographic flow matching "How Copyright Clearance Works":
-          - Eyebrow → Intro sentence → Stacked audience items
-          - No cards, no grids, no visual separation
-          - Informational, not promotional
+          Calm, linear information section. NOT promotional.
+          - Section label (12px, +0.12em, regular weight, muted, mb-24px)
+          - Primary heading (36/30/26px, medium weight, 1.15 line-height, mb-20px)
+          - Subhead/lead paragraph (17px, 1.6 line-height, mb-48px)
+          - Supporting points flow naturally without visual dividers
           ═══════════════════════════════════════════════════════════════════════════ */}
       <section 
         data-theme="light" 
@@ -37,45 +38,47 @@ export default function MarketingPage() {
         style={{ backgroundColor: THEME_LIGHT_BG }}
       >
         <div className={CONTENT_CONTAINER_CLASS}>
-          {/* Eyebrow */}
-          <p className="text-xs font-medium uppercase tracking-[0.12em] text-foreground/60 mb-stack-standard">
+          {/* Section Label — 12px, +0.12em tracking, regular weight, muted */}
+          <p className="text-[12px] font-normal uppercase tracking-[0.12em] text-muted-foreground mb-6">
             Who It's For
           </p>
           
-          {/* Lead-in sentence — uses locked lede-to-list bridge spacing */}
-          <p className="text-[15px] md:text-base leading-[1.7] text-foreground/70 max-w-[560px] lede-to-list">
-            Built for long-term rights holders who need proper authorization, documentation, payment handling, and defensible records.
+          {/* Primary Heading — 36/30/26px responsive, medium weight, 1.15 line-height */}
+          <h2 className="text-[26px] md:text-[30px] lg:text-[36px] font-medium leading-[1.15] tracking-[-0.01em] text-foreground max-w-[14ch] mb-5">
+            Built for long-term rights holders.
+          </h2>
+          
+          {/* Subhead/Lead Paragraph — 17px, 1.6 line-height, max 48-56ch, mb-48px */}
+          <p className="text-[17px] leading-[1.6] text-foreground/70 max-w-[56ch] mb-12">
+            Songwriters, producers, publishers, and licensees who need proper authorization, documentation, payment handling, and defensible records—managed with the rigor of long-term asset stewardship.
           </p>
           
-          {/* Audience items — list-step-stack for locked spacing, 2-column grid on desktop */}
-          <div className="list-step-stack md:grid md:grid-cols-2 md:gap-x-12 md:gap-y-8">
-            {/* Songwriters & Producers */}
+          {/* Supporting points — flowing text, no cards or grids, 32px between blocks */}
+          <div className="space-y-8 max-w-[42ch]">
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+              <h3 className="text-[18px] font-medium text-foreground mb-2">
                 Songwriters & Producers
               </h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
-                Get your copyrights registered, royalties collected, and records organized—so ownership and income remain clear over time.
+              <p className="text-[15px] leading-[1.65] text-foreground/70">
+                Copyrights registered, royalties collected, records organized.
               </p>
             </div>
             
-            {/* Rights Holders */}
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+              <h3 className="text-[18px] font-medium text-foreground mb-2">
                 Rights Holders
               </h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
-                Clear ownership records, structured licensing, reliable income tracking.
+              <p className="text-[15px] leading-[1.65] text-foreground/70">
+                Clear ownership, structured licensing, reliable income tracking.
               </p>
             </div>
             
-            {/* Commercial & Broadcast */}
             <div>
-              <h3 className="text-lg font-medium text-foreground mb-stack-tight">
+              <h3 className="text-[18px] font-medium text-foreground mb-2">
                 Commercial & Broadcast
               </h3>
-              <p className="text-[15px] leading-[1.7] text-foreground/70">
-                Clear music rights for your projects with proper authorization, documentation, and records that hold up.
+              <p className="text-[15px] leading-[1.65] text-foreground/70">
+                Proper authorization and records that hold up.
               </p>
             </div>
           </div>

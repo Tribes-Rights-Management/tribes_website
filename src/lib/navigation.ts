@@ -54,16 +54,17 @@ export const NAV_CONFIG: NavConfig = {
 /**
  * Navigation timing constants (Apple-grade, locked)
  * 
- * Open:  320ms - deliberate, smooth reveal
- * Close: 240ms - controlled, slightly faster than open
+ * LOCKED: Slightly slower than default for intentional, financial-grade feel
+ * Open:  380ms - deliberate, calm reveal
+ * Close: 300ms - controlled, smooth retreat (Apple slows both directions)
  */
 export const NAV_TIMING = {
-  /** Desktop dropdown open animation duration */
-  dropdownOpen: 320,
-  /** Desktop dropdown close animation duration */
-  dropdownClose: 240,
+  /** Dropdown open animation duration — deliberate, calm */
+  dropdownOpen: 380,
+  /** Dropdown close animation duration — controlled, slightly faster than open */
+  dropdownClose: 300,
   /** Mobile overlay slide transition */
-  mobileSlide: 280,
+  mobileSlide: 320,
 } as const;
 
 /**
