@@ -767,29 +767,24 @@
     transform: translateY(0);
   }
   
-  /* Header bar — fixed at top */
+  /* Header bar — fixed at top
+     LOCKED: Uses identical --gutter values as site header for pixel-perfect alignment.
+     Do NOT use custom padding values. Always reference --gutter. */
   .mercury-nav-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 64px;
-    padding: 0 20px;
+    padding: 0 var(--gutter);
     flex-shrink: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
   
   @media (min-width: 768px) {
     .mercury-nav-header {
       height: 72px;
-      padding: 0 40px;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .mercury-nav-header {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 0 20px;
     }
   }
   
@@ -813,7 +808,8 @@
     }
   }
   
-  /* Close button — thin X, no circle, no background */
+  /* Close button — thin X, no circle, no background
+     LOCKED: margin-right offset matches hamburger button in header (-8px / -mr-2) */
   .mercury-nav-close {
     display: flex;
     align-items: center;
@@ -821,7 +817,7 @@
     width: 44px;
     height: 44px;
     min-height: 44px;
-    margin-right: -10px;
+    margin-right: -8px;
     color: #111111;
     background: transparent;
     border: none;
@@ -837,26 +833,20 @@
     opacity: 0.4;
   }
   
-  /* Primary navigation links — compact institutional spacing */
+  /* Primary navigation links — LOCKED: uses identical --gutter for alignment */
   .mercury-nav-links {
     display: flex;
     flex-direction: column;
-    padding: 16px 20px 0;
+    padding: 16px var(--gutter) 0;
     flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
   
   @media (min-width: 768px) {
     .mercury-nav-links {
-      padding: 24px 40px 0;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .mercury-nav-links {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 24px 20px 0;
+      padding: 24px var(--gutter) 0;
     }
   }
   
@@ -887,31 +877,25 @@
     }
   }
   
-  /* Account actions — bottom pinned, reduced spacing */
+  /* Account actions — LOCKED: uses identical --gutter for alignment */
   .mercury-nav-actions {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px 20px;
+    padding: 20px var(--gutter);
     padding-bottom: max(20px, env(safe-area-inset-bottom));
     flex-shrink: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
   }
   
   @media (min-width: 768px) {
     .mercury-nav-actions {
       flex-direction: row;
       gap: 12px;
-      padding: 24px 40px;
+      padding: 24px var(--gutter);
       padding-bottom: 32px;
-    }
-  }
-  
-  @media (min-width: 1200px) {
-    .mercury-nav-actions {
-      max-width: 1200px;
-      margin: 0 auto;
-      width: 100%;
-      padding: 24px 20px 32px;
     }
   }
   
