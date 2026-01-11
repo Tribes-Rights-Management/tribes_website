@@ -729,175 +729,159 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════════════
-     NAV OVERLAY — UNIFIED PREMIUM NAVIGATION SYSTEM
+     FINTECH NAVIGATION — FINAL SYSTEM (LOCKED)
      
-     ╔═══════════════════════════════════════════════════════════════════════════╗
-     ║  ONE component for ALL breakpoints.                                       ║
-     ║  Desktop/iPad (≥768px): Apple-style dropdown panel, top-right anchored   ║
-     ║  Mobile (<768px): Premium top sheet that slides down from header         ║
-     ║                                                                           ║
-     ║  Motion: 320ms panel, 220ms backdrop, cubic-bezier(0.22, 1, 0.36, 1)     ║
-     ╚═══════════════════════════════════════════════════════════════════════════╝
+     Apple-style top dropdown. No sidebar. No section labels.
+     Links only. Hierarchy through order and spacing.
+     
+     Motion: 280-320ms, cubic-bezier(0.22, 1, 0.36, 1)
+     
+     DO NOT: Add labels, convert to sidebar, change link order.
      ═══════════════════════════════════════════════════════════════════════════ */
   
-  /* ═══════════════════════════════════════════════════════════════════════════
-     FINTECH NAV — SYSTEM-LEVEL DROPDOWN (ALL DEVICES)
-     
-     Infrastructure UI, not marketing UI.
-     Anchored to header. No modal affordances. No floating cards.
-     Boring, predictable, calm, permanent.
-     
-     Motion (LOCKED):
-     - Open: 320ms
-     - Close: 260ms  
-     - Easing: cubic-bezier(0.22, 0.61, 0.36, 1)
-     - Opacity delayed ~40ms on open
-     ═══════════════════════════════════════════════════════════════════════════ */
-  
-  /* Backdrop — subtle dim + light blur */
-  .nav-overlay-backdrop {
+  /* Backdrop — subtle blur, restrained dim */
+  .nav-backdrop {
     position: fixed;
     inset: 0;
     z-index: 40;
     top: 64px;
-    background-color: rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.06);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     opacity: 0;
     pointer-events: none;
     will-change: opacity;
+    transition: opacity 280ms cubic-bezier(0.22, 1, 0.36, 1);
   }
   
-  .nav-overlay-backdrop--open {
+  .nav-backdrop--open {
     opacity: 1;
     pointer-events: auto;
   }
   
   @media (min-width: 768px) {
-    .nav-overlay-backdrop {
+    .nav-backdrop {
       top: 72px;
     }
   }
   
-  /* Panel — anchored to header, system-level surface */
-  .nav-overlay-panel {
+  /* Panel — top-anchored dropdown, constrained width */
+  .nav-panel {
     position: fixed;
     z-index: 50;
-    background-color: hsl(0 0% 100% / 0.98);
-    border-bottom: 1px solid hsl(0 0% 0% / 0.06);
+    background-color: hsl(0 0% 100%);
+    border-bottom: 1px solid hsl(0 0% 0% / 0.08);
     overflow-y: auto;
     overscroll-behavior: contain;
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
     
-    /* Mobile: Full-width, anchored to header */
+    /* Mobile: Full-width */
     top: 64px;
     left: 0;
     right: 0;
-    max-height: 65vh;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    transform: translateY(-8px);
-    padding: 16px 20px 20px;
-    border-radius: 0; /* No radius — system surface */
+    max-height: 60vh;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-6px);
+    padding: 20px 24px 24px;
   }
   
-  .nav-overlay-panel--open {
+  .nav-panel--open {
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
   }
   
-  /* Tablet/Desktop: Anchored full-width, no centering */
+  /* Tablet: Full-width */
   @media (min-width: 768px) {
-    .nav-overlay-panel {
+    .nav-panel {
       top: 72px;
-      padding: 20px 48px 24px;
-      max-height: 60vh;
+      padding: 24px 40px 28px;
     }
   }
   
-  /* Large desktop: Constrain width, anchor left */
-  @media (min-width: 1200px) {
-    .nav-overlay-panel {
+  /* Desktop: Constrained width, right-anchored */
+  @media (min-width: 1024px) {
+    .nav-panel {
       left: auto;
       right: 0;
-      width: 420px;
-      border-left: 1px solid hsl(0 0% 0% / 0.06);
-      border-radius: 0 0 0 8px;
+      width: 340px;
+      border-left: 1px solid hsl(0 0% 0% / 0.08);
+      border-radius: 0 0 0 12px;
+      padding: 20px 28px 24px;
     }
   }
   
-  /* Navigation content — tight rhythm */
-  .nav-overlay-content {
+  /* Link groups */
+  .nav-group {
     display: flex;
     flex-direction: column;
   }
   
-  /* Section container */
-  .nav-overlay-section {
-    /* Consistent rhythm */
+  .nav-group--primary {
+    /* Primary links */
   }
   
-  /* Section header — subdued, institutional */
-  .nav-overlay-section-header {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: hsl(0 0% 55%);
-    margin-top: 16px;
-    margin-bottom: 6px;
-    font-weight: 500;
+  .nav-group--secondary {
+    /* Secondary links — slightly less prominent */
   }
   
-  .nav-overlay-content > div:first-child .nav-overlay-section-header {
-    margin-top: 0;
-  }
-  
-  /* Section divider — minimal */
-  .nav-overlay-divider {
+  /* Divider — subtle separation */
+  .nav-divider {
     height: 1px;
-    background-color: hsl(0 0% 0% / 0.06);
-    margin-top: 4px;
+    background-color: hsl(0 0% 0% / 0.08);
+    margin: 12px 0;
   }
   
-  /* Section links */
-  .nav-overlay-section-links {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Nav links — uniform, calm, institutional */
-  .nav-overlay-link {
-    font-size: 14px;
-    font-weight: 450;
-    line-height: 1.3;
-    padding: 8px 0;
-    color: hsl(0 0% 15%);
-    transition: opacity 100ms ease-out;
+  /* Links — clean, institutional */
+  .nav-link {
     display: block;
+    line-height: 1.35;
+    color: hsl(0 0% 12%);
+    transition: opacity 100ms ease-out;
+  }
+  
+  .nav-link:hover {
+    opacity: 0.65;
+  }
+  
+  .nav-link:active {
+    opacity: 0.45;
+    transition: opacity 50ms linear;
+  }
+  
+  .nav-link:focus-visible {
+    outline: 1px solid hsl(0 0% 0% / 0.2);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  
+  /* Primary links — slightly larger, heavier */
+  .nav-link--primary {
+    font-size: 15px;
+    font-weight: 500;
+    padding: 9px 0;
+  }
+  
+  /* Secondary links — same size, lighter weight */
+  .nav-link--secondary {
+    font-size: 15px;
+    font-weight: 400;
+    padding: 8px 0;
+    color: hsl(0 0% 25%);
   }
   
   @media (min-width: 768px) {
-    .nav-overlay-link {
+    .nav-link--primary {
+      font-size: 14px;
+      padding: 8px 0;
+    }
+    
+    .nav-link--secondary {
       font-size: 14px;
       padding: 7px 0;
     }
-  }
-  
-  .nav-overlay-link:hover {
-    opacity: 0.7;
-  }
-  
-  .nav-overlay-link:active {
-    opacity: 0.5;
-    transition: opacity 60ms linear;
-  }
-  
-  .nav-overlay-link:focus-visible {
-    outline: 1px solid hsl(0 0% 0% / 0.15);
-    outline-offset: 2px;
-    border-radius: 2px;
   }
   
   /* ═══════════════════════════════════════════════════════════════════════════
