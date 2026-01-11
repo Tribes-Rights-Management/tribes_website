@@ -1,12 +1,16 @@
 /**
  * ╔════════════════════════════════════════════════════════════════════════════╗
- * ║  TRIBES FINTECH NAVIGATION — CENTERED MODAL SYSTEM (LOCKED)               ║
+ * ║  TRIBES GLOBAL NAVIGATION SYSTEM (GNS) — FINTECH GRADE (LOCKED)           ║
  * ║                                                                            ║
  * ║  Mercury / Apple / Stripe / JPMorgan execution.                            ║
- * ║  Centered dropdown modal. Not sidebar. Not drawer. Not full-screen.       ║
- * ║  Links only. No section labels. No dividers. Quiet and confident.         ║
+ * ║  Anchored dropdown panel. Not sidebar. Not drawer. Not full-screen.       ║
+ * ║  Links only. No section labels. Single thin divider between groups.       ║
  * ║                                                                            ║
- * ║  DO NOT: Add labels, create sidebar, change link order, add dividers.     ║
+ * ║  Motion (LOCKED):                                                          ║
+ * ║    Open:  280ms, cubic-bezier(0.16, 1, 0.3, 1), translateY(-8px→0)        ║
+ * ║    Close: 200ms, cubic-bezier(0.4, 0, 1, 1), translateY(0→-6px)           ║
+ * ║                                                                            ║
+ * ║  DO NOT: Add labels, create sidebar, change link order, add scrolling.   ║
  * ╚════════════════════════════════════════════════════════════════════════════╝
  */
 
@@ -15,22 +19,30 @@ import { Link } from "react-router-dom";
 import FocusTrap from "focus-trap-react";
 
 /**
- * Navigation Links — LOCKED (Exact Order)
+ * Navigation Links — LOCKED (Exact Order, Two Groups)
  * 
- * 1. How Administration Works
- * 2. How Licensing Works
- * 3. Contact
- * 4. Client Portal
- * 5. Request Licensing Access
+ * Group 1 (Primary):
+ *   - Client Portal
+ *   - Request Licensing Access
  * 
- * Nothing else. No legal links. No labels. No dividers.
+ * — thin divider —
+ * 
+ * Group 2 (Secondary):
+ *   - How Administration Works
+ *   - How Licensing Works
+ *   - Contact
+ * 
+ * NO legal links. NO section labels.
  */
-const NAV_LINKS = [
+const GROUP_1_LINKS = [
+  { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
+  { label: "Request Licensing Access", href: "/licensing-account" },
+];
+
+const GROUP_2_LINKS = [
   { label: "How Administration Works", href: "/how-publishing-admin-works" },
   { label: "How Licensing Works", href: "/how-licensing-works" },
   { label: "Contact", href: "/contact" },
-  { label: "Client Portal", href: "https://app.tribesrightsmanagement.com", external: true },
-  { label: "Request Licensing Access", href: "/licensing-account" },
 ];
 
 interface NavOverlayProps {
@@ -39,14 +51,15 @@ interface NavOverlayProps {
 }
 
 /**
- * Motion — LOCKED (Apple/Mercury Standard)
- * Open: 280ms, cubic-bezier(0.22, 1, 0.36, 1), fade + 8px translate
- * Close: 220ms, reverse motion
+ * Motion — LOCKED (Fintech Standard)
+ * Open:  280ms, cubic-bezier(0.16, 1, 0.3, 1), translateY(-8px) to 0, opacity 0 to 1
+ * Close: 200ms, cubic-bezier(0.4, 0, 1, 1), translateY(0) to -6px, opacity 1 to 0
  */
 const MOTION = {
   openDuration: 280,
-  closeDuration: 220,
-  easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+  closeDuration: 200,
+  openEasing: "cubic-bezier(0.16, 1, 0.3, 1)",
+  closeEasing: "cubic-bezier(0.4, 0, 1, 1)",
 } as const;
 
 export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
@@ -58,7 +71,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             key={item.href}
             href={item.href}
             onClick={onClose}
-            className="fintech-modal-link"
+            className="gns-link"
+            role="menuitem"
           >
             {item.label}
           </a>
@@ -70,7 +84,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           key={item.href}
           to={item.href}
           onClick={onClose}
-          className="fintech-modal-link"
+          className="gns-link"
+          role="menuitem"
         >
           {item.label}
         </Link>
@@ -79,30 +94,38 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
     return (
       <>
-        {/* Backdrop — subtle blur on page content */}
+        {/* Backdrop — blur + dim on page content */}
         <div
-          className={`fintech-modal-backdrop ${isOpen ? "fintech-modal-backdrop--open" : ""}`}
+          className={`gns-backdrop ${isOpen ? "gns-backdrop--open" : ""}`}
           style={{
-            transition: `opacity ${MOTION.openDuration}ms ${MOTION.easing}, backdrop-filter ${MOTION.openDuration}ms ${MOTION.easing}`,
+            transition: `opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}, backdrop-filter ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}`,
           }}
           onClick={onClose}
           aria-hidden="true"
         />
 
-        {/* Centered Modal Panel */}
+        {/* GNS Panel — anchored below header */}
         <FocusTrap active={isOpen} focusTrapOptions={{ allowOutsideClick: true, initialFocus: false }}>
           <nav
             ref={ref}
-            className={`fintech-modal-panel ${isOpen ? "fintech-modal-panel--open" : ""}`}
+            className={`gns-panel ${isOpen ? "gns-panel--open" : ""}`}
             style={{
-              transition: `transform ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${MOTION.easing}, opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${MOTION.easing}`,
+              transition: `transform ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}, opacity ${isOpen ? MOTION.openDuration : MOTION.closeDuration}ms ${isOpen ? MOTION.openEasing : MOTION.closeEasing}`,
             }}
             role="menu"
             aria-label="Navigation"
           >
-            {/* Links — single column, centered alignment */}
-            <div className="fintech-modal-links">
-              {NAV_LINKS.map(renderLink)}
+            {/* Group 1: Primary */}
+            <div className="gns-group">
+              {GROUP_1_LINKS.map(renderLink)}
+            </div>
+            
+            {/* Divider */}
+            <div className="gns-divider" />
+            
+            {/* Group 2: Secondary */}
+            <div className="gns-group">
+              {GROUP_2_LINKS.map(renderLink)}
             </div>
           </nav>
         </FocusTrap>
