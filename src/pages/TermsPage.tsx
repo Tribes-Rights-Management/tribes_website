@@ -186,10 +186,10 @@ export default function TermsPage() {
           <p>
             Email:{" "}
             <a 
-              href="mailto:admin@tribesassets.com" 
+              href="mailto:contact@tribesassets.com" 
               className="text-foreground underline underline-offset-2 hover:opacity-80 transition-opacity"
             >
-              admin@tribesassets.com
+              contact@tribesassets.com
             </a>
           </p>
         </div>
