@@ -218,7 +218,7 @@ export default function ContactPage() {
             <FormFeedback
               type="error"
               title="Unable to submit"
-              message="Something went wrong. Please try again or email us directly at admin@tribesassets.com."
+              message="Something went wrong. Please try again or email us directly at contact@tribesassets.com."
               onDismiss={() => setSubmitStatus("idle")}
             />
           )}
