@@ -24,9 +24,9 @@ interface HeroProps {
  * - Content vertically centered
  * 
  * Typography (LOCKED - do not modify):
- * - H1: 40px/56px/72px, font-medium, -0.015em tracking
- * - Eyebrow: 14px, uppercase, 0.08em tracking
- * - Subhead: 16px/18px, font-light, 45% white opacity
+ * - H1: 42px/58px/76px, font-medium, -0.015em tracking
+ * - Eyebrow: 14px, uppercase, 0.08em tracking, #8F8F8F
+ * - Subhead: 16px/18px, font-light, #C7C7C7
  */
 export function Hero({ contactAnchor }: HeroProps) {
   const scrollToContact = () => {
@@ -49,36 +49,36 @@ export function Hero({ contactAnchor }: HeroProps) {
       {/* Intrinsic height via generous vertical padding — no viewport units */}
       <div className={`${CONTENT_CONTAINER_CLASS} py-24 md:py-32 lg:py-40`}>
         <div className="max-w-[640px]">
-          {/* Eyebrow */}
-          <p className="text-sm font-medium tracking-[0.08em] text-[#C9C9CC] mb-14">
+          {/* Eyebrow - medium gray for subtle visibility */}
+          <p className="text-sm font-medium tracking-[0.08em] text-[#8F8F8F] mb-14">
             TRIBES
           </p>
 
-          {/* H1 - Institutional weight, refined letter-spacing */}
-          <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-medium leading-[1.08] tracking-[-0.015em] text-white mb-8">
+          {/* H1 - Pure white, slightly larger */}
+          <h1 className="text-[42px] md:text-[58px] lg:text-[76px] font-medium leading-[1.08] tracking-[-0.015em] text-[#FFFFFF] mb-8">
             Rights management, built to last.
           </h1>
 
-          {/* Secondary supporting line - Quiet, subordinate */}
-          <p className="text-base md:text-lg font-light text-white/45 leading-[1.5] tracking-[0.01em] mb-16">
+          {/* Secondary supporting line - brighter for visibility */}
+          <p className="text-base md:text-lg font-light text-[#C7C7C7] leading-[1.5] tracking-[0.01em] mb-16">
             Publishing administration, built for precision.
           </p>
 
           {/* Divider */}
-          <div className="w-16 h-px bg-white/10 mb-10" />
+          <div className="w-16 h-px bg-white/15 mb-10" />
 
-          {/* CTA Link */}
+          {/* CTA Link - medium gray, hover to white */}
           {contactAnchor ? (
             <button
               onClick={scrollToContact}
-              className="text-sm text-white/75 hover:text-white/85 transition-opacity duration-150 ease-out underline underline-offset-4 decoration-white/30"
+              className="text-sm text-[#8F8F8F] hover:text-[#FFFFFF] transition-colors duration-150 ease-out underline underline-offset-4 decoration-[#8F8F8F]/40 hover:decoration-[#FFFFFF]/40"
             >
               Contact
             </button>
           ) : (
             <Link
               to="/our-approach"
-              className="text-xs text-white/55 hover:text-white/85 transition-opacity duration-150 ease-out underline underline-offset-4 decoration-white/20"
+              className="text-xs text-[#8F8F8F] hover:text-[#FFFFFF] transition-colors duration-150 ease-out underline underline-offset-4 decoration-[#8F8F8F]/40 hover:decoration-[#FFFFFF]/40"
             >
               Our approach
             </Link>

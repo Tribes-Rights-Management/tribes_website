@@ -496,7 +496,8 @@ body {
     --header-h: 56px; /* Mobile: 56px (h-14) */
 
     /* Site black (LOCKED) — used as the global baseline behind all pages */
-    --site-black: 210 21% 5%;
+    /* #0A0A0A = 0 0% 4% in HSL */
+    --site-black: 0 0% 4%;
 
     /* Background & Surface */
     --background: 0 0% 100%;
@@ -639,8 +640,8 @@ body {
      Light pages explicitly paint their own white background via layout wrappers.
      ═══════════════════════════════════════════════════════════════════════════ */
   html {
-    /* Site black baseline - prevents iOS white flash */
-    background-color: hsl(210 21% 5%) !important;
+    /* Site black baseline - prevents iOS white flash (#0A0A0A) */
+    background-color: #0A0A0A !important;
     background-color: hsl(var(--site-black)) !important;
     margin: 0;
     padding: 0;
@@ -652,8 +653,8 @@ body {
   }
 
   body {
-    /* Site black baseline for iOS Safari */
-    background-color: hsl(210 21% 5%) !important;
+    /* Site black baseline for iOS Safari (#0A0A0A) */
+    background-color: #0A0A0A !important;
     background-color: hsl(var(--site-black)) !important;
     color: var(--fg);
     font-family: var(--font-sans);
@@ -695,7 +696,7 @@ body {
   #ios-underlay {
     position: fixed;
     inset: 0;
-    background-color: hsl(210 21% 5%);
+    background-color: #0A0A0A;
     background-color: hsl(var(--site-black));
     z-index: 0;
     pointer-events: none;

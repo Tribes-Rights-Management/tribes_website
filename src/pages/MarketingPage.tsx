@@ -99,19 +99,19 @@ export default function MarketingPage() {
             <div>
               <p 
                 className="text-xs font-normal uppercase tracking-[0.12em]"
-                style={{ color: 'rgba(255,255,255,0.60)', marginBottom: 'var(--eyebrow-bottom)' }}
+                style={{ color: '#8F8F8F', marginBottom: 'var(--eyebrow-bottom)' }}
               >
                 Music as an Asset
               </p>
               <h2 
                 className="text-[26px] md:text-[30px] lg:text-[36px] font-medium leading-[1.15] tracking-[-0.01em]"
-                style={{ color: 'rgba(255,255,255,0.92)', marginBottom: 'var(--headline-bottom)' }}
+                style={{ color: '#FFFFFF', marginBottom: 'var(--headline-bottom)' }}
               >
                 Your catalog is a long-term asset.
               </h2>
               <p 
                 className="text-[17px] leading-[1.6]"
-                style={{ color: 'rgba(255,255,255,0.70)' }}
+                style={{ color: '#E5E5E5' }}
               >
                 Rights, data, income, and documentation—managed with institutional rigor.
               </p>
@@ -122,13 +122,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-[18px] font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
+                  style={{ color: '#FFFFFF' }}
                 >
                   Clear Ownership
                 </h3>
                 <p 
                   className="text-[15px] leading-[1.65]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
+                  style={{ color: '#E5E5E5' }}
                 >
                   Splits, metadata, and agreements maintained as permanent reference.
                 </p>
@@ -136,13 +136,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-[18px] font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
+                  style={{ color: '#FFFFFF' }}
                 >
                   Reliable Financials
                 </h3>
                 <p 
                   className="text-[15px] leading-[1.65]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
+                  style={{ color: '#E5E5E5' }}
                 >
                   Accurate collections and consistent reporting.
                 </p>
@@ -150,13 +150,13 @@ export default function MarketingPage() {
               <div>
                 <h3 
                   className="text-[18px] font-medium mb-2"
-                  style={{ color: 'rgba(255,255,255,0.92)' }}
+                  style={{ color: '#FFFFFF' }}
                 >
                   Lasting Documentation
                 </h3>
                 <p 
                   className="text-[15px] leading-[1.65]"
-                  style={{ color: 'rgba(255,255,255,0.65)' }}
+                  style={{ color: '#E5E5E5' }}
                 >
                   Agreements and identifiers organized for audits and transactions.
                 </p>
