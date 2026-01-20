@@ -190,8 +190,8 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
           </header>
 
           {/* ═══════════════════════════════════════════════════════════════════
-              MENU LIST
-              Dark institutional styling with generous spacing
+              MENU LIST — All items styled identically
+              No button styling. Clean vertical list. Institutional.
               ═══════════════════════════════════════════════════════════════════ */}
           <nav 
             role="menu"
@@ -204,110 +204,86 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               paddingRight: `${LAYOUT.gutterMobile}px`,
             }}
           >
-            {NAV_LINKS.map((item, index) => (
-              <div key={item.href}>
-                <Link
-                  to={item.href}
-                  onClick={onClose}
-                  role="menuitem"
-                  className="mobile-menu-link-dark"
-                  style={{
-                    display: 'block',
-                    padding: '14px 0',
-                    fontSize: '17px',
-                    fontWeight: 500,
-                    letterSpacing: '0.01em',
-                    color: '#FFFFFF',
-                    textDecoration: 'none',
-                    transition: `color ${MOTION.duration} ${MOTION.easing}`,
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#C7C7C7'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
-                >
-                  {item.label}
-                </Link>
-                {/* Divider — subtle dark separator */}
-                {index < NAV_LINKS.length - 1 && (
-                  <div style={{ height: '1px', backgroundColor: '#1A1A1A' }} />
-                )}
-              </div>
+            {/* Navigation Links */}
+            {NAV_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={onClose}
+                role="menuitem"
+                style={{
+                  display: 'block',
+                  padding: '14px 0',
+                  fontSize: '17px',
+                  fontWeight: 450,
+                  letterSpacing: '0.02em',
+                  color: '#FFFFFF',
+                  textDecoration: 'none',
+                  transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+              >
+                {item.label}
+              </Link>
             ))}
-          </nav>
 
-          {/* ═══════════════════════════════════════════════════════════════════
-              BOTTOM CTAs — Dark institutional style
-              Primary: White border ghost button
-              Secondary: Muted text link
-              ═══════════════════════════════════════════════════════════════════ */}
-          <div 
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: `${LAYOUT.ctaGap + 4}px`,
-              padding: `${LAYOUT.ctaPadding}px`,
-              paddingBottom: `calc(${LAYOUT.ctaSafeAreaBottom + 8}px + env(safe-area-inset-bottom))`,
-              flexShrink: 0,
-            }}
-          >
-            {/* Primary: Client Portal — White border ghost button */}
+            {/* Divider — separates navigation from account actions */}
+            <div style={{ 
+              height: '1px', 
+              backgroundColor: '#303030',
+              margin: '12px 0',
+            }} />
+
+            {/* Account Actions — styled identically to nav links */}
             <a
               href="https://app.tribesrightsmanagement.com"
               onClick={onClose}
-              className="mobile-menu-btn-dark-primary"
+              role="menuitem"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '52px',
-                padding: '0 24px',
-                fontSize: '16px',
-                fontWeight: 500,
-                letterSpacing: '0.01em',
+                display: 'block',
+                padding: '14px 0',
+                fontSize: '17px',
+                fontWeight: 450,
+                letterSpacing: '0.02em',
                 color: '#FFFFFF',
-                backgroundColor: 'transparent',
-                border: '1px solid #FFFFFF',
-                borderRadius: '4px',
                 textDecoration: 'none',
-                transition: `all ${MOTION.duration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#FFFFFF';
-                e.currentTarget.style.color = '#000000';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#FFFFFF';
-              }}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Client Portal
             </a>
 
-            {/* Secondary: Request Licensing Access — Muted ghost text */}
             <Link
               to="/licensing-account"
               onClick={onClose}
-              className="mobile-menu-btn-dark-secondary"
+              role="menuitem"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '48px',
-                padding: '0 24px',
-                fontSize: '15px',
-                fontWeight: 500,
-                letterSpacing: '0.01em',
-                color: '#8F8F8F',
-                backgroundColor: 'transparent',
-                border: 'none',
+                display: 'block',
+                padding: '14px 0',
+                fontSize: '17px',
+                fontWeight: 450,
+                letterSpacing: '0.02em',
+                color: '#FFFFFF',
                 textDecoration: 'none',
-                transition: `color ${MOTION.duration} ${MOTION.easing}`,
+                transition: `opacity ${MOTION.duration} ${MOTION.easing}`,
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#FFFFFF'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#8F8F8F'}
+              onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
             >
               Request Licensing Access
             </Link>
-          </div>
+          </nav>
+
+          {/* Bottom safe area spacer */}
+          <div 
+            style={{
+              paddingBottom: `calc(${LAYOUT.ctaSafeAreaBottom}px + env(safe-area-inset-bottom))`,
+              flexShrink: 0,
+            }}
+          />
         </div>
       </FocusTrap>
     );
