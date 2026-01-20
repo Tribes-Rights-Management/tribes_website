@@ -26,9 +26,10 @@ import { NavOverlay } from "@/components/NavOverlay";
 
 /**
  * Header geometry tokens (LOCKED)
+ * Height: 64px for brand consistency with app header
  */
 const HEADER = {
-  height: 72, // LOCKED — 72px on mobile per spec
+  height: 64, // LOCKED — 64px for app header parity
   gutterMobile: 24,
   gutterDesktop: 28,
 } as const;
@@ -137,21 +138,18 @@ export function PublicLayout({
     : { backgroundColor: THEME_LIGHT_BG };
 
   // Header background styles (only these change on scroll)
+  // LOCKED: #000000 pure black header with #303030 border for brand consistency
   const getHeaderBackground = () => {
     if (headerDark) {
       return {
-        backgroundColor: '#111214',
-        borderBottom: isScrolled 
-          ? '1px solid rgba(255,255,255,0.12)' 
-          : '1px solid rgba(255,255,255,0.06)',
-        boxShadow: isScrolled ? '0 1px 12px rgba(0,0,0,0.15)' : 'none',
+        backgroundColor: '#000000',
+        borderBottom: '1px solid #303030',
+        boxShadow: isScrolled ? '0 1px 12px rgba(0,0,0,0.25)' : 'none',
       };
     }
     return {
       backgroundColor: '#FFFFFF',
-      borderBottom: isScrolled 
-        ? '1px solid rgba(0,0,0,0.12)' 
-        : '1px solid rgba(0,0,0,0.08)',
+      borderBottom: '1px solid #E5E5E5',
       boxShadow: isScrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
     };
   };
