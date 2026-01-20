@@ -193,10 +193,11 @@ export default function LicensingAccountPage() {
       <FormSuccessLayout
         title="Request submitted"
         message="We'll review your request and send access instructions if approved."
+        dark
       >
         <Link 
           to="/" 
-          className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
+          className="text-[14px] text-[#8F8F8F] hover:text-[#FFFFFF] transition-colors duration-150 underline underline-offset-4"
         >
           Return to site
         </Link>
@@ -210,10 +211,11 @@ export default function LicensingAccountPage() {
       <FormSuccessLayout
         title="Already pending"
         message="A request for this email is already under review."
+        dark
       >
         <Link 
           to="/" 
-          className="text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150 underline underline-offset-4"
+          className="text-[14px] text-[#8F8F8F] hover:text-[#FFFFFF] transition-colors duration-150 underline underline-offset-4"
         >
           Return to site
         </Link>
@@ -227,10 +229,11 @@ export default function LicensingAccountPage() {
       <FormSuccessLayout
         title="Account exists"
         message="An account with this email already exists."
+        dark
       >
         <a 
           href="https://app.tribesrightsmanagement.com" 
-          className="text-[14px] text-foreground hover:opacity-70 transition-opacity duration-150 underline underline-offset-4"
+          className="text-[14px] text-[#FFFFFF] hover:opacity-70 transition-opacity duration-150 underline underline-offset-4"
         >
           Sign in
         </a>
@@ -238,10 +241,16 @@ export default function LicensingAccountPage() {
     );
   }
 
+  // Dark theme input styles
+  const darkInputClass = "bg-[#1A1A1A] border-[#303030] text-[#FFFFFF] placeholder:text-[#6B6B6B] focus:border-[#FFFFFF] focus:ring-0";
+  const darkLabelClass = "text-[13px] font-medium text-[#E5E5E5]";
+  const darkHintClass = "text-[13px] text-[#8F8F8F] leading-snug";
+
   return (
     <FormPageLayout
       title="Request an Account"
       lede="Licensing requests require an approved account."
+      dark
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* ============================================
@@ -249,7 +258,7 @@ export default function LicensingAccountPage() {
             ============================================ */}
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Full name
             </label>
             <Input
@@ -259,11 +268,12 @@ export default function LicensingAccountPage() {
               required
               disabled={isSubmitting}
               aria-label="Full name"
+              className={darkInputClass}
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Company / Organization
             </label>
             <Input
@@ -273,14 +283,15 @@ export default function LicensingAccountPage() {
               required
               disabled={isSubmitting}
               aria-label="Company or organization"
+              className={darkInputClass}
             />
-            <p className="text-[13px] text-muted-foreground leading-snug">
+            <p className={darkHintClass}>
               If you're an individual creator, enter your artist or professional name.
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Email address
             </label>
             <Input
@@ -290,8 +301,9 @@ export default function LicensingAccountPage() {
               required
               disabled={isSubmitting}
               aria-label="Email address"
+              className={darkInputClass}
             />
-            <p className="text-[13px] text-muted-foreground leading-snug">
+            <p className={darkHintClass}>
               Used for account access.
             </p>
           </div>
@@ -302,16 +314,16 @@ export default function LicensingAccountPage() {
             ============================================ */}
         <div className="pt-2 space-y-5">
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Country or territory
             </label>
             <Select value={country} onValueChange={setCountry} disabled={isSubmitting}>
-              <SelectTrigger aria-label="Select your location">
+              <SelectTrigger aria-label="Select your location" className={darkInputClass}>
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-[#1A1A1A] border-[#303030]">
                 {COUNTRIES.map((c) => (
-                  <SelectItem key={c} value={c}>
+                  <SelectItem key={c} value={c} className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">
                     {c}
                   </SelectItem>
                 ))}
@@ -320,20 +332,20 @@ export default function LicensingAccountPage() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Organization type
             </label>
             <Select value={organizationType} onValueChange={setOrganizationType} disabled={isSubmitting}>
-              <SelectTrigger aria-label="Organization type">
+              <SelectTrigger aria-label="Organization type" className={darkInputClass}>
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="commercial_brand">Commercial / Brand</SelectItem>
-                <SelectItem value="broadcast_media">Broadcast / Media</SelectItem>
-                <SelectItem value="church_ministry">Church / Ministry</SelectItem>
-                <SelectItem value="agency">Agency</SelectItem>
-                <SelectItem value="independent_creator">Independent Creator</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+              <SelectContent className="bg-[#1A1A1A] border-[#303030]">
+                <SelectItem value="commercial_brand" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Commercial / Brand</SelectItem>
+                <SelectItem value="broadcast_media" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Broadcast / Media</SelectItem>
+                <SelectItem value="church_ministry" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Church / Ministry</SelectItem>
+                <SelectItem value="agency" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Agency</SelectItem>
+                <SelectItem value="independent_creator" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Independent Creator</SelectItem>
+                <SelectItem value="other" className="text-[#E5E5E5] focus:bg-[#303030] focus:text-[#FFFFFF]">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -344,7 +356,7 @@ export default function LicensingAccountPage() {
             ============================================ */}
         <div className="pt-2">
           <div className="space-y-1.5">
-            <label className="text-[13px] font-medium text-foreground">
+            <label className={darkLabelClass}>
               Describe your intended licensing use
             </label>
             <Textarea
@@ -355,8 +367,9 @@ export default function LicensingAccountPage() {
               disabled={isSubmitting}
               rows={4}
               aria-label="Intended use"
+              className={darkInputClass}
             />
-            <p className="text-[13px] text-muted-foreground leading-snug">
+            <p className={darkHintClass}>
               This does not need to be perfect.
             </p>
           </div>
@@ -373,13 +386,14 @@ export default function LicensingAccountPage() {
             checked={agreeToTerms}
             onCheckedChange={setAgreeToTerms}
             disabled={isSubmitting}
+            dark
           />
           <div className="mt-5">
             <Button
               type="submit"
               disabled={isSubmitting || !agreeToTerms}
               size="lg"
-              className="w-full"
+              className="w-full bg-[#FFFFFF] text-[#000000] hover:bg-[#E5E5E5] disabled:bg-[#303030] disabled:text-[#6B6B6B]"
             >
               {isSubmitting ? (
                 <span className="inline-flex items-center gap-2">
@@ -395,9 +409,9 @@ export default function LicensingAccountPage() {
       </form>
 
       <div className="mt-8 text-center">
-        <p className="text-[14px] text-muted-foreground">
+        <p className="text-[14px] text-[#8F8F8F]">
           Already have an account?{" "}
-          <a href="https://app.tribesrightsmanagement.com" className="text-foreground font-medium hover:opacity-70 transition-opacity duration-150">
+          <a href="https://app.tribesrightsmanagement.com" className="text-[#FFFFFF] font-medium hover:opacity-70 transition-opacity duration-150">
             Sign in
           </a>
         </p>
