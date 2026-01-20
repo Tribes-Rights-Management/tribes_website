@@ -4,28 +4,63 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * INSTITUTIONAL BUTTON SYSTEM (LOCKED)
+ * 
+ * Design Philosophy:
+ * - Institutional, not consumer
+ * - Understated, not attention-seeking
+ * - Monochromatic, not colorful
+ * - Sparse, not dense
+ * - Think: Financial terminal, not SaaS dashboard
+ * 
+ * Variants:
+ * - default: Primary actions (Add, Save, Create) - white border on transparent
+ * - secondary: Less important actions (Cancel, Back) - gray border
+ * - ghost: Text-only actions (Edit, View) - no border, subtle hover
+ * - link: Inline text links with underline hover
+ * - destructive: Delete/Remove actions - red border
+ * 
+ * Context-aware theming:
+ * - Dark context (default): White/gray borders and text
+ * - Light context: Use outline variant for solid fills
+ */
 const buttonVariants = cva(
-  // Base: institutional platform-grade button system (LOCKED)
+  // Base: institutional platform-grade button system
   // System-level, not CTA-driven. No bounce, spring, or decorative animation.
-  // Opacity transitions only. No scale transforms.
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-md text-[14px] font-medium transition-opacity duration-[120ms] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-foreground/20 focus-visible:ring-offset-1 disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:opacity-75 select-none",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-[14px] font-medium transition-all duration-150 ease-out focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 select-none tracking-[0.01em]",
   {
     variants: {
       variant: {
-        // Primary: solid black, white text, no emphasis inflation (LOCKED)
-        default: "bg-foreground text-white hover:opacity-90 disabled:bg-[#a3a3a3] disabled:opacity-100",
-        destructive: "bg-destructive text-destructive-foreground hover:opacity-90",
-        outline: "border border-[#d4d4d4] bg-white text-foreground hover:bg-[#fafafa]",
-        secondary: "bg-[#f5f5f5] text-foreground hover:bg-[#e5e5e5]",
-        ghost: "hover:bg-[#f5f5f5] text-foreground",
-        link: "text-foreground underline-offset-4 hover:underline",
+        // Primary: Transparent with white border - main actions
+        default:
+          "bg-transparent border border-white text-white hover:bg-white/[0.08] active:bg-white/[0.12]",
+
+        // Secondary: Gray border, muted text - less important actions
+        secondary:
+          "bg-transparent border border-[#303030] text-[#AAAAAA] font-normal hover:border-[#505050] hover:text-white active:bg-white/[0.05]",
+
+        // Ghost/Text: No border, subtle hover - inline actions
+        ghost:
+          "bg-transparent border-none text-[#AAAAAA] font-normal hover:text-white hover:underline hover:underline-offset-4 active:opacity-80",
+
+        // Link: Underline style
+        link: "bg-transparent border-none text-[#AAAAAA] underline-offset-4 hover:text-white hover:underline",
+
+        // Destructive: Red border - delete/remove actions
+        destructive:
+          "bg-transparent border border-[#DC2626] text-[#DC2626] hover:bg-[#DC2626]/10 active:bg-[#DC2626]/15",
+
+        // Outline: For light backgrounds - solid fill style
+        outline:
+          "bg-foreground text-white border border-foreground hover:opacity-90 active:opacity-80",
       },
       size: {
-        // Reduced heights for system-level feel (LOCKED)
-        default: "h-11 px-5 py-2",
-        sm: "h-9 rounded-md px-3.5 text-[13px]",
-        lg: "h-12 rounded-md px-6",
-        icon: "h-9 w-9",
+        // Institutional sizing with generous padding
+        default: "h-11 px-5 py-2.5 rounded-md",
+        sm: "h-9 px-4 py-2 rounded-md text-[13px]",
+        lg: "h-12 px-6 py-3 rounded-md",
+        icon: "h-9 w-9 rounded-md",
       },
     },
     defaultVariants: {
