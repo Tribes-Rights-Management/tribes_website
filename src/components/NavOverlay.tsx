@@ -26,11 +26,11 @@ import FocusTrap from "focus-trap-react";
 import { BRAND } from "@/lib/brand";
 
 /**
- * Layout tokens (LOCKED — PART A/B spec)
+ * Layout tokens (LOCKED — matches PublicLayout header)
  */
 const LAYOUT = {
   gutterMobile: 24,
-  headerHeight: 72,
+  headerHeight: 64, // LOCKED — 64px for app header parity
   topPadding: 24,
   ctaGap: 10,
   ctaPadding: 24,
