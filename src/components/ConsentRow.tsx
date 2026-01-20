@@ -18,6 +18,8 @@ interface ConsentRowProps {
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
   disabled?: boolean;
+  /** Dark theme variant */
+  dark?: boolean;
 }
 
 export function ConsentRow({
@@ -25,7 +27,14 @@ export function ConsentRow({
   checked,
   onCheckedChange,
   disabled = false,
+  dark = false,
 }: ConsentRowProps) {
+  const linkClass = dark 
+    ? "text-[#FFFFFF] underline underline-offset-2 hover:opacity-70 transition-opacity duration-150"
+    : "text-foreground underline underline-offset-2 hover:opacity-70 transition-opacity duration-150";
+  
+  const textClass = dark ? "text-[#8F8F8F]" : "";
+
   return (
     <div className="mt-5">
       <TribesCheckbox
@@ -33,23 +42,26 @@ export function ConsentRow({
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
+        dark={dark}
       >
-        I agree to the{" "}
-        <Link
-          to="/privacy"
-          className="text-foreground underline underline-offset-2 hover:opacity-70 transition-opacity duration-150"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Privacy Policy
-        </Link>
-        {" "}and{" "}
-        <Link
-          to="/terms"
-          className="text-foreground underline underline-offset-2 hover:opacity-70 transition-opacity duration-150"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Terms of Use
-        </Link>.
+        <span className={textClass}>
+          I agree to the{" "}
+          <Link
+            to="/privacy"
+            className={linkClass}
+            onClick={(e) => e.stopPropagation()}
+          >
+            Privacy Policy
+          </Link>
+          {" "}and{" "}
+          <Link
+            to="/terms"
+            className={linkClass}
+            onClick={(e) => e.stopPropagation()}
+          >
+            Terms of Use
+          </Link>.
+        </span>
       </TribesCheckbox>
     </div>
   );

@@ -21,6 +21,8 @@ interface TribesCheckboxProps {
   disabled?: boolean;
   children: React.ReactNode;
   className?: string;
+  /** Dark theme variant */
+  dark?: boolean;
 }
 
 export function TribesCheckbox({
@@ -30,6 +32,7 @@ export function TribesCheckbox({
   disabled = false,
   children,
   className,
+  dark = false,
 }: TribesCheckboxProps) {
   const labelId = `${id}-label`;
 
@@ -74,9 +77,16 @@ export function TribesCheckbox({
         <span
           className={cn(
             "absolute rounded-[2px] border bg-transparent transition-colors duration-100",
-            "border-[hsl(var(--tribes-checkbox-border))]",
-            checked && "border-[hsl(var(--tribes-checkbox-border-checked))]",
-            "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-[hsl(var(--tribes-checkbox-focus))] peer-focus-visible:outline-offset-2",
+            dark 
+              ? "border-[#505050]" 
+              : "border-[hsl(var(--tribes-checkbox-border))]",
+            checked && (dark 
+              ? "border-[#FFFFFF]" 
+              : "border-[hsl(var(--tribes-checkbox-border-checked))]"),
+            "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2",
+            dark 
+              ? "peer-focus-visible:outline-[#FFFFFF]" 
+              : "peer-focus-visible:outline-[hsl(var(--tribes-checkbox-focus))]",
           )}
           style={{ 
             width: '18px', 
@@ -95,7 +105,7 @@ export function TribesCheckbox({
             >
               <path
                 d="M3 7.5L5.5 10L11 4"
-                stroke="hsl(var(--tribes-checkbox-check))"
+                stroke={dark ? "#FFFFFF" : "hsl(var(--tribes-checkbox-check))"}
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -109,7 +119,7 @@ export function TribesCheckbox({
       <span 
         id={labelId} 
         className="text-[13px] font-normal leading-[1.5] pt-px"
-        style={{ color: 'rgba(0, 0, 0, 0.7)' }}
+        style={{ color: dark ? '#8F8F8F' : 'rgba(0, 0, 0, 0.7)' }}
       >
         {children}
       </span>
