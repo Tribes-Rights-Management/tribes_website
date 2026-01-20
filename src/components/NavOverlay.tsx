@@ -95,7 +95,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
             position: 'fixed',
             inset: 0,
             zIndex: 100,
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#0A0A0A',
             display: 'flex',
             flexDirection: 'column',
             paddingTop: 'env(safe-area-inset-top)',
@@ -137,6 +137,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               paddingLeft: `${LAYOUT.gutterMobile}px`,
               paddingRight: `${LAYOUT.gutterMobile}px`,
               flexShrink: 0,
+              borderBottom: '1px solid #1A1A1A',
             }}
           >
             {/* Logo — matches header exactly */}
@@ -153,7 +154,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 lineHeight: LOGO.lineHeight,
                 textTransform: 'uppercase',
                 textRendering: 'geometricPrecision',
-                color: '#111111',
+                color: '#FFFFFF',
                 textDecoration: 'none',
                 transform: 'translateZ(0)', // Prevent iOS subpixel re-rasterization
               }}
@@ -174,7 +175,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                 minHeight: '44px',
                 marginRight: '-10px', // Align to same edge as hamburger
                 padding: 0,
-                color: '#111111',
+                color: '#FFFFFF',
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
@@ -190,8 +191,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
 
           {/* ═══════════════════════════════════════════════════════════════════
               MENU LIST
-              Uses CSS class .mobile-menu-link for locked typography
-              Row height: 56px (via min-height + padding)
+              Dark institutional styling with generous spacing
               ═══════════════════════════════════════════════════════════════════ */}
           <nav 
             role="menu"
@@ -199,7 +199,7 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
               flex: 1,
               display: 'flex',
               flexDirection: 'column',
-              paddingTop: `${LAYOUT.topPadding}px`,
+              paddingTop: `${LAYOUT.topPadding + 8}px`,
               paddingLeft: `${LAYOUT.gutterMobile}px`,
               paddingRight: `${LAYOUT.gutterMobile}px`,
             }}
@@ -210,46 +210,100 @@ export const NavOverlay = forwardRef<HTMLDivElement, NavOverlayProps>(
                   to={item.href}
                   onClick={onClose}
                   role="menuitem"
-                  className="mobile-menu-link"
+                  className="mobile-menu-link-dark"
+                  style={{
+                    display: 'block',
+                    padding: '14px 0',
+                    fontSize: '17px',
+                    fontWeight: 500,
+                    letterSpacing: '0.01em',
+                    color: '#FFFFFF',
+                    textDecoration: 'none',
+                    transition: `color ${MOTION.duration} ${MOTION.easing}`,
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#C7C7C7'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#FFFFFF'}
                 >
                   {item.label}
                 </Link>
-                {/* Divider — consistent vertical rhythm */}
+                {/* Divider — subtle dark separator */}
                 {index < NAV_LINKS.length - 1 && (
-                  <div className="mobile-menu-divider" />
+                  <div style={{ height: '1px', backgroundColor: '#1A1A1A' }} />
                 )}
               </div>
             ))}
           </nav>
 
           {/* ═══════════════════════════════════════════════════════════════════
-              BOTTOM CTAs — Fixed to bottom with safe area
-              Uses CSS classes .mobile-menu-btn, .mobile-menu-btn-primary/secondary
+              BOTTOM CTAs — Dark institutional style
+              Primary: White border ghost button
+              Secondary: Muted text link
               ═══════════════════════════════════════════════════════════════════ */}
           <div 
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: `${LAYOUT.ctaGap}px`,
+              gap: `${LAYOUT.ctaGap + 4}px`,
               padding: `${LAYOUT.ctaPadding}px`,
-              paddingBottom: `calc(${LAYOUT.ctaSafeAreaBottom}px + env(safe-area-inset-bottom))`,
+              paddingBottom: `calc(${LAYOUT.ctaSafeAreaBottom + 8}px + env(safe-area-inset-bottom))`,
               flexShrink: 0,
             }}
           >
-            {/* Primary: Client Portal */}
+            {/* Primary: Client Portal — White border ghost button */}
             <a
               href="https://app.tribesrightsmanagement.com"
               onClick={onClose}
-              className="mobile-menu-btn mobile-menu-btn-primary"
+              className="mobile-menu-btn-dark-primary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '52px',
+                padding: '0 24px',
+                fontSize: '16px',
+                fontWeight: 500,
+                letterSpacing: '0.01em',
+                color: '#FFFFFF',
+                backgroundColor: 'transparent',
+                border: '1px solid #FFFFFF',
+                borderRadius: '4px',
+                textDecoration: 'none',
+                transition: `all ${MOTION.duration} ${MOTION.easing}`,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#FFFFFF';
+                e.currentTarget.style.color = '#000000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#FFFFFF';
+              }}
             >
               Client Portal
             </a>
 
-            {/* Secondary: Request Licensing Access */}
+            {/* Secondary: Request Licensing Access — Muted ghost text */}
             <Link
               to="/licensing-account"
               onClick={onClose}
-              className="mobile-menu-btn mobile-menu-btn-secondary"
+              className="mobile-menu-btn-dark-secondary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '48px',
+                padding: '0 24px',
+                fontSize: '15px',
+                fontWeight: 500,
+                letterSpacing: '0.01em',
+                color: '#8F8F8F',
+                backgroundColor: 'transparent',
+                border: 'none',
+                textDecoration: 'none',
+                transition: `color ${MOTION.duration} ${MOTION.easing}`,
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#FFFFFF'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#8F8F8F'}
             >
               Request Licensing Access
             </Link>
