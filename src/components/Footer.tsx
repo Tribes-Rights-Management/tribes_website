@@ -26,7 +26,7 @@ import { Link } from "react-router-dom";
 import { BRAND } from "@/lib/brand";
 import { getCopyrightLine } from "@/lib/copyright";
 import { CONTENT_CONTAINER_CLASS } from "@/lib/layout";
-import { THEME_DARK_BG } from "@/lib/theme";
+import { THEME_FOOTER_BG } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
@@ -49,7 +49,7 @@ export function Footer({
     <footer 
       className={cn("footer-system", className)} 
       style={{ 
-        backgroundColor: THEME_DARK_BG,
+        backgroundColor: THEME_FOOTER_BG,
         paddingTop: 'var(--footer-padding-y)',
         paddingBottom: 'var(--footer-padding-y)',
       }}

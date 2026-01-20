@@ -34,7 +34,10 @@
  */
 
 /** Primary dark background - used for hero, marketing, and dark sections */
-export const THEME_DARK_BG = "#0B0F14";
+export const THEME_DARK_BG = "#0A0A0A";
+
+/** Footer background - pure black to match header */
+export const THEME_FOOTER_BG = "#000000";
 
 /** Primary light background - used for form pages, body pages, and light sections */
 export const THEME_LIGHT_BG = "#F5F5F7";
@@ -46,7 +49,10 @@ export const SECTION_PADDING = {
 };
 
 /** Tailwind class for dark theme zone background */
-export const THEME_DARK_CLASS = "bg-[#0B0F14]";
+export const THEME_DARK_CLASS = "bg-[#0A0A0A]";
+
+/** Tailwind class for footer background (pure black) */
+export const THEME_FOOTER_CLASS = "bg-[#000000]";
 
 /** Tailwind class for light theme zone background (form zone) */
 export const THEME_LIGHT_CLASS = "bg-[#F5F5F7]";
