@@ -17,6 +17,8 @@ import { COUNTRIES } from "@/lib/countries";
 import { z } from "zod";
 import { FormFeedback } from "@/components/shared/FormFeedback";
 import { ButtonSpinner } from "@/components/shared/ButtonSpinner";
+import { useKnowledgeBaseSearch } from "@/hooks/useKnowledgeBaseSearch";
+import { KnowledgeBaseSuggestions } from "@/components/contact/KnowledgeBaseSuggestions";
 
 /**
  * CONTACT PAGE — Uses global FormPageLayout standard
@@ -27,6 +29,7 @@ const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(200),
   email: z.string().trim().email("Please enter a valid email address").max(255),
   location: z.string().min(1, "Location is required"),
+  subject: z.string().trim().min(1, "Subject is required").max(500),
   message: z.string().trim().min(1, "Message is required").max(5000),
 });
 
@@ -36,11 +39,26 @@ export default function ContactPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
+  const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [dismissedSuggestions, setDismissedSuggestions] = useState(false);
   const { toast } = useToast();
+
+  // Knowledge base search
+  const { articles, isSearching, clearResults } = useKnowledgeBaseSearch(subject);
+
+  // Show suggestions only when we have articles and user hasn't dismissed them
+  const showSuggestions = articles.length > 0 && !dismissedSuggestions;
+
+  // Reset dismissed state when subject changes significantly
+  useEffect(() => {
+    if (subject.length < 2) {
+      setDismissedSuggestions(false);
+    }
+  }, [subject]);
 
   // Auto-dismiss success message after 5 seconds
   useEffect(() => {
@@ -52,11 +70,9 @@ export default function ContactPage() {
     }
   }, [submitStatus]);
 
-  function resetForm() {
-    setName("");
-    setEmail("");
-    setLocation("");
-    setMessage("");
+  function handleContinueWithQuestion() {
+    setDismissedSuggestions(true);
+    clearResults();
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -67,6 +83,7 @@ export default function ContactPage() {
       name,
       email,
       location,
+      subject,
       message,
     });
 
@@ -87,6 +104,7 @@ export default function ContactPage() {
           full_name: name.trim(),
           email: email.trim().toLowerCase(),
           location: location.trim(),
+          subject: subject.trim(),
           message: message.trim(),
           source_page: "contact",
         },
@@ -191,26 +209,54 @@ export default function ContactPage() {
         </div>
 
         {/* ============================================
-            SECTION 2: MESSAGE / INTENT
+            SECTION 2: SUBJECT + KNOWLEDGE BASE
             ============================================ */}
-        <div className="pt-2">
-          <div className="space-y-2">
-            <label htmlFor="contact-message" className="text-[13px] font-medium text-foreground">
-              Your message
-            </label>
-            <Textarea
-              id="contact-message"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              disabled={isSubmitting}
-              rows={4}
+        <div className="space-y-2">
+          <label htmlFor="contact-subject" className="text-[13px] font-medium text-foreground">
+            Subject
+          </label>
+          <Input
+            id="contact-subject"
+            type="text"
+            value={subject}
+            onChange={(e) => {
+              setSubject(e.target.value);
+              setDismissedSuggestions(false);
+            }}
+            placeholder="What is your inquiry about?"
+            required
+            disabled={isSubmitting}
+          />
+          
+          {/* Knowledge Base Suggestions */}
+          {(showSuggestions || isSearching) && (
+            <KnowledgeBaseSuggestions
+              articles={articles}
+              isSearching={isSearching}
+              onContinue={handleContinueWithQuestion}
             />
-          </div>
+          )}
         </div>
 
         {/* ============================================
-            SECTION 3: FEEDBACK + SUBMISSION
+            SECTION 3: MESSAGE
+            ============================================ */}
+        <div className="space-y-2">
+          <label htmlFor="contact-message" className="text-[13px] font-medium text-foreground">
+            Your message
+          </label>
+          <Textarea
+            id="contact-message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+            disabled={isSubmitting}
+            rows={4}
+          />
+        </div>
+
+        {/* ============================================
+            SECTION 4: FEEDBACK + SUBMISSION
             ============================================ */}
         <div className="pt-4 space-y-4">
           {/* Inline Feedback */}
@@ -218,7 +264,7 @@ export default function ContactPage() {
             <FormFeedback
               type="error"
               title="Unable to submit"
-              message="Something went wrong. Please try again or email us directly at contact@tribesassets.com."
+              message="Something went wrong. Please try again or email us directly at support@mail.tribesassets.com."
               onDismiss={() => setSubmitStatus("idle")}
             />
           )}
