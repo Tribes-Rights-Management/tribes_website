@@ -19,6 +19,11 @@ import ServicesPage from "./pages/ServicesPage";
 import ServiceInquiryPage from "./pages/ServiceInquiryPage";
 import NotFound from "./pages/NotFound";
 
+// Help Center pages
+import HelpHomePage from "./pages/help/HelpHomePage";
+import HelpCategoryPage from "./pages/help/HelpCategoryPage";
+import HelpArticlePage from "./pages/help/HelpArticlePage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -41,6 +46,11 @@ const App = () => (
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
+
+          {/* Help Center routes */}
+          <Route path="/help" element={<HelpHomePage />} />
+          <Route path="/help/categories/:categoryId" element={<HelpCategoryPage />} />
+          <Route path="/help/articles/:articleSlug" element={<HelpArticlePage />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
