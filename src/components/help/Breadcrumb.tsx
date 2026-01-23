@@ -1,6 +1,6 @@
 /**
- * Help Center Breadcrumb
- * Navigation trail with chevron separators
+ * Breadcrumb Navigation
+ * Font-size: 13px, separator: " › ", color: #a3a3a3
  */
 
 import { Link } from "react-router-dom";
@@ -16,28 +16,28 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6">
-      <ol className="flex items-center gap-1.5 text-[13px]">
+    <nav className="mb-6 text-[13px]">
+      <ol className="flex items-center flex-wrap">
         <li>
           <Link 
-            to="/help" 
-            className="text-[#666666] hover:text-[#1a1a1a] transition-colors duration-150"
+            to="/hc" 
+            className="text-[#525252] hover:text-[#1a1a1a] transition-colors duration-150"
           >
-            Home
+            Help Center
           </Link>
         </li>
         {items.map((item, index) => (
-          <li key={index} className="flex items-center gap-1.5">
-            <span className="text-[#999999]">›</span>
+          <li key={index} className="flex items-center">
+            <span className="mx-2 text-[#a3a3a3]">›</span>
             {item.href ? (
               <Link 
-                to={item.href}
-                className="text-[#666666] hover:text-[#1a1a1a] transition-colors duration-150"
+                to={item.href} 
+                className="text-[#525252] hover:text-[#1a1a1a] transition-colors duration-150"
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="text-[#999999]">{item.label}</span>
+              <span className="text-[#a3a3a3]">{item.label}</span>
             )}
           </li>
         ))}

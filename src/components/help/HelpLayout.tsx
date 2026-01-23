@@ -1,11 +1,11 @@
 /**
  * Help Center Layout
- * Mercury-style institutional layout with sidebar navigation
+ * Mercury-style institutional layout with 220px sidebar
  */
 
 import { ReactNode, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import { X } from "lucide-react";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpHeader } from "./HelpHeader";
 import type { HelpTab } from "@/types/helpCenter";
@@ -24,7 +24,7 @@ export function HelpLayout({ children }: HelpLayoutProps) {
   const currentCategoryId = pathParts[2] === "categories" ? pathParts[3] : undefined;
 
   return (
-    <div className="min-h-screen bg-white font-['IBM_Plex_Sans',sans-serif]">
+    <div className="min-h-screen bg-white font-['IBM_Plex_Sans',sans-serif] text-[14px] leading-[1.5]">
       <HelpHeader 
         activeTab={activeTab} 
         onTabChange={setActiveTab}
@@ -33,8 +33,8 @@ export function HelpLayout({ children }: HelpLayoutProps) {
       />
       
       <div className="flex">
-        {/* Desktop Sidebar */}
-        <aside className="hidden md:block w-[260px] shrink-0 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto border-r border-[#e5e5e5]">
+        {/* Desktop Sidebar - 220px fixed width */}
+        <aside className="hidden md:block w-[220px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-[#f5f5f5]">
           <HelpSidebar currentCategoryId={currentCategoryId} />
         </aside>
 
@@ -53,17 +53,17 @@ export function HelpLayout({ children }: HelpLayoutProps) {
             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
         >
-          <div className="h-16 flex items-center justify-between px-4 border-b border-[#e5e5e5]">
-            <span className="text-[15px] font-semibold text-[#1a1a1a]">Navigation</span>
+          <div className="h-[56px] flex items-center justify-between px-4 border-b border-[#e5e5e5]">
+            <span className="text-[14px] font-semibold text-[#1a1a1a]">Navigation</span>
             <button 
               onClick={() => setSidebarOpen(false)}
-              className="p-2 -mr-2 text-[#666666] hover:text-[#1a1a1a]"
+              className="p-2 -mr-2 text-[#525252] hover:text-[#1a1a1a]"
               aria-label="Close menu"
             >
               <X size={20} />
             </button>
           </div>
-          <div className="overflow-y-auto h-[calc(100%-64px)]">
+          <div className="overflow-y-auto h-[calc(100%-56px)]">
             <HelpSidebar 
               currentCategoryId={currentCategoryId} 
               onNavigate={() => setSidebarOpen(false)}
@@ -71,9 +71,9 @@ export function HelpLayout({ children }: HelpLayoutProps) {
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Main Content - 800px max width */}
         <main className="flex-1 min-w-0">
-          <div className="max-w-[900px] px-6 md:px-12 py-8 md:py-12">
+          <div className="max-w-[800px] px-6 md:px-12 py-8">
             {children}
           </div>
         </main>

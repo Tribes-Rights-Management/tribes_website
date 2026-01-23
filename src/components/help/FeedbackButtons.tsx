@@ -1,6 +1,6 @@
 /**
  * Article Feedback Buttons
- * Yes/No feedback with thumbs icons
+ * Border-top: #f5f5f5, margin-top: 48px, padding-top: 32px
  */
 
 import { useState } from "react";
@@ -21,45 +21,51 @@ export function FeedbackButtons({ articleSlug }: FeedbackButtonsProps) {
 
   if (feedback) {
     return (
-      <div className="pt-8 mt-8 border-t border-[#f0f0f0]">
-        <p className="text-[14px] text-[#666666]">
-          Thank you for your feedback!
+      <div className="border-t border-[#f5f5f5] mt-12 pt-8">
+        <p className="text-[14px] text-[#525252]">
+          Thanks for your feedback!
         </p>
       </div>
     );
   }
 
   return (
-    <div className="pt-8 mt-8 border-t border-[#f0f0f0]">
-      <p className="text-[14px] font-medium text-[#1a1a1a] mb-4">
+    <div className="border-t border-[#f5f5f5] mt-12 pt-8">
+      <p className="text-[14px] font-medium text-[#525252] mb-4">
         Was this article helpful?
       </p>
       <div className="flex gap-3">
         <button
           onClick={() => handleFeedback("yes")}
           className="
-            flex items-center gap-2 px-5 py-2.5
-            text-[14px] font-medium text-[#1a1a1a]
+            flex items-center gap-2 
+            px-5 py-[10px]
             border border-[#e5e5e5] rounded-md
+            bg-white
+            text-[14px] font-medium text-[#525252]
+            cursor-pointer
             transition-all duration-150
-            hover:border-[#1a1a1a]
+            hover:border-[#1a1a1a] hover:text-[#1a1a1a]
           "
         >
           <ThumbsUp size={16} />
-          Yes
+          <span>Yes</span>
         </button>
         <button
           onClick={() => handleFeedback("no")}
           className="
-            flex items-center gap-2 px-5 py-2.5
-            text-[14px] font-medium text-[#1a1a1a]
+            flex items-center gap-2 
+            px-5 py-[10px]
             border border-[#e5e5e5] rounded-md
+            bg-white
+            text-[14px] font-medium text-[#525252]
+            cursor-pointer
             transition-all duration-150
-            hover:border-[#1a1a1a]
+            hover:border-[#1a1a1a] hover:text-[#1a1a1a]
           "
         >
           <ThumbsDown size={16} />
-          No
+          <span>No</span>
         </button>
       </div>
     </div>

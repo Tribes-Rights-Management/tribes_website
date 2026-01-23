@@ -14,7 +14,7 @@ export default function HelpArticlePage() {
 
   if (!article || !category) return <NotFound />;
 
-  // Simple markdown-like rendering
+  // Markdown-like rendering with exact spec styling
   const renderContent = (content: string) => {
     const lines = content.split('\n');
     const elements: JSX.Element[] = [];
@@ -24,9 +24,9 @@ export default function HelpArticlePage() {
     const flushList = () => {
       if (listItems.length > 0) {
         elements.push(
-          <ul key={`list-${elements.length}`} className="list-disc pl-6 mb-4 space-y-1">
+          <ul key={`list-${elements.length}`} className="list-disc pl-5 mb-4 space-y-1.5">
             {listItems.map((item, i) => (
-              <li key={i} className="text-[15px] leading-[1.7] text-[#1a1a1a]">{item}</li>
+              <li key={i} className="text-[15px] leading-[1.7] text-[#525252]">{item}</li>
             ))}
           </ul>
         );
@@ -40,20 +40,36 @@ export default function HelpArticlePage() {
       
       if (trimmed.startsWith('## ')) {
         flushList();
-        elements.push(<h2 key={i} className="text-[20px] font-semibold text-[#1a1a1a] mt-8 mb-4">{trimmed.slice(3)}</h2>);
+        elements.push(
+          <h2 key={i} className="text-[18px] font-semibold text-[#1a1a1a] mt-8 mb-3">
+            {trimmed.slice(3)}
+          </h2>
+        );
       } else if (trimmed.startsWith('### ')) {
         flushList();
-        elements.push(<h3 key={i} className="text-[16px] font-semibold text-[#1a1a1a] mt-6 mb-3">{trimmed.slice(4)}</h3>);
+        elements.push(
+          <h3 key={i} className="text-[15px] font-semibold text-[#1a1a1a] mt-6 mb-2">
+            {trimmed.slice(4)}
+          </h3>
+        );
       } else if (trimmed.startsWith('- ')) {
         inList = true;
         listItems.push(trimmed.slice(2));
       } else if (trimmed.match(/^\d+\. \*\*/)) {
         flushList();
         const text = trimmed.replace(/\*\*/g, '');
-        elements.push(<p key={i} className="text-[15px] leading-[1.7] text-[#1a1a1a] mb-2 font-medium">{text}</p>);
+        elements.push(
+          <p key={i} className="text-[15px] leading-[1.7] text-[#525252] mb-2 font-medium">
+            {text}
+          </p>
+        );
       } else if (trimmed) {
         flushList();
-        elements.push(<p key={i} className="text-[15px] leading-[1.7] text-[#1a1a1a] mb-4">{trimmed}</p>);
+        elements.push(
+          <p key={i} className="text-[15px] leading-[1.7] text-[#525252] mb-4">
+            {trimmed}
+          </p>
+        );
       }
     });
     
@@ -64,26 +80,28 @@ export default function HelpArticlePage() {
   return (
     <HelpLayout>
       <Breadcrumb items={[
-        { label: category.name, href: `/help/categories/${category.id}` },
+        { label: category.name, href: `/hc/categories/${category.id}` },
         { label: article.title }
       ]} />
       
       <article>
+        {/* Article Header - mb-32px */}
         <header className="mb-8">
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#999999] mb-2 block">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#a3a3a3] mb-3 block">
             {category.name}
           </span>
-          <h1 className="text-[32px] font-semibold text-[#1a1a1a] leading-tight mb-3">
+          <h1 className="text-[28px] font-semibold text-[#1a1a1a] leading-[1.3] mb-3">
             {article.title}
           </h1>
-          <p className="text-[13px] text-[#999999]">
+          <p className="text-[13px] text-[#a3a3a3]">
             Updated {new Date(article.updatedAt).toLocaleDateString('en-US', { 
               year: 'numeric', month: 'long', day: 'numeric' 
             })}
           </p>
         </header>
 
-        <div className="prose-tribes">
+        {/* Article Body */}
+        <div>
           {renderContent(article.content)}
         </div>
 

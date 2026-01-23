@@ -48,9 +48,9 @@ const App = () => (
           <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
 
           {/* Help Center routes */}
-          <Route path="/help" element={<HelpHomePage />} />
-          <Route path="/help/categories/:categoryId" element={<HelpCategoryPage />} />
-          <Route path="/help/articles/:articleSlug" element={<HelpArticlePage />} />
+          <Route path="/hc" element={<HelpHomePage />} />
+          <Route path="/hc/categories/:categoryId" element={<HelpCategoryPage />} />
+          <Route path="/hc/articles/:articleSlug" element={<HelpArticlePage />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
