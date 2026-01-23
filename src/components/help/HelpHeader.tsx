@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * 64px sticky header with logo, divider, and nav tabs
+ * 56px sticky header with logo, divider, and plain text nav tabs
  */
 
 import { Link } from "react-router-dom";
@@ -24,50 +24,52 @@ const tabs: { id: HelpTab; label: string }[] = [
 
 export function HelpHeader({ activeTab, onTabChange, onMenuToggle, sidebarOpen }: HelpHeaderProps) {
   return (
-    <header className="h-16 sticky top-0 z-30 bg-white border-b border-[#e5e5e5]">
-      <div className="h-full px-4 md:px-6 flex items-center justify-between">
-        {/* Left: Logo + Help Center */}
-        <div className="flex items-center gap-3">
-          {/* Mobile menu button */}
-          <button
-            onClick={onMenuToggle}
-            className="p-2 -ml-2 md:hidden text-[#666666] hover:text-[#1a1a1a]"
-            aria-label="Toggle menu"
-            aria-expanded={sidebarOpen}
-          >
-            <Menu size={20} />
-          </button>
-          
-          <Link to="/" className="flex items-center gap-3">
-            <img 
-              src={WORDMARK_URL} 
-              alt="Tribes" 
-              className="h-5"
-              style={{ height: '20px' }}
-            />
-          </Link>
-          
-          <div className="hidden sm:block w-px h-5 bg-[#e5e5e5]" />
-          
-          <Link 
-            to="/help" 
-            className="hidden sm:block text-[15px] font-medium text-[#1a1a1a] hover:text-[#666666] transition-colors duration-150"
-          >
-            Help Center
-          </Link>
-        </div>
+    <header className="h-[56px] sticky top-0 z-50 bg-white border-b border-[#e5e5e5]">
+      <div className="h-full px-6 flex items-center">
+        {/* Mobile menu button */}
+        <button
+          onClick={onMenuToggle}
+          className="p-2 -ml-2 mr-2 md:hidden text-[#525252] hover:text-[#1a1a1a]"
+          aria-label="Toggle menu"
+          aria-expanded={sidebarOpen}
+        >
+          <Menu size={20} />
+        </button>
+        
+        {/* Logo */}
+        <Link to="/" className="flex items-center">
+          <img 
+            src={WORDMARK_URL} 
+            alt="Tribes" 
+            className="h-[18px] w-auto"
+          />
+        </Link>
+        
+        {/* Divider */}
+        <div className="hidden sm:block w-px h-5 bg-[#e5e5e5] mx-4" />
+        
+        {/* Help Center text */}
+        <Link 
+          to="/hc" 
+          className="hidden sm:block text-[14px] font-medium text-[#1a1a1a] hover:text-[#525252] transition-colors duration-150"
+        >
+          Help Center
+        </Link>
 
-        {/* Right: Nav Tabs */}
-        <nav className="hidden md:flex items-center gap-1">
+        {/* Spacer */}
+        <div className="flex-grow" />
+
+        {/* Nav Tabs - plain text, no pills */}
+        <nav className="hidden md:flex items-center gap-8">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
               className={`
-                px-4 py-2 text-[14px] font-medium rounded-md transition-colors duration-150
+                text-[14px] font-medium transition-colors duration-150
                 ${activeTab === tab.id 
-                  ? 'text-[#1a1a1a] bg-[#f5f5f5]' 
-                  : 'text-[#666666] hover:text-[#1a1a1a] hover:bg-[#fafafa]'
+                  ? 'text-[#1a1a1a]' 
+                  : 'text-[#525252] hover:text-[#1a1a1a]'
                 }
               `}
             >

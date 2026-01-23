@@ -109,7 +109,7 @@ export const helpCategories: HelpCategory[] = [
   {
     id: "api-reference",
     name: "API Reference",
-    icon: "Layers",
+    icon: "Code",
     description: "Developer documentation and API guides",
     articles: [
       { slug: "api-getting-started", title: "API Getting Started" },
