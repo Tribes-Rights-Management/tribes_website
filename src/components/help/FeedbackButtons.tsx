@@ -1,6 +1,6 @@
 /**
  * Article Feedback Buttons
- * Border-top: #f5f5f5, margin-top: 48px, padding-top: 32px
+ * Was this article helpful? Yes / No
  */
 
 import { useState } from "react";
@@ -15,7 +15,7 @@ export function FeedbackButtons({ articleSlug }: FeedbackButtonsProps) {
 
   const handleFeedback = (value: "yes" | "no") => {
     setFeedback(value);
-    // Could send to analytics/backend here
+    // TODO: Send feedback to analytics/database
     console.log(`Feedback for ${articleSlug}: ${value}`);
   };
 
@@ -38,34 +38,28 @@ export function FeedbackButtons({ articleSlug }: FeedbackButtonsProps) {
         <button
           onClick={() => handleFeedback("yes")}
           className="
-            flex items-center gap-2 
-            px-5 py-[10px]
-            border border-[#e5e5e5] rounded-md
-            bg-white
+            flex items-center gap-2 px-5 py-2.5
             text-[14px] font-medium text-[#525252]
-            cursor-pointer
-            transition-all duration-150
+            border border-[#e5e5e5] rounded-md
             hover:border-[#1a1a1a] hover:text-[#1a1a1a]
+            transition-colors duration-150
           "
         >
           <ThumbsUp size={16} />
-          <span>Yes</span>
+          Yes
         </button>
         <button
           onClick={() => handleFeedback("no")}
           className="
-            flex items-center gap-2 
-            px-5 py-[10px]
-            border border-[#e5e5e5] rounded-md
-            bg-white
+            flex items-center gap-2 px-5 py-2.5
             text-[14px] font-medium text-[#525252]
-            cursor-pointer
-            transition-all duration-150
+            border border-[#e5e5e5] rounded-md
             hover:border-[#1a1a1a] hover:text-[#1a1a1a]
+            transition-colors duration-150
           "
         >
           <ThumbsDown size={16} />
-          <span>No</span>
+          No
         </button>
       </div>
     </div>

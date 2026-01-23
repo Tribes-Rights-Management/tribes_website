@@ -4,30 +4,23 @@
  */
 
 import { ReactNode, useState } from "react";
-import { useLocation } from "react-router-dom";
 import { X } from "lucide-react";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpHeader } from "./HelpHeader";
-import type { HelpTab } from "@/types/helpCenter";
 
 interface HelpLayoutProps {
   children: ReactNode;
+  currentAudience: string;
+  currentCategorySlug?: string;
 }
 
-export function HelpLayout({ children }: HelpLayoutProps) {
-  const [activeTab, setActiveTab] = useState<HelpTab>("publishers");
+export function HelpLayout({ children, currentAudience, currentCategorySlug }: HelpLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const location = useLocation();
-
-  // Extract current category from path
-  const pathParts = location.pathname.split("/");
-  const currentCategoryId = pathParts[2] === "categories" ? pathParts[3] : undefined;
 
   return (
     <div className="min-h-screen bg-white font-['IBM_Plex_Sans',sans-serif] text-[14px] leading-[1.5]">
       <HelpHeader 
-        activeTab={activeTab} 
-        onTabChange={setActiveTab}
+        currentAudience={currentAudience}
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
         sidebarOpen={sidebarOpen}
       />
@@ -35,7 +28,10 @@ export function HelpLayout({ children }: HelpLayoutProps) {
       <div className="flex">
         {/* Desktop Sidebar - 220px fixed width */}
         <aside className="hidden md:block w-[220px] shrink-0 sticky top-[56px] h-[calc(100vh-56px)] overflow-y-auto border-r border-[#f5f5f5]">
-          <HelpSidebar currentCategoryId={currentCategoryId} />
+          <HelpSidebar 
+            currentAudience={currentAudience} 
+            currentCategorySlug={currentCategorySlug} 
+          />
         </aside>
 
         {/* Mobile Sidebar Overlay */}
@@ -65,7 +61,8 @@ export function HelpLayout({ children }: HelpLayoutProps) {
           </div>
           <div className="overflow-y-auto h-[calc(100%-56px)]">
             <HelpSidebar 
-              currentCategoryId={currentCategoryId} 
+              currentAudience={currentAudience}
+              currentCategorySlug={currentCategorySlug}
               onNavigate={() => setSidebarOpen(false)}
             />
           </div>
