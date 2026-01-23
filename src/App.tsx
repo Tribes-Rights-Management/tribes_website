@@ -20,6 +20,7 @@ import ServiceInquiryPage from "./pages/ServiceInquiryPage";
 import NotFound from "./pages/NotFound";
 
 // Help Center pages
+import HelpRedirectPage from "./pages/help/HelpRedirectPage";
 import HelpHomePage from "./pages/help/HelpHomePage";
 import HelpCategoryPage from "./pages/help/HelpCategoryPage";
 import HelpArticlePage from "./pages/help/HelpArticlePage";
@@ -48,9 +49,10 @@ const App = () => (
           <Route path="/services/inquiry" element={<ServiceInquiryPage />} />
 
           {/* Help Center routes */}
-          <Route path="/hc" element={<HelpHomePage />} />
-          <Route path="/hc/categories/:categoryId" element={<HelpCategoryPage />} />
-          <Route path="/hc/articles/:articleSlug" element={<HelpArticlePage />} />
+          <Route path="/hc" element={<HelpRedirectPage />} />
+          <Route path="/hc/:audience" element={<HelpHomePage />} />
+          <Route path="/hc/:audience/categories/:categorySlug" element={<HelpCategoryPage />} />
+          <Route path="/hc/:audience/articles/:articleSlug" element={<HelpArticlePage />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
