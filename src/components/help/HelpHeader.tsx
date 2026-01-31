@@ -47,7 +47,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           {/* Help Center text */}
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:block text-[14px] leading-none text-muted-foreground ml-4 hover:text-foreground transition-colors duration-150"
+            className="hidden sm:block text-[14px] text-muted-foreground ml-4 hover:text-foreground transition-colors duration-150"
           >
             Help Center
           </Link>
@@ -71,9 +71,9 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                     key={audience.id}
                     to={`/hc/${audience.slug}`}
                     className={`
-                      text-[14px] font-medium transition-colors duration-150 pb-[18px] pt-[18px] -mb-[1px]
+                      text-[14px] font-medium transition-colors duration-150
                       ${isActive 
-                        ? 'text-foreground border-b-2 border-foreground' 
+                        ? 'text-foreground border-b-2 border-foreground pb-[17px] -mb-[19px]' 
                         : 'text-muted-foreground hover:text-foreground'
                       }
                     `}
@@ -89,7 +89,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         {/* Right section - Client Portal link */}
         <a 
           href="https://app.tribesrightsmanagement.com" 
-          className="hidden sm:block text-[14px] leading-none text-muted-foreground hover:text-foreground transition-colors duration-150"
+          className="hidden sm:block text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
         >
           Client Portal
         </a>
