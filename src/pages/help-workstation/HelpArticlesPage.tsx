@@ -123,6 +123,7 @@ export default function HelpArticlesPage() {
   const [viewMode, setViewMode] = useState<"all" | "byCategory">("all");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
   const [localArticles, setLocalArticles] = useState<ArticleAudience[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   // Sensors for drag and drop
   const sensors = useSensors(
@@ -259,6 +260,14 @@ export default function HelpArticlesPage() {
   }, [categories, selectedCategoryId]);
 
   const isLoading = articlesLoading || categoriesLoading;
+  
+  // Filter articles by status
+  const filteredArticles = useMemo(() => {
+    if (!allArticles) return [];
+    if (statusFilter === "all") return allArticles;
+    return allArticles.filter((article) => article.status === statusFilter);
+  }, [allArticles, statusFilter]);
+
   const articleCount = allArticles?.length || 0;
 
   return (
@@ -286,7 +295,7 @@ export default function HelpArticlesPage() {
           {articleCount} articles
         </p>
 
-        {/* View toggle */}
+        {/* View toggle and filters */}
         <div className="flex items-center gap-4 mb-6">
           <span className="text-[14px] text-muted-foreground">View:</span>
           <RadioGroup
@@ -328,6 +337,19 @@ export default function HelpArticlesPage() {
               </SelectContent>
             </Select>
           )}
+
+          {viewMode === "all" && (
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="w-[160px]">
+                <SelectValue placeholder="All statuses" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All statuses</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         {/* All Articles View */}
@@ -339,7 +361,7 @@ export default function HelpArticlesPage() {
                 <Skeleton className="h-10 w-full" />
                 <Skeleton className="h-10 w-full" />
               </div>
-            ) : allArticles && allArticles.length > 0 ? (
+            ) : filteredArticles.length > 0 ? (
               <div className="border border-border rounded-lg overflow-hidden">
                 <Table>
                   <TableHeader>
@@ -356,7 +378,7 @@ export default function HelpArticlesPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {allArticles.map((article) => (
+                    {filteredArticles.map((article) => (
                       <TableRow
                         key={article.id}
                         className="cursor-pointer hover:bg-muted/50"
@@ -395,6 +417,10 @@ export default function HelpArticlesPage() {
                   </TableBody>
                 </Table>
               </div>
+            ) : allArticles && allArticles.length > 0 ? (
+              <p className="text-[14px] text-muted-foreground">
+                No articles match the selected filter.
+              </p>
             ) : (
               <p className="text-[14px] text-muted-foreground">
                 No articles created yet.
