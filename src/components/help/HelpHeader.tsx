@@ -3,7 +3,7 @@
  * 56px sticky header with logo, divider, audience tabs
  */
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useAudiences } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -17,14 +17,12 @@ interface HelpHeaderProps {
 }
 
 export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpHeaderProps) {
-  const navigate = useNavigate();
   const { data: audiences, isLoading } = useAudiences();
 
   return (
-    <header className="h-[56px] sticky top-0 z-50 bg-white border-b border-border">
-      <div className="h-full px-6 flex items-center justify-between">
-        {/* Left section */}
-        <div className="flex items-center">
+    <header className="sticky top-0 z-50 h-14 bg-white border-b border-border px-6 flex items-center justify-between">
+      {/* Left section */}
+      <div className="flex items-center h-full gap-4">
           {/* Mobile menu button */}
           <button
             onClick={onMenuToggle}
@@ -36,27 +34,27 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           </button>
           
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center h-full">
             <img 
               src={WORDMARK_URL} 
               alt="Tribes" 
-              className="h-[18px] w-auto"
+              className="block h-[18px] w-auto"
             />
           </Link>
           
           {/* Help Center text */}
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:block text-[14px] text-muted-foreground ml-4 hover:text-foreground transition-colors duration-150"
+            className="hidden sm:flex items-center h-full text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
           >
             Help Center
           </Link>
 
           {/* Divider */}
-          <div className="hidden md:block h-5 w-px bg-border mx-4" />
+          <div className="hidden md:block w-px h-5 bg-border ml-4 mr-6" />
 
           {/* Audience Tabs */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-6 h-full">
             {isLoading ? (
               <>
                 <Skeleton className="h-4 w-20" />
@@ -70,30 +68,31 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                   <Link
                     key={audience.id}
                     to={`/hc/${audience.slug}`}
-                    className={`
-                      text-[14px] font-medium transition-colors duration-150
-                      ${isActive 
-                        ? 'text-foreground border-b-2 border-foreground pb-[17px] -mb-[19px]' 
-                        : 'text-muted-foreground hover:text-foreground'
-                      }
-                    `}
+                    className={
+                      "relative h-full flex items-center text-[14px] font-medium transition-colors duration-150 " +
+                      (isActive
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground")
+                    }
                   >
                     {audience.name}
+                    {isActive ? (
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
+                    ) : null}
                   </Link>
                 );
               })
             )}
           </nav>
-        </div>
-        
-        {/* Right section - Client Portal link */}
-        <a 
-          href="https://app.tribesrightsmanagement.com" 
-          className="hidden sm:block text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
-        >
-          Client Portal
-        </a>
       </div>
+
+      {/* Right section - Client Portal link */}
+      <a
+        href="https://app.tribesrightsmanagement.com"
+        className="hidden sm:flex items-center h-full text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
+      >
+        Client Portal
+      </a>
     </header>
   );
 }
