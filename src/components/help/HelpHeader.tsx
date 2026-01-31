@@ -47,7 +47,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           {/* Help Center text */}
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:block text-[14px] text-muted-foreground ml-4 hover:text-foreground transition-colors duration-150"
+            className="hidden sm:block text-[14px] leading-none text-muted-foreground ml-4 hover:text-foreground transition-colors duration-150"
           >
             Help Center
           </Link>
@@ -86,8 +86,13 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           </nav>
         </div>
         
-        {/* Right section - empty for future use */}
-        <div></div>
+        {/* Right section - Client Portal link */}
+        <a 
+          href="https://app.tribesrightsmanagement.com" 
+          className="hidden sm:block text-[14px] leading-none text-muted-foreground hover:text-foreground transition-colors duration-150"
+        >
+          Client Portal
+        </a>
       </div>
     </header>
   );
