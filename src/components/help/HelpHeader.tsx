@@ -22,7 +22,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
   return (
     <header className="sticky top-0 z-50 h-14 bg-white border-b border-border px-6 flex items-center justify-between">
       {/* Left section */}
-      <div className="flex items-center h-full gap-4">
+      <div className="flex items-center h-full gap-3">
           {/* Mobile menu button */}
           <button
             onClick={onMenuToggle}
@@ -51,10 +51,10 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           </Link>
 
           {/* Divider */}
-          <div className="hidden md:block w-px h-5 bg-border ml-4 mr-6" />
+          <div className="hidden md:block w-px h-5 bg-border" />
 
           {/* Audience Tabs */}
-          <nav className="hidden md:flex items-center gap-6 h-full">
+          <nav className="hidden md:flex items-center gap-5 h-full">
             {isLoading ? (
               <>
                 <Skeleton className="h-4 w-20" />
@@ -77,7 +77,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                   >
                     {audience.name}
                     {isActive ? (
-                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground" />
+                      <span className="absolute bottom-0 left-0 right-0 h-px bg-foreground" />
                     ) : null}
                   </Link>
                 );
