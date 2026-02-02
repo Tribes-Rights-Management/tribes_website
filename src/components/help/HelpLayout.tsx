@@ -1,6 +1,6 @@
 /**
  * Help Center Layout
- * EXACT Portal colors and spacing
+ * EXACT Portal alignment and colors
  */
 
 import { ReactNode, useState } from "react";
@@ -14,9 +14,9 @@ interface HelpLayoutProps {
   currentCategorySlug?: string;
 }
 
-/* Portal exact colors from tribes-theme.css */
+/* Portal exact colors */
 const COLORS = {
-  PAGE_BG: '#F3F4F6',        /* --page-bg / --app-canvas */
+  PAGE_BG: '#FFFFFF',        /* White background for help center */
   SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
   BORDER_SUBTLE: '#E6E8EC',  /* --border-subtle */
   TEXT: '#1F2937',
@@ -101,15 +101,13 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content - Portal uses more padding from sidebar */}
-        <main className="flex-1 min-w-0">
+        {/* Main Content - Portal uses px-6 (24px) padding */}
+        <main className="flex-1 min-w-0" style={{ backgroundColor: COLORS.PAGE_BG }}>
           <div style={{ 
             maxWidth: '900px',
-            /* Portal content padding: px-6 (24px) on mobile, larger on desktop */
-            /* Adding more left padding to match Portal spacing from sidebar */
-            paddingLeft: '48px',   /* More space from sidebar */
-            paddingRight: '48px',
-            paddingTop: '32px',
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            paddingTop: '24px',
             paddingBottom: '32px',
           }}>
             {children}
