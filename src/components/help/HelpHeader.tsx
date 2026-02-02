@@ -173,7 +173,7 @@ export function HelpHeader({ currentAudience }: HelpHeaderProps) {
           <Link 
             to="/" 
             className="flex items-center rounded-lg transition-colors"
-            style={{ height: '36px', paddingLeft: '8px', paddingRight: '8px' }}
+            style={{ height: '36px' }}
             onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)'}
             onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
           >
