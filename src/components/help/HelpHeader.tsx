@@ -188,7 +188,7 @@ export function HelpHeader({ currentAudience }: HelpHeaderProps) {
         {/* Content column */}
         <div 
           className="flex-1 h-full flex items-center justify-between"
-          style={{ paddingLeft: '24px', paddingRight: '24px', backgroundColor: COLORS.TOPBAR_BG }}
+          style={{ paddingLeft: '32px', paddingRight: '32px', backgroundColor: COLORS.TOPBAR_BG }}
         >
           <nav className="flex items-center h-full" style={{ gap: '16px' }}>
             <Link 
