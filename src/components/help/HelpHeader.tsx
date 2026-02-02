@@ -1,8 +1,7 @@
 /**
  * Help Center Header
- * 56px sticky header with logo constrained to sidebar width
- * 
- * Layout: [Logo area (200px)] | [Divider] | [Nav tabs] | [spacer] | [Client Portal]
+ * Mercury-style: [Logo centered in 200px] | [Tabs] ... [Client Portal]
+ * 56px height, matches Portal exactly
  */
 
 import { Link } from "react-router-dom";
@@ -22,25 +21,28 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
 
   return (
     <header 
-      className="sticky top-0 z-50 bg-white border-b border-border flex items-center"
+      className="sticky top-0 z-50 bg-white border-b border-[#e5e5e5] flex items-center"
       style={{ height: HELP_CENTER.HEADER_HEIGHT }}
     >
-      {/* Logo area - constrained to sidebar width for alignment */}
+      {/* Logo column - matches sidebar width, logo centered */}
       <div 
-        className="shrink-0 h-full flex items-center px-4 border-r border-border"
-        style={{ width: HELP_CENTER.SIDEBAR_WIDTH }}
+        className="shrink-0 h-full flex items-center justify-center border-r border-[#e5e5e5]"
+        style={{ 
+          width: HELP_CENTER.SIDEBAR_WIDTH,
+          backgroundColor: HELP_CENTER.SIDEBAR_BG,
+        }}
       >
-        {/* Mobile menu button */}
+        {/* Mobile menu button - only on mobile */}
         <button
           onClick={onMenuToggle}
-          className="p-2 -ml-2 mr-2 md:hidden text-muted-foreground hover:text-foreground"
+          className="absolute left-4 p-2 md:hidden text-[#737373] hover:text-[#1a1a1a]"
           aria-label="Toggle menu"
           aria-expanded={sidebarOpen}
         >
           <Menu size={20} />
         </button>
         
-        {/* Logo */}
+        {/* Logo - centered */}
         <Link to="/" className="flex items-center">
           <img 
             src={BRAND.LOGO_URL} 
@@ -52,54 +54,58 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
             }}
           />
         </Link>
-        
-        {/* Help Center text - desktop only */}
-        <Link 
-          to={`/hc/${currentAudience}`}
-          className="hidden sm:flex items-center ml-3 text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
-        >
-          Help Center
-        </Link>
       </div>
 
-      {/* Right section - nav tabs and portal link */}
+      {/* Content column */}
       <div className="flex-1 h-full flex items-center justify-between px-6">
-        {/* Audience Tabs */}
-        <nav className="hidden md:flex items-center gap-5 h-full">
-          {isLoading ? (
-            <>
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-20" />
-              <Skeleton className="h-4 w-16" />
-            </>
-          ) : (
-            audiences?.map((audience) => {
-              const isActive = currentAudience === audience.slug;
-              return (
-                <Link
-                  key={audience.id}
-                  to={`/hc/${audience.slug}`}
-                  className={
-                    "relative h-full flex items-center text-[14px] font-medium transition-colors duration-150 " +
-                    (isActive
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground")
-                  }
-                >
-                  {audience.name}
-                  {isActive ? (
-                    <span className="absolute bottom-0 left-0 right-0 h-px bg-foreground" />
-                  ) : null}
-                </Link>
-              );
-            })
-          )}
-        </nav>
+        {/* Left: Help Center text + Audience Tabs */}
+        <div className="flex items-center gap-4 h-full">
+          {/* Help Center text */}
+          <Link 
+            to={`/hc/${currentAudience}`}
+            className="hidden sm:block text-[14px] text-[#737373] hover:text-[#1a1a1a] transition-colors"
+          >
+            Help Center
+          </Link>
 
-        {/* Client Portal link */}
+          {/* Divider */}
+          <div className="hidden md:block w-px h-5 bg-[#e5e5e5]" />
+
+          {/* Audience Tabs */}
+          <nav className="hidden md:flex items-center gap-5 h-full">
+            {isLoading ? (
+              <>
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-4 w-16" />
+              </>
+            ) : (
+              audiences?.map((audience) => {
+                const isActive = currentAudience === audience.slug;
+                return (
+                  <Link
+                    key={audience.id}
+                    to={`/hc/${audience.slug}`}
+                    className={`
+                      relative h-full flex items-center text-[14px] font-medium transition-colors
+                      ${isActive ? "text-[#1a1a1a]" : "text-[#737373] hover:text-[#1a1a1a]"}
+                    `}
+                  >
+                    {audience.name}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1a1a1a]" />
+                    )}
+                  </Link>
+                );
+              })
+            )}
+          </nav>
+        </div>
+
+        {/* Right: Client Portal link */}
         <a
           href="https://app.tribesrightsmanagement.com"
-          className="hidden sm:flex items-center h-full text-[14px] text-muted-foreground hover:text-foreground transition-colors duration-150"
+          className="hidden sm:block text-[14px] text-[#737373] hover:text-[#1a1a1a] transition-colors"
         >
           Client Portal
         </a>
