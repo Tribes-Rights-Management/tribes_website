@@ -2,9 +2,11 @@
  * Help Center Sidebar
  * Matches Portal SideNav styling EXACTLY
  * 
- * Container: px-2, py-3
- * Links: px-3 py-2 gap-3 text-[13px]
- * Icons: h-4 w-4 (16px)
+ * STRICT INVARIANTS (from Portal):
+ * - Container: px-2 py-3
+ * - Links: px-3 py-2 gap-3 text-[13px]
+ * - Icons: h-4 w-4 (16px), strokeWidth 1.5
+ * - Vertical spacing: space-y-px (minimal)
  */
 
 import { Link, useLocation } from "react-router-dom";
@@ -49,7 +51,7 @@ export function HelpSidebar({ currentAudience, currentCategorySlug, onNavigate }
 
   return (
     <nav className="flex flex-col h-full overflow-hidden">
-      {/* Main navigation - matches Portal py-3 */}
+      {/* Main navigation - py-3 matches Portal */}
       <div className="flex-1 py-3 overflow-y-auto">
         {/* Container px-2 matches Portal */}
         <div className="px-2 space-y-px">
@@ -76,11 +78,12 @@ export function HelpSidebar({ currentAudience, currentCategorySlug, onNavigate }
                     text-[13px] rounded-md text-left w-full
                     transition-colors duration-150
                     ${isActive 
-                      ? 'font-medium text-[#1a1a1a] bg-[#f0f0f0]' 
-                      : 'text-[#737373] hover:text-[#1a1a1a] hover:bg-[#f0f0f0]/50'
+                      ? 'font-medium text-[#1a1a1a] bg-[#e5e5e5]' 
+                      : 'text-[#737373] hover:text-[#1a1a1a] hover:bg-[#e5e5e5]/50'
                     }
                   `}
                 >
+                  {/* Icon: h-4 w-4 (16px) - STRICT, strokeWidth 1.5 */}
                   <Icon 
                     className="h-4 w-4 shrink-0 opacity-70" 
                     strokeWidth={1.5}
