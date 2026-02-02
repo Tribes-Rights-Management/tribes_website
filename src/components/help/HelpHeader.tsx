@@ -180,7 +180,7 @@ export function HelpHeader({ currentAudience }: HelpHeaderProps) {
             <img 
               src={BRAND.LOGO_URL} 
               alt="Tribes" 
-              style={{ height: '20px', width: 'auto', maxWidth: '80px' }}
+              style={{ height: '18px', width: 'auto', maxWidth: '80px' }}
             />
           </Link>
         </div>
