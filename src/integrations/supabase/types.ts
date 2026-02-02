@@ -2883,6 +2883,39 @@ export type Database = {
         }
         Relationships: []
       }
+      system_prompts: {
+        Row: {
+          created_at: string | null
+          examples: Json | null
+          id: string
+          is_active: boolean | null
+          performance_notes: string | null
+          prompt_key: string
+          prompt_text: string
+          version: number
+        }
+        Insert: {
+          created_at?: string | null
+          examples?: Json | null
+          id?: string
+          is_active?: boolean | null
+          performance_notes?: string | null
+          prompt_key: string
+          prompt_text: string
+          version?: number
+        }
+        Update: {
+          created_at?: string | null
+          examples?: Json | null
+          id?: string
+          is_active?: boolean | null
+          performance_notes?: string | null
+          prompt_key?: string
+          prompt_text?: string
+          version?: number
+        }
+        Relationships: []
+      }
       tenant_memberships: {
         Row: {
           allowed_contexts: Database["public"]["Enums"]["portal_context"][]
@@ -3123,6 +3156,45 @@ export type Database = {
           ui_density_mode?: Database["public"]["Enums"]["ui_density_mode"]
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      voice_transcripts: {
+        Row: {
+          corrected_title: string | null
+          corrected_writers: string[] | null
+          created_at: string | null
+          id: string
+          parsed_title: string | null
+          parsed_writers: string[] | null
+          success: boolean | null
+          transcript: string
+          user_id: string | null
+          was_corrected: boolean | null
+        }
+        Insert: {
+          corrected_title?: string | null
+          corrected_writers?: string[] | null
+          created_at?: string | null
+          id?: string
+          parsed_title?: string | null
+          parsed_writers?: string[] | null
+          success?: boolean | null
+          transcript: string
+          user_id?: string | null
+          was_corrected?: boolean | null
+        }
+        Update: {
+          corrected_title?: string | null
+          corrected_writers?: string[] | null
+          created_at?: string | null
+          id?: string
+          parsed_title?: string | null
+          parsed_writers?: string[] | null
+          success?: boolean | null
+          transcript?: string
+          user_id?: string | null
+          was_corrected?: boolean | null
         }
         Relationships: []
       }
