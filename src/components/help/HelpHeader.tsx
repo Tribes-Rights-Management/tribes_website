@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * EXACT Portal styling - using explicit pixels due to website's custom spacing scale
+ * EXACT Portal styling - using explicit pixels
  */
 
 import { Link } from "react-router-dom";
@@ -27,13 +27,14 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         borderBottom: '1px solid #e5e5e5',
       }}
     >
-      {/* Logo column - Portal: pl-5 (20px) */}
+      {/* Logo column - 200px width, grey background */}
       <div 
         className="h-full flex items-center shrink-0"
         style={{ 
           width: '200px',
           paddingLeft: '20px',
           backgroundColor: '#fafafa',
+          borderRight: '1px solid #e5e5e5',
         }}
       >
         {/* Mobile menu button */}
@@ -51,7 +52,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           <Menu style={{ width: '20px', height: '20px' }} />
         </button>
         
-        {/* Logo button - Portal: h-9 (36px) px-2 (8px) */}
+        {/* Logo button */}
         <Link 
           to="/" 
           className="hidden md:flex items-center rounded-lg hover:bg-black/5 transition-colors"
@@ -73,7 +74,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         </Link>
       </div>
 
-      {/* Content column - Portal: px-6 (24px) */}
+      {/* Content column */}
       <div 
         className="flex-1 h-full flex items-center justify-between"
         style={{ 
@@ -82,59 +83,60 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           backgroundColor: 'white',
         }}
       >
-        {/* Left side */}
-        <div className="flex items-center h-full" style={{ gap: '16px' }}>
+        {/* Left side - all items on same baseline */}
+        <nav className="flex items-center h-full" style={{ gap: '20px' }}>
+          {/* Help Center link - same styling as tabs */}
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:block transition-colors hover:text-[#1a1a1a]"
+            className="hidden sm:flex items-center h-full transition-colors hover:text-[#1a1a1a]"
             style={{ fontSize: '14px', color: '#737373' }}
           >
             Help Center
           </Link>
 
+          {/* Divider */}
           <div 
             className="hidden md:block" 
             style={{ width: '1px', height: '20px', backgroundColor: '#e5e5e5' }} 
           />
 
-          <nav className="hidden md:flex items-center h-full" style={{ gap: '20px' }}>
-            {isLoading ? (
-              <>
-                <Skeleton style={{ height: '16px', width: '80px' }} />
-                <Skeleton style={{ height: '16px', width: '80px' }} />
-              </>
-            ) : (
-              audiences?.map((audience) => {
-                const isActive = currentAudience === audience.slug;
-                return (
-                  <Link
-                    key={audience.id}
-                    to={`/hc/${audience.slug}`}
-                    className="relative h-full flex items-center transition-colors"
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 500,
-                      color: isActive ? '#1a1a1a' : '#737373',
-                    }}
-                  >
-                    {audience.name}
-                    {isActive && (
-                      <span 
-                        className="absolute bottom-0 left-0 right-0" 
-                        style={{ height: '2px', backgroundColor: '#1a1a1a' }} 
-                      />
-                    )}
-                  </Link>
-                );
-              })
-            )}
-          </nav>
-        </div>
+          {/* Audience tabs */}
+          {isLoading ? (
+            <>
+              <Skeleton style={{ height: '16px', width: '80px' }} />
+              <Skeleton style={{ height: '16px', width: '80px' }} />
+            </>
+          ) : (
+            audiences?.map((audience) => {
+              const isActive = currentAudience === audience.slug;
+              return (
+                <Link
+                  key={audience.id}
+                  to={`/hc/${audience.slug}`}
+                  className="relative h-full hidden md:flex items-center transition-colors"
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: isActive ? '#1a1a1a' : '#737373',
+                  }}
+                >
+                  {audience.name}
+                  {isActive && (
+                    <span 
+                      className="absolute bottom-0 left-0 right-0" 
+                      style={{ height: '2px', backgroundColor: '#1a1a1a' }} 
+                    />
+                  )}
+                </Link>
+              );
+            })
+          )}
+        </nav>
 
         {/* Right side */}
         <a
           href="https://app.tribesrightsmanagement.com"
-          className="hidden sm:block transition-colors hover:text-[#1a1a1a]"
+          className="hidden sm:flex items-center h-full transition-colors hover:text-[#1a1a1a]"
           style={{ fontSize: '14px', color: '#737373' }}
         >
           Client Portal
