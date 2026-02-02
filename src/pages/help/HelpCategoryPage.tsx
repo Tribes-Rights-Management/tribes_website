@@ -1,7 +1,6 @@
 /**
  * Help Center Category Page
- * Shows all articles in a category
- * Typography matches Portal exactly
+ * EXACT Portal typography
  */
 
 import { useParams, Navigate, Link } from "react-router-dom";
@@ -12,13 +11,20 @@ import { Breadcrumb } from "@/components/help/Breadcrumb";
 import { useCategory, useArticlesByCategory } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
 
+/* Portal exact colors */
+const COLORS = {
+  TEXT: '#111827',
+  TEXT_SECONDARY: '#6B7280',
+  TEXT_MUTED: '#9CA3AF',
+  BORDER: '#E6E8EC',
+};
+
 export default function HelpCategoryPage() {
   const { audience, categorySlug } = useParams<{ 
     audience: string; 
     categorySlug: string;
   }>();
   
-  // Validate audience
   const validAudiences = ["publishers", "songwriters", "licensing"];
   if (!audience || !validAudiences.includes(audience)) {
     return <Navigate to="/hc/publishers" replace />;
@@ -29,20 +35,19 @@ export default function HelpCategoryPage() {
 
   const isLoading = categoryLoading || articlesLoading;
 
-  // Handle not found
   if (!isLoading && (categoryError || !category)) {
     return (
       <HelpLayout currentAudience={audience}>
-        <div className="text-center py-12">
-          <h1 style={{ fontSize: '22px', fontWeight: 600, color: '#1F2937', marginBottom: '12px' }}>
+        <div className="text-center" style={{ padding: '48px 0' }}>
+          <h1 style={{ fontSize: '20px', fontWeight: 500, color: COLORS.TEXT, marginBottom: '12px' }}>
             Category not found
           </h1>
-          <p style={{ fontSize: '13px', color: '#6B7280', marginBottom: '20px' }}>
+          <p style={{ fontSize: '13px', color: COLORS.TEXT_SECONDARY, marginBottom: '16px' }}>
             The category you're looking for doesn't exist.
           </p>
           <Link 
             to={`/hc/${audience}`}
-            style={{ fontSize: '13px', fontWeight: 500, color: '#1F2937', textDecoration: 'underline' }}
+            style={{ fontSize: '13px', fontWeight: 500, color: COLORS.TEXT, textDecoration: 'underline' }}
           >
             Back to Help Center
           </Link>
@@ -55,15 +60,14 @@ export default function HelpCategoryPage() {
     <HelpLayout currentAudience={audience} currentCategorySlug={categorySlug}>
       {isLoading ? (
         <>
-          <Skeleton className="h-4 w-48 mb-6" />
-          <Skeleton className="h-6 w-64 mb-2" />
-          <Skeleton className="h-4 w-96 mb-1" />
-          <Skeleton className="h-4 w-24 mb-6" />
-          <Skeleton className="h-11 w-full mb-6" />
-          <div className="border border-[#E6E8EC] rounded-lg overflow-hidden">
+          <Skeleton style={{ height: '14px', width: '140px', marginBottom: '20px' }} />
+          <Skeleton style={{ height: '20px', width: '180px', marginBottom: '6px' }} />
+          <Skeleton style={{ height: '14px', width: '60px', marginBottom: '20px' }} />
+          <Skeleton style={{ height: '40px', width: '100%', marginBottom: '20px' }} />
+          <div style={{ border: `1px solid ${COLORS.BORDER}`, borderRadius: '6px', overflow: 'hidden' }}>
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="px-4 py-3 border-b border-[#E6E8EC] last:border-b-0">
-                <Skeleton className="h-4 w-3/4" />
+              <div key={i} style={{ padding: '12px 14px', borderBottom: i < 4 ? `1px solid ${COLORS.BORDER}` : 'none' }}>
+                <Skeleton style={{ height: '14px', width: '75%' }} />
               </div>
             ))}
           </div>
@@ -75,30 +79,25 @@ export default function HelpCategoryPage() {
             audienceSlug={audience}
           />
           
-          {/* Category Header */}
-          <div style={{ marginBottom: '24px' }}>
+          {/* Category Header - Portal: 20px font-medium */}
+          <div style={{ marginBottom: '20px' }}>
             <h1 style={{ 
-              fontSize: '22px', 
-              fontWeight: 600, 
-              color: '#1F2937',
-              marginBottom: '6px',
+              fontSize: '20px', 
+              fontWeight: 500, 
+              color: COLORS.TEXT,
+              marginBottom: '4px',
               lineHeight: 1.25,
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.01em',
             }}>
               {category!.category_name}
             </h1>
-            {category!.category_description && (
-              <p style={{ fontSize: '13px', color: '#6B7280', marginBottom: '4px' }}>
-                {category!.category_description}
-              </p>
-            )}
-            <p style={{ fontSize: '12px', color: '#9CA3AF' }}>
+            <p style={{ fontSize: '12px', color: COLORS.TEXT_MUTED }}>
               {articles?.length || 0} articles
             </p>
           </div>
 
-          {/* Search in Category */}
-          <div style={{ marginBottom: '20px' }}>
+          {/* Search */}
+          <div style={{ marginBottom: '16px' }}>
             <HelpSearchInput 
               placeholder="Search in this category..." 
               articles={articles || []}
@@ -108,7 +107,7 @@ export default function HelpCategoryPage() {
 
           {/* Article List */}
           {articles && articles.length > 0 ? (
-            <div className="border border-[#E6E8EC] rounded-lg overflow-hidden">
+            <div style={{ border: `1px solid ${COLORS.BORDER}`, borderRadius: '6px', overflow: 'hidden' }}>
               {articles.map((article, index) => (
                 <ArticleListItem 
                   key={article.article_id} 
@@ -120,7 +119,7 @@ export default function HelpCategoryPage() {
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: '13px', color: '#6B7280' }}>
+            <p style={{ fontSize: '13px', color: COLORS.TEXT_SECONDARY }}>
               No articles in this category yet.
             </p>
           )}

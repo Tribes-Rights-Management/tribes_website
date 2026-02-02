@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * EXACT Portal alignment - Help Center text aligns with content at 24px from sidebar
+ * EXACT Portal styling
  */
 
 import { Link } from "react-router-dom";
@@ -18,10 +18,10 @@ interface HelpHeaderProps {
 /* Portal exact colors */
 const COLORS = {
   SIDEBAR_BG: '#EEF0F2',
-  TOPBAR_BG: '#FFFFFF',      /* White header to match white body */
+  TOPBAR_BG: '#FFFFFF',
   BORDER_SUBTLE: '#E6E8EC',
-  TEXT: '#1F2937',
-  TEXT_MUTED: '#6B7280',
+  TEXT: '#111827',
+  TEXT_SECONDARY: '#6B7280',
 };
 
 export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpHeaderProps) {
@@ -36,7 +36,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         borderBottom: `1px solid ${COLORS.BORDER_SUBTLE}`,
       }}
     >
-      {/* Logo column - 200px width */}
+      {/* Logo column - 200px */}
       <div 
         className="h-full flex items-center shrink-0"
         style={{ 
@@ -46,82 +46,52 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           borderRight: `1px solid ${COLORS.BORDER_SUBTLE}`,
         }}
       >
-        {/* Mobile menu button */}
         <button
           onClick={onMenuToggle}
           className="md:hidden"
-          style={{
-            padding: '8px',
-            marginLeft: '-12px',
-            color: COLORS.TEXT_MUTED,
-          }}
+          style={{ padding: '8px', marginLeft: '-12px', color: COLORS.TEXT_SECONDARY }}
           aria-label="Toggle menu"
-          aria-expanded={sidebarOpen}
         >
           <Menu style={{ width: '20px', height: '20px' }} />
         </button>
         
-        {/* Logo button */}
         <Link 
           to="/" 
           className="hidden md:flex items-center rounded-lg transition-colors"
-          style={{
-            height: '36px',
-            paddingLeft: '8px',
-            paddingRight: '8px',
-          }}
+          style={{ height: '36px', paddingLeft: '8px', paddingRight: '8px' }}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           <img 
             src={BRAND.LOGO_URL} 
             alt="Tribes" 
-            style={{
-              height: '20px',
-              width: 'auto',
-              maxWidth: '80px',
-            }}
+            style={{ height: '20px', width: 'auto', maxWidth: '80px' }}
           />
         </Link>
       </div>
 
-      {/* Content column - 24px padding to align with body content */}
+      {/* Content column - Portal uses 16px padding */}
       <div 
         className="flex-1 h-full flex items-center justify-between"
-        style={{ 
-          paddingLeft: '24px',
-          paddingRight: '24px',
-          backgroundColor: COLORS.TOPBAR_BG,
-        }}
+        style={{ paddingLeft: '16px', paddingRight: '16px', backgroundColor: COLORS.TOPBAR_BG }}
       >
-        {/* Left side - gap-5 (20px) between items */}
-        <nav className="flex items-center h-full" style={{ gap: '20px' }}>
-          {/* Help Center link - 14px font to match Portal */}
+        <nav className="flex items-center h-full" style={{ gap: '16px' }}>
           <Link 
             to={`/hc/${currentAudience}`}
             className="hidden sm:flex items-center h-full transition-colors"
-            style={{ 
-              fontSize: '14px', 
-              color: COLORS.TEXT_MUTED,
-              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-            }}
+            style={{ fontSize: '13px', color: COLORS.TEXT_SECONDARY }}
             onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
-            onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
+            onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_SECONDARY}
           >
             Help Center
           </Link>
 
-          {/* Divider */}
-          <div 
-            className="hidden md:block" 
-            style={{ width: '1px', height: '20px', backgroundColor: COLORS.BORDER_SUBTLE }} 
-          />
+          <div className="hidden md:block" style={{ width: '1px', height: '16px', backgroundColor: COLORS.BORDER_SUBTLE }} />
 
-          {/* Audience tabs */}
           {isLoading ? (
             <>
-              <Skeleton style={{ height: '16px', width: '80px' }} />
-              <Skeleton style={{ height: '16px', width: '80px' }} />
+              <Skeleton style={{ height: '14px', width: '70px' }} />
+              <Skeleton style={{ height: '14px', width: '70px' }} />
             </>
           ) : (
             audiences?.map((audience) => {
@@ -132,13 +102,12 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                   to={`/hc/${audience.slug}`}
                   className="relative h-full hidden md:flex items-center transition-colors"
                   style={{
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    color: isActive ? COLORS.TEXT : COLORS.TEXT_MUTED,
-                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+                    fontSize: '13px',
+                    fontWeight: isActive ? 500 : 400,
+                    color: isActive ? COLORS.TEXT : COLORS.TEXT_SECONDARY,
                   }}
                   onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT; }}
-                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT_MUTED; }}
+                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT_SECONDARY; }}
                 >
                   {audience.name}
                   {isActive && (
@@ -153,17 +122,12 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           )}
         </nav>
 
-        {/* Right side */}
         <a
           href="https://app.tribesrightsmanagement.com"
           className="hidden sm:flex items-center h-full transition-colors"
-          style={{ 
-            fontSize: '14px', 
-            color: COLORS.TEXT_MUTED,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-          }}
+          style={{ fontSize: '13px', color: COLORS.TEXT_SECONDARY }}
           onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
-          onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
+          onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_SECONDARY}
         >
           Client Portal
         </a>
