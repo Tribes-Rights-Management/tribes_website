@@ -1,6 +1,6 @@
 /**
  * Help Center Sidebar
- * EXACT Portal SideNav styling - explicit pixels, matching colors
+ * EXACT Portal colors from tribes-theme.css
  */
 
 import { Link, useLocation } from "react-router-dom";
@@ -33,6 +33,15 @@ const iconMap: Record<string, LucideIcon> = {
   BookOpen,
 };
 
+/* Portal exact colors from tribes-theme.css */
+const COLORS = {
+  SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
+  NAV_HOVER: '#EAEBEE',      /* --tribes-nav-hover */
+  NAV_ACTIVE: '#E2E4E8',     /* --tribes-nav-active */
+  TEXT: '#1F2937',           /* --btn-text */
+  TEXT_MUTED: '#6B7280',     /* --btn-text-muted */
+};
+
 interface HelpSidebarProps {
   currentAudience: string;
   currentCategorySlug?: string;
@@ -46,7 +55,7 @@ export function HelpSidebar({ currentAudience, currentCategorySlug, onNavigate }
   return (
     <nav 
       className="flex flex-col h-full overflow-hidden"
-      style={{ backgroundColor: '#fafafa' }}
+      style={{ backgroundColor: COLORS.SIDEBAR_BG }}
     >
       {/* py-3 = 12px */}
       <div className="flex-1 overflow-y-auto" style={{ paddingTop: '12px', paddingBottom: '12px' }}>
@@ -79,20 +88,20 @@ export function HelpSidebar({ currentAudience, currentCategorySlug, onNavigate }
                     gap: '12px',
                     fontSize: '13px',
                     lineHeight: '1.4',
-                    color: isActive ? '#1a1a1a' : '#737373',
+                    color: isActive ? COLORS.TEXT : COLORS.TEXT_MUTED,
                     fontWeight: isActive ? 500 : 400,
-                    backgroundColor: isActive ? 'rgba(0,0,0,0.06)' : 'transparent',
+                    backgroundColor: isActive ? COLORS.NAV_ACTIVE : 'transparent',
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.03)';
-                      e.currentTarget.style.color = '#1a1a1a';
+                      e.currentTarget.style.backgroundColor = COLORS.NAV_HOVER;
+                      e.currentTarget.style.color = COLORS.TEXT;
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
                       e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#737373';
+                      e.currentTarget.style.color = COLORS.TEXT_MUTED;
                     }
                   }}
                 >

@@ -1,19 +1,28 @@
 /**
  * Help Center Header
- * EXACT Portal styling - using explicit pixels
+ * EXACT Portal colors from tribes-theme.css
  */
 
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { useAudiences } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HELP_CENTER, BRAND } from "@/lib/layout";
+import { BRAND } from "@/lib/layout";
 
 interface HelpHeaderProps {
   currentAudience: string;
   onMenuToggle: () => void;
   sidebarOpen: boolean;
 }
+
+/* Portal exact colors from tribes-theme.css */
+const COLORS = {
+  SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
+  TOPBAR_BG: '#FCFCFD',      /* --topbar-bg */
+  BORDER_SUBTLE: '#E6E8EC',  /* --border-subtle */
+  TEXT: '#1F2937',           /* --btn-text */
+  TEXT_MUTED: '#6B7280',     /* --btn-text-muted */
+};
 
 export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpHeaderProps) {
   const { data: audiences, isLoading } = useAudiences();
@@ -23,18 +32,18 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
       className="sticky top-0 z-50 flex items-center"
       style={{ 
         height: '56px',
-        backgroundColor: 'white',
-        borderBottom: '1px solid #e5e5e5',
+        backgroundColor: COLORS.TOPBAR_BG,
+        borderBottom: `1px solid ${COLORS.BORDER_SUBTLE}`,
       }}
     >
-      {/* Logo column - 200px width, grey background */}
+      {/* Logo column */}
       <div 
         className="h-full flex items-center shrink-0"
         style={{ 
           width: '200px',
           paddingLeft: '20px',
-          backgroundColor: '#fafafa',
-          borderRight: '1px solid #e5e5e5',
+          backgroundColor: COLORS.SIDEBAR_BG,
+          borderRight: `1px solid ${COLORS.BORDER_SUBTLE}`,
         }}
       >
         {/* Mobile menu button */}
@@ -44,7 +53,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           style={{
             padding: '8px',
             marginLeft: '-12px',
-            color: '#737373',
+            color: COLORS.TEXT_MUTED,
           }}
           aria-label="Toggle menu"
           aria-expanded={sidebarOpen}
@@ -55,12 +64,14 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         {/* Logo button */}
         <Link 
           to="/" 
-          className="hidden md:flex items-center rounded-lg hover:bg-black/5 transition-colors"
+          className="hidden md:flex items-center rounded-lg transition-colors"
           style={{
             height: '36px',
             paddingLeft: '8px',
             paddingRight: '8px',
           }}
+          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)'}
+          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           <img 
             src={BRAND.LOGO_URL} 
@@ -80,27 +91,26 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         style={{ 
           paddingLeft: '24px',
           paddingRight: '24px',
-          backgroundColor: 'white',
+          backgroundColor: COLORS.TOPBAR_BG,
         }}
       >
-        {/* Left side - all items on same baseline */}
+        {/* Left side */}
         <nav className="flex items-center h-full" style={{ gap: '20px' }}>
-          {/* Help Center link - same styling as tabs */}
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:flex items-center h-full transition-colors hover:text-[#1a1a1a]"
-            style={{ fontSize: '14px', color: '#737373' }}
+            className="hidden sm:flex items-center h-full transition-colors"
+            style={{ fontSize: '14px', color: COLORS.TEXT_MUTED }}
+            onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
+            onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
           >
             Help Center
           </Link>
 
-          {/* Divider */}
           <div 
             className="hidden md:block" 
-            style={{ width: '1px', height: '20px', backgroundColor: '#e5e5e5' }} 
+            style={{ width: '1px', height: '20px', backgroundColor: COLORS.BORDER_SUBTLE }} 
           />
 
-          {/* Audience tabs */}
           {isLoading ? (
             <>
               <Skeleton style={{ height: '16px', width: '80px' }} />
@@ -117,14 +127,16 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                   style={{
                     fontSize: '14px',
                     fontWeight: 500,
-                    color: isActive ? '#1a1a1a' : '#737373',
+                    color: isActive ? COLORS.TEXT : COLORS.TEXT_MUTED,
                   }}
+                  onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT; }}
+                  onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT_MUTED; }}
                 >
                   {audience.name}
                   {isActive && (
                     <span 
                       className="absolute bottom-0 left-0 right-0" 
-                      style={{ height: '2px', backgroundColor: '#1a1a1a' }} 
+                      style={{ height: '2px', backgroundColor: COLORS.TEXT }} 
                     />
                   )}
                 </Link>
@@ -136,8 +148,10 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         {/* Right side */}
         <a
           href="https://app.tribesrightsmanagement.com"
-          className="hidden sm:flex items-center h-full transition-colors hover:text-[#1a1a1a]"
-          style={{ fontSize: '14px', color: '#737373' }}
+          className="hidden sm:flex items-center h-full transition-colors"
+          style={{ fontSize: '14px', color: COLORS.TEXT_MUTED }}
+          onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
+          onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
         >
           Client Portal
         </a>
