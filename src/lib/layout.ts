@@ -27,12 +27,11 @@ export const HELP_CENTER = {
   HEADER_HEIGHT_PX: 56,
   CONTENT_MAX_WIDTH: "800px",
   MOBILE_SIDEBAR_WIDTH: "280px",
-  SIDEBAR_BG: "#fafafa",
 } as const;
 
-// BRAND ASSETS (shared with Portal)
+// BRAND ASSETS - using PNG version (matches Portal)
 export const BRAND = {
-  LOGO_URL: "https://rsdjfnsbimcdrxlhognv.supabase.co/storage/v1/object/public/Tribes%20Brand%20Files/Tribes%20-%20Wordmark%20Black%20Transparent.svg",
+  LOGO_URL: "https://rsdjfnsbimcdrxlhognv.supabase.co/storage/v1/object/public/Tribes%20Brand%20Files/Tribes%20-%20Wordmark%20Black%20Transparent.png",
   LOGO_HEIGHT: "20px",
   LOGO_HEIGHT_PX: 20,
   LOGO_MAX_WIDTH: "80px",

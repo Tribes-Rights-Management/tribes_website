@@ -1,6 +1,6 @@
 /**
  * Help Center Layout
- * EXACT Portal colors from tribes-theme.css
+ * EXACT Portal colors and spacing
  */
 
 import { ReactNode, useState } from "react";
@@ -18,9 +18,9 @@ interface HelpLayoutProps {
 const COLORS = {
   PAGE_BG: '#F3F4F6',        /* --page-bg / --app-canvas */
   SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
-  TOPBAR_BG: '#FCFCFD',      /* --topbar-bg */
-  CARD_BG: '#FCFCFD',        /* --card-bg */
   BORDER_SUBTLE: '#E6E8EC',  /* --border-subtle */
+  TEXT: '#1F2937',
+  TEXT_MUTED: '#6B7280',
 };
 
 export function HelpLayout({ children, currentAudience, currentCategorySlug }: HelpLayoutProps) {
@@ -35,7 +35,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
       />
       
       <div className="flex">
-        {/* Desktop Sidebar */}
+        {/* Desktop Sidebar - 200px */}
         <aside 
           className="hidden md:flex flex-col shrink-0 sticky overflow-hidden"
           style={{
@@ -80,10 +80,10 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
               borderBottom: `1px solid ${COLORS.BORDER_SUBTLE}`,
             }}
           >
-            <span style={{ fontSize: '14px', fontWeight: 600, color: '#1F2937' }}>Navigation</span>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: COLORS.TEXT }}>Navigation</span>
             <button 
               onClick={() => setSidebarOpen(false)}
-              style={{ padding: '8px', marginRight: '-8px', color: '#6B7280' }}
+              style={{ padding: '8px', marginRight: '-8px', color: COLORS.TEXT_MUTED }}
               aria-label="Close menu"
             >
               <X style={{ width: '20px', height: '20px' }} />
@@ -101,12 +101,14 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Main Content - Portal uses more padding from sidebar */}
         <main className="flex-1 min-w-0">
           <div style={{ 
-            maxWidth: '800px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
+            maxWidth: '900px',
+            /* Portal content padding: px-6 (24px) on mobile, larger on desktop */
+            /* Adding more left padding to match Portal spacing from sidebar */
+            paddingLeft: '48px',   /* More space from sidebar */
+            paddingRight: '48px',
             paddingTop: '32px',
             paddingBottom: '32px',
           }}>

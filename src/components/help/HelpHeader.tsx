@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * EXACT Portal colors from tribes-theme.css
+ * EXACT Portal colors and spacing
  */
 
 import { Link } from "react-router-dom";
@@ -36,7 +36,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         borderBottom: `1px solid ${COLORS.BORDER_SUBTLE}`,
       }}
     >
-      {/* Logo column */}
+      {/* Logo column - 200px width */}
       <div 
         className="h-full flex items-center shrink-0"
         style={{ 
@@ -61,7 +61,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           <Menu style={{ width: '20px', height: '20px' }} />
         </button>
         
-        {/* Logo button */}
+        {/* Logo button - Portal: h-9 px-2 */}
         <Link 
           to="/" 
           className="hidden md:flex items-center rounded-lg transition-colors"
@@ -85,7 +85,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         </Link>
       </div>
 
-      {/* Content column */}
+      {/* Content column - Portal uses px-6 (24px) padding */}
       <div 
         className="flex-1 h-full flex items-center justify-between"
         style={{ 
@@ -94,8 +94,9 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           backgroundColor: COLORS.TOPBAR_BG,
         }}
       >
-        {/* Left side */}
+        {/* Left side - Portal has gap-5 (20px) between items */}
         <nav className="flex items-center h-full" style={{ gap: '20px' }}>
+          {/* Help Center link */}
           <Link 
             to={`/hc/${currentAudience}`}
             className="hidden sm:flex items-center h-full transition-colors"
@@ -106,11 +107,13 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
             Help Center
           </Link>
 
+          {/* Divider - Portal style */}
           <div 
             className="hidden md:block" 
             style={{ width: '1px', height: '20px', backgroundColor: COLORS.BORDER_SUBTLE }} 
           />
 
+          {/* Audience tabs */}
           {isLoading ? (
             <>
               <Skeleton style={{ height: '16px', width: '80px' }} />
@@ -145,7 +148,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           )}
         </nav>
 
-        {/* Right side */}
+        {/* Right side - Client Portal link */}
         <a
           href="https://app.tribesrightsmanagement.com"
           className="hidden sm:flex items-center h-full transition-colors"
