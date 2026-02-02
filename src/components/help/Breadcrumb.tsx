@@ -1,9 +1,11 @@
 /**
  * Help Center Breadcrumb
- * Portal uses 12-13px for breadcrumbs
+ * Mercury-inspired with ChevronRight icons
+ * "Help Center" instead of "Home", 6px gap
  */
 
 import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
 
 /* Portal exact colors */
 const COLORS = {
@@ -25,7 +27,7 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items, audienceSlug }: BreadcrumbProps) {
   return (
     <nav style={{ marginBottom: '16px' }} aria-label="Breadcrumb">
-      <ol className="flex items-center flex-wrap" style={{ gap: '4px', fontSize: '12px' }}>
+      <ol className="flex items-center flex-wrap" style={{ gap: '6px', fontSize: '13px' }}>
         <li>
           <Link 
             to={`/hc/${audienceSlug}`}
@@ -34,12 +36,12 @@ export function Breadcrumb({ items, audienceSlug }: BreadcrumbProps) {
             onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
             onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_SECONDARY}
           >
-            Home
+            Help Center
           </Link>
         </li>
         {items.map((item, index) => (
-          <li key={index} className="flex items-center" style={{ gap: '4px' }}>
-            <span style={{ color: COLORS.TEXT_MUTED }}>›</span>
+          <li key={index} className="flex items-center" style={{ gap: '6px' }}>
+            <ChevronRight style={{ width: '14px', height: '14px', color: COLORS.TEXT_MUTED }} />
             {item.href ? (
               <Link 
                 to={item.href}
