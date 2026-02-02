@@ -1,7 +1,6 @@
 /**
  * Help Center Home Page
- * Shows all categories and articles for an audience
- * Typography matches Portal exactly
+ * EXACT Portal typography from page-header.tsx and page-container.tsx
  */
 
 import { useParams, Navigate } from "react-router-dom";
@@ -15,10 +14,16 @@ import {
 } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
 
+/* Portal exact colors from tribes-theme.css */
+const COLORS = {
+  TEXT: '#111827',           /* --tribes-fg */
+  TEXT_SECONDARY: '#6B7280', /* --tribes-fg-secondary */
+  TEXT_MUTED: '#9CA3AF',     /* --tribes-fg-muted */
+};
+
 export default function HelpHomePage() {
   const { audience } = useParams<{ audience: string }>();
   
-  // Validate audience and redirect if invalid
   const validAudiences = ["publishers", "songwriters", "licensing"];
   if (!audience || !validAudiences.includes(audience)) {
     return <Navigate to="/hc/publishers" replace />;
@@ -34,15 +39,16 @@ export default function HelpHomePage() {
 
   return (
     <HelpLayout currentAudience={audience}>
-      {/* Search Section - Portal uses 22px title */}
-      <div style={{ marginBottom: '40px' }}>
+      {/* Search Section */}
+      {/* Portal PageHeader: text-[18px] sm:text-[20px] font-medium */}
+      <div style={{ marginBottom: '24px' }}>
         <h1 style={{ 
-          fontSize: '22px', 
-          fontWeight: 600, 
-          color: '#1F2937',
+          fontSize: '20px', 
+          fontWeight: 500, 
+          color: COLORS.TEXT,
           marginBottom: '16px',
           lineHeight: 1.25,
-          letterSpacing: '-0.02em',
+          letterSpacing: '-0.01em',
         }}>
           How can we help?
         </h1>
@@ -55,22 +61,20 @@ export default function HelpHomePage() {
 
       {/* Article Sections */}
       {isLoading ? (
-        <div className="space-y-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           {[1, 2, 3].map((i) => (
             <div key={i}>
-              <Skeleton className="h-5 w-40 mb-4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Skeleton className="h-11" />
-                <Skeleton className="h-11" />
-                <Skeleton className="h-11" />
-                <Skeleton className="h-11" />
+              <Skeleton style={{ height: '16px', width: '120px', marginBottom: '12px' }} />
+              <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '8px' }}>
+                <Skeleton style={{ height: '40px' }} />
+                <Skeleton style={{ height: '40px' }} />
               </div>
             </div>
           ))}
         </div>
       ) : groupedArticles.length === 0 ? (
-        <div className="text-center py-12">
-          <p style={{ fontSize: '13px', color: '#6B7280' }}>
+        <div className="text-center" style={{ padding: '48px 0' }}>
+          <p style={{ fontSize: '13px', color: COLORS.TEXT_SECONDARY }}>
             No articles available yet for this section.
           </p>
         </div>
@@ -78,12 +82,14 @@ export default function HelpHomePage() {
         <div>
           {groupedArticles.map((group, index) => (
             <section key={group.category.slug}>
+              {/* Portal SectionHeader: text-[15px] sm:text-[16px] font-medium */}
               <h2 style={{ 
-                fontSize: '14px', 
-                fontWeight: 600, 
-                color: '#1F2937',
+                fontSize: '15px', 
+                fontWeight: 500, 
+                color: COLORS.TEXT,
                 marginBottom: '12px',
-                marginTop: index === 0 ? 0 : '32px',
+                marginTop: index === 0 ? 0 : '24px',
+                lineHeight: 1.3,
               }}>
                 {group.category.name}
               </h2>

@@ -1,6 +1,10 @@
 /**
  * Help Center Layout
- * EXACT Portal alignment, colors, and structure
+ * EXACT Portal structure from PageContainer
+ * 
+ * Portal uses:
+ * - py-4 sm:py-6 (16px mobile, 24px desktop vertical)
+ * - --page-pad-x: 16px mobile, 24px desktop horizontal
  */
 
 import { ReactNode, useState } from "react";
@@ -19,8 +23,8 @@ const COLORS = {
   PAGE_BG: '#FFFFFF',
   SIDEBAR_BG: '#EEF0F2',
   BORDER_SUBTLE: '#E6E8EC',
-  TEXT: '#1F2937',
-  TEXT_MUTED: '#6B7280',
+  TEXT: '#111827',
+  TEXT_SECONDARY: '#6B7280',
 };
 
 export function HelpLayout({ children, currentAudience, currentCategorySlug }: HelpLayoutProps) {
@@ -83,7 +87,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
             <span style={{ fontSize: '14px', fontWeight: 600, color: COLORS.TEXT }}>Navigation</span>
             <button 
               onClick={() => setSidebarOpen(false)}
-              style={{ padding: '8px', marginRight: '-8px', color: COLORS.TEXT_MUTED }}
+              style={{ padding: '8px', marginRight: '-8px', color: COLORS.TEXT_SECONDARY }}
               aria-label="Close menu"
             >
               <X style={{ width: '20px', height: '20px' }} />
@@ -101,7 +105,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content - Portal uses 24px padding (px-6) */}
+        {/* Main Content - Portal PageContainer: py-4 sm:py-6, padding 16px/24px */}
         <main 
           className="flex-1 min-w-0" 
           style={{ 
@@ -110,11 +114,11 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           }}
         >
           <div style={{ 
-            maxWidth: '900px',
-            paddingLeft: '24px',
-            paddingRight: '24px',
-            paddingTop: '24px',
-            paddingBottom: '32px',
+            maxWidth: '1120px',
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            paddingTop: '16px',
+            paddingBottom: '16px',
           }}>
             {children}
           </div>
