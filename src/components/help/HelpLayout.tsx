@@ -1,6 +1,6 @@
 /**
  * Help Center Layout
- * Matches Portal: 200px sidebar, 56px header, grey sidebar background
+ * EXACT Portal AppShell structure - using explicit pixels
  */
 
 import { ReactNode, useState } from "react";
@@ -19,7 +19,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white font-['IBM_Plex_Sans',sans-serif] text-[14px] leading-[1.5]">
+    <div className="min-h-screen" style={{ backgroundColor: 'white' }}>
       <HelpHeader 
         currentAudience={currentAudience}
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -27,14 +27,15 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
       />
       
       <div className="flex">
-        {/* Desktop Sidebar - 200px, grey background */}
+        {/* Desktop Sidebar - 200px width */}
         <aside 
-          className="hidden md:block shrink-0 sticky overflow-y-auto border-r border-[#e5e5e5]"
+          className="hidden md:flex flex-col shrink-0 sticky overflow-hidden"
           style={{
-            width: HELP_CENTER.SIDEBAR_WIDTH,
-            top: HELP_CENTER.HEADER_HEIGHT,
-            height: `calc(100vh - ${HELP_CENTER.HEADER_HEIGHT})`,
-            backgroundColor: HELP_CENTER.SIDEBAR_BG,
+            width: '200px',
+            top: '56px',
+            height: 'calc(100vh - 56px)',
+            backgroundColor: '#fafafa',
+            borderRight: '1px solid #e5e5e5',
           }}
         >
           <HelpSidebar 
@@ -51,33 +52,38 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           />
         )}
         
-        {/* Mobile Sidebar */}
+        {/* Mobile Sidebar - 280px width */}
         <aside 
           className={`
-            fixed inset-y-0 left-0 z-50 bg-white transform transition-transform duration-200 ease-out md:hidden
+            fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 ease-out md:hidden
             ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           `}
           style={{ 
-            width: HELP_CENTER.MOBILE_SIDEBAR_WIDTH,
-            backgroundColor: HELP_CENTER.SIDEBAR_BG,
+            width: '280px',
+            backgroundColor: '#fafafa',
           }}
         >
           <div 
-            className="flex items-center justify-between px-4 border-b border-[#e5e5e5]"
-            style={{ height: HELP_CENTER.HEADER_HEIGHT }}
+            className="flex items-center justify-between"
+            style={{ 
+              height: '56px',
+              paddingLeft: '16px',
+              paddingRight: '16px',
+              borderBottom: '1px solid #e5e5e5',
+            }}
           >
-            <span className="text-[14px] font-semibold text-[#1a1a1a]">Navigation</span>
+            <span style={{ fontSize: '14px', fontWeight: 600, color: '#1a1a1a' }}>Navigation</span>
             <button 
               onClick={() => setSidebarOpen(false)}
-              className="p-2 -mr-2 text-[#525252] hover:text-[#1a1a1a]"
+              style={{ padding: '8px', marginRight: '-8px', color: '#737373' }}
               aria-label="Close menu"
             >
-              <X size={20} />
+              <X style={{ width: '20px', height: '20px' }} />
             </button>
           </div>
           <div 
             className="overflow-y-auto"
-            style={{ height: `calc(100% - ${HELP_CENTER.HEADER_HEIGHT})` }}
+            style={{ height: 'calc(100% - 56px)' }}
           >
             <HelpSidebar 
               currentAudience={currentAudience}
@@ -87,12 +93,15 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Main Content - Portal uses px-6 md:px-12 py-8 */}
         <main className="flex-1 min-w-0">
-          <div 
-            className="px-6 md:px-12 py-8"
-            style={{ maxWidth: HELP_CENTER.CONTENT_MAX_WIDTH }}
-          >
+          <div style={{ 
+            maxWidth: '800px',
+            paddingLeft: '24px',
+            paddingRight: '24px',
+            paddingTop: '32px',
+            paddingBottom: '32px',
+          }}>
             {children}
           </div>
         </main>
