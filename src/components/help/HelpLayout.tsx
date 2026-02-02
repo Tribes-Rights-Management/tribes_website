@@ -79,10 +79,10 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
             <style>{`
               @media (min-width: 768px) {
                 .help-content > div {
-                  padding-left: 16px !important;
-                  padding-right: 16px !important;
-                  padding-top: 16px !important;
-                  padding-bottom: 16px !important;
+                  padding-left: 24px !important;
+                  padding-right: 24px !important;
+                  padding-top: 24px !important;
+                  padding-bottom: 24px !important;
                 }
               }
             `}</style>
