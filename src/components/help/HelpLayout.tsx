@@ -72,8 +72,8 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
             style={{ 
               paddingTop: '24px',
               paddingBottom: '24px',
-              paddingLeft: '20px',
-              paddingRight: '20px',
+              paddingLeft: '24px',
+              paddingRight: '24px',
             }}
           >
             <style>{`
