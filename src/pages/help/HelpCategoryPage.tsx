@@ -1,15 +1,16 @@
 /**
  * Help Center Category Page
- * EXACT Portal typography
+ * Mercury-inspired with better mobile touch targets
+ * Inline article list items, 14px 16px padding
  */
 
 import { useParams, Navigate, Link } from "react-router-dom";
 import { HelpLayout } from "@/components/help/HelpLayout";
 import { HelpSearchInput } from "@/components/help/HelpSearchInput";
-import { ArticleListItem } from "@/components/help/ArticleListItem";
 import { Breadcrumb } from "@/components/help/Breadcrumb";
 import { useCategory, useArticlesByCategory } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ChevronRight } from "lucide-react";
 
 /* Portal exact colors */
 const COLORS = {
@@ -17,6 +18,7 @@ const COLORS = {
   TEXT_SECONDARY: '#6B7280',
   TEXT_MUTED: '#9CA3AF',
   BORDER: '#E6E8EC',
+  HOVER_BG: '#F9FAFB',
 };
 
 export default function HelpCategoryPage() {
@@ -63,10 +65,10 @@ export default function HelpCategoryPage() {
           <Skeleton style={{ height: '14px', width: '140px', marginBottom: '20px' }} />
           <Skeleton style={{ height: '20px', width: '180px', marginBottom: '6px' }} />
           <Skeleton style={{ height: '14px', width: '60px', marginBottom: '20px' }} />
-          <Skeleton style={{ height: '40px', width: '100%', marginBottom: '20px' }} />
-          <div style={{ border: `1px solid ${COLORS.BORDER}`, borderRadius: '6px', overflow: 'hidden' }}>
+          <Skeleton style={{ height: '48px', width: '100%', marginBottom: '20px' }} />
+          <div style={{ border: `1px solid ${COLORS.BORDER}`, borderRadius: '10px', overflow: 'hidden' }}>
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} style={{ padding: '12px 14px', borderBottom: i < 4 ? `1px solid ${COLORS.BORDER}` : 'none' }}>
+              <div key={i} style={{ padding: '14px 16px', borderBottom: i < 4 ? `1px solid ${COLORS.BORDER}` : 'none' }}>
                 <Skeleton style={{ height: '14px', width: '75%' }} />
               </div>
             ))}
@@ -79,7 +81,7 @@ export default function HelpCategoryPage() {
             audienceSlug={audience}
           />
           
-          {/* Category Header - Portal: 20px font-medium */}
+          {/* Category Header */}
           <div style={{ marginBottom: '20px' }}>
             <h1 style={{ 
               fontSize: '20px', 
@@ -97,7 +99,7 @@ export default function HelpCategoryPage() {
           </div>
 
           {/* Search */}
-          <div style={{ marginBottom: '16px' }}>
+          <div style={{ marginBottom: '20px' }}>
             <HelpSearchInput 
               placeholder="Search in this category..." 
               articles={articles || []}
@@ -105,17 +107,42 @@ export default function HelpCategoryPage() {
             />
           </div>
 
-          {/* Article List */}
+          {/* Article List - Inline items with better touch targets */}
           {articles && articles.length > 0 ? (
-            <div style={{ border: `1px solid ${COLORS.BORDER}`, borderRadius: '6px', overflow: 'hidden' }}>
+            <div style={{ 
+              border: `1px solid ${COLORS.BORDER}`, 
+              borderRadius: '10px', 
+              overflow: 'hidden',
+            }}>
               {articles.map((article, index) => (
-                <ArticleListItem 
-                  key={article.article_id} 
-                  slug={article.article_slug} 
-                  title={article.article_title}
-                  audienceSlug={audience}
-                  isLast={index === articles.length - 1}
-                />
+                <Link
+                  key={article.article_id}
+                  to={`/hc/${audience}/articles/${article.article_slug}`}
+                  className="flex items-center justify-between"
+                  style={{
+                    padding: '14px 16px',
+                    borderBottom: index !== articles.length - 1 ? `1px solid ${COLORS.BORDER}` : 'none',
+                    transition: 'background-color 0.15s',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = COLORS.HOVER_BG}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                >
+                  <span 
+                    className="truncate"
+                    style={{ 
+                      fontSize: '14px', 
+                      fontWeight: 500, 
+                      color: COLORS.TEXT, 
+                      paddingRight: '12px',
+                    }}
+                  >
+                    {article.article_title}
+                  </span>
+                  <ChevronRight 
+                    className="shrink-0"
+                    style={{ width: '16px', height: '16px', color: COLORS.TEXT_MUTED }}
+                  />
+                </Link>
               ))}
             </div>
           ) : (

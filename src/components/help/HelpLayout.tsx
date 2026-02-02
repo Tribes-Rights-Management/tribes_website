@@ -1,14 +1,11 @@
 /**
  * Help Center Layout
- * EXACT Portal structure from PageContainer
- * 
- * Portal uses:
- * - py-4 sm:py-6 (16px mobile, 24px desktop vertical)
- * - --page-pad-x: 16px mobile, 24px desktop horizontal
+ * Mercury-inspired mobile-first design
+ * Mobile: No sidebar drawer, just clean content
+ * Desktop: 200px sidebar unchanged
  */
 
-import { ReactNode, useState } from "react";
-import { X } from "lucide-react";
+import { ReactNode } from "react";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpHeader } from "./HelpHeader";
 
@@ -23,19 +20,23 @@ const COLORS = {
   PAGE_BG: '#FFFFFF',
   SIDEBAR_BG: '#EEF0F2',
   BORDER_SUBTLE: '#E6E8EC',
-  TEXT: '#111827',
-  TEXT_SECONDARY: '#6B7280',
 };
 
 export function HelpLayout({ children, currentAudience, currentCategorySlug }: HelpLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
   return (
     <div className="min-h-screen" style={{ backgroundColor: COLORS.PAGE_BG }}>
+      {/* Global typography overrides for Help Center */}
+      <style>{`
+        .help-content h1 { font-size: 20px !important; font-weight: 500 !important; line-height: 1.25 !important; letter-spacing: -0.01em !important; }
+        .help-content h2 { font-size: 16px !important; font-weight: 600 !important; line-height: 1.4 !important; }
+        .help-content h3 { font-size: 14px !important; font-weight: 600 !important; line-height: 1.4 !important; }
+        .help-content p, .help-content span, .help-content li, .help-content a { font-size: 13px !important; line-height: 1.5 !important; }
+        .help-content input, .help-content textarea { font-size: 15px !important; }
+        .help-content input::placeholder, .help-content textarea::placeholder { font-size: 15px !important; }
+      `}</style>
+      
       <HelpHeader 
         currentAudience={currentAudience}
-        onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
-        sidebarOpen={sidebarOpen}
       />
       
       <div className="flex">
@@ -56,70 +57,35 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           />
         </aside>
 
-        {/* Mobile Sidebar Overlay */}
-        {sidebarOpen && (
-          <div 
-            className="fixed inset-0 z-40 bg-black/20 md:hidden"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-        
-        {/* Mobile Sidebar */}
-        <aside 
-          className={`
-            fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 ease-out md:hidden
-            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-          `}
-          style={{ 
-            width: '280px',
-            backgroundColor: COLORS.SIDEBAR_BG,
-          }}
-        >
-          <div 
-            className="flex items-center justify-between"
-            style={{ 
-              height: '56px',
-              paddingLeft: '16px',
-              paddingRight: '16px',
-              borderBottom: `1px solid ${COLORS.BORDER_SUBTLE}`,
-            }}
-          >
-            <span style={{ fontSize: '14px', fontWeight: 600, color: COLORS.TEXT }}>Navigation</span>
-            <button 
-              onClick={() => setSidebarOpen(false)}
-              style={{ padding: '8px', marginRight: '-8px', color: COLORS.TEXT_SECONDARY }}
-              aria-label="Close menu"
-            >
-              <X style={{ width: '20px', height: '20px' }} />
-            </button>
-          </div>
-          <div 
-            className="overflow-y-auto"
-            style={{ height: 'calc(100% - 56px)' }}
-          >
-            <HelpSidebar 
-              currentAudience={currentAudience}
-              currentCategorySlug={currentCategorySlug}
-              onNavigate={() => setSidebarOpen(false)}
-            />
-          </div>
-        </aside>
-
-        {/* Main Content - Portal PageContainer: py-4 sm:py-6, padding 16px/24px */}
+        {/* Main Content */}
         <main 
-          className="flex-1 min-w-0" 
+          className="flex-1 min-w-0 help-content" 
           style={{ 
             backgroundColor: COLORS.PAGE_BG,
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           }}
         >
-          <div style={{ 
-            maxWidth: '1120px',
-            paddingLeft: '16px',
-            paddingRight: '16px',
-            paddingTop: '16px',
-            paddingBottom: '16px',
-          }}>
+          {/* Mobile padding: 24px vertical, 20px horizontal */}
+          {/* Desktop padding: 16px all around with max-width */}
+          <div 
+            className="md:max-w-[1120px]"
+            style={{ 
+              paddingLeft: '20px',
+              paddingRight: '20px',
+              paddingTop: '24px',
+              paddingBottom: '24px',
+            }}
+          >
+            <style>{`
+              @media (min-width: 768px) {
+                .help-content > div {
+                  padding-left: 16px !important;
+                  padding-right: 16px !important;
+                  padding-top: 16px !important;
+                  padding-bottom: 16px !important;
+                }
+              }
+            `}</style>
             {children}
           </div>
         </main>
