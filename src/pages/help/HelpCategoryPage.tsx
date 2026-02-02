@@ -1,6 +1,7 @@
 /**
  * Help Center Category Page
  * Shows all articles in a category
+ * Typography matches Portal exactly
  */
 
 import { useParams, Navigate, Link } from "react-router-dom";
@@ -33,15 +34,15 @@ export default function HelpCategoryPage() {
     return (
       <HelpLayout currentAudience={audience}>
         <div className="text-center py-12">
-          <h1 className="text-[24px] font-semibold text-[#1a1a1a] mb-4">
+          <h1 style={{ fontSize: '22px', fontWeight: 600, color: '#1F2937', marginBottom: '12px' }}>
             Category not found
           </h1>
-          <p className="text-[14px] text-[#525252] mb-6">
+          <p style={{ fontSize: '13px', color: '#6B7280', marginBottom: '20px' }}>
             The category you're looking for doesn't exist.
           </p>
           <Link 
             to={`/hc/${audience}`}
-            className="text-[14px] font-medium text-[#1a1a1a] underline hover:no-underline"
+            style={{ fontSize: '13px', fontWeight: 500, color: '#1F2937', textDecoration: 'underline' }}
           >
             Back to Help Center
           </Link>
@@ -55,14 +56,14 @@ export default function HelpCategoryPage() {
       {isLoading ? (
         <>
           <Skeleton className="h-4 w-48 mb-6" />
-          <Skeleton className="h-7 w-64 mb-2" />
+          <Skeleton className="h-6 w-64 mb-2" />
           <Skeleton className="h-4 w-96 mb-1" />
           <Skeleton className="h-4 w-24 mb-6" />
-          <Skeleton className="h-12 w-full mb-6" />
-          <div className="border border-[#f5f5f5] rounded-lg overflow-hidden">
+          <Skeleton className="h-11 w-full mb-6" />
+          <div className="border border-[#E6E8EC] rounded-lg overflow-hidden">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="px-4 py-4 border-b border-[#f5f5f5] last:border-b-0">
-                <Skeleton className="h-5 w-3/4" />
+              <div key={i} className="px-4 py-3 border-b border-[#E6E8EC] last:border-b-0">
+                <Skeleton className="h-4 w-3/4" />
               </div>
             ))}
           </div>
@@ -75,22 +76,29 @@ export default function HelpCategoryPage() {
           />
           
           {/* Category Header */}
-          <div className="mb-8">
-            <h1 className="text-[24px] font-semibold text-[#1a1a1a] mb-2">
+          <div style={{ marginBottom: '24px' }}>
+            <h1 style={{ 
+              fontSize: '22px', 
+              fontWeight: 600, 
+              color: '#1F2937',
+              marginBottom: '6px',
+              lineHeight: 1.25,
+              letterSpacing: '-0.02em',
+            }}>
               {category!.category_name}
             </h1>
             {category!.category_description && (
-              <p className="text-[14px] text-[#525252] mb-1">
+              <p style={{ fontSize: '13px', color: '#6B7280', marginBottom: '4px' }}>
                 {category!.category_description}
               </p>
             )}
-            <p className="text-[13px] text-[#a3a3a3]">
+            <p style={{ fontSize: '12px', color: '#9CA3AF' }}>
               {articles?.length || 0} articles
             </p>
           </div>
 
           {/* Search in Category */}
-          <div className="mb-6">
+          <div style={{ marginBottom: '20px' }}>
             <HelpSearchInput 
               placeholder="Search in this category..." 
               articles={articles || []}
@@ -100,7 +108,7 @@ export default function HelpCategoryPage() {
 
           {/* Article List */}
           {articles && articles.length > 0 ? (
-            <div className="border border-[#f5f5f5] rounded-lg overflow-hidden">
+            <div className="border border-[#E6E8EC] rounded-lg overflow-hidden">
               {articles.map((article, index) => (
                 <ArticleListItem 
                   key={article.article_id} 
@@ -112,7 +120,7 @@ export default function HelpCategoryPage() {
               ))}
             </div>
           ) : (
-            <p className="text-[14px] text-[#525252]">
+            <p style={{ fontSize: '13px', color: '#6B7280' }}>
               No articles in this category yet.
             </p>
           )}

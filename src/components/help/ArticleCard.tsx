@@ -1,6 +1,7 @@
 /**
  * Article Card Component
  * Used in grid layout on home page
+ * Typography matches Portal exactly
  */
 
 import { Link } from "react-router-dom";
@@ -16,19 +17,27 @@ export function ArticleCard({ slug, title, audienceSlug }: ArticleCardProps) {
   return (
     <Link
       to={`/hc/${audienceSlug}/articles/${slug}`}
-      className="
-        group flex items-center justify-between
-        p-[14px_16px] border border-[#f5f5f5] rounded-md
-        hover:border-[#e5e5e5] hover:bg-[#fafafa]
-        transition-all duration-150
-      "
+      className="group flex items-center justify-between hover:bg-[#F3F4F6] transition-colors duration-150"
+      style={{
+        padding: '10px 12px',
+        border: '1px solid #E6E8EC',
+        borderRadius: '6px',
+      }}
     >
-      <span className="text-[14px] font-medium text-[#1a1a1a] truncate pr-2">
+      <span 
+        className="truncate"
+        style={{ 
+          fontSize: '13px', 
+          fontWeight: 500, 
+          color: '#1F2937',
+          paddingRight: '8px',
+        }}
+      >
         {title}
       </span>
       <ChevronRight 
-        size={16} 
-        className="text-[#a3a3a3] shrink-0 transition-transform duration-150 group-hover:translate-x-0.5" 
+        className="shrink-0 transition-transform duration-150 group-hover:translate-x-0.5"
+        style={{ width: '14px', height: '14px', color: '#9CA3AF' }}
       />
     </Link>
   );

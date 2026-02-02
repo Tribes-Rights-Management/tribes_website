@@ -1,6 +1,7 @@
 /**
  * Help Center Home Page
  * Shows all categories and articles for an audience
+ * Typography matches Portal exactly
  */
 
 import { useParams, Navigate } from "react-router-dom";
@@ -33,9 +34,16 @@ export default function HelpHomePage() {
 
   return (
     <HelpLayout currentAudience={audience}>
-      {/* Search Section */}
-      <div className="mb-12">
-        <h1 className="text-[24px] font-semibold text-[#1a1a1a] mb-5">
+      {/* Search Section - Portal uses 22px title */}
+      <div style={{ marginBottom: '40px' }}>
+        <h1 style={{ 
+          fontSize: '22px', 
+          fontWeight: 600, 
+          color: '#1F2937',
+          marginBottom: '16px',
+          lineHeight: 1.25,
+          letterSpacing: '-0.02em',
+        }}>
           How can we help?
         </h1>
         <HelpSearchInput 
@@ -50,19 +58,19 @@ export default function HelpHomePage() {
         <div className="space-y-8">
           {[1, 2, 3].map((i) => (
             <div key={i}>
-              <Skeleton className="h-6 w-40 mb-4" />
+              <Skeleton className="h-5 w-40 mb-4" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <Skeleton className="h-12" />
-                <Skeleton className="h-12" />
-                <Skeleton className="h-12" />
-                <Skeleton className="h-12" />
+                <Skeleton className="h-11" />
+                <Skeleton className="h-11" />
+                <Skeleton className="h-11" />
+                <Skeleton className="h-11" />
               </div>
             </div>
           ))}
         </div>
       ) : groupedArticles.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-[14px] text-[#525252]">
+          <p style={{ fontSize: '13px', color: '#6B7280' }}>
             No articles available yet for this section.
           </p>
         </div>
@@ -70,14 +78,16 @@ export default function HelpHomePage() {
         <div>
           {groupedArticles.map((group, index) => (
             <section key={group.category.slug}>
-              <h2 
-                className={`text-[16px] font-semibold text-[#1a1a1a] mb-4 ${
-                  index === 0 ? 'mt-0' : 'mt-10'
-                }`}
-              >
+              <h2 style={{ 
+                fontSize: '14px', 
+                fontWeight: 600, 
+                color: '#1F2937',
+                marginBottom: '12px',
+                marginTop: index === 0 ? 0 : '32px',
+              }}>
                 {group.category.name}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: '8px' }}>
                 {group.articles.slice(0, 4).map((article) => (
                   <ArticleCard 
                     key={article.article_id} 

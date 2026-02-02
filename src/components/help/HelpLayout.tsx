@@ -1,6 +1,6 @@
 /**
  * Help Center Layout
- * EXACT Portal alignment, colors, and typography
+ * EXACT Portal alignment, colors, and structure
  */
 
 import { ReactNode, useState } from "react";
@@ -28,50 +28,6 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: COLORS.PAGE_BG }}>
-      {/* 
-        CSS overrides for Help Center content to match Portal typography 
-        Portal uses: page-title 22px, body 13px, font-weight 600 for titles
-      */}
-      <style>{`
-        .help-content h1 {
-          font-size: 22px !important;
-          font-weight: 600 !important;
-          line-height: 1.25 !important;
-          letter-spacing: -0.02em !important;
-          color: #1F2937 !important;
-        }
-        .help-content h2 {
-          font-size: 16px !important;
-          font-weight: 600 !important;
-          line-height: 1.3 !important;
-          color: #1F2937 !important;
-        }
-        .help-content h3 {
-          font-size: 14px !important;
-          font-weight: 600 !important;
-          color: #1F2937 !important;
-        }
-        .help-content p,
-        .help-content span,
-        .help-content li,
-        .help-content a {
-          font-size: 13px !important;
-          line-height: 1.5 !important;
-        }
-        .help-content input,
-        .help-content textarea {
-          font-size: 14px !important;
-        }
-        .help-content input::placeholder {
-          font-size: 14px !important;
-        }
-        @media (min-width: 640px) {
-          .help-content h1 {
-            font-size: 24px !important;
-          }
-        }
-      `}</style>
-
       <HelpHeader 
         currentAudience={currentAudience}
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -145,15 +101,20 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content with Portal typography */}
-        <main className="flex-1 min-w-0 help-content" style={{ backgroundColor: COLORS.PAGE_BG }}>
+        {/* Main Content - Portal uses 24px padding (px-6) */}
+        <main 
+          className="flex-1 min-w-0" 
+          style={{ 
+            backgroundColor: COLORS.PAGE_BG,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          }}
+        >
           <div style={{ 
             maxWidth: '900px',
             paddingLeft: '24px',
             paddingRight: '24px',
             paddingTop: '24px',
             paddingBottom: '32px',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           }}>
             {children}
           </div>

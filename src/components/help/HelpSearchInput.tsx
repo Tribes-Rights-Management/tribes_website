@@ -1,6 +1,7 @@
 /**
  * Help Center Search Input
  * Real-time search with results dropdown
+ * Typography matches Portal exactly
  */
 
 import { useState, useRef, useEffect } from "react";
@@ -46,8 +47,8 @@ export function HelpSearchInput({
     <div ref={containerRef} className="relative w-full">
       <div className="relative">
         <Search 
-          size={18} 
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-[#a3a3a3]" 
+          className="absolute left-3 top-1/2 -translate-y-1/2"
+          style={{ width: '16px', height: '16px', color: '#9CA3AF' }}
         />
         <input
           type="text"
@@ -56,21 +57,33 @@ export function HelpSearchInput({
             setQuery(e.target.value);
             setIsOpen(true);
           }}
-          onFocus={() => setIsOpen(true)}
+          onFocus={(e) => {
+            setIsOpen(true);
+            e.currentTarget.style.borderColor = '#1F2937';
+          }}
+          onBlur={(e) => e.currentTarget.style.borderColor = '#E6E8EC'}
           placeholder={placeholder}
-          className="
-            w-full h-12 pl-11 pr-4
-            text-[14px] text-[#1a1a1a] placeholder:text-[#a3a3a3]
-            bg-white border border-[#e5e5e5] rounded-lg
-            focus:outline-none focus:border-[#1a1a1a]
-            transition-colors duration-150
-          "
+          style={{
+            width: '100%',
+            height: '40px',
+            paddingLeft: '36px',
+            paddingRight: '12px',
+            fontSize: '13px',
+            color: '#1F2937',
+            backgroundColor: 'white',
+            border: '1px solid #E6E8EC',
+            borderRadius: '6px',
+            outline: 'none',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          }}
         />
       </div>
 
       {/* Results dropdown */}
       {isOpen && filteredArticles.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e5e5e5] rounded-lg shadow-lg z-20 overflow-hidden">
+        <div 
+          className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#E6E8EC] rounded-lg shadow-lg z-20 overflow-hidden"
+        >
           {filteredArticles.map((article, index) => (
             <Link
               key={article.article_id}
@@ -79,17 +92,19 @@ export function HelpSearchInput({
                 setIsOpen(false);
                 setQuery("");
               }}
-              className={`
-                flex items-center justify-between px-4 py-3
-                text-[14px] text-[#1a1a1a] hover:bg-[#fafafa]
-                ${index !== filteredArticles.length - 1 ? 'border-b border-[#f5f5f5]' : ''}
-              `}
+              className="flex items-center justify-between hover:bg-[#F3F4F6]"
+              style={{
+                padding: '10px 12px',
+                fontSize: '13px',
+                color: '#1F2937',
+                borderBottom: index !== filteredArticles.length - 1 ? '1px solid #F3F4F6' : 'none',
+              }}
             >
               <div>
-                <span className="font-medium">{article.article_title}</span>
-                <span className="text-[12px] text-[#a3a3a3] ml-2">{article.category_name}</span>
+                <span style={{ fontWeight: 500 }}>{article.article_title}</span>
+                <span style={{ fontSize: '11px', color: '#9CA3AF', marginLeft: '8px' }}>{article.category_name}</span>
               </div>
-              <ChevronRight size={16} className="text-[#a3a3a3]" />
+              <ChevronRight style={{ width: '14px', height: '14px', color: '#9CA3AF' }} />
             </Link>
           ))}
         </div>
@@ -97,8 +112,8 @@ export function HelpSearchInput({
 
       {/* No results message */}
       {isOpen && query.trim() && filteredArticles.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e5e5e5] rounded-lg shadow-lg z-20 p-4">
-          <p className="text-[14px] text-[#a3a3a3]">No articles found for "{query}"</p>
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#E6E8EC] rounded-lg shadow-lg z-20 p-3">
+          <p style={{ fontSize: '13px', color: '#9CA3AF' }}>No articles found for "{query}"</p>
         </div>
       )}
     </div>
