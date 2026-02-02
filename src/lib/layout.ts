@@ -32,8 +32,8 @@ export const HELP_CENTER = {
 // BRAND ASSETS - using PNG version (matches Portal)
 export const BRAND = {
   LOGO_URL: "https://rsdjfnsbimcdrxlhognv.supabase.co/storage/v1/object/public/Tribes%20Brand%20Files/Tribes%20-%20Wordmark%20Black%20Transparent.png",
-  LOGO_HEIGHT: "20px",
-  LOGO_HEIGHT_PX: 20,
+  LOGO_HEIGHT: "18px",
+  LOGO_HEIGHT_PX: 18,
   LOGO_MAX_WIDTH: "80px",
   LOGO_MAX_WIDTH_PX: 80,
 } as const;

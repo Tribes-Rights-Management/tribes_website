@@ -67,7 +67,7 @@ export function HelpHeader({ currentAudience }: HelpHeaderProps) {
             <img 
               src={BRAND.LOGO_URL} 
               alt="Tribes" 
-              style={{ height: '20px', width: 'auto' }}
+              style={{ height: '18px', width: 'auto' }}
             />
           </Link>
           <div style={{ width: '1px', height: '18px', backgroundColor: COLORS.BORDER_SUBTLE }} />
