@@ -1,9 +1,13 @@
 /**
  * Help Center Sidebar
- * 220px fixed width, dynamic categories from Supabase
+ * Matches Portal SideNav styling EXACTLY
+ * 
+ * Container: px-2, py-3
+ * Links: px-3 py-2 gap-3 text-[13px]
+ * Icons: h-4 w-4 (16px)
  */
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { 
   CheckCircle, 
   UserPlus, 
@@ -41,54 +45,53 @@ interface HelpSidebarProps {
 
 export function HelpSidebar({ currentAudience, currentCategorySlug, onNavigate }: HelpSidebarProps) {
   const { data: categories, isLoading } = useCategories(currentAudience);
+  const location = useLocation();
 
   return (
-    <nav className="py-6 px-4">
-      {/* Section label */}
-      <div className="mb-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[0.05em] text-[#a3a3a3]">
-          Sections
-        </span>
-      </div>
-      
-      {isLoading ? (
-        <div className="space-y-2">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <Skeleton key={i} className="h-9 w-full" />
-          ))}
-        </div>
-      ) : (
-        <ul className="space-y-0.5">
-          {categories?.map((category) => {
-            const Icon = iconMap[category.category_icon || "BookOpen"] || BookOpen;
-            const isActive = currentCategorySlug === category.category_slug;
-            
-            return (
-              <li key={category.category_id}>
+    <nav className="flex flex-col h-full overflow-hidden">
+      {/* Main navigation - matches Portal py-3 */}
+      <div className="flex-1 py-3 overflow-y-auto">
+        {/* Container px-2 matches Portal */}
+        <div className="px-2 space-y-px">
+          {isLoading ? (
+            <>
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Skeleton key={i} className="h-9 w-full rounded-md" />
+              ))}
+            </>
+          ) : (
+            categories?.map((category) => {
+              const Icon = iconMap[category.category_icon || "BookOpen"] || BookOpen;
+              const categoryPath = `/hc/${currentAudience}/categories/${category.category_slug}`;
+              const isActive = currentCategorySlug === category.category_slug || 
+                location.pathname.startsWith(categoryPath);
+              
+              return (
                 <Link
-                  to={`/hc/${currentAudience}/categories/${category.category_slug}`}
+                  key={category.category_id}
+                  to={categoryPath}
                   onClick={onNavigate}
                   className={`
-                    flex items-center gap-[10px] px-3 py-2 rounded-md 
-                    text-[14px] font-medium whitespace-nowrap
+                    flex items-center justify-start gap-3 px-3 py-2 
+                    text-[13px] rounded-md text-left w-full
                     transition-colors duration-150
                     ${isActive 
-                      ? 'bg-[#f5f5f5] text-[#1a1a1a]' 
-                      : 'text-[#525252] hover:bg-[#fafafa] hover:text-[#1a1a1a]'
+                      ? 'font-medium text-[#1a1a1a] bg-[#f0f0f0]' 
+                      : 'text-[#737373] hover:text-[#1a1a1a] hover:bg-[#f0f0f0]/50'
                     }
                   `}
                 >
                   <Icon 
-                    size={16} 
-                    className={isActive ? 'text-[#525252]' : 'text-[#a3a3a3]'} 
+                    className="h-4 w-4 shrink-0 opacity-70" 
+                    strokeWidth={1.5}
                   />
-                  <span>{category.category_name}</span>
+                  <span className="truncate text-left">{category.category_name}</span>
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+              );
+            })
+          )}
+        </div>
+      </div>
     </nav>
   );
 }
