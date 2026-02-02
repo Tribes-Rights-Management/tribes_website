@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * Matches Portal header styling EXACTLY
+ * EXACT Portal styling - using explicit pixels due to website's custom spacing scale
  */
 
 import { Link } from "react-router-dom";
@@ -20,63 +20,88 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
 
   return (
     <header 
-      className="sticky top-0 z-50 bg-white border-b border-[#e5e5e5] flex items-center"
-      style={{ height: HELP_CENTER.HEADER_HEIGHT }}
+      className="sticky top-0 z-50 flex items-center"
+      style={{ 
+        height: '56px',
+        backgroundColor: 'white',
+        borderBottom: '1px solid #e5e5e5',
+      }}
     >
-      {/* Logo column - matches Portal exactly */}
+      {/* Logo column - Portal: pl-5 (20px) */}
       <div 
-        className="shrink-0 h-full flex items-center border-r border-[#e5e5e5]"
+        className="h-full flex items-center shrink-0"
         style={{ 
-          width: HELP_CENTER.SIDEBAR_WIDTH,
-          backgroundColor: HELP_CENTER.SIDEBAR_BG,
-          paddingLeft: '8px',
+          width: '200px',
+          paddingLeft: '20px',
+          backgroundColor: '#fafafa',
         }}
       >
         {/* Mobile menu button */}
         <button
           onClick={onMenuToggle}
-          className="p-2 md:hidden text-[#737373] hover:text-[#1a1a1a]"
+          className="md:hidden"
+          style={{
+            padding: '8px',
+            marginLeft: '-12px',
+            color: '#737373',
+          }}
           aria-label="Toggle menu"
           aria-expanded={sidebarOpen}
         >
-          <Menu size={20} />
+          <Menu style={{ width: '20px', height: '20px' }} />
         </button>
         
-        {/* Logo - matches Portal: pl-3 positioning */}
+        {/* Logo button - Portal: h-9 (36px) px-2 (8px) */}
         <Link 
           to="/" 
-          className="hidden md:flex items-center h-9 px-3 rounded-lg hover:bg-black/5 transition-colors"
+          className="hidden md:flex items-center rounded-lg hover:bg-black/5 transition-colors"
+          style={{
+            height: '36px',
+            paddingLeft: '8px',
+            paddingRight: '8px',
+          }}
         >
           <img 
             src={BRAND.LOGO_URL} 
             alt="Tribes" 
             style={{
-              height: BRAND.LOGO_HEIGHT,
-              width: "auto",
-              maxWidth: BRAND.LOGO_MAX_WIDTH,
+              height: '20px',
+              width: 'auto',
+              maxWidth: '80px',
             }}
           />
         </Link>
       </div>
 
-      {/* Content column */}
-      <div className="flex-1 h-full flex items-center justify-between px-6 bg-white">
-        {/* Left: Help Center text + Audience Tabs */}
-        <div className="flex items-center gap-4 h-full">
+      {/* Content column - Portal: px-6 (24px) */}
+      <div 
+        className="flex-1 h-full flex items-center justify-between"
+        style={{ 
+          paddingLeft: '24px',
+          paddingRight: '24px',
+          backgroundColor: 'white',
+        }}
+      >
+        {/* Left side */}
+        <div className="flex items-center h-full" style={{ gap: '16px' }}>
           <Link 
             to={`/hc/${currentAudience}`}
-            className="hidden sm:block text-[14px] text-[#737373] hover:text-[#1a1a1a] transition-colors"
+            className="hidden sm:block transition-colors hover:text-[#1a1a1a]"
+            style={{ fontSize: '14px', color: '#737373' }}
           >
             Help Center
           </Link>
 
-          <div className="hidden md:block w-px h-5 bg-[#e5e5e5]" />
+          <div 
+            className="hidden md:block" 
+            style={{ width: '1px', height: '20px', backgroundColor: '#e5e5e5' }} 
+          />
 
-          <nav className="hidden md:flex items-center gap-5 h-full">
+          <nav className="hidden md:flex items-center h-full" style={{ gap: '20px' }}>
             {isLoading ? (
               <>
-                <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-4 w-20" />
+                <Skeleton style={{ height: '16px', width: '80px' }} />
+                <Skeleton style={{ height: '16px', width: '80px' }} />
               </>
             ) : (
               audiences?.map((audience) => {
@@ -85,14 +110,19 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                   <Link
                     key={audience.id}
                     to={`/hc/${audience.slug}`}
-                    className={`
-                      relative h-full flex items-center text-[14px] font-medium transition-colors
-                      ${isActive ? "text-[#1a1a1a]" : "text-[#737373] hover:text-[#1a1a1a]"}
-                    `}
+                    className="relative h-full flex items-center transition-colors"
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      color: isActive ? '#1a1a1a' : '#737373',
+                    }}
                   >
                     {audience.name}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#1a1a1a]" />
+                      <span 
+                        className="absolute bottom-0 left-0 right-0" 
+                        style={{ height: '2px', backgroundColor: '#1a1a1a' }} 
+                      />
                     )}
                   </Link>
                 );
@@ -101,9 +131,11 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           </nav>
         </div>
 
+        {/* Right side */}
         <a
           href="https://app.tribesrightsmanagement.com"
-          className="hidden sm:block text-[14px] text-[#737373] hover:text-[#1a1a1a] transition-colors"
+          className="hidden sm:block transition-colors hover:text-[#1a1a1a]"
+          style={{ fontSize: '14px', color: '#737373' }}
         >
           Client Portal
         </a>
