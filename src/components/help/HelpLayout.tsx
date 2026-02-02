@@ -70,10 +70,10 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           <div 
             className="md:max-w-[1120px]"
             style={{ 
-              paddingLeft: '20px',
-              paddingRight: '20px',
               paddingTop: '24px',
               paddingBottom: '24px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
             }}
           >
             <style>{`
