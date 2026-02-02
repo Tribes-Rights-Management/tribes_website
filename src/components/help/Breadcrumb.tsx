@@ -1,6 +1,6 @@
 /**
  * Help Center Breadcrumb
- * 13px font with › separator
+ * Typography matches Portal exactly
  */
 
 import { Link } from "react-router-dom";
@@ -17,28 +17,30 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items, audienceSlug }: BreadcrumbProps) {
   return (
-    <nav className="mb-6" aria-label="Breadcrumb">
-      <ol className="flex items-center flex-wrap gap-x-1 text-[13px]">
+    <nav style={{ marginBottom: '20px' }} aria-label="Breadcrumb">
+      <ol className="flex items-center flex-wrap" style={{ gap: '4px', fontSize: '12px' }}>
         <li>
           <Link 
             to={`/hc/${audienceSlug}`}
-            className="text-[#525252] hover:text-[#1a1a1a] transition-colors duration-150"
+            className="hover:text-[#1F2937] transition-colors duration-150"
+            style={{ color: '#6B7280' }}
           >
             Home
           </Link>
         </li>
         {items.map((item, index) => (
-          <li key={index} className="flex items-center gap-1">
-            <span className="text-[#a3a3a3]">›</span>
+          <li key={index} className="flex items-center" style={{ gap: '4px' }}>
+            <span style={{ color: '#9CA3AF' }}>›</span>
             {item.href ? (
               <Link 
                 to={item.href}
-                className="text-[#525252] hover:text-[#1a1a1a] transition-colors duration-150"
+                className="hover:text-[#1F2937] transition-colors duration-150"
+                style={{ color: '#6B7280' }}
               >
                 {item.label}
               </Link>
             ) : (
-              <span className="text-[#a3a3a3]">{item.label}</span>
+              <span style={{ color: '#9CA3AF' }}>{item.label}</span>
             )}
           </li>
         ))}

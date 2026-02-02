@@ -1,6 +1,7 @@
 /**
  * Article List Item Component
- * Used in stacked list on category page
+ * Used in category page list view
+ * Typography matches Portal exactly
  */
 
 import { Link } from "react-router-dom";
@@ -17,19 +18,26 @@ export function ArticleListItem({ slug, title, audienceSlug, isLast = false }: A
   return (
     <Link
       to={`/hc/${audienceSlug}/articles/${slug}`}
-      className={`
-        group flex items-center justify-between
-        px-4 py-[14px]
-        hover:bg-[#fafafa] transition-colors duration-150
-        ${!isLast ? 'border-b border-[#f5f5f5]' : ''}
-      `}
+      className="group flex items-center justify-between hover:bg-[#F3F4F6] transition-colors duration-150"
+      style={{
+        padding: '12px 14px',
+        borderBottom: isLast ? 'none' : '1px solid #E6E8EC',
+      }}
     >
-      <span className="text-[14px] font-medium text-[#1a1a1a]">
+      <span 
+        className="truncate"
+        style={{ 
+          fontSize: '13px', 
+          fontWeight: 500, 
+          color: '#1F2937',
+          paddingRight: '8px',
+        }}
+      >
         {title}
       </span>
       <ChevronRight 
-        size={16} 
-        className="text-[#a3a3a3] shrink-0" 
+        className="shrink-0 transition-transform duration-150 group-hover:translate-x-0.5"
+        style={{ width: '14px', height: '14px', color: '#9CA3AF' }}
       />
     </Link>
   );
