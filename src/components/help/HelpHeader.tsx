@@ -24,9 +24,9 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
       className="sticky top-0 z-50 bg-white border-b border-[#e5e5e5] flex items-center"
       style={{ height: HELP_CENTER.HEADER_HEIGHT }}
     >
-      {/* Logo column - matches sidebar width, logo centered */}
+      {/* Logo column - matches sidebar width, logo aligned with nav items */}
       <div 
-        className="shrink-0 h-full flex items-center justify-center border-r border-[#e5e5e5]"
+        className="shrink-0 h-full flex items-center pl-5 border-r border-[#e5e5e5]"
         style={{ 
           width: HELP_CENTER.SIDEBAR_WIDTH,
           backgroundColor: HELP_CENTER.SIDEBAR_BG,
@@ -35,15 +35,15 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         {/* Mobile menu button - only on mobile */}
         <button
           onClick={onMenuToggle}
-          className="absolute left-4 p-2 md:hidden text-[#737373] hover:text-[#1a1a1a]"
+          className="absolute left-3 p-2 md:hidden text-[#737373] hover:text-[#1a1a1a]"
           aria-label="Toggle menu"
           aria-expanded={sidebarOpen}
         >
           <Menu size={20} />
         </button>
         
-        {/* Logo - centered */}
-        <Link to="/" className="flex items-center">
+        {/* Logo - aligned with nav items below */}
+        <Link to="/" className="flex items-center px-2 h-9 rounded-lg hover:bg-black/5 transition-colors">
           <img 
             src={BRAND.LOGO_URL} 
             alt="Tribes" 
