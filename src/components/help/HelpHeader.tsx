@@ -1,7 +1,9 @@
 /**
  * Help Center Header
- * Mercury-style: [Logo centered in 200px] | [Tabs] ... [Client Portal]
- * 56px height, matches Portal exactly
+ * Matches Portal header styling EXACTLY
+ * 
+ * Logo area: 200px, pl-5 (20px) to align with nav items
+ * Header height: 56px
  */
 
 import { Link } from "react-router-dom";
@@ -24,7 +26,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
       className="sticky top-0 z-50 bg-white border-b border-[#e5e5e5] flex items-center"
       style={{ height: HELP_CENTER.HEADER_HEIGHT }}
     >
-      {/* Logo column - matches sidebar width, logo aligned with nav items */}
+      {/* Logo column - matches Portal: 200px width, pl-5 for alignment */}
       <div 
         className="shrink-0 h-full flex items-center pl-5 border-r border-[#e5e5e5]"
         style={{ 
@@ -32,7 +34,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           backgroundColor: HELP_CENTER.SIDEBAR_BG,
         }}
       >
-        {/* Mobile menu button - only on mobile */}
+        {/* Mobile menu button */}
         <button
           onClick={onMenuToggle}
           className="absolute left-3 p-2 md:hidden text-[#737373] hover:text-[#1a1a1a]"
@@ -42,8 +44,11 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           <Menu size={20} />
         </button>
         
-        {/* Logo - aligned with nav items below */}
-        <Link to="/" className="flex items-center px-2 h-9 rounded-lg hover:bg-black/5 transition-colors">
+        {/* Logo - matches Portal: px-2 button padding, hover state */}
+        <Link 
+          to="/" 
+          className="flex items-center px-2 h-9 rounded-lg hover:bg-black/5 transition-colors"
+        >
           <img 
             src={BRAND.LOGO_URL} 
             alt="Tribes" 
@@ -56,8 +61,11 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         </Link>
       </div>
 
-      {/* Content column */}
-      <div className="flex-1 h-full flex items-center justify-between px-6">
+      {/* Content column - matches Portal styling */}
+      <div 
+        className="flex-1 h-full flex items-center justify-between px-6"
+        style={{ backgroundColor: 'white' }}
+      >
         {/* Left: Help Center text + Audience Tabs */}
         <div className="flex items-center gap-4 h-full">
           {/* Help Center text */}
@@ -68,7 +76,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
             Help Center
           </Link>
 
-          {/* Divider */}
+          {/* Divider - matches Portal border color */}
           <div className="hidden md:block w-px h-5 bg-[#e5e5e5]" />
 
           {/* Audience Tabs */}
