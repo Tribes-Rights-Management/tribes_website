@@ -1,9 +1,6 @@
 /**
  * Help Center Layout
- * Standardized layout matching Portal dimensions exactly
- * 
- * Sidebar: 200px (from HELP_CENTER.SIDEBAR_WIDTH)
- * Header: 56px (from HELP_CENTER.HEADER_HEIGHT)
+ * Matches Portal: 200px sidebar, 56px header, grey sidebar background
  */
 
 import { ReactNode, useState } from "react";
@@ -30,13 +27,14 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
       />
       
       <div className="flex">
-        {/* Desktop Sidebar - standardized 200px width */}
+        {/* Desktop Sidebar - 200px, grey background */}
         <aside 
-          className="hidden md:block shrink-0 sticky overflow-y-auto border-r border-[#f5f5f5]"
+          className="hidden md:block shrink-0 sticky overflow-y-auto border-r border-[#e5e5e5]"
           style={{
             width: HELP_CENTER.SIDEBAR_WIDTH,
             top: HELP_CENTER.HEADER_HEIGHT,
             height: `calc(100vh - ${HELP_CENTER.HEADER_HEIGHT})`,
+            backgroundColor: HELP_CENTER.SIDEBAR_BG,
           }}
         >
           <HelpSidebar 
@@ -55,39 +53,37 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
         
         {/* Mobile Sidebar */}
         <aside 
-          className="fixed inset-y-0 left-0 z-50 bg-white transform transition-transform duration-200 ease-out md:hidden"
-          style={{ width: HELP_CENTER.MOBILE_SIDEBAR_WIDTH }}
-          data-state={sidebarOpen ? "open" : "closed"}
+          className={`
+            fixed inset-y-0 left-0 z-50 bg-white transform transition-transform duration-200 ease-out md:hidden
+            ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          `}
+          style={{ 
+            width: HELP_CENTER.MOBILE_SIDEBAR_WIDTH,
+            backgroundColor: HELP_CENTER.SIDEBAR_BG,
+          }}
         >
           <div 
-            className={`
-              transform transition-transform duration-200 ease-out h-full
-              ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-            `}
+            className="flex items-center justify-between px-4 border-b border-[#e5e5e5]"
+            style={{ height: HELP_CENTER.HEADER_HEIGHT }}
           >
-            <div 
-              className="flex items-center justify-between px-4 border-b border-[#e5e5e5]"
-              style={{ height: HELP_CENTER.HEADER_HEIGHT }}
+            <span className="text-[14px] font-semibold text-[#1a1a1a]">Navigation</span>
+            <button 
+              onClick={() => setSidebarOpen(false)}
+              className="p-2 -mr-2 text-[#525252] hover:text-[#1a1a1a]"
+              aria-label="Close menu"
             >
-              <span className="text-[14px] font-semibold text-[#1a1a1a]">Navigation</span>
-              <button 
-                onClick={() => setSidebarOpen(false)}
-                className="p-2 -mr-2 text-[#525252] hover:text-[#1a1a1a]"
-                aria-label="Close menu"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            <div 
-              className="overflow-y-auto"
-              style={{ height: `calc(100% - ${HELP_CENTER.HEADER_HEIGHT})` }}
-            >
-              <HelpSidebar 
-                currentAudience={currentAudience}
-                currentCategorySlug={currentCategorySlug}
-                onNavigate={() => setSidebarOpen(false)}
-              />
-            </div>
+              <X size={20} />
+            </button>
+          </div>
+          <div 
+            className="overflow-y-auto"
+            style={{ height: `calc(100% - ${HELP_CENTER.HEADER_HEIGHT})` }}
+          >
+            <HelpSidebar 
+              currentAudience={currentAudience}
+              currentCategorySlug={currentCategorySlug}
+              onNavigate={() => setSidebarOpen(false)}
+            />
           </div>
         </aside>
 
