@@ -1,13 +1,12 @@
 /**
  * Help Center Layout
- * EXACT Portal AppShell structure - using explicit pixels
+ * EXACT Portal AppShell structure - matching colors exactly
  */
 
 import { ReactNode, useState } from "react";
 import { X } from "lucide-react";
 import { HelpSidebar } from "./HelpSidebar";
 import { HelpHeader } from "./HelpHeader";
-import { HELP_CENTER } from "@/lib/layout";
 
 interface HelpLayoutProps {
   children: ReactNode;
@@ -19,7 +18,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'white' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f5f5f5' }}>
       <HelpHeader 
         currentAudience={currentAudience}
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -27,7 +26,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
       />
       
       <div className="flex">
-        {/* Desktop Sidebar - 200px width */}
+        {/* Desktop Sidebar - Portal: #fafafa background, border-r #e5e5e5 */}
         <aside 
           className="hidden md:flex flex-col shrink-0 sticky overflow-hidden"
           style={{
@@ -52,7 +51,7 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           />
         )}
         
-        {/* Mobile Sidebar - 280px width */}
+        {/* Mobile Sidebar */}
         <aside 
           className={`
             fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 ease-out md:hidden
@@ -93,8 +92,11 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content - Portal uses px-6 md:px-12 py-8 */}
-        <main className="flex-1 min-w-0">
+        {/* Main Content - white background like Portal content area */}
+        <main 
+          className="flex-1 min-w-0"
+          style={{ backgroundColor: '#f5f5f5' }}
+        >
           <div style={{ 
             maxWidth: '800px',
             paddingLeft: '24px',
