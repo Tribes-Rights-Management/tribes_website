@@ -1,6 +1,6 @@
 /**
  * Help Center Header
- * EXACT Portal colors and spacing
+ * EXACT Portal alignment - Help Center text aligns with content at 24px from sidebar
  */
 
 import { Link } from "react-router-dom";
@@ -15,13 +15,13 @@ interface HelpHeaderProps {
   sidebarOpen: boolean;
 }
 
-/* Portal exact colors from tribes-theme.css */
+/* Portal exact colors */
 const COLORS = {
-  SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
-  TOPBAR_BG: '#FCFCFD',      /* --topbar-bg */
-  BORDER_SUBTLE: '#E6E8EC',  /* --border-subtle */
-  TEXT: '#1F2937',           /* --btn-text */
-  TEXT_MUTED: '#6B7280',     /* --btn-text-muted */
+  SIDEBAR_BG: '#EEF0F2',
+  TOPBAR_BG: '#FFFFFF',      /* White header to match white body */
+  BORDER_SUBTLE: '#E6E8EC',
+  TEXT: '#1F2937',
+  TEXT_MUTED: '#6B7280',
 };
 
 export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpHeaderProps) {
@@ -61,7 +61,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           <Menu style={{ width: '20px', height: '20px' }} />
         </button>
         
-        {/* Logo button - Portal: h-9 px-2 */}
+        {/* Logo button */}
         <Link 
           to="/" 
           className="hidden md:flex items-center rounded-lg transition-colors"
@@ -85,7 +85,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
         </Link>
       </div>
 
-      {/* Content column - Portal uses px-6 (24px) padding */}
+      {/* Content column - 24px padding to align with body content */}
       <div 
         className="flex-1 h-full flex items-center justify-between"
         style={{ 
@@ -94,20 +94,24 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           backgroundColor: COLORS.TOPBAR_BG,
         }}
       >
-        {/* Left side - Portal has gap-5 (20px) between items */}
+        {/* Left side - gap-5 (20px) between items */}
         <nav className="flex items-center h-full" style={{ gap: '20px' }}>
-          {/* Help Center link */}
+          {/* Help Center link - 14px font to match Portal */}
           <Link 
             to={`/hc/${currentAudience}`}
             className="hidden sm:flex items-center h-full transition-colors"
-            style={{ fontSize: '14px', color: COLORS.TEXT_MUTED }}
+            style={{ 
+              fontSize: '14px', 
+              color: COLORS.TEXT_MUTED,
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+            }}
             onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
             onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
           >
             Help Center
           </Link>
 
-          {/* Divider - Portal style */}
+          {/* Divider */}
           <div 
             className="hidden md:block" 
             style={{ width: '1px', height: '20px', backgroundColor: COLORS.BORDER_SUBTLE }} 
@@ -131,6 +135,7 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
                     fontSize: '14px',
                     fontWeight: 500,
                     color: isActive ? COLORS.TEXT : COLORS.TEXT_MUTED,
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
                   }}
                   onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT; }}
                   onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.color = COLORS.TEXT_MUTED; }}
@@ -148,11 +153,15 @@ export function HelpHeader({ currentAudience, onMenuToggle, sidebarOpen }: HelpH
           )}
         </nav>
 
-        {/* Right side - Client Portal link */}
+        {/* Right side */}
         <a
           href="https://app.tribesrightsmanagement.com"
           className="hidden sm:flex items-center h-full transition-colors"
-          style={{ fontSize: '14px', color: COLORS.TEXT_MUTED }}
+          style={{ 
+            fontSize: '14px', 
+            color: COLORS.TEXT_MUTED,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+          }}
           onMouseEnter={(e) => e.currentTarget.style.color = COLORS.TEXT}
           onMouseLeave={(e) => e.currentTarget.style.color = COLORS.TEXT_MUTED}
         >
