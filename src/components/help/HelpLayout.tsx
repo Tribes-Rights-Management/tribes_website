@@ -1,6 +1,6 @@
 /**
  * Help Center Layout
- * EXACT Portal alignment and colors
+ * EXACT Portal alignment, colors, and typography
  */
 
 import { ReactNode, useState } from "react";
@@ -16,9 +16,9 @@ interface HelpLayoutProps {
 
 /* Portal exact colors */
 const COLORS = {
-  PAGE_BG: '#FFFFFF',        /* White background for help center */
-  SIDEBAR_BG: '#EEF0F2',     /* --sidebar-bg */
-  BORDER_SUBTLE: '#E6E8EC',  /* --border-subtle */
+  PAGE_BG: '#FFFFFF',
+  SIDEBAR_BG: '#EEF0F2',
+  BORDER_SUBTLE: '#E6E8EC',
   TEXT: '#1F2937',
   TEXT_MUTED: '#6B7280',
 };
@@ -28,6 +28,50 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: COLORS.PAGE_BG }}>
+      {/* 
+        CSS overrides for Help Center content to match Portal typography 
+        Portal uses: page-title 22px, body 13px, font-weight 600 for titles
+      */}
+      <style>{`
+        .help-content h1 {
+          font-size: 22px !important;
+          font-weight: 600 !important;
+          line-height: 1.25 !important;
+          letter-spacing: -0.02em !important;
+          color: #1F2937 !important;
+        }
+        .help-content h2 {
+          font-size: 16px !important;
+          font-weight: 600 !important;
+          line-height: 1.3 !important;
+          color: #1F2937 !important;
+        }
+        .help-content h3 {
+          font-size: 14px !important;
+          font-weight: 600 !important;
+          color: #1F2937 !important;
+        }
+        .help-content p,
+        .help-content span,
+        .help-content li,
+        .help-content a {
+          font-size: 13px !important;
+          line-height: 1.5 !important;
+        }
+        .help-content input,
+        .help-content textarea {
+          font-size: 14px !important;
+        }
+        .help-content input::placeholder {
+          font-size: 14px !important;
+        }
+        @media (min-width: 640px) {
+          .help-content h1 {
+            font-size: 24px !important;
+          }
+        }
+      `}</style>
+
       <HelpHeader 
         currentAudience={currentAudience}
         onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
@@ -101,14 +145,15 @@ export function HelpLayout({ children, currentAudience, currentCategorySlug }: H
           </div>
         </aside>
 
-        {/* Main Content - Portal uses px-6 (24px) padding */}
-        <main className="flex-1 min-w-0" style={{ backgroundColor: COLORS.PAGE_BG }}>
+        {/* Main Content with Portal typography */}
+        <main className="flex-1 min-w-0 help-content" style={{ backgroundColor: COLORS.PAGE_BG }}>
           <div style={{ 
             maxWidth: '900px',
             paddingLeft: '24px',
             paddingRight: '24px',
             paddingTop: '24px',
             paddingBottom: '32px',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
           }}>
             {children}
           </div>
