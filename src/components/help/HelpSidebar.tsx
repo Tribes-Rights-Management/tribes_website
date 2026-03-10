@@ -1,6 +1,6 @@
 /**
  * Help Center Sidebar
- * EXACT Portal SideNav styling
+ * Institutional sidebar navigation for help center categories
  */
 
 import { Link, useLocation } from "react-router-dom";
