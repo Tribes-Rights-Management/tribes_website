@@ -72,7 +72,7 @@ All routes are public and unauthenticated. See `src/App.tsx` for the complete ro
 - `/contact`, `/services/inquiry`, `/licensing-account` — Intake forms
 - `/privacy`, `/terms` — Legal
 - `/hc/:audience/**` — Public help center (audience-segmented reading)
-- `/help-workstation/articles` — Public article browser (read-only listing)
+- `/help/articles` — Public article browser (read-only listing)
 
 ---
 
