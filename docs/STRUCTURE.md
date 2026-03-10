@@ -40,8 +40,7 @@ src/
 │   ├── theme.ts         # Theme zone colors and timing
 │   └── utils.ts         # General utilities (cn, etc.)
 ├── types/               # TypeScript type definitions
-│   ├── helpCenter.ts    # Help center types (audiences, categories, articles)
-│   └── index.ts         # Shared types
+│   └── helpCenter.ts    # Help center types (audiences, categories, articles)
 ├── integrations/        # External service clients
 │   └── supabase/        # Supabase client and generated types
 └── config/
