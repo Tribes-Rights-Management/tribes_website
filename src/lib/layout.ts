@@ -18,7 +18,7 @@ export const HEADER_HEIGHT = 64;
 export const DESKTOP_HEADER_HEIGHT = 64;
 export const MOBILE_HEADER_HEIGHT = 64;
 
-// HELP CENTER LAYOUT (matches Portal exactly)
+// HELP CENTER LAYOUT
 export const HELP_CENTER = {
   SIDEBAR_WIDTH: "200px",
   SIDEBAR_WIDTH_PX: 200,
