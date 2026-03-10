@@ -13,7 +13,7 @@ This document defines the boundary between the **Tribes Website** (this reposito
 | **Legal and policy** | Privacy policy, terms of service |
 | **Contact and intake** | Contact form, service inquiry form, form submission via edge functions |
 | **Help center rendering** | Public display of help articles, categories, and search (read-only) |
-| **Public article browser** | Read-only article listing at `/help-workstation/articles` |
+| **Public article browser** | Read-only article listing at `/help/articles` |
 | **Brand presentation** | Visual identity, typography, layout, and design token ownership |
 | **External Portal linking** | "Client Portal" links pointing to `https://app.tribesrightsmanagement.com` |
 
