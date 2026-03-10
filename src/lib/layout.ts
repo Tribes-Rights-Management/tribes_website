@@ -6,7 +6,7 @@
  * - Gutters: 20px mobile / 28px desktop
  * - Header: 64px
  * 
- * HELP CENTER (matches Portal):
+ * HELP CENTER:
  * - Sidebar: 200px
  * - Header: 56px
  * - Logo: 20px height, 80px max width
