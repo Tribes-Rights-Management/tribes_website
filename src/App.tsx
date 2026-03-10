@@ -57,7 +57,7 @@ const App = () => (
           <Route path="/hc/:audience/categories/:categorySlug" element={<HelpCategoryPage />} />
           <Route path="/hc/:audience/articles/:articleSlug" element={<HelpArticlePage />} />
 
-          {/* Help Workstation routes */}
+          {/* Public article browser */}
           <Route path="/help-workstation/articles" element={<HelpArticlesPage />} />
 
           {/* Catch-all */}
