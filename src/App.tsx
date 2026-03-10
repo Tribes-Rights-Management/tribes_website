@@ -25,7 +25,7 @@ import HelpHomePage from "./pages/help/HelpHomePage";
 import HelpCategoryPage from "./pages/help/HelpCategoryPage";
 import HelpArticlePage from "./pages/help/HelpArticlePage";
 
-// Help Workstation pages
+// Public article browser
 import HelpArticlesPage from "./pages/help-workstation/HelpArticlesPage";
 
 const queryClient = new QueryClient();
@@ -57,7 +57,7 @@ const App = () => (
           <Route path="/hc/:audience/categories/:categorySlug" element={<HelpCategoryPage />} />
           <Route path="/hc/:audience/articles/:articleSlug" element={<HelpArticlePage />} />
 
-          {/* Help Workstation routes */}
+          {/* Public article browser */}
           <Route path="/help-workstation/articles" element={<HelpArticlesPage />} />
 
           {/* Catch-all */}

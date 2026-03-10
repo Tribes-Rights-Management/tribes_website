@@ -2,7 +2,7 @@
 
 The public-facing website for [Tribes Rights Management](https://www.tribesrightsmanagement.com). This repository owns the institutional brand presence, informational content, licensing intake flows, and public help-center rendering.
 
-This is **not** the authenticated application. The **Tribes Portal** — a separate project and repository — handles user accounts, operational workflows, admin consoles, and all product functionality.
+This is **not** the authenticated application. The **Tribes Portal** — a separate project and repository — handles user accounts, operational workflows, admin consoles, content management, and all product functionality.
 
 ---
 
@@ -15,13 +15,14 @@ This is **not** the authenticated application. The **Tribes Portal** — a separ
 | Legal and policy pages | Privacy policy, terms of service |
 | Contact and intake | Contact form, service inquiry form |
 | Public help center | Audience-segmented help articles rendered from Supabase (`/hc`) |
+| Public article browser | Read-only article listing (`/help-workstation/articles`) |
 
 ## What This Repository Does Not Own
 
 - Authenticated user sessions or login flows
 - User dashboards, portals, or work areas
 - Admin consoles or internal workstations
-- Help-center content authoring or management
+- Help-center content authoring, editing, reordering, or publishing
 - Billing, governance, or operational product features
 - Any feature requiring an authenticated user context
 
@@ -35,7 +36,7 @@ The **Tribes Portal** is a separate repository responsible for all authenticated
 
 The Portal is accessed at `https://app.tribesrightsmanagement.com`. Links from this website to the Portal (labeled "Client Portal") open in the same browser tab and point to that external domain.
 
-Both projects share a common Supabase backend. This website accesses only public-safe views and tables using the anonymous key; the Portal operates with authenticated user sessions.
+Both projects share a common Supabase backend. This website accesses only public-safe views and tables using the anonymous key; the Portal operates with authenticated user sessions and manages all content authoring workflows.
 
 ---
 
@@ -107,3 +108,4 @@ Deployed via Lovable (Share → Publish). Custom domains are configured in Proje
 - Use semantic design tokens from `index.css` and `tailwind.config.ts` — no hardcoded colors
 - Review [`docs/REPO_BOUNDARY.md`](docs/REPO_BOUNDARY.md) before adding features to confirm they belong in this project
 - Keep components small and focused; shared utilities belong in `src/lib/`
+- The Website reads help content; it never writes, edits, or manages it

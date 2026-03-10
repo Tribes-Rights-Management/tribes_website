@@ -22,8 +22,8 @@ src/
 │   ├── ConsentRow.tsx    # Privacy/terms consent checkbox
 │   └── ScrollToTop.tsx   # Scroll restoration on navigation
 ├── pages/               # Route-level page components
-│   ├── help/            # Public help center pages
-│   ├── help-workstation/  # Content management (boundary exception, see below)
+│   ├── help/            # Public help center pages (/hc)
+│   ├── help-workstation/  # Public article browser (/help-workstation/articles)
 │   └── *.tsx            # Marketing, legal, contact, and intake pages
 ├── hooks/               # Custom React hooks
 │   ├── useHelpCenter.ts        # Help center data fetching (Supabase views)
@@ -71,20 +71,35 @@ All routes are public and unauthenticated. See `src/App.tsx` for the complete ro
 - `/services`, `/our-approach`, `/how-*` — Marketing and informational
 - `/contact`, `/services/inquiry`, `/licensing-account` — Intake forms
 - `/privacy`, `/terms` — Legal
-- `/hc/:audience/**` — Public help center
+- `/hc/:audience/**` — Public help center (audience-segmented reading)
+- `/help-workstation/articles` — Public article browser (read-only listing)
 
 ---
 
 ## Help Center
 
-The help center is a **read-only rendering surface**. All content comes from Supabase database views:
+The help center is a **public read-only rendering surface**. All content is authored and managed in the Tribes Portal; this project only consumes and displays it.
 
-- `v_help_categories_by_audience`
-- `v_help_articles_by_audience`
+### Public Help Routes
+
+| Route | Purpose |
+|---|---|
+| `/hc/:audience` | Audience-segmented help center home |
+| `/hc/:audience/categories/:categorySlug` | Category article listing |
+| `/hc/:audience/articles/:articleSlug` | Individual article rendering |
+| `/help-workstation/articles` | Full article browser with list and category views |
+
+### Data Sources
+
+- `v_help_categories_by_audience` — Categories by audience (database view)
+- `v_help_articles_by_audience` — Articles by audience (database view)
+- `help_articles`, `help_categories`, `help_article_audiences` — Direct table reads for the article browser
 
 Data fetching hooks are in `src/hooks/useHelpCenter.ts`. Rendering components are in `src/components/help/`.
 
-The help center does not author or manage content. Content management belongs in the Tribes Portal.
+### Ownership Boundary
+
+This project renders help content. It does not create, edit, reorder, publish, or delete it. All content management workflows belong in the Tribes Portal.
 
 ---
 
@@ -92,13 +107,7 @@ The help center does not author or manage content. Content management belongs in
 
 This project uses Supabase with the **anonymous/publishable key only**:
 
-- **Read**: Help center content from database views, knowledge base search
+- **Read**: Help center content from database views and tables, knowledge base search
 - **Write**: Contact form submission via the `submit-contact` edge function
 
-No authenticated queries. No service-role keys.
-
----
-
-## Boundary Exception
-
-`/help-workstation/articles` is a content management page that exists in this codebase but belongs in the Portal per `docs/REPO_BOUNDARY.md`. It is a known exception documented for future migration. No additional management routes should be added.
+No authenticated queries. No service-role keys. No content mutation.
