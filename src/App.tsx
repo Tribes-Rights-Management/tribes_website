@@ -25,7 +25,7 @@ import HelpHomePage from "./pages/help/HelpHomePage";
 import HelpCategoryPage from "./pages/help/HelpCategoryPage";
 import HelpArticlePage from "./pages/help/HelpArticlePage";
 
-// Help Workstation pages
+// Public article browser
 import HelpArticlesPage from "./pages/help-workstation/HelpArticlesPage";
 
 const queryClient = new QueryClient();
