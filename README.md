@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
+# Tribes Rights Management — Public Website
 
-## Project info
+## Overview
 
-**URL**: https://lovable.dev/projects/30343f59-13f7-4391-ab95-299da59153ff
+This repository contains the **public-facing Tribes Rights Management website**. It serves as the institutional brand presence, informational resource, and licensing intake surface for Tribes Rights Management.
 
-## How can I edit this code?
+This is **not** the authenticated application. The Tribes Portal — which handles user accounts, operational workflows, admin consoles, and all product functionality — is a separate project and repository.
 
-There are several ways of editing your application.
+## Intended Audience
 
-**Use Lovable**
+- Prospective clients evaluating Tribes services
+- Songwriters, publishers, and licensees seeking information
+- Visitors accessing public help-center articles
+- Users submitting contact or licensing inquiry forms
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/30343f59-13f7-4391-ab95-299da59153ff) and start prompting.
+## Surfaces and Modules
 
-Changes made via Lovable will be committed automatically to this repo.
+| Surface | Description |
+|---|---|
+| **Marketing Pages** | Brand narrative, service descriptions, approach overview |
+| **Informational Pages** | How licensing works, how publishing admin works |
+| **Legal/Policy Pages** | Privacy policy, terms of service |
+| **Contact & Intake** | Contact form, service inquiry form |
+| **Public Help Center** | Audience-segmented help articles rendered from Supabase (`/hc/:audience`) |
+| **Pre-Launch Page** | Landing page / primary entry point |
 
-**Use your preferred IDE**
+## What This Repository Does NOT Own
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Authenticated user sessions or login flows
+- User dashboards, portals, or work areas
+- Admin consoles or internal workstations
+- Tenant/membership context management
+- Help-center content authoring or management (read-only consumption only)
+- Billing, governance, or operational product features
+- Any feature requiring an authenticated user context
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Relationship to Tribes Portal
 
-Follow these steps:
+The **Tribes Portal** is a separate project and repository responsible for all authenticated product operations. This includes user account management, admin consoles, content management workstations, contract workflows, royalty processing, and all internal operational tools.
+
+The Portal is accessed externally at `https://app.tribesrightsmanagement.com`. Links from this website to the Portal (labeled "Client Portal") open in the same browser tab and point to that external domain.
+
+These two projects share a common Supabase backend for data storage and edge functions, but serve fundamentally different purposes: this website is a public read/intake surface; the Portal is a private operational application.
+
+## Local Development
+
+### Prerequisites
+
+- Node.js and npm ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+
+### Setup
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <https://github.com/Tribes-Rights-Management/tribesrightsmanagement>
 
-# Step 2: Navigate to the project directory.
-cd <Tribes>
+# Navigate to the project directory
+cd tribesrightsmanagement
 
-# Step 3: Install the necessary dependencies.
+# Install dependencies
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Variables
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The following environment variables are required:
 
-**Use GitHub Codespaces**
+| Variable | Purpose |
+|---|---|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anonymous/publishable key |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Optional:
 
-## What technologies are used for this project?
+| Variable | Purpose |
+|---|---|
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project identifier |
+| `VITE_APP_URL` | Application URL (defaults to `http://localhost:5173`) |
 
-This project is built with:
+## Technology Stack
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **React** with **TypeScript**
+- **Vite** (build tooling)
+- **Tailwind CSS** (styling via semantic design tokens)
+- **shadcn/ui** (component library)
+- **Supabase** (backend: database views, edge functions)
+- **React Router** (client-side routing)
+- **React Query** (data fetching and caching)
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://github.com/Tribes-Rights-Management/tribesrightsmanagement) and click on Share -> Publish.
+This project is deployed via Lovable. To publish, open the Lovable project and use Share → Publish.
 
-## Can I connect a custom domain to my Lovable project?
+Custom domains are supported via Project → Settings → Domains. See [Lovable custom domain docs](https://docs.lovable.dev/features/custom-domain#custom-domain).
 
-Yes, you can!
+## Documentation
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — System architecture and design principles
+- [`docs/REPO_BOUNDARY.md`](docs/REPO_BOUNDARY.md) — Boundary definition between Website and Portal
+- [`docs/NAVIGATION_SPEC.md`](docs/NAVIGATION_SPEC.md) — Navigation system specification
