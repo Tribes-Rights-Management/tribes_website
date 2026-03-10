@@ -7,7 +7,7 @@
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   TEXT_SECONDARY: '#6B7280',
   TEXT_MUTED: '#9CA3AF',

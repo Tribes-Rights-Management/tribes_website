@@ -29,7 +29,7 @@ import { NavOverlay } from "@/components/NavOverlay";
  * Height: 64px for brand consistency with app header
  */
 const HEADER = {
-  height: 64, // LOCKED — 64px for app header parity
+  height: 64, // LOCKED — 64px institutional standard
   gutterMobile: 24,
   gutterDesktop: 28,
 } as const;

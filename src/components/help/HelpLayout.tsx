@@ -15,7 +15,7 @@ interface HelpLayoutProps {
   currentCategorySlug?: string;
 }
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   PAGE_BG: '#FFFFFF',
   SIDEBAR_BG: '#EEF0F2',

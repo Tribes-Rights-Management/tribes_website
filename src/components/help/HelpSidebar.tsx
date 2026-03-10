@@ -16,7 +16,7 @@ const iconMap: Record<string, LucideIcon> = {
   BarChart3, Users, Settings, Code, BookOpen,
 };
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   SIDEBAR_BG: '#EEF0F2',
   NAV_HOVER: '#EAEBEE',

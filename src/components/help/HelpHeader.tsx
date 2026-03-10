@@ -18,7 +18,7 @@ interface HelpHeaderProps {
   sidebarOpen?: boolean;
 }
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   SIDEBAR_BG: '#EEF0F2',
   TOPBAR_BG: '#FFFFFF',
