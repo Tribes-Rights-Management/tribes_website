@@ -15,8 +15,7 @@ export function FeedbackButtons({ articleSlug }: FeedbackButtonsProps) {
 
   const handleFeedback = (value: "yes" | "no") => {
     setFeedback(value);
-    // TODO: Send feedback to analytics/database
-    console.log(`Feedback for ${articleSlug}: ${value}`);
+    // Feedback is recorded client-side only; no backend persistence yet
   };
 
   if (feedback) {
