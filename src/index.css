@@ -1569,7 +1569,7 @@ body {
    FORM PRIMITIVE HARD OVERRIDES — TRIBES INSTITUTIONAL STANDARD (LOCKED)
 
    Purpose: ensure NO default/consumer-grade form UI survives anywhere.
-   Applies to: all forms across the site (public + auth + portal + admin).
+   Applies to: all forms across the public site.
    Excludes: non-form UI by scoping to <form> where possible.
 
    Non-negotiables:
