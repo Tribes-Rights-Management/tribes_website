@@ -144,6 +144,8 @@ export default function LicensingAccountPage() {
       const firstName = nameParts[0] || "";
       const lastName = nameParts.slice(1).join(" ") || "";
 
+      // "auth-check" is a Portal-managed edge function that checks access-request
+      // status (active / pending / new_request). It is NOT Website authentication.
       const { data, error } = await supabase.functions.invoke("auth-check", {
         body: {
           email: email.trim().toLowerCase(),

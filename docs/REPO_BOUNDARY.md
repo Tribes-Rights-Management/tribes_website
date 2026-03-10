@@ -119,7 +119,7 @@ The public help center (`/hc`) and article browser (`/help-workstation/articles`
 2. **No protected routes**: No route in this project should redirect to a login page or check authentication state
 3. **No user-specific rendering**: No component should conditionally render based on a user's identity, role, or tenant membership
 4. **No service-role keys**: Only the anonymous/publishable Supabase key is permitted
-5. **No session storage**: No tokens, user IDs, or session data should be stored in localStorage, sessionStorage, or cookies
+5. **No authenticated session storage**: Auth tokens, user IDs, credentials, tenant context, or portal-style persistent user state must not be stored in localStorage, sessionStorage, or cookies. Narrow, non-sensitive browser storage for public UX continuity (e.g., temporary form draft persistence, transient UI state) is permitted
 6. **No portal-style layouts**: Dashboard layouts, sidebar navigation for authenticated contexts, and admin chrome must not be added
 7. **External Portal links only**: Any reference to authenticated functionality must link to `https://app.tribesrightsmanagement.com`, not to a local route
 8. **No write operations on content**: The Website must not update, insert, or delete help articles, categories, or article positions
