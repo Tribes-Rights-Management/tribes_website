@@ -10,7 +10,7 @@ A developer-facing guide to the public website's file organization and conventio
 src/
 ├── components/          # UI components
 │   ├── ui/              # shadcn/ui primitives (do not edit directly)
-│   ├── shared/          # Reusable components (ErrorBoundary, FadeInSection, etc.)
+│   ├── shared/          # Reusable components (ErrorBoundary, BackToTop, etc.)
 │   ├── help/            # Help center rendering components
 │   ├── contact/         # Contact form components (KnowledgeBaseSuggestions)
 │   ├── PublicLayout.tsx  # Main site layout (header, footer, nav overlay)
@@ -40,8 +40,7 @@ src/
 │   ├── theme.ts         # Theme zone colors and timing
 │   └── utils.ts         # General utilities (cn, etc.)
 ├── types/               # TypeScript type definitions
-│   ├── helpCenter.ts    # Help center types (audiences, categories, articles)
-│   └── index.ts         # Shared types
+│   └── helpCenter.ts    # Help center types (audiences, categories, articles)
 ├── integrations/        # External service clients
 │   └── supabase/        # Supabase client and generated types
 └── config/

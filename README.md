@@ -96,6 +96,7 @@ Deployed via Lovable (Share → Publish). Custom domains are configured in Proje
 |---|---|
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | System architecture and design principles |
 | [`docs/REPO_BOUNDARY.md`](docs/REPO_BOUNDARY.md) | Boundary definition between Website and Portal |
+| [`docs/STRUCTURE.md`](docs/STRUCTURE.md) | Codebase structure and file organization |
 | [`docs/NAVIGATION_SPEC.md`](docs/NAVIGATION_SPEC.md) | Navigation system specification |
 
 ---
