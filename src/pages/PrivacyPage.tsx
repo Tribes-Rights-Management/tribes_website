@@ -144,7 +144,7 @@ export default function PrivacyPage() {
           <p>Tribes Rights Management LLC</p>
           <p>3839 McKinney Ave, Suite 155 #2374</p>
           <p>Dallas, TX 75204</p>
-          <p>Email: contact@tribesassets.com</p>
+          <p>Email: admin@tribesassets.com</p>
         </div>
       </section>
     </ContentPageLayout>

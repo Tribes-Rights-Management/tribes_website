@@ -595,6 +595,56 @@ export type Database = {
         }
         Relationships: []
       }
+      client_documents: {
+        Row: {
+          client_account_id: string
+          created_at: string | null
+          document_type: string | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          file_type: string | null
+          id: string
+          notes: string | null
+          updated_at: string | null
+          uploaded_by: string | null
+        }
+        Insert: {
+          client_account_id: string
+          created_at?: string | null
+          document_type?: string | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          notes?: string | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Update: {
+          client_account_id?: string
+          created_at?: string | null
+          document_type?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          file_type?: string | null
+          id?: string
+          notes?: string | null
+          updated_at?: string | null
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_documents_client_account_id_fkey"
+            columns: ["client_account_id"]
+            isOneToOne: false
+            referencedRelation: "client_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       client_invitations: {
         Row: {
           accepted_at: string | null
@@ -964,6 +1014,155 @@ export type Database = {
           },
         ]
       }
+      deal_publishers: {
+        Row: {
+          administrator_entity_id: string | null
+          created_at: string
+          deal_id: string
+          id: string
+          publisher_id: string | null
+          publisher_ipi: string | null
+          publisher_name: string
+          publisher_pro: string | null
+          share: number
+          sort_order: number
+          tribes_administered: boolean
+        }
+        Insert: {
+          administrator_entity_id?: string | null
+          created_at?: string
+          deal_id: string
+          id?: string
+          publisher_id?: string | null
+          publisher_ipi?: string | null
+          publisher_name: string
+          publisher_pro?: string | null
+          share?: number
+          sort_order?: number
+          tribes_administered?: boolean
+        }
+        Update: {
+          administrator_entity_id?: string | null
+          created_at?: string
+          deal_id?: string
+          id?: string
+          publisher_id?: string | null
+          publisher_ipi?: string | null
+          publisher_name?: string
+          publisher_pro?: string | null
+          share?: number
+          sort_order?: number
+          tribes_administered?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_publishers_administrator_entity_id_fkey"
+            columns: ["administrator_entity_id"]
+            isOneToOne: false
+            referencedRelation: "tribes_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_publishers_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      deal_territories: {
+        Row: {
+          deal_id: string
+          id: string
+          territory_code: string
+        }
+        Insert: {
+          deal_id: string
+          id?: string
+          territory_code: string
+        }
+        Update: {
+          deal_id?: string
+          id?: string
+          territory_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deal_territories_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "deal_territories_territory_code_fkey"
+            columns: ["territory_code"]
+            isOneToOne: false
+            referencedRelation: "territories"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      deals: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          deal_number: number | null
+          effective_date: string | null
+          end_date: string | null
+          id: string
+          name: string
+          notes: string | null
+          status: string
+          territory: string
+          territory_mode: string
+          updated_at: string
+          writer_id: string
+          writer_share: number
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          deal_number?: number | null
+          effective_date?: string | null
+          end_date?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          status?: string
+          territory?: string
+          territory_mode?: string
+          updated_at?: string
+          writer_id: string
+          writer_share?: number
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          deal_number?: number | null
+          effective_date?: string | null
+          end_date?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          status?: string
+          territory?: string
+          territory_mode?: string
+          updated_at?: string
+          writer_id?: string
+          writer_share?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deals_writer_id_fkey"
+            columns: ["writer_id"]
+            isOneToOne: false
+            referencedRelation: "writers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       disclosure_exports: {
         Row: {
           completed_at: string | null
@@ -1207,7 +1406,9 @@ export type Database = {
         Row: {
           content: string
           created_at: string | null
+          helpful_count: number | null
           id: string
+          not_helpful_count: number | null
           published_at: string | null
           search_vector: unknown
           slug: string
@@ -1219,7 +1420,9 @@ export type Database = {
         Insert: {
           content?: string
           created_at?: string | null
+          helpful_count?: number | null
           id?: string
+          not_helpful_count?: number | null
           published_at?: string | null
           search_vector?: unknown
           slug: string
@@ -1231,7 +1434,9 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string | null
+          helpful_count?: number | null
           id?: string
+          not_helpful_count?: number | null
           published_at?: string | null
           search_vector?: unknown
           slug?: string
@@ -2308,6 +2513,99 @@ export type Database = {
         }
         Relationships: []
       }
+      publishers: {
+        Row: {
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          contact_name: string | null
+          country: string | null
+          created_at: string | null
+          created_by: string | null
+          dba_name: string | null
+          email: string | null
+          id: string
+          ipi_number: string | null
+          is_active: boolean | null
+          is_controlled: boolean | null
+          isni: string | null
+          legal_name: string | null
+          mechanical_society: string | null
+          mechanical_society_id: string | null
+          metadata: Json | null
+          name: string
+          notes: string | null
+          phone: string | null
+          postal_code: string | null
+          pro: string | null
+          pro_member_id: string | null
+          publisher_type: string | null
+          state: string | null
+          territories: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          contact_name?: string | null
+          country?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          dba_name?: string | null
+          email?: string | null
+          id?: string
+          ipi_number?: string | null
+          is_active?: boolean | null
+          is_controlled?: boolean | null
+          isni?: string | null
+          legal_name?: string | null
+          mechanical_society?: string | null
+          mechanical_society_id?: string | null
+          metadata?: Json | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          pro?: string | null
+          pro_member_id?: string | null
+          publisher_type?: string | null
+          state?: string | null
+          territories?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          contact_name?: string | null
+          country?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          dba_name?: string | null
+          email?: string | null
+          id?: string
+          ipi_number?: string | null
+          is_active?: boolean | null
+          is_controlled?: boolean | null
+          isni?: string | null
+          legal_name?: string | null
+          mechanical_society?: string | null
+          mechanical_society_id?: string | null
+          metadata?: Json | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          postal_code?: string | null
+          pro?: string | null
+          pro_member_id?: string | null
+          publisher_type?: string | null
+          state?: string | null
+          territories?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       recovery_events: {
         Row: {
           backup_id: string | null
@@ -2578,12 +2876,170 @@ export type Database = {
           },
         ]
       }
+      song_ownership: {
+        Row: {
+          administrator_entity_id: string | null
+          administrator_id: string | null
+          controlled: boolean
+          created_at: string
+          created_by: string | null
+          effective_from: string | null
+          effective_to: string | null
+          id: string
+          notes: string | null
+          ownership_percentage: number
+          publisher_id: string
+          song_id: string
+          song_writer_id: string | null
+          territory: string | null
+          tribes_administered: boolean
+          updated_at: string
+        }
+        Insert: {
+          administrator_entity_id?: string | null
+          administrator_id?: string | null
+          controlled?: boolean
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          notes?: string | null
+          ownership_percentage?: number
+          publisher_id: string
+          song_id: string
+          song_writer_id?: string | null
+          territory?: string | null
+          tribes_administered?: boolean
+          updated_at?: string
+        }
+        Update: {
+          administrator_entity_id?: string | null
+          administrator_id?: string | null
+          controlled?: boolean
+          created_at?: string
+          created_by?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          notes?: string | null
+          ownership_percentage?: number
+          publisher_id?: string
+          song_id?: string
+          song_writer_id?: string | null
+          territory?: string | null
+          tribes_administered?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "song_ownership_administrator_entity_id_fkey"
+            columns: ["administrator_entity_id"]
+            isOneToOne: false
+            referencedRelation: "tribes_entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_ownership_administrator_id_fkey"
+            columns: ["administrator_id"]
+            isOneToOne: false
+            referencedRelation: "publishers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_ownership_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "publishers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_ownership_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_ownership_song_writer_id_fkey"
+            columns: ["song_writer_id"]
+            isOneToOne: false
+            referencedRelation: "song_writers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      song_publishers: {
+        Row: {
+          administered_by: string | null
+          created_at: string | null
+          effective_from: string | null
+          effective_to: string | null
+          id: string
+          ownership_percentage: number
+          publisher_id: string
+          publisher_role: string | null
+          song_id: string
+          territory: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          administered_by?: string | null
+          created_at?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          ownership_percentage?: number
+          publisher_id: string
+          publisher_role?: string | null
+          song_id: string
+          territory?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          administered_by?: string | null
+          created_at?: string | null
+          effective_from?: string | null
+          effective_to?: string | null
+          id?: string
+          ownership_percentage?: number
+          publisher_id?: string
+          publisher_role?: string | null
+          song_id?: string
+          territory?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "song_publishers_administered_by_fkey"
+            columns: ["administered_by"]
+            isOneToOne: false
+            referencedRelation: "publishers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_publishers_publisher_id_fkey"
+            columns: ["publisher_id"]
+            isOneToOne: false
+            referencedRelation: "publishers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_publishers_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       song_queue: {
         Row: {
           admin_notes: string | null
           approved_song_id: string | null
-          client_account_id: string
+          client_account_id: string | null
           current_data: Json
+          deal_id: string | null
           id: string
           rejection_reason: string | null
           reviewed_at: string | null
@@ -2593,6 +3049,7 @@ export type Database = {
           revision_requested_by: string | null
           revision_submitted_at: string | null
           status: Database["public"]["Enums"]["song_queue_status"]
+          submission_number: number | null
           submitted_at: string
           submitted_by: string
           submitted_data: Json
@@ -2601,8 +3058,9 @@ export type Database = {
         Insert: {
           admin_notes?: string | null
           approved_song_id?: string | null
-          client_account_id: string
+          client_account_id?: string | null
           current_data: Json
+          deal_id?: string | null
           id?: string
           rejection_reason?: string | null
           reviewed_at?: string | null
@@ -2612,6 +3070,7 @@ export type Database = {
           revision_requested_by?: string | null
           revision_submitted_at?: string | null
           status?: Database["public"]["Enums"]["song_queue_status"]
+          submission_number?: number | null
           submitted_at?: string
           submitted_by: string
           submitted_data: Json
@@ -2620,8 +3079,9 @@ export type Database = {
         Update: {
           admin_notes?: string | null
           approved_song_id?: string | null
-          client_account_id?: string
+          client_account_id?: string | null
           current_data?: Json
+          deal_id?: string | null
           id?: string
           rejection_reason?: string | null
           reviewed_at?: string | null
@@ -2631,6 +3091,7 @@ export type Database = {
           revision_requested_by?: string | null
           revision_submitted_at?: string | null
           status?: Database["public"]["Enums"]["song_queue_status"]
+          submission_number?: number | null
           submitted_at?: string
           submitted_by?: string
           submitted_data?: Json
@@ -2649,6 +3110,54 @@ export type Database = {
             columns: ["client_account_id"]
             isOneToOne: false
             referencedRelation: "client_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_queue_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      song_queue_messages: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_internal: boolean | null
+          message: string
+          queue_id: string
+          sender_id: string
+          sender_role: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_internal?: boolean | null
+          message: string
+          queue_id: string
+          sender_id: string
+          sender_role: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_internal?: boolean | null
+          message?: string
+          queue_id?: string
+          sender_id?: string
+          sender_role?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "song_queue_messages_queue_id_fkey"
+            columns: ["queue_id"]
+            isOneToOne: false
+            referencedRelation: "song_queue"
             referencedColumns: ["id"]
           },
         ]
@@ -2748,9 +3257,68 @@ export type Database = {
           },
         ]
       }
+      song_writers: {
+        Row: {
+          created_at: string | null
+          credit: string | null
+          deal_id: string | null
+          id: string
+          share: number
+          song_id: string
+          tribes_administered: boolean
+          updated_at: string | null
+          writer_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          credit?: string | null
+          deal_id?: string | null
+          id?: string
+          share?: number
+          song_id: string
+          tribes_administered?: boolean
+          updated_at?: string | null
+          writer_id: string
+        }
+        Update: {
+          created_at?: string | null
+          credit?: string | null
+          deal_id?: string | null
+          id?: string
+          share?: number
+          song_id?: string
+          tribes_administered?: boolean
+          updated_at?: string | null
+          writer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "song_writers_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "deals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_writers_song_id_fkey"
+            columns: ["song_id"]
+            isOneToOne: false
+            referencedRelation: "songs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "song_writers_writer_id_fkey"
+            columns: ["writer_id"]
+            isOneToOne: false
+            referencedRelation: "writers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       songs: {
         Row: {
           alternate_titles: string[] | null
+          ccli_song_id: string | null
           created_at: string
           created_by: string | null
           duration_seconds: number | null
@@ -2763,12 +3331,14 @@ export type Database = {
           published_at: string | null
           published_by: string | null
           release_date: string | null
+          song_number: number | null
           source_queue_id: string | null
           title: string
           updated_at: string
         }
         Insert: {
           alternate_titles?: string[] | null
+          ccli_song_id?: string | null
           created_at?: string
           created_by?: string | null
           duration_seconds?: number | null
@@ -2781,12 +3351,14 @@ export type Database = {
           published_at?: string | null
           published_by?: string | null
           release_date?: string | null
+          song_number?: number | null
           source_queue_id?: string | null
           title: string
           updated_at?: string
         }
         Update: {
           alternate_titles?: string[] | null
+          ccli_song_id?: string | null
           created_at?: string
           created_by?: string | null
           duration_seconds?: number | null
@@ -2799,6 +3371,7 @@ export type Database = {
           published_at?: string | null
           published_by?: string | null
           release_date?: string | null
+          song_number?: number | null
           source_queue_id?: string | null
           title?: string
           updated_at?: string
@@ -2848,6 +3421,8 @@ export type Database = {
           mailgun_message_id: string | null
           metadata: Json | null
           priority: string | null
+          search_query: string | null
+          searched_articles: Json | null
           status: string | null
           subject: string | null
           updated_at: string | null
@@ -2862,6 +3437,8 @@ export type Database = {
           mailgun_message_id?: string | null
           metadata?: Json | null
           priority?: string | null
+          search_query?: string | null
+          searched_articles?: Json | null
           status?: string | null
           subject?: string | null
           updated_at?: string | null
@@ -2876,6 +3453,8 @@ export type Database = {
           mailgun_message_id?: string | null
           metadata?: Json | null
           priority?: string | null
+          search_query?: string | null
+          searched_articles?: Json | null
           status?: string | null
           subject?: string | null
           updated_at?: string | null
@@ -3016,6 +3595,27 @@ export type Database = {
         }
         Relationships: []
       }
+      territories: {
+        Row: {
+          code: string
+          name: string
+          region: string
+          sort_order: number | null
+        }
+        Insert: {
+          code: string
+          name: string
+          region: string
+          sort_order?: number | null
+        }
+        Update: {
+          code?: string
+          name?: string
+          region?: string
+          sort_order?: number | null
+        }
+        Relationships: []
+      }
       ticket_messages: {
         Row: {
           content: string
@@ -3053,6 +3653,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      tribes_entities: {
+        Row: {
+          created_at: string
+          entity_name: string
+          id: string
+          ipi_number: string
+          is_active: boolean
+          pro: string
+        }
+        Insert: {
+          created_at?: string
+          entity_name: string
+          id?: string
+          ipi_number: string
+          is_active?: boolean
+          pro: string
+        }
+        Update: {
+          created_at?: string
+          entity_name?: string
+          id?: string
+          ipi_number?: string
+          is_active?: boolean
+          pro?: string
+        }
+        Relationships: []
       }
       user_preferences: {
         Row: {
@@ -3225,6 +3852,84 @@ export type Database = {
         }
         Relationships: []
       }
+      writers: {
+        Row: {
+          cae_number: string | null
+          created_at: string | null
+          created_by: string | null
+          email: string | null
+          first_name: string | null
+          id: string
+          ipi_number: string | null
+          is_active: boolean | null
+          is_controlled: boolean | null
+          isni: string | null
+          last_name: string | null
+          legal_name: string | null
+          mechanical_society: string | null
+          mechanical_society_id: string | null
+          metadata: Json | null
+          middle_name: string | null
+          name: string
+          notes: string | null
+          phone: string | null
+          pro: string | null
+          pro_member_id: string | null
+          territories: string[] | null
+          updated_at: string | null
+        }
+        Insert: {
+          cae_number?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          ipi_number?: string | null
+          is_active?: boolean | null
+          is_controlled?: boolean | null
+          isni?: string | null
+          last_name?: string | null
+          legal_name?: string | null
+          mechanical_society?: string | null
+          mechanical_society_id?: string | null
+          metadata?: Json | null
+          middle_name?: string | null
+          name: string
+          notes?: string | null
+          phone?: string | null
+          pro?: string | null
+          pro_member_id?: string | null
+          territories?: string[] | null
+          updated_at?: string | null
+        }
+        Update: {
+          cae_number?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          email?: string | null
+          first_name?: string | null
+          id?: string
+          ipi_number?: string | null
+          is_active?: boolean | null
+          is_controlled?: boolean | null
+          isni?: string | null
+          last_name?: string | null
+          legal_name?: string | null
+          mechanical_society?: string | null
+          mechanical_society_id?: string | null
+          metadata?: Json | null
+          middle_name?: string | null
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          pro?: string | null
+          pro_member_id?: string | null
+          territories?: string[] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       v_help_articles_by_audience: {
@@ -3261,6 +3966,7 @@ export type Database = {
       }
     }
     Functions: {
+      approve_queue_item: { Args: { p_queue_id: string }; Returns: string }
       archive_help_article: { Args: { _article_id: string }; Returns: boolean }
       archive_old_notifications: { Args: never; Returns: number }
       can_access_context: {
@@ -3282,6 +3988,10 @@ export type Database = {
       can_manage_help: { Args: { _user_id: string }; Returns: boolean }
       can_manage_help_content: { Args: { _user_id: string }; Returns: boolean }
       check_escalations: { Args: never; Returns: number }
+      check_is_company_user: {
+        Args: { check_user_id: string }
+        Returns: boolean
+      }
       client_can_view_song: {
         Args: { p_client_account_id: string; p_song_id: string }
         Returns: boolean
@@ -3467,6 +4177,10 @@ export type Database = {
           title: string
         }[]
       }
+      submit_song_to_queue: {
+        Args: { p_submitted_data: Json }
+        Returns: string
+      }
       user_has_client_access: {
         Args: { p_client_account_id: string; p_user_id: string }
         Returns: boolean
@@ -3576,7 +4290,13 @@ export type Database = {
         | "requested_by_customer"
         | "service_not_provided"
         | "other"
-      song_queue_status: "pending" | "needs_revision" | "approved" | "rejected"
+      song_queue_status:
+        | "submitted"
+        | "pending"
+        | "in_review"
+        | "needs_revision"
+        | "approved"
+        | "rejected"
       ui_density_mode: "comfortable" | "compact"
     }
     CompositeTypes: {
@@ -3809,7 +4529,14 @@ export const Constants = {
         "service_not_provided",
         "other",
       ],
-      song_queue_status: ["pending", "needs_revision", "approved", "rejected"],
+      song_queue_status: [
+        "submitted",
+        "pending",
+        "in_review",
+        "needs_revision",
+        "approved",
+        "rejected",
+      ],
       ui_density_mode: ["comfortable", "compact"],
     },
   },
