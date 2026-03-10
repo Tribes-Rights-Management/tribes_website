@@ -87,7 +87,7 @@ The help center is a **public read-only rendering surface**. All content is auth
 | `/hc/:audience` | Audience-segmented help center home |
 | `/hc/:audience/categories/:categorySlug` | Category article listing |
 | `/hc/:audience/articles/:articleSlug` | Individual article rendering |
-| `/help-workstation/articles` | Full article browser with list and category views |
+| `/help/articles` | Full article browser with list and category views |
 
 ### Data Sources
 

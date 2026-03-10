@@ -86,7 +86,7 @@ The help center is a **read-only consumption surface**. It renders content that 
 ### Public Help Routes
 
 - `/hc/:audience/**` — Audience-segmented article reading experience (sidebar layout, markdown rendering, search)
-- `/help-workstation/articles` — Public article browser with list and category views
+- `/help/articles` — Public article browser with list and category views
 
 ### Architecture
 
