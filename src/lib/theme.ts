@@ -21,8 +21,7 @@
  * - Contact (/contact)
  * - Licensing Account (/licensing-account)
  * - Service Inquiry (/services/inquiry)
- * - Auth/Login (/auth)
- * 
+ *
  * MARKETING PAGES (white or dark backgrounds only):
  * - All explanatory and promotional content
  * - Legal pages (Privacy, Terms)

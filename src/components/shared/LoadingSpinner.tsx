@@ -30,15 +30,3 @@ export const LoadingSpinner = ({
     </div>
   );
 };
-
-// Full-screen loading component
-export const LoadingScreen = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="flex flex-col items-center gap-4">
-        <LoadingSpinner size="lg" />
-        <p className="text-muted-foreground text-sm">Loading...</p>
-      </div>
-    </div>
-  );
-};

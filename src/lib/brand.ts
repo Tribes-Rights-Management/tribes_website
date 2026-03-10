@@ -50,19 +50,6 @@ export const LOGO_SIZES = {
     fontWeight: 400,
   },
 
-  /** Auth screens (sign-in, request access) */
-  auth: {
-    fontSize: 24,
-    fontWeight: 600,
-    letterSpacing: 1,
-  },
-
-  /** Portal UI header */
-  portal: {
-    fontSize: 14,
-    fontWeight: 500,
-  },
-
   /** Open Graph / social previews */
   og: {
     fontSize: 48,
@@ -85,10 +72,6 @@ export const LOGO_IMAGES = {
   footer: {
     height: 20,
     minHeight: 20,
-  },
-  auth: {
-    height: 32,
-    minHeight: 28,
   },
 } as const;
 

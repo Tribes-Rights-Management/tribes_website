@@ -52,20 +52,3 @@ export interface ArticlesByCategory {
   articles: ArticleByAudience[];
 }
 
-// Legacy types for backwards compatibility during transition
-export interface HelpArticle {
-  slug: string;
-  title: string;
-  category: string;
-  content: string;
-  updatedAt: string;
-  relatedArticles?: string[];
-}
-
-export interface HelpCategory {
-  id: string;
-  name: string;
-  icon: string;
-  description: string;
-  articles: { slug: string; title: string }[];
-}
