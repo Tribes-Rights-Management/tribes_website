@@ -33,7 +33,7 @@ interface FooterProps {
   className?: string;
   disableLinks?: boolean;
   hideLinks?: boolean;
-  /** Use "compact" for root temp page to preserve original spacing */
+  /** Use "compact" for the landing page to preserve original spacing */
   variant?: "standard" | "compact";
 }
 
