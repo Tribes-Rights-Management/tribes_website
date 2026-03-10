@@ -15,7 +15,7 @@ This is **not** the authenticated application. The **Tribes Portal** — a separ
 | Legal and policy pages | Privacy policy, terms of service |
 | Contact and intake | Contact form, service inquiry form |
 | Public help center | Audience-segmented help articles rendered from Supabase (`/hc`) |
-| Public article browser | Read-only article listing (`/help-workstation/articles`) |
+| Public article browser | Read-only article listing (`/help/articles`) |
 
 ## What This Repository Does Not Own
 

@@ -13,7 +13,7 @@ This document defines the boundary between the **Tribes Website** (this reposito
 | **Legal and policy** | Privacy policy, terms of service |
 | **Contact and intake** | Contact form, service inquiry form, form submission via edge functions |
 | **Help center rendering** | Public display of help articles, categories, and search (read-only) |
-| **Public article browser** | Read-only article listing at `/help-workstation/articles` |
+| **Public article browser** | Read-only article listing at `/help/articles` |
 | **Brand presentation** | Visual identity, typography, layout, and design token ownership |
 | **External Portal linking** | "Client Portal" links pointing to `https://app.tribesrightsmanagement.com` |
 
@@ -102,7 +102,7 @@ If the answer is ambiguous, default to the Portal. The Website should remain a m
 
 ## Help Center Rendering Rules
 
-The public help center (`/hc`) and article browser (`/help-workstation/articles`) in this Website project operate under these constraints:
+The public help center (`/hc`) and article browser (`/help/articles`) in this Website project operate under these constraints:
 
 1. **Read-only**: The Website renders help content; it never creates, edits, reorders, or deletes it
 2. **Audience-segmented**: Content is filtered by audience slug (publishers, songwriters, licensing)

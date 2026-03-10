@@ -23,7 +23,7 @@ src/
 │   └── ScrollToTop.tsx   # Scroll restoration on navigation
 ├── pages/               # Route-level page components
 │   ├── help/            # Public help center pages (/hc)
-│   ├── help-workstation/  # Public article browser (/help-workstation/articles)
+│   ├── help-articles/    # Public article browser (/help/articles)
 │   └── *.tsx            # Marketing, legal, contact, and intake pages
 ├── hooks/               # Custom React hooks
 │   ├── useHelpCenter.ts        # Help center data fetching (Supabase views)
@@ -72,7 +72,7 @@ All routes are public and unauthenticated. See `src/App.tsx` for the complete ro
 - `/contact`, `/services/inquiry`, `/licensing-account` — Intake forms
 - `/privacy`, `/terms` — Legal
 - `/hc/:audience/**` — Public help center (audience-segmented reading)
-- `/help-workstation/articles` — Public article browser (read-only listing)
+- `/help/articles` — Public article browser (read-only listing)
 
 ---
 
@@ -87,7 +87,7 @@ The help center is a **public read-only rendering surface**. All content is auth
 | `/hc/:audience` | Audience-segmented help center home |
 | `/hc/:audience/categories/:categorySlug` | Category article listing |
 | `/hc/:audience/articles/:articleSlug` | Individual article rendering |
-| `/help-workstation/articles` | Full article browser with list and category views |
+| `/help/articles` | Full article browser with list and category views |
 
 ### Data Sources
 

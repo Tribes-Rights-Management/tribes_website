@@ -46,7 +46,7 @@ All routes in this project are **public and unauthenticated**.
 | `/hc/:audience` | Help center home for a specific audience |
 | `/hc/:audience/categories/:categorySlug` | Category listing within an audience |
 | `/hc/:audience/articles/:articleSlug` | Individual article rendering |
-| `/help-workstation/articles` | Public article browser (read-only listing of help content) |
+| `/help/articles` | Public article browser (read-only listing of help content) |
 
 ---
 
@@ -86,7 +86,7 @@ The help center is a **read-only consumption surface**. It renders content that 
 ### Public Help Routes
 
 - `/hc/:audience/**` — Audience-segmented article reading experience (sidebar layout, markdown rendering, search)
-- `/help-workstation/articles` — Public article browser with list and category views
+- `/help/articles` — Public article browser with list and category views
 
 ### Architecture
 
