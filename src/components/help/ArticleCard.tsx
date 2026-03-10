@@ -1,6 +1,6 @@
 /**
  * Article Card Component
- * Portal uses 13px font-medium for links
+ * 13px font-medium for links
  */
 
 import { Link } from "react-router-dom";
