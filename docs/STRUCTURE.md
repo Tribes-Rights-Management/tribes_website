@@ -23,7 +23,7 @@ src/
 │   └── ScrollToTop.tsx   # Scroll restoration on navigation
 ├── pages/               # Route-level page components
 │   ├── help/            # Public help center pages (/hc)
-│   ├── help-workstation/  # Public article browser (/help-workstation/articles)
+│   ├── help-articles/    # Public article browser (/help/articles)
 │   └── *.tsx            # Marketing, legal, contact, and intake pages
 ├── hooks/               # Custom React hooks
 │   ├── useHelpCenter.ts        # Help center data fetching (Supabase views)
