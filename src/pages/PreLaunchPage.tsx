@@ -22,11 +22,11 @@ export default function PreLaunchPage() {
                   For inquiries regarding publishing administration and rights management, please reach out at:
                 </p>
                 <a
-                  href="mailto:contact@tribesassets.com"
+                  href="mailto:admin@tribesassets.com"
                   className="text-foreground hover:opacity-85 transition-opacity duration-160 underline underline-offset-4 decoration-foreground/30"
                   style={{ fontSize: 15 }}
                 >
-                  contact@tribesassets.com
+                  admin@tribesassets.com
                 </a>
               </div>
 
