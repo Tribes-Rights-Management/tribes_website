@@ -9,7 +9,7 @@ This repository serves as the **public-facing website** for Tribes Rights Manage
 3. Accepting contact and licensing inquiry submissions
 4. Displaying legal and policy documents
 
-This repository does not host any authenticated application functionality. All product operations, user account management, and administrative workflows belong to the separate Tribes Portal project.
+This repository does not host any authenticated application functionality. All product operations, user account management, administrative workflows, and content management belong to the separate Tribes Portal project.
 
 ---
 
@@ -46,14 +46,7 @@ All routes in this project are **public and unauthenticated**.
 | `/hc/:audience` | Help center home for a specific audience |
 | `/hc/:audience/categories/:categorySlug` | Category listing within an audience |
 | `/hc/:audience/articles/:articleSlug` | Individual article rendering |
-
-### Internal (Non-Public)
-
-| Route | Purpose |
-|---|---|
-| `/help-workstation/articles` | Help article management interface |
-
-> **Note:** The `/help-workstation/articles` route exists in this codebase but represents content management functionality. Per the repository boundary definition, content management workflows should reside in the Portal. This route is a known boundary exception that may be migrated in future work.
+| `/help-workstation/articles` | Public article browser (read-only listing of help content) |
 
 ---
 
@@ -71,6 +64,9 @@ This project connects to a shared Supabase instance using only the **anonymous/p
 #### Tables (Read-Only)
 
 - `help_audiences` — Audience definitions (publishers, songwriters, licensing)
+- `help_articles` — Article metadata for the public article browser
+- `help_categories` — Category metadata for the public article browser
+- `help_article_audiences` — Article-to-category mappings for category-filtered browsing
 - `support_knowledge_base` — Knowledge base articles for contact form suggestions
 
 #### Edge Functions
@@ -85,12 +81,17 @@ All Supabase queries use the anonymous client and rely on Row-Level Security (RL
 
 ## Help Center Public Rendering
 
-The help center (`/hc`) is a **read-only consumption surface**. It renders content that is authored and managed elsewhere (currently via the help workstation, which is planned for migration to the Portal).
+The help center is a **read-only consumption surface**. It renders content that is authored and managed in the Tribes Portal.
+
+### Public Help Routes
+
+- `/hc/:audience/**` — Audience-segmented article reading experience (sidebar layout, markdown rendering, search)
+- `/help-workstation/articles` — Public article browser with list and category views
 
 ### Architecture
 
 - **Audience-segmented**: Content is organized by audience (publishers, songwriters, licensing)
-- **Supabase-powered**: Articles and categories are fetched from database views
+- **Supabase-powered**: Articles and categories are fetched from database views and tables
 - **Sidebar + responsive layout**: Desktop uses a 200px sidebar; mobile uses a horizontal header with grid layout
 - **Markdown rendering**: Article content is rendered via `react-markdown` with typography overrides
 - **Search**: Keyword-based search queries against the `support_knowledge_base` table
@@ -98,8 +99,8 @@ The help center (`/hc`) is a **read-only consumption surface**. It renders conte
 ### Constraints
 
 - This project **renders** help content; it does not **author** it
-- No article creation, editing, or deletion operations should be added to this project
-- Content management belongs in the Portal
+- No article creation, editing, deletion, or reordering operations belong in this project
+- Content management (authoring, publishing, ordering) belongs in the Portal
 
 ---
 
@@ -121,6 +122,7 @@ The help center (`/hc`) is a **read-only consumption surface**. It renders conte
 - Use service-role keys or elevated Supabase credentials
 - Implement admin, dashboard, or operational interfaces
 - Store or manage user sessions, tokens, or tenant context
+- Provide content authoring, editing, or publishing workflows
 
 ---
 

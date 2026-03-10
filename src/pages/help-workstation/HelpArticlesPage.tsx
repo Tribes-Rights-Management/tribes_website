@@ -1,36 +1,16 @@
 /**
- * Help Workstation - Articles Page
- * View toggle between "All Articles" table and "By Category" sortable list
+ * Public Help Article Browser
+ *
+ * A public read-only listing of help articles, browsable by category or as a
+ * full list. Content is managed in the Tribes Portal; this page only reads
+ * publicly available article metadata from Supabase.
  */
 
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, GripVertical } from "lucide-react";
 import { format } from "date-fns";
 
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-  DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -38,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -47,7 +29,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "@/hooks/use-toast";
+
+/* ---------- types ---------- */
 
 interface HelpArticle {
   id: string;
@@ -63,7 +46,7 @@ interface HelpCategory {
   name: string;
 }
 
-interface ArticleAudience {
+interface CategoryArticle {
   id: string;
   article_id: string;
   category_id: string;
@@ -71,71 +54,16 @@ interface ArticleAudience {
   article: HelpArticle;
 }
 
-// Sortable row component for By Category view
-function SortableArticleRow({
-  item,
-  index,
-}: {
-  item: ArticleAudience;
-  index: number;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: item.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex items-center gap-4 px-4 py-3 border-b border-border bg-background hover:bg-muted/50"
-    >
-      <button
-        className="cursor-grab touch-none text-muted-foreground hover:text-foreground"
-        {...attributes}
-        {...listeners}
-      >
-        <GripVertical className="h-4 w-4" />
-      </button>
-      <span className="w-8 text-[14px] text-muted-foreground">{index + 1}</span>
-      <Link
-        to={`/help-workstation/articles/${item.article.slug}/edit`}
-        className="flex-1 text-[14px] text-foreground hover:underline"
-      >
-        {item.article.title}
-      </Link>
-    </div>
-  );
-}
+/* ---------- component ---------- */
 
 export default function HelpArticlesPage() {
-  const queryClient = useQueryClient();
   const [viewMode, setViewMode] = useState<"all" | "byCategory">("all");
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>("");
-  const [localArticles, setLocalArticles] = useState<ArticleAudience[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
-  // Sensors for drag and drop
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
-
-  // Fetch all articles for "All Articles" view
+  // Fetch all articles
   const { data: allArticles, isLoading: articlesLoading } = useQuery({
-    queryKey: ["help-workstation-articles"],
+    queryKey: ["help-articles-browse"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("help_articles")
@@ -147,9 +75,9 @@ export default function HelpArticlesPage() {
     },
   });
 
-  // Fetch all categories for dropdown
+  // Fetch categories for dropdown
   const { data: categories, isLoading: categoriesLoading } = useQuery({
-    queryKey: ["help-workstation-categories"],
+    queryKey: ["help-categories-browse"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("help_categories")
@@ -161,10 +89,10 @@ export default function HelpArticlesPage() {
     },
   });
 
-  // Fetch articles for selected category
+  // Fetch articles for selected category (read-only)
   const { data: categoryArticles, isLoading: categoryArticlesLoading } =
     useQuery({
-      queryKey: ["help-workstation-category-articles", selectedCategoryId],
+      queryKey: ["help-category-articles-browse", selectedCategoryId],
       queryFn: async () => {
         if (!selectedCategoryId) return [];
 
@@ -183,74 +111,17 @@ export default function HelpArticlesPage() {
           .order("position");
 
         if (error) throw error;
-        
-        // Transform the data to match our interface
+
         return (data || []).map((item: any) => ({
           id: item.id,
           article_id: item.article_id,
           category_id: item.category_id,
           position: item.position,
           article: item.article,
-        })) as ArticleAudience[];
+        })) as CategoryArticle[];
       },
       enabled: !!selectedCategoryId && viewMode === "byCategory",
     });
-
-  // Sync local articles when category articles change
-  useMemo(() => {
-    if (categoryArticles) {
-      setLocalArticles(categoryArticles);
-    }
-  }, [categoryArticles]);
-
-  // Handle drag end for reordering
-  async function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
-
-    if (over && active.id !== over.id) {
-      const oldIndex = localArticles.findIndex((item) => item.id === active.id);
-      const newIndex = localArticles.findIndex((item) => item.id === over.id);
-
-      const reordered = arrayMove(localArticles, oldIndex, newIndex);
-      setLocalArticles(reordered);
-
-      // Save all new positions to database
-      try {
-        const updates = reordered.map((item, index) => ({
-          id: item.id,
-          position: index + 1,
-        }));
-
-        for (const update of updates) {
-          const { error } = await supabase
-            .from("help_article_audiences")
-            .update({ position: update.position })
-            .eq("id", update.id);
-
-          if (error) throw error;
-        }
-
-        // Invalidate queries to refetch
-        queryClient.invalidateQueries({
-          queryKey: ["help-workstation-category-articles", selectedCategoryId],
-        });
-
-        toast({
-          description: "Order saved",
-        });
-      } catch (error) {
-        console.error("Failed to save order:", error);
-        toast({
-          variant: "destructive",
-          description: "Failed to save order",
-        });
-        // Revert on error
-        if (categoryArticles) {
-          setLocalArticles(categoryArticles);
-        }
-      }
-    }
-  }
 
   // Set first category as default when categories load
   useMemo(() => {
@@ -260,7 +131,7 @@ export default function HelpArticlesPage() {
   }, [categories, selectedCategoryId]);
 
   const isLoading = articlesLoading || categoriesLoading;
-  
+
   // Filter articles by status
   const filteredArticles = useMemo(() => {
     if (!allArticles) return [];
@@ -275,17 +146,9 @@ export default function HelpArticlesPage() {
       {/* Header */}
       <div className="border-b border-border px-6 py-4">
         <p className="text-[12px] text-muted-foreground uppercase tracking-wide mb-1">
-          HELP WORKSTATION
+          HELP CENTER
         </p>
-        <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-semibold text-foreground">Articles</h1>
-          <Button asChild size="sm">
-            <Link to="/help-workstation/articles/new">
-              <Plus className="h-4 w-4 mr-2" />
-              New Article
-            </Link>
-          </Button>
-        </div>
+        <h1 className="text-[24px] font-semibold text-foreground">Articles</h1>
       </div>
 
       {/* Content */}
@@ -300,7 +163,9 @@ export default function HelpArticlesPage() {
           <span className="text-[14px] text-muted-foreground">View:</span>
           <RadioGroup
             value={viewMode}
-            onValueChange={(value) => setViewMode(value as "all" | "byCategory")}
+            onValueChange={(value) =>
+              setViewMode(value as "all" | "byCategory")
+            }
             className="flex items-center gap-4"
           >
             <div className="flex items-center gap-2">
@@ -379,22 +244,14 @@ export default function HelpArticlesPage() {
                   </TableHeader>
                   <TableBody>
                     {filteredArticles.map((article) => (
-                      <TableRow
-                        key={article.id}
-                        className="cursor-pointer hover:bg-muted/50"
-                      >
+                      <TableRow key={article.id}>
                         <TableCell>
-                          <Link
-                            to={`/help-workstation/articles/${article.slug}/edit`}
-                            className="block"
-                          >
-                            <span className="text-[14px] text-foreground">
-                              {article.title}
-                            </span>
-                            <span className="block text-[12px] text-muted-foreground">
-                              /{article.slug}
-                            </span>
-                          </Link>
+                          <span className="text-[14px] text-foreground">
+                            {article.title}
+                          </span>
+                          <span className="block text-[12px] text-muted-foreground">
+                            /{article.slug}
+                          </span>
                         </TableCell>
                         <TableCell>
                           <span
@@ -423,7 +280,7 @@ export default function HelpArticlesPage() {
               </p>
             ) : (
               <p className="text-[14px] text-muted-foreground">
-                No articles created yet.
+                No articles yet.
               </p>
             )}
           </>
@@ -438,26 +295,21 @@ export default function HelpArticlesPage() {
                 <Skeleton className="h-12 w-full" />
                 <Skeleton className="h-12 w-full" />
               </div>
-            ) : localArticles.length > 0 ? (
+            ) : categoryArticles && categoryArticles.length > 0 ? (
               <div className="border border-border rounded-lg overflow-hidden">
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handleDragEnd}
-                >
-                  <SortableContext
-                    items={localArticles.map((item) => item.id)}
-                    strategy={verticalListSortingStrategy}
+                {categoryArticles.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-4 px-4 py-3 border-b border-border last:border-b-0 bg-background"
                   >
-                    {localArticles.map((item, index) => (
-                      <SortableArticleRow
-                        key={item.id}
-                        item={item}
-                        index={index}
-                      />
-                    ))}
-                  </SortableContext>
-                </DndContext>
+                    <span className="w-8 text-[14px] text-muted-foreground">
+                      {index + 1}
+                    </span>
+                    <span className="flex-1 text-[14px] text-foreground">
+                      {item.article.title}
+                    </span>
+                  </div>
+                ))}
               </div>
             ) : (
               <p className="text-[14px] text-muted-foreground">

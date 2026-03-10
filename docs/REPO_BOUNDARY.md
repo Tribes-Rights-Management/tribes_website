@@ -13,6 +13,7 @@ This document defines the boundary between the **Tribes Website** (this reposito
 | **Legal and policy** | Privacy policy, terms of service |
 | **Contact and intake** | Contact form, service inquiry form, form submission via edge functions |
 | **Help center rendering** | Public display of help articles, categories, and search (read-only) |
+| **Public article browser** | Read-only article listing at `/help-workstation/articles` |
 | **Brand presentation** | Visual identity, typography, layout, and design token ownership |
 | **External Portal linking** | "Client Portal" links pointing to `https://app.tribesrightsmanagement.com` |
 
@@ -26,7 +27,7 @@ This document defines the boundary between the **Tribes Website** (this reposito
 | **User accounts** | Profiles, preferences, account settings |
 | **Dashboards and work areas** | Client dashboards, operational views |
 | **Admin consoles** | Platform administration, user management |
-| **Content management** | Help article authoring, editing, publishing workflows |
+| **Content management** | Help article authoring, editing, publishing, reordering workflows |
 | **Contract workflows** | Contract creation, amendment, signature tracking |
 | **Royalty processing** | Statements, payments, disputes |
 | **Catalog management** | Compositions, metadata, territory rights |
@@ -95,16 +96,17 @@ If the answer is ambiguous, default to the Portal. The Website should remain a m
 - Any page that checks `auth.uid()` or requires a session
 - A content editor or CMS interface
 - Bulk import tools, data export features, or operational utilities
+- Drag-and-drop article reordering or position management
 
 ---
 
 ## Help Center Rendering Rules
 
-The public help center (`/hc`) in this Website project operates under these constraints:
+The public help center (`/hc`) and article browser (`/help-workstation/articles`) in this Website project operate under these constraints:
 
-1. **Read-only**: The Website renders help content; it never creates, edits, or deletes it
+1. **Read-only**: The Website renders help content; it never creates, edits, reorders, or deletes it
 2. **Audience-segmented**: Content is filtered by audience slug (publishers, songwriters, licensing)
-3. **Database-driven**: All content comes from Supabase views (`v_help_categories_by_audience`, `v_help_articles_by_audience`); no hardcoded article content in the codebase
+3. **Database-driven**: All content comes from Supabase views and tables; no hardcoded article content in the codebase
 4. **Anonymous access**: All help center queries use the anonymous Supabase key
 5. **No editorial controls**: Features like publish/unpublish, reordering, or content editing belong in the Portal
 6. **Search is public-safe**: Search queries run against the `support_knowledge_base` table using keyword matching with no elevated permissions
@@ -120,10 +122,7 @@ The public help center (`/hc`) in this Website project operates under these cons
 5. **No session storage**: No tokens, user IDs, or session data should be stored in localStorage, sessionStorage, or cookies
 6. **No portal-style layouts**: Dashboard layouts, sidebar navigation for authenticated contexts, and admin chrome must not be added
 7. **External Portal links only**: Any reference to authenticated functionality must link to `https://app.tribesrightsmanagement.com`, not to a local route
-
-### Boundary Exception
-
-The route `/help-workstation/articles` currently exists in this codebase. This is a content management interface that, per the boundary rules above, belongs in the Portal. It is documented here as a **known exception** and candidate for future migration. No additional workstation or management routes should be added to this project.
+8. **No write operations on content**: The Website must not update, insert, or delete help articles, categories, or article positions
 
 ---
 
