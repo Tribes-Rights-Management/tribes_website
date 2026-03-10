@@ -17,7 +17,6 @@ export const CONTENT_CONTAINER_CLASS = "max-w-[1120px] mx-auto w-full px-[var(--
 export const HEADER_HEIGHT = 64;
 export const DESKTOP_HEADER_HEIGHT = 64;
 export const MOBILE_HEADER_HEIGHT = 64;
-export const DESKTOP_SIDEBAR_WIDTH = 420;
 
 // HELP CENTER LAYOUT (matches Portal exactly)
 export const HELP_CENTER = {

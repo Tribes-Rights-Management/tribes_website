@@ -73,10 +73,6 @@ export const LOGO_IMAGES = {
     height: 20,
     minHeight: 20,
   },
-  auth: {
-    height: 32,
-    minHeight: 28,
-  },
 } as const;
 
 /**

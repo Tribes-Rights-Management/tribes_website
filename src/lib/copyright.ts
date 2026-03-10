@@ -6,10 +6,7 @@
  * ═══════════════════════════════════════════════════════════════════════════
  *
  * This utility generates the canonical copyright line for:
- * - Website footers (PublicLayout, DashboardLayout)
- * - License Package PDFs (cover page + individual license pages)
- * - Single License PDFs
- * - Admin export layouts
+ * - Website footer
  * - Any other location requiring a copyright notice
  *
  * FORMAT:
