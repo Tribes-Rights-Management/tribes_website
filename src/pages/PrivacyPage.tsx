@@ -119,7 +119,7 @@ export default function PrivacyPage() {
             Executed agreements and related records may not be eligible for deletion where retention is legally required.
           </p>
           <p>
-            To make a request, email contact@tribesassets.com.
+            To make a request, email admin@tribesassets.com.
           </p>
         </div>
       </section>
