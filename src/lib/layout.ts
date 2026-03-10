@@ -6,7 +6,7 @@
  * - Gutters: 20px mobile / 28px desktop
  * - Header: 64px
  * 
- * HELP CENTER (matches Portal):
+ * HELP CENTER:
  * - Sidebar: 200px
  * - Header: 56px
  * - Logo: 20px height, 80px max width
@@ -18,7 +18,7 @@ export const HEADER_HEIGHT = 64;
 export const DESKTOP_HEADER_HEIGHT = 64;
 export const MOBILE_HEADER_HEIGHT = 64;
 
-// HELP CENTER LAYOUT (matches Portal exactly)
+// HELP CENTER LAYOUT
 export const HELP_CENTER = {
   SIDEBAR_WIDTH: "200px",
   SIDEBAR_WIDTH_PX: 200,
@@ -28,7 +28,7 @@ export const HELP_CENTER = {
   MOBILE_SIDEBAR_WIDTH: "280px",
 } as const;
 
-// BRAND ASSETS - using PNG version (matches Portal)
+// BRAND ASSETS
 export const BRAND = {
   LOGO_URL: "https://rsdjfnsbimcdrxlhognv.supabase.co/storage/v1/object/public/Tribes%20Brand%20Files/Tribes%20-%20Wordmark%20Black%20Transparent.png",
   LOGO_HEIGHT: "18px",

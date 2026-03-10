@@ -1,6 +1,6 @@
 /**
  * Help Center Sidebar
- * EXACT Portal SideNav styling
+ * Institutional sidebar navigation for help center categories
  */
 
 import { Link, useLocation } from "react-router-dom";
@@ -16,7 +16,7 @@ const iconMap: Record<string, LucideIcon> = {
   BarChart3, Users, Settings, Code, BookOpen,
 };
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   SIDEBAR_BG: '#EEF0F2',
   NAV_HOVER: '#EAEBEE',

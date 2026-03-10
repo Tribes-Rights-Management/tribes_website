@@ -26,7 +26,7 @@ import {
   type LucideIcon
 } from "lucide-react";
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   TEXT: '#111827',
   TEXT_SECONDARY: '#6B7280',

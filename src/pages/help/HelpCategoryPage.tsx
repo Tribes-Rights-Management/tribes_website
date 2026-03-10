@@ -12,7 +12,7 @@ import { useCategory, useArticlesByCategory } from "@/hooks/useHelpCenter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChevronRight } from "lucide-react";
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   TEXT: '#111827',
   TEXT_SECONDARY: '#6B7280',

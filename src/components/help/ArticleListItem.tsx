@@ -1,12 +1,12 @@
 /**
  * Article List Item Component
- * Portal uses 13px font-medium
+ * 13px font-medium standard
  */
 
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 
-/* Portal exact colors */
+/* Help center standard colors */
 const COLORS = {
   TEXT: '#111827',
   TEXT_MUTED: '#9CA3AF',
