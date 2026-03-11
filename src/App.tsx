@@ -58,8 +58,6 @@ const App = () => (
           <Route path="/hc/:audience/articles/:articleSlug" element={<HelpArticlePage />} />
           {/* Public article browser */}
           <Route path="/help/articles" element={<HelpArticlesPage />} />
-          {/* Legacy path redirect */}
-          <Route path="/help-workstation/articles" element={<Navigate to="/help/articles" replace />} />
 
           {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
