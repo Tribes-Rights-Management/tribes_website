@@ -1026,7 +1026,7 @@ export type Database = {
           publisher_pro: string | null
           share: number
           sort_order: number
-          tribes_administered: boolean
+          watershed_administered: boolean
         }
         Insert: {
           administrator_entity_id?: string | null
@@ -1039,7 +1039,7 @@ export type Database = {
           publisher_pro?: string | null
           share?: number
           sort_order?: number
-          tribes_administered?: boolean
+          watershed_administered?: boolean
         }
         Update: {
           administrator_entity_id?: string | null
@@ -1052,14 +1052,14 @@ export type Database = {
           publisher_pro?: string | null
           share?: number
           sort_order?: number
-          tribes_administered?: boolean
+          watershed_administered?: boolean
         }
         Relationships: [
           {
             foreignKeyName: "deal_publishers_administrator_entity_id_fkey"
             columns: ["administrator_entity_id"]
             isOneToOne: false
-            referencedRelation: "tribes_entities"
+            referencedRelation: "watershed_entities"
             referencedColumns: ["id"]
           },
           {
@@ -2892,8 +2892,8 @@ export type Database = {
           song_id: string
           song_writer_id: string | null
           territory: string | null
-          tribes_administered: boolean
           updated_at: string
+          watershed_administered: boolean
         }
         Insert: {
           administrator_entity_id?: string | null
@@ -2910,8 +2910,8 @@ export type Database = {
           song_id: string
           song_writer_id?: string | null
           territory?: string | null
-          tribes_administered?: boolean
           updated_at?: string
+          watershed_administered?: boolean
         }
         Update: {
           administrator_entity_id?: string | null
@@ -2928,15 +2928,15 @@ export type Database = {
           song_id?: string
           song_writer_id?: string | null
           territory?: string | null
-          tribes_administered?: boolean
           updated_at?: string
+          watershed_administered?: boolean
         }
         Relationships: [
           {
             foreignKeyName: "song_ownership_administrator_entity_id_fkey"
             columns: ["administrator_entity_id"]
             isOneToOne: false
-            referencedRelation: "tribes_entities"
+            referencedRelation: "watershed_entities"
             referencedColumns: ["id"]
           },
           {
@@ -3265,8 +3265,8 @@ export type Database = {
           id: string
           share: number
           song_id: string
-          tribes_administered: boolean
           updated_at: string | null
+          watershed_administered: boolean
           writer_id: string
         }
         Insert: {
@@ -3276,8 +3276,8 @@ export type Database = {
           id?: string
           share?: number
           song_id: string
-          tribes_administered?: boolean
           updated_at?: string | null
+          watershed_administered?: boolean
           writer_id: string
         }
         Update: {
@@ -3287,8 +3287,8 @@ export type Database = {
           id?: string
           share?: number
           song_id?: string
-          tribes_administered?: boolean
           updated_at?: string | null
+          watershed_administered?: boolean
           writer_id?: string
         }
         Relationships: [
@@ -3415,10 +3415,10 @@ export type Database = {
         Row: {
           body: string
           created_at: string | null
+          email_message_id: string | null
           from_email: string
           from_name: string | null
           id: string
-          mailgun_message_id: string | null
           metadata: Json | null
           priority: string | null
           search_query: string | null
@@ -3431,10 +3431,10 @@ export type Database = {
         Insert: {
           body: string
           created_at?: string | null
+          email_message_id?: string | null
           from_email: string
           from_name?: string | null
           id?: string
-          mailgun_message_id?: string | null
           metadata?: Json | null
           priority?: string | null
           search_query?: string | null
@@ -3447,10 +3447,10 @@ export type Database = {
         Update: {
           body?: string
           created_at?: string | null
+          email_message_id?: string | null
           from_email?: string
           from_name?: string | null
           id?: string
-          mailgun_message_id?: string | null
           metadata?: Json | null
           priority?: string | null
           search_query?: string | null
@@ -3620,8 +3620,8 @@ export type Database = {
         Row: {
           content: string
           created_at: string | null
+          email_message_id: string | null
           id: string
-          mailgun_message_id: string | null
           metadata: Json | null
           role: string
           ticket_id: string | null
@@ -3629,8 +3629,8 @@ export type Database = {
         Insert: {
           content: string
           created_at?: string | null
+          email_message_id?: string | null
           id?: string
-          mailgun_message_id?: string | null
           metadata?: Json | null
           role: string
           ticket_id?: string | null
@@ -3638,8 +3638,8 @@ export type Database = {
         Update: {
           content?: string
           created_at?: string | null
+          email_message_id?: string | null
           id?: string
-          mailgun_message_id?: string | null
           metadata?: Json | null
           role?: string
           ticket_id?: string | null
@@ -3653,33 +3653,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
-      }
-      tribes_entities: {
-        Row: {
-          created_at: string
-          entity_name: string
-          id: string
-          ipi_number: string
-          is_active: boolean
-          pro: string
-        }
-        Insert: {
-          created_at?: string
-          entity_name: string
-          id?: string
-          ipi_number: string
-          is_active?: boolean
-          pro: string
-        }
-        Update: {
-          created_at?: string
-          entity_name?: string
-          id?: string
-          ipi_number?: string
-          is_active?: boolean
-          pro?: string
-        }
-        Relationships: []
       }
       user_preferences: {
         Row: {
@@ -3822,6 +3795,33 @@ export type Database = {
           transcript?: string
           user_id?: string | null
           was_corrected?: boolean | null
+        }
+        Relationships: []
+      }
+      watershed_entities: {
+        Row: {
+          created_at: string
+          entity_name: string
+          id: string
+          ipi_number: string
+          is_active: boolean
+          pro: string
+        }
+        Insert: {
+          created_at?: string
+          entity_name: string
+          id?: string
+          ipi_number: string
+          is_active?: boolean
+          pro: string
+        }
+        Update: {
+          created_at?: string
+          entity_name?: string
+          id?: string
+          ipi_number?: string
+          is_active?: boolean
+          pro?: string
         }
         Relationships: []
       }
