@@ -32,14 +32,14 @@ export default function PreLaunchPage() {
 
               <div>
                 <p className="text-muted-foreground leading-relaxed mb-2">
-                  For inquiries related to licensing, translations, or other copyright permissions, please contact:
+                  For inquiries related to licensing, translations, or other publishing copyright permissions, please contact:
                 </p>
                 <a
-                  href="mailto:licensing@tribesassets.com"
+                  href="mailto:licensing@watershedmusic.com"
                   className="text-foreground hover:opacity-85 transition-opacity duration-160 underline underline-offset-4 decoration-foreground/30"
                   style={{ fontSize: 15 }}
                 >
-                  licensing@tribesassets.com
+                  licensing@watershedmusic.com
                 </a>
               </div>
             </div>
